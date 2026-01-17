@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Play, CircleNotch } from '@phosphor-icons/react'
+import { Play, CircleNotch, Terminal } from '@phosphor-icons/react'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { runPythonCode, getPyodide, isPyodideReady } from '@/lib/pyodide-runner'
+import { PythonTerminal } from '@/components/PythonTerminal'
 import { toast } from 'sonner'
 
 interface PythonOutputProps {
@@ -15,6 +17,7 @@ export function PythonOutput({ code }: PythonOutputProps) {
   const [error, setError] = useState<string>('')
   const [isRunning, setIsRunning] = useState(false)
   const [isInitializing, setIsInitializing] = useState(!isPyodideReady())
+  const [hasInput, setHasInput] = useState(false)
 
   useEffect(() => {
     if (!isPyodideReady()) {
@@ -31,6 +34,11 @@ export function PythonOutput({ code }: PythonOutputProps) {
         })
     }
   }, [])
+
+  useEffect(() => {
+    const codeToCheck = code.toLowerCase()
+    setHasInput(codeToCheck.includes('input('))
+  }, [code])
 
   const handleRun = async () => {
     if (isInitializing) {
@@ -53,6 +61,10 @@ export function PythonOutput({ code }: PythonOutputProps) {
     } finally {
       setIsRunning(false)
     }
+  }
+
+  if (hasInput) {
+    return <PythonTerminal code={code} />
   }
 
   return (

@@ -179,5 +179,59 @@
     "category": "basics",
     "hasPreview": true,
     "code": "# Python file operations (simulated for web environment)\n\n# Note: In a real environment, these would work with actual files\n# Here we demonstrate the patterns\n\nprint(\"File Operations Patterns:\\n\")\n\n# Writing to a file\nprint(\"1. Writing to a file:\")\nfile_content = \"\"\"# Example of writing to a file\ntry:\n    with open('example.txt', 'w') as f:\n        f.write('Hello, World!\\\\n')\n        f.write('This is a second line.\\\\n')\n    print('  ✓ File written successfully')\nexcept IOError as e:\n    print(f'  ✗ Error writing file: {e}')\n\"\"\"\nprint(file_content)\n\n# Reading from a file\nprint(\"\\n2. Reading from a file:\")\nread_example = \"\"\"try:\n    with open('example.txt', 'r') as f:\n        content = f.read()\n        print(content)\nexcept FileNotFoundError:\n    print('  ✗ File not found')\nexcept IOError as e:\n    print(f'  ✗ Error reading file: {e}')\n\"\"\"\nprint(read_example)\n\n# Reading lines\nprint(\"\\n3. Reading line by line:\")\nlines_example = \"\"\"with open('example.txt', 'r') as f:\n    for line_num, line in enumerate(f, 1):\n        print(f'  Line {line_num}: {line.strip()}')\n\"\"\"\nprint(lines_example)\n\n# Demonstrate string operations as alternative\nprint(\"\\n4. Working with text data:\")\ntext_data = \"Hello, World!\\nThis is a second line.\\nAnd a third!\"\nlines = text_data.split('\\n')\nprint(f\"  Total lines: {len(lines)}\")\nfor i, line in enumerate(lines, 1):\n    print(f\"  Line {i}: {line}\")"
+  },
+  {
+    "id": "python-interactive-hello",
+    "title": "Interactive: Hello User",
+    "description": "Simple interactive program that greets the user by name",
+    "language": "Python",
+    "category": "interactive",
+    "hasPreview": true,
+    "code": "# Interactive program - asks for user's name and greets them\n\nprint(\"Welcome to the greeting program!\")\nprint()\n\nname = input(\"What is your name? \")\nprint(f\"\\nHello, {name}! Nice to meet you!\")\n\nage = input(\"How old are you? \")\nprint(f\"\\nWow, {age} years old! That's awesome!\")\n\ncolor = input(\"What's your favorite color? \")\nprint(f\"\\n{color} is a great choice! I love that color too.\")\n\nprint(f\"\\nThanks for chatting, {name}! Have a wonderful day!\")"
+  },
+  {
+    "id": "python-calculator-input",
+    "title": "Interactive: Simple Calculator",
+    "description": "Calculator that takes user input for operations",
+    "language": "Python",
+    "category": "interactive",
+    "hasPreview": true,
+    "code": "# Interactive calculator\n\nprint(\"=== Simple Calculator ===\")\nprint()\n\nnum1 = float(input(\"Enter first number: \"))\nnum2 = float(input(\"Enter second number: \"))\n\nprint(\"\\nAvailable operations:\")\nprint(\"  + : Addition\")\nprint(\"  - : Subtraction\")\nprint(\"  * : Multiplication\")\nprint(\"  / : Division\")\nprint()\n\noperation = input(\"Choose operation (+, -, *, /): \")\n\nif operation == '+':\n    result = num1 + num2\n    print(f\"\\n{num1} + {num2} = {result}\")\nelif operation == '-':\n    result = num1 - num2\n    print(f\"\\n{num1} - {num2} = {result}\")\nelif operation == '*':\n    result = num1 * num2\n    print(f\"\\n{num1} × {num2} = {result}\")\nelif operation == '/':\n    if num2 != 0:\n        result = num1 / num2\n        print(f\"\\n{num1} ÷ {num2} = {result}\")\n    else:\n        print(\"\\nError: Cannot divide by zero!\")\nelse:\n    print(\"\\nInvalid operation!\")"
+  },
+  {
+    "id": "python-guess-number",
+    "title": "Interactive: Number Guessing Game",
+    "description": "Classic number guessing game with user input",
+    "language": "Python",
+    "category": "interactive",
+    "hasPreview": true,
+    "code": "# Number guessing game\nimport random\n\nprint(\"=== Number Guessing Game ===\")\nprint(\"I'm thinking of a number between 1 and 100...\")\nprint()\n\ntarget = random.randint(1, 100)\nattempts = 0\nmax_attempts = 7\n\nwhile attempts < max_attempts:\n    guess = int(input(f\"Attempt {attempts + 1}/{max_attempts} - Enter your guess: \"))\n    attempts += 1\n    \n    if guess < target:\n        print(\"Too low! Try a higher number.\\n\")\n    elif guess > target:\n        print(\"Too high! Try a lower number.\\n\")\n    else:\n        print(f\"\\n🎉 Congratulations! You guessed it in {attempts} attempts!\")\n        break\nelse:\n    print(f\"\\n😞 Game over! The number was {target}.\")\n    print(f\"You used all {max_attempts} attempts.\")"
+  },
+  {
+    "id": "python-mad-libs",
+    "title": "Interactive: Mad Libs Story",
+    "description": "Fun interactive story generator using user input",
+    "language": "Python",
+    "category": "interactive",
+    "hasPreview": true,
+    "code": "# Mad Libs - Interactive story generator\n\nprint(\"=== Mad Libs Story Generator ===\")\nprint(\"Fill in the blanks to create a funny story!\")\nprint()\n\nnoun1 = input(\"Enter a noun (thing): \")\nadjective1 = input(\"Enter an adjective (describing word): \")\nverb1 = input(\"Enter a verb ending in -ing: \")\nnoun2 = input(\"Enter another noun: \")\nadjective2 = input(\"Enter another adjective: \")\nnoun3 = input(\"Enter a plural noun: \")\nverb2 = input(\"Enter a verb: \")\nnoun4 = input(\"Enter one more noun: \")\n\nprint(\"\\n\" + \"=\" * 50)\nprint(\"YOUR STORY:\")\nprint(\"=\" * 50)\nprint()\nprint(f\"Once upon a time, there was a {adjective1} {noun1}.\")\nprint(f\"It loved {verb1} in the park every morning.\")\nprint(f\"One day, it found a mysterious {noun2} on the ground.\")\nprint(f\"The {noun2} was so {adjective2} that it started to glow!\")\nprint(f\"Suddenly, hundreds of tiny {noun3} appeared and began to {verb2}.\")\nprint(f\"The {noun1} was amazed and took the {noun2} to the nearest {noun4}.\")\nprint(f\"And they all lived happily ever after!\")\nprint()\nprint(\"=\" * 50)\nprint(\"The End!\")"
+  },
+  {
+    "id": "python-todo-cli",
+    "title": "Interactive: Todo List CLI",
+    "description": "Command-line todo list with interactive menu",
+    "language": "Python",
+    "category": "interactive",
+    "hasPreview": true,
+    "code": "# Interactive CLI Todo List\n\ntodos = []\n\nprint(\"=== Todo List Manager ===\")\nprint()\n\nwhile True:\n    print(\"\\nCurrent Todos:\")\n    if not todos:\n        print(\"  (No todos yet)\")\n    else:\n        for i, todo in enumerate(todos, 1):\n            print(f\"  {i}. {todo}\")\n    \n    print(\"\\nOptions:\")\n    print(\"  1. Add todo\")\n    print(\"  2. Remove todo\")\n    print(\"  3. Exit\")\n    \n    choice = input(\"\\nEnter choice (1-3): \")\n    \n    if choice == '1':\n        todo = input(\"Enter new todo: \")\n        if todo.strip():\n            todos.append(todo)\n            print(f\"✓ Added: {todo}\")\n        else:\n            print(\"✗ Todo cannot be empty\")\n    \n    elif choice == '2':\n        if not todos:\n            print(\"✗ No todos to remove\")\n        else:\n            try:\n                num = int(input(f\"Enter todo number (1-{len(todos)}): \"))\n                if 1 <= num <= len(todos):\n                    removed = todos.pop(num - 1)\n                    print(f\"✓ Removed: {removed}\")\n                else:\n                    print(\"✗ Invalid number\")\n            except ValueError:\n                print(\"✗ Please enter a valid number\")\n    \n    elif choice == '3':\n        print(\"\\nGoodbye! Final todo count:\", len(todos))\n        break\n    \n    else:\n        print(\"✗ Invalid choice\")"
+  },
+  {
+    "id": "python-quiz-game",
+    "title": "Interactive: Quiz Game",
+    "description": "Multiple choice quiz with score tracking",
+    "language": "Python",
+    "category": "interactive",
+    "hasPreview": true,
+    "code": "# Interactive Quiz Game\n\nprint(\"=== Python Programming Quiz ===\")\nprint(\"Answer the following questions!\")\nprint()\n\nscore = 0\ntotal_questions = 5\n\n# Question 1\nprint(\"Question 1: What does CPU stand for?\")\nprint(\"  A) Central Process Unit\")\nprint(\"  B) Central Processing Unit\")\nprint(\"  C) Computer Personal Unit\")\nprint(\"  D) Central Processor Unit\")\nanswer = input(\"Your answer (A/B/C/D): \").upper()\nif answer == 'B':\n    print(\"✓ Correct!\\n\")\n    score += 1\nelse:\n    print(\"✗ Wrong! The answer was B\\n\")\n\n# Question 2\nprint(\"Question 2: Which programming language is known as the 'language of the web'?\")\nprint(\"  A) Python\")\nprint(\"  B) Java\")\nprint(\"  C) JavaScript\")\nprint(\"  D) C++\")\nanswer = input(\"Your answer (A/B/C/D): \").upper()\nif answer == 'C':\n    print(\"✓ Correct!\\n\")\n    score += 1\nelse:\n    print(\"✗ Wrong! The answer was C\\n\")\n\n# Question 3\nprint(\"Question 3: What is 2 to the power of 8?\")\nprint(\"  A) 128\")\nprint(\"  B) 256\")\nprint(\"  C) 512\")\nprint(\"  D) 64\")\nanswer = input(\"Your answer (A/B/C/D): \").upper()\nif answer == 'B':\n    print(\"✓ Correct!\\n\")\n    score += 1\nelse:\n    print(\"✗ Wrong! The answer was B\\n\")\n\n# Question 4\nprint(\"Question 4: Which data structure uses LIFO (Last In, First Out)?\")\nprint(\"  A) Queue\")\nprint(\"  B) Stack\")\nprint(\"  C) Array\")\nprint(\"  D) Tree\")\nanswer = input(\"Your answer (A/B/C/D): \").upper()\nif answer == 'B':\n    print(\"✓ Correct!\\n\")\n    score += 1\nelse:\n    print(\"✗ Wrong! The answer was B\\n\")\n\n# Question 5\nprint(\"Question 5: What does HTML stand for?\")\nprint(\"  A) Hyper Text Markup Language\")\nprint(\"  B) High Tech Modern Language\")\nprint(\"  C) Home Tool Markup Language\")\nprint(\"  D) Hyperlinks and Text Markup Language\")\nanswer = input(\"Your answer (A/B/C/D): \").upper()\nif answer == 'A':\n    print(\"✓ Correct!\\n\")\n    score += 1\nelse:\n    print(\"✗ Wrong! The answer was A\\n\")\n\n# Final score\nprint(\"=\" * 40)\nprint(f\"Quiz Complete! Your score: {score}/{total_questions}\")\npercentage = (score / total_questions) * 100\nprint(f\"Percentage: {percentage:.1f}%\")\n\nif score == total_questions:\n    print(\"🌟 Perfect score! You're a genius!\")\nelif score >= 3:\n    print(\"👍 Good job! Keep learning!\")\nelse:\n    print(\"📚 Keep studying! You'll do better next time!\")\nprint(\"=\" * 40)"
   }
 ]

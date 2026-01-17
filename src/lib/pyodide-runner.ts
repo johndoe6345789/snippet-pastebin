@@ -50,6 +50,123 @@ sys.stderr = StringIO()
   }
 }
 
+export interface InteractiveCallbacks {
+  onOutput?: (text: string) => void
+  onError?: (text: string) => void
+  onInputRequest?: (prompt: string) => Promise<string>
+}
+
+export async function runPythonCodeInteractive(
+  code: string,
+  callbacks: InteractiveCallbacks
+): Promise<void> {
+  const pyodide = await getPyodide()
+
+  const inputQueue: string[] = []
+  let inputResolve: ((value: string) => void) | null = null
+
+  const customInput = async (prompt = '') => {
+    if (callbacks.onOutput && prompt) {
+      callbacks.onOutput(prompt)
+    }
+
+    if (callbacks.onInputRequest) {
+      const value = await callbacks.onInputRequest(prompt)
+      return value
+    }
+
+    return new Promise<string>((resolve) => {
+      if (inputQueue.length > 0) {
+        resolve(inputQueue.shift()!)
+      } else {
+        inputResolve = resolve
+      }
+    })
+  }
+
+  pyodide.globals.set('__custom_input__', customInput)
+
+  pyodide.runPython(`
+import sys
+from io import StringIO
+
+class InteractiveStdout:
+    def __init__(self, callback):
+        self.callback = callback
+        self.buffer = ""
+    
+    def write(self, text):
+        self.buffer += text
+        if "\\n" in text:
+            lines = self.buffer.split("\\n")
+            for line in lines[:-1]:
+                if line:
+                    self.callback(line)
+            self.buffer = lines[-1]
+        return len(text)
+    
+    def flush(self):
+        if self.buffer:
+            self.callback(self.buffer)
+            self.buffer = ""
+
+class InteractiveStderr:
+    def __init__(self, callback):
+        self.callback = callback
+        self.buffer = ""
+    
+    def write(self, text):
+        self.buffer += text
+        if "\\n" in text:
+            lines = self.buffer.split("\\n")
+            for line in lines[:-1]:
+                if line:
+                    self.callback(line)
+            self.buffer = lines[-1]
+        return len(text)
+    
+    def flush(self):
+        if self.buffer:
+            self.callback(self.buffer)
+            self.buffer = ""
+`)
+
+  const outputCallback = (text: string) => {
+    if (callbacks.onOutput) {
+      callbacks.onOutput(text)
+    }
+  }
+
+  const errorCallback = (text: string) => {
+    if (callbacks.onError) {
+      callbacks.onError(text)
+    }
+  }
+
+  pyodide.globals.set('__output_callback__', outputCallback)
+  pyodide.globals.set('__error_callback__', errorCallback)
+
+  pyodide.runPython(`
+sys.stdout = InteractiveStdout(__output_callback__)
+sys.stderr = InteractiveStderr(__error_callback__)
+
+import builtins
+builtins.input = __custom_input__
+`)
+
+  try {
+    await pyodide.runPythonAsync(code)
+    
+    pyodide.runPython('sys.stdout.flush()')
+    pyodide.runPython('sys.stderr.flush()')
+  } catch (err) {
+    if (callbacks.onError) {
+      callbacks.onError(err instanceof Error ? err.message : String(err))
+    }
+    throw err
+  }
+}
+
 export function isPyodideReady(): boolean {
   return pyodideInstance !== null
 }
