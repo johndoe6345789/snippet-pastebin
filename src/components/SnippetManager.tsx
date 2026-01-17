@@ -156,6 +156,18 @@ export function SnippetManager() {
     setViewerOpen(true)
   }, [])
 
+  const handleMoveSnippet = useCallback(async () => {
+    if (!selectedNamespaceId) return
+    
+    try {
+      const loadedSnippets = await getSnippetsByNamespace(selectedNamespaceId)
+      setSnippets(loadedSnippets)
+    } catch (error) {
+      console.error('Failed to reload snippets:', error)
+      toast.error('Failed to reload snippets')
+    }
+  }, [selectedNamespaceId])
+
   const handleCreateNew = useCallback(() => {
     setEditingSnippet(null)
     setDialogOpen(true)
@@ -358,6 +370,7 @@ export function SnippetManager() {
               onDelete={handleDeleteSnippet}
               onCopy={handleCopyCode}
               onView={handleViewSnippet}
+              onMove={handleMoveSnippet}
             />
           ))}
         </div>

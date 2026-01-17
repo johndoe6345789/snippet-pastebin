@@ -1,10 +1,22 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
-import { Copy, Pencil, Trash, Eye } from '@phosphor-icons/react'
-import { Snippet } from '@/lib/types'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import { Copy, Pencil, Trash, Eye, DotsThree, FolderOpen } from '@phosphor-icons/react'
+import { Snippet, Namespace } from '@/lib/types'
 import { strings, appConfig, LANGUAGE_COLORS } from '@/lib/config'
+import { getAllNamespaces, moveSnippetToNamespace } from '@/lib/db'
+import { toast } from 'sonner'
 
 interface SnippetCardProps {
   snippet: Snippet
@@ -12,10 +24,26 @@ interface SnippetCardProps {
   onDelete: (id: string) => void
   onCopy: (code: string) => void
   onView: (snippet: Snippet) => void
+  onMove?: () => void
 }
 
-export function SnippetCard({ snippet, onEdit, onDelete, onCopy, onView }: SnippetCardProps) {
+export function SnippetCard({ snippet, onEdit, onDelete, onCopy, onView, onMove }: SnippetCardProps) {
   const [isCopied, setIsCopied] = useState(false)
+  const [namespaces, setNamespaces] = useState<Namespace[]>([])
+  const [isMoving, setIsMoving] = useState(false)
+
+  useEffect(() => {
+    loadNamespaces()
+  }, [])
+
+  const loadNamespaces = async () => {
+    try {
+      const loadedNamespaces = await getAllNamespaces()
+      setNamespaces(loadedNamespaces)
+    } catch (error) {
+      console.error('Failed to load namespaces:', error)
+    }
+  }
 
   const snippetData = useMemo(() => {
     try {
@@ -64,6 +92,28 @@ export function SnippetCard({ snippet, onEdit, onDelete, onCopy, onView }: Snipp
     onView(snippet)
   }
 
+  const handleMoveToNamespace = async (targetNamespaceId: string) => {
+    if (snippet.namespaceId === targetNamespaceId) {
+      toast.info('Snippet is already in this namespace')
+      return
+    }
+
+    setIsMoving(true)
+    try {
+      await moveSnippetToNamespace(snippet.id, targetNamespaceId)
+      const targetNamespace = namespaces.find(n => n.id === targetNamespaceId)
+      toast.success(`Moved to ${targetNamespace?.name || 'namespace'}`)
+      if (onMove) {
+        onMove()
+      }
+    } catch (error) {
+      console.error('Failed to move snippet:', error)
+      toast.error('Failed to move snippet')
+    } finally {
+      setIsMoving(false)
+    }
+  }
+
   if (!snippet) {
     return (
       <Card className="p-6">
@@ -71,6 +121,9 @@ export function SnippetCard({ snippet, onEdit, onDelete, onCopy, onView }: Snipp
       </Card>
     )
   }
+
+  const currentNamespace = namespaces.find(n => n.id === snippet.namespaceId)
+  const availableNamespaces = namespaces.filter(n => n.id !== snippet.namespaceId)
 
   return (
     <Card 
@@ -138,15 +191,54 @@ export function SnippetCard({ snippet, onEdit, onDelete, onCopy, onView }: Snipp
             >
               <Pencil className="h-4 w-4" />
             </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleDelete}
-              className="text-destructive hover:text-destructive hover:bg-destructive/10"
-              aria-label={strings.snippetCard.ariaLabels.delete}
-            >
-              <Trash className="h-4 w-4" />
-            </Button>
+            
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={(e) => e.stopPropagation()}
+                  aria-label="More options"
+                >
+                  <DotsThree className="h-4 w-4" weight="bold" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
+                <DropdownMenuSub>
+                  <DropdownMenuSubTrigger disabled={isMoving || availableNamespaces.length === 0}>
+                    <FolderOpen className="h-4 w-4 mr-2" />
+                    <span>Move to...</span>
+                  </DropdownMenuSubTrigger>
+                  <DropdownMenuSubContent>
+                    {availableNamespaces.length === 0 ? (
+                      <DropdownMenuItem disabled>
+                        No other namespaces
+                      </DropdownMenuItem>
+                    ) : (
+                      availableNamespaces.map((namespace) => (
+                        <DropdownMenuItem
+                          key={namespace.id}
+                          onClick={() => handleMoveToNamespace(namespace.id)}
+                        >
+                          {namespace.name}
+                          {namespace.isDefault && (
+                            <span className="ml-2 text-xs text-muted-foreground">(Default)</span>
+                          )}
+                        </DropdownMenuItem>
+                      ))
+                    )}
+                  </DropdownMenuSubContent>
+                </DropdownMenuSub>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  onClick={handleDelete}
+                  className="text-destructive focus:text-destructive"
+                >
+                  <Trash className="h-4 w-4 mr-2" />
+                  Delete
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </div>

@@ -1102,6 +1102,28 @@ export async function getNamespaceById(id: string): Promise<import('./types').Na
   return namespace
 }
 
+export async function moveSnippetToNamespace(snippetId: string, targetNamespaceId: string): Promise<void> {
+  const adapter = getFlaskAdapter()
+  if (adapter) {
+    const snippet = await adapter.getSnippet(snippetId)
+    if (snippet) {
+      snippet.namespaceId = targetNamespaceId
+      snippet.updatedAt = Date.now()
+      await adapter.updateSnippet(snippet)
+    }
+    return
+  }
+
+  const db = await initDB()
+  
+  db.run(
+    'UPDATE snippets SET namespaceId = ?, updatedAt = ? WHERE id = ?',
+    [targetNamespaceId, Date.now(), snippetId]
+  )
+  
+  await saveDB()
+}
+
 export async function validateDatabaseSchema(): Promise<{ valid: boolean; issues: string[] }> {
   try {
     const db = await initDB()
