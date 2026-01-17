@@ -9,6 +9,7 @@ import { SnippetDialog } from '@/components/SnippetDialog'
 import { SnippetViewer } from '@/components/SnippetViewer'
 import { EmptyState } from '@/components/EmptyState'
 import { toast } from 'sonner'
+import { strings } from '@/lib/config'
 
 function App() {
   const [snippets, setSnippets] = useKV<Snippet[]>('snippets', [])
@@ -39,7 +40,7 @@ function App() {
             : s
         )
       )
-      toast.success('Snippet updated successfully')
+      toast.success(strings.toast.snippetUpdated)
     } else {
       const newSnippet: Snippet = {
         ...snippetData,
@@ -48,7 +49,7 @@ function App() {
         updatedAt: Date.now(),
       }
       setSnippets((current) => [...(current ?? []), newSnippet])
-      toast.success('Snippet created successfully')
+      toast.success(strings.toast.snippetCreated)
     }
     setEditingSnippet(null)
   }
@@ -60,12 +61,12 @@ function App() {
 
   const handleDeleteSnippet = (id: string) => {
     setSnippets((current) => (current ?? []).filter((s) => s.id !== id))
-    toast.success('Snippet deleted')
+    toast.success(strings.toast.snippetDeleted)
   }
 
   const handleCopySnippet = (code: string) => {
     navigator.clipboard.writeText(code)
-    toast.success('Code copied to clipboard')
+    toast.success(strings.toast.codeCopied)
   }
 
   const handleViewSnippet = (snippet: Snippet) => {
@@ -99,10 +100,10 @@ function App() {
                 </div>
                 <div>
                   <h1 className="text-2xl sm:text-3xl font-bold text-foreground">
-                    Code Snippets
+                    {strings.app.header.title}
                   </h1>
                   <p className="text-sm text-muted-foreground">
-                    {currentSnippets.length} {currentSnippets.length === 1 ? 'snippet' : 'snippets'} saved
+                    {currentSnippets.length} {currentSnippets.length === 1 ? strings.app.header.snippetCount.singular : strings.app.header.snippetCount.plural} saved
                   </p>
                 </div>
               </div>
@@ -112,7 +113,7 @@ function App() {
                 className="gap-2 w-full sm:w-auto"
               >
                 <Plus weight="bold" />
-                New Snippet
+                {strings.app.header.newSnippetButton}
               </Button>
             </div>
 
@@ -121,7 +122,7 @@ function App() {
                 <div className="relative">
                   <MagnifyingGlass className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                   <Input
-                    placeholder="Search snippets by title, language, or content..."
+                    placeholder={strings.app.search.placeholder}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="pl-10 h-11"
@@ -138,9 +139,9 @@ function App() {
           ) : filteredSnippets.length === 0 ? (
             <div className="text-center py-20">
               <MagnifyingGlass className="h-16 w-16 text-muted-foreground/50 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold mb-2">No snippets found</h3>
+              <h3 className="text-xl font-semibold mb-2">{strings.noResults.title}</h3>
               <p className="text-muted-foreground">
-                Try adjusting your search query
+                {strings.noResults.description}
               </p>
             </div>
           ) : (

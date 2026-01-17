@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Copy, Pencil, Trash, Eye } from '@phosphor-icons/react'
 import { Snippet, LANGUAGE_COLORS } from '@/lib/types'
+import { strings, appConfig } from '@/lib/config'
 
 interface SnippetCardProps {
   snippet: Snippet
@@ -20,7 +21,7 @@ export function SnippetCard({ snippet, onEdit, onDelete, onCopy, onView }: Snipp
     try {
       const code = snippet?.code || ''
       const description = snippet?.description || ''
-      const maxLength = 150
+      const maxLength = appConfig.codePreviewMaxLength
       const isTruncated = code.length > maxLength
       const displayCode = isTruncated ? code.slice(0, maxLength) + '...' : code
 
@@ -46,7 +47,7 @@ export function SnippetCard({ snippet, onEdit, onDelete, onCopy, onView }: Snipp
     e.stopPropagation()
     onCopy(snippetData.fullCode)
     setIsCopied(true)
-    setTimeout(() => setIsCopied(false), 2000)
+    setTimeout(() => setIsCopied(false), appConfig.copiedTimeout)
   }
 
   const handleEdit = (e: React.MouseEvent) => {
@@ -66,7 +67,7 @@ export function SnippetCard({ snippet, onEdit, onDelete, onCopy, onView }: Snipp
   if (!snippet) {
     return (
       <Card className="p-6">
-        <p className="text-muted-foreground">Error loading snippet</p>
+        <p className="text-muted-foreground">{strings.snippetCard.errorMessage}</p>
       </Card>
     )
   }
@@ -101,7 +102,7 @@ export function SnippetCard({ snippet, onEdit, onDelete, onCopy, onView }: Snipp
           </pre>
           {snippetData.isTruncated && (
             <p className="text-xs text-accent mt-2">
-              Click to view full code...
+              {strings.snippetCard.viewFullCode}
             </p>
           )}
         </div>
@@ -115,7 +116,7 @@ export function SnippetCard({ snippet, onEdit, onDelete, onCopy, onView }: Snipp
               className="gap-2"
             >
               <Eye className="h-4 w-4" />
-              View
+              {strings.snippetCard.viewButton}
             </Button>
           </div>
           <div className="flex items-center gap-2">
@@ -124,16 +125,16 @@ export function SnippetCard({ snippet, onEdit, onDelete, onCopy, onView }: Snipp
               size="sm"
               onClick={handleCopy}
               className="gap-2"
-              aria-label="Copy code"
+              aria-label={strings.snippetCard.ariaLabels.copy}
             >
               <Copy className="h-4 w-4" />
-              {isCopied ? 'Copied!' : 'Copy'}
+              {isCopied ? strings.snippetCard.copiedButton : strings.snippetCard.copyButton}
             </Button>
             <Button
               variant="ghost"
               size="sm"
               onClick={handleEdit}
-              aria-label="Edit snippet"
+              aria-label={strings.snippetCard.ariaLabels.edit}
             >
               <Pencil className="h-4 w-4" />
             </Button>
@@ -142,7 +143,7 @@ export function SnippetCard({ snippet, onEdit, onDelete, onCopy, onView }: Snipp
               size="sm"
               onClick={handleDelete}
               className="text-destructive hover:text-destructive hover:bg-destructive/10"
-              aria-label="Delete snippet"
+              aria-label={strings.snippetCard.ariaLabels.delete}
             >
               <Trash className="h-4 w-4" />
             </Button>

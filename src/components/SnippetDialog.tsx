@@ -21,6 +21,7 @@ import {
 } from '@/components/ui/select'
 import { Snippet, LANGUAGES } from '@/lib/types'
 import { MonacoEditor } from '@/components/MonacoEditor'
+import { strings, appConfig } from '@/lib/config'
 
 interface SnippetDialogProps {
   open: boolean
@@ -32,7 +33,7 @@ interface SnippetDialogProps {
 export function SnippetDialog({ open, onOpenChange, onSave, editingSnippet }: SnippetDialogProps) {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
-  const [language, setLanguage] = useState('JavaScript')
+  const [language, setLanguage] = useState(appConfig.defaultLanguage)
   const [code, setCode] = useState('')
   const [hasPreview, setHasPreview] = useState(false)
   const [errors, setErrors] = useState<{ title?: string; code?: string }>({})
@@ -47,7 +48,7 @@ export function SnippetDialog({ open, onOpenChange, onSave, editingSnippet }: Sn
     } else {
       setTitle('')
       setDescription('')
-      setLanguage('JavaScript')
+      setLanguage(appConfig.defaultLanguage)
       setCode('')
       setHasPreview(false)
     }
@@ -58,10 +59,10 @@ export function SnippetDialog({ open, onOpenChange, onSave, editingSnippet }: Sn
     const newErrors: { title?: string; code?: string } = {}
     
     if (!title.trim()) {
-      newErrors.title = 'Title is required'
+      newErrors.title = strings.snippetDialog.fields.title.errorMessage
     }
     if (!code.trim()) {
-      newErrors.code = 'Code is required'
+      newErrors.code = strings.snippetDialog.fields.code.errorMessage
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -79,7 +80,7 @@ export function SnippetDialog({ open, onOpenChange, onSave, editingSnippet }: Sn
 
     setTitle('')
     setDescription('')
-    setLanguage('JavaScript')
+    setLanguage(appConfig.defaultLanguage)
     setCode('')
     setHasPreview(false)
     setErrors({})
@@ -91,21 +92,23 @@ export function SnippetDialog({ open, onOpenChange, onSave, editingSnippet }: Sn
       <DialogContent className="sm:max-w-[900px] max-h-[90vh] overflow-hidden flex flex-col">
         <DialogHeader>
           <DialogTitle className="text-2xl">
-            {editingSnippet ? 'Edit Snippet' : 'Create New Snippet'}
+            {editingSnippet ? strings.snippetDialog.edit.title : strings.snippetDialog.create.title}
           </DialogTitle>
           <DialogDescription>
             {editingSnippet 
-              ? 'Update your code snippet details below.' 
-              : 'Save a reusable code snippet for quick access later.'}
+              ? strings.snippetDialog.edit.description
+              : strings.snippetDialog.create.description}
           </DialogDescription>
         </DialogHeader>
         
         <div className="space-y-4 py-4 overflow-y-auto flex-1">
           <div className="space-y-2">
-            <Label htmlFor="title">Title *</Label>
+            <Label htmlFor="title">
+              {strings.snippetDialog.fields.title.label}{strings.snippetDialog.fields.title.required ? ' *' : ''}
+            </Label>
             <Input
               id="title"
-              placeholder="e.g., React useState Hook"
+              placeholder={strings.snippetDialog.fields.title.placeholder}
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               className={errors.title ? 'border-destructive ring-destructive' : ''}
@@ -116,7 +119,7 @@ export function SnippetDialog({ open, onOpenChange, onSave, editingSnippet }: Sn
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="language">Language</Label>
+            <Label htmlFor="language">{strings.snippetDialog.fields.language.label}</Label>
             <Select value={language} onValueChange={setLanguage}>
               <SelectTrigger id="language">
                 <SelectValue />
@@ -131,7 +134,7 @@ export function SnippetDialog({ open, onOpenChange, onSave, editingSnippet }: Sn
             </Select>
           </div>
 
-          {['JSX', 'TSX', 'JavaScript', 'TypeScript'].includes(language) && (
+          {appConfig.previewEnabledLanguages.includes(language) && (
             <div className="flex items-center space-x-2 py-2">
               <Checkbox 
                 id="hasPreview" 
@@ -142,16 +145,16 @@ export function SnippetDialog({ open, onOpenChange, onSave, editingSnippet }: Sn
                 htmlFor="hasPreview" 
                 className="text-sm font-normal cursor-pointer"
               >
-                Enable split-screen preview for this snippet
+                {strings.snippetDialog.fields.preview.label}
               </Label>
             </div>
           )}
 
           <div className="space-y-2">
-            <Label htmlFor="description">Description</Label>
+            <Label htmlFor="description">{strings.snippetDialog.fields.description.label}</Label>
             <Textarea
               id="description"
-              placeholder="Optional description or notes..."
+              placeholder={strings.snippetDialog.fields.description.placeholder}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               rows={2}
@@ -159,7 +162,9 @@ export function SnippetDialog({ open, onOpenChange, onSave, editingSnippet }: Sn
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="code">Code *</Label>
+            <Label htmlFor="code">
+              {strings.snippetDialog.fields.code.label}{strings.snippetDialog.fields.code.required ? ' *' : ''}
+            </Label>
             <div className={`rounded-md border overflow-hidden ${errors.code ? 'border-destructive ring-2 ring-destructive/20' : 'border-border'}`}>
               <MonacoEditor
                 value={code}
@@ -176,10 +181,10 @@ export function SnippetDialog({ open, onOpenChange, onSave, editingSnippet }: Sn
 
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>
-            Cancel
+            {strings.snippetDialog.buttons.cancel}
           </Button>
           <Button onClick={handleSave}>
-            {editingSnippet ? 'Update' : 'Create'} Snippet
+            {editingSnippet ? strings.snippetDialog.buttons.update : strings.snippetDialog.buttons.create} Snippet
           </Button>
         </DialogFooter>
       </DialogContent>

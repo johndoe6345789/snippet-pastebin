@@ -12,6 +12,7 @@ import { MonacoEditor } from '@/components/MonacoEditor'
 import { ReactPreview } from '@/components/ReactPreview'
 import { cn } from '@/lib/utils'
 import { useState } from 'react'
+import { strings, appConfig } from '@/lib/config'
 
 interface SnippetViewerProps {
   snippet: Snippet | null
@@ -30,7 +31,7 @@ export function SnippetViewer({ snippet, open, onOpenChange, onEdit, onCopy }: S
   const handleCopy = () => {
     onCopy(snippet.code)
     setIsCopied(true)
-    setTimeout(() => setIsCopied(false), 2000)
+    setTimeout(() => setIsCopied(false), appConfig.copiedTimeout)
   }
 
   const handleEdit = () => {
@@ -38,7 +39,7 @@ export function SnippetViewer({ snippet, open, onOpenChange, onEdit, onCopy }: S
     onEdit(snippet)
   }
   
-  const canPreview = snippet.hasPreview && ['JSX', 'TSX', 'JavaScript', 'TypeScript'].includes(snippet.language)
+  const canPreview = snippet.hasPreview && appConfig.previewEnabledLanguages.includes(snippet.language)
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -66,7 +67,7 @@ export function SnippetViewer({ snippet, open, onOpenChange, onEdit, onCopy }: S
                 </p>
               )}
               <p className="text-xs text-muted-foreground">
-                Last updated: {new Date(snippet.updatedAt).toLocaleString()}
+                {strings.snippetViewer.lastUpdated}: {new Date(snippet.updatedAt).toLocaleString()}
               </p>
             </div>
             <div className="flex gap-2 shrink-0">
@@ -78,7 +79,7 @@ export function SnippetViewer({ snippet, open, onOpenChange, onEdit, onCopy }: S
                   className="gap-2"
                 >
                   <SplitVertical className="h-4 w-4" />
-                  {showPreview ? 'Hide' : 'Show'} Preview
+                  {showPreview ? strings.snippetViewer.buttons.hidePreview : strings.snippetViewer.buttons.showPreview}
                 </Button>
               )}
               <Button
@@ -90,12 +91,12 @@ export function SnippetViewer({ snippet, open, onOpenChange, onEdit, onCopy }: S
                 {isCopied ? (
                   <>
                     <Check className="h-4 w-4" weight="bold" />
-                    Copied
+                    {strings.snippetViewer.buttons.copied}
                   </>
                 ) : (
                   <>
                     <Copy className="h-4 w-4" />
-                    Copy
+                    {strings.snippetViewer.buttons.copy}
                   </>
                 )}
               </Button>
@@ -106,7 +107,7 @@ export function SnippetViewer({ snippet, open, onOpenChange, onEdit, onCopy }: S
                 className="gap-2"
               >
                 <Pencil className="h-4 w-4" />
-                Edit
+                {strings.snippetViewer.buttons.edit}
               </Button>
               <Button
                 variant="ghost"
