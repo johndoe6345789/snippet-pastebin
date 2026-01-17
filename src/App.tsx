@@ -23,6 +23,7 @@ import { Code, Plus, MagnifyingGlass, Funnel } from '@phosphor-icons/react'
 import { toast } from 'sonner'
 import { SnippetCard } from '@/components/SnippetCard'
 import { SnippetDialog } from '@/components/SnippetDialog'
+import { SnippetViewer } from '@/components/SnippetViewer'
 import { EmptyState } from '@/components/EmptyState'
 import { Snippet, LANGUAGES } from '@/lib/types'
 
@@ -30,6 +31,7 @@ function App() {
   const [snippets, setSnippets] = useKV<Snippet[]>('snippets', [])
   const [dialogOpen, setDialogOpen] = useState(false)
   const [editingSnippet, setEditingSnippet] = useState<Snippet | null>(null)
+  const [viewingSnippet, setViewingSnippet] = useState<Snippet | null>(null)
   const [deleteId, setDeleteId] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [filterLanguage, setFilterLanguage] = useState<string>('all')
@@ -103,6 +105,10 @@ function App() {
   const handleNewSnippet = () => {
     setEditingSnippet(null)
     setDialogOpen(true)
+  }
+
+  const handleView = (snippet: Snippet) => {
+    setViewingSnippet(snippet)
   }
 
   return (
@@ -189,6 +195,7 @@ function App() {
                 onEdit={handleEdit}
                 onDelete={handleDelete}
                 onCopy={handleCopy}
+                onView={handleView}
               />
             ))}
           </div>
@@ -211,6 +218,14 @@ function App() {
         }}
         onSave={handleSave}
         editingSnippet={editingSnippet}
+      />
+
+      <SnippetViewer
+        snippet={viewingSnippet}
+        open={!!viewingSnippet}
+        onOpenChange={(open) => !open && setViewingSnippet(null)}
+        onEdit={handleEdit}
+        onCopy={handleCopy}
       />
 
       <AlertDialog open={!!deleteId} onOpenChange={(open) => !open && setDeleteId(null)}>

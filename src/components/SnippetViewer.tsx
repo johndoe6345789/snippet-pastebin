@@ -1,0 +1,120 @@
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { Copy, Pencil, X, Check } from '@phosphor-icons/react'
+import { Snippet, LANGUAGE_COLORS } from '@/lib/types'
+import { MonacoEditor } from '@/components/MonacoEditor'
+import { cn } from '@/lib/utils'
+import { useState } from 'react'
+
+interface SnippetViewerProps {
+  snippet: Snippet | null
+  open: boolean
+  onOpenChange: (open: boolean) => void
+  onEdit: (snippet: Snippet) => void
+  onCopy: (code: string) => void
+}
+
+export function SnippetViewer({ snippet, open, onOpenChange, onEdit, onCopy }: SnippetViewerProps) {
+  const [isCopied, setIsCopied] = useState(false)
+
+  if (!snippet) return null
+
+  const handleCopy = () => {
+    onCopy(snippet.code)
+    setIsCopied(true)
+    setTimeout(() => setIsCopied(false), 2000)
+  }
+
+  const handleEdit = () => {
+    onOpenChange(false)
+    onEdit(snippet)
+  }
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="sm:max-w-[95vw] sm:max-h-[95vh] h-[95vh] overflow-hidden flex flex-col p-0">
+        <DialogHeader className="px-6 pt-6 pb-4 border-b border-border">
+          <div className="flex items-start justify-between gap-4">
+            <div className="flex-1 min-w-0 space-y-2">
+              <div className="flex items-center gap-3">
+                <DialogTitle className="text-2xl font-bold truncate">
+                  {snippet.title}
+                </DialogTitle>
+                <Badge 
+                  variant="outline" 
+                  className={cn(
+                    "shrink-0 border font-medium text-xs px-2 py-1",
+                    LANGUAGE_COLORS[snippet.language] || LANGUAGE_COLORS['Other']
+                  )}
+                >
+                  {snippet.language}
+                </Badge>
+              </div>
+              {snippet.description && (
+                <p className="text-sm text-muted-foreground">
+                  {snippet.description}
+                </p>
+              )}
+              <p className="text-xs text-muted-foreground">
+                Last updated: {new Date(snippet.updatedAt).toLocaleString()}
+              </p>
+            </div>
+            <div className="flex gap-2 shrink-0">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleCopy}
+                className="gap-2"
+              >
+                {isCopied ? (
+                  <>
+                    <Check className="h-4 w-4" weight="bold" />
+                    Copied
+                  </>
+                ) : (
+                  <>
+                    <Copy className="h-4 w-4" />
+                    Copy
+                  </>
+                )}
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleEdit}
+                className="gap-2"
+              >
+                <Pencil className="h-4 w-4" />
+                Edit
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => onOpenChange(false)}
+                className="h-9 w-9 p-0"
+              >
+                <X className="h-5 w-5" />
+              </Button>
+            </div>
+          </div>
+        </DialogHeader>
+        
+        <div className="flex-1 overflow-hidden">
+          <MonacoEditor
+            value={snippet.code}
+            onChange={() => {}}
+            language={snippet.language}
+            height="100%"
+            readOnly={true}
+          />
+        </div>
+      </DialogContent>
+    </Dialog>
+  )
+}

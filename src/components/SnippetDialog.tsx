@@ -19,6 +19,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Snippet, LANGUAGES } from '@/lib/types'
+import { MonacoEditor } from '@/components/MonacoEditor'
 
 interface SnippetDialogProps {
   open: boolean
@@ -81,7 +82,7 @@ export function SnippetDialog({ open, onOpenChange, onSave, editingSnippet }: Sn
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-[900px] max-h-[90vh] overflow-hidden flex flex-col">
         <DialogHeader>
           <DialogTitle className="text-2xl">
             {editingSnippet ? 'Edit Snippet' : 'Create New Snippet'}
@@ -93,7 +94,7 @@ export function SnippetDialog({ open, onOpenChange, onSave, editingSnippet }: Sn
           </DialogDescription>
         </DialogHeader>
         
-        <div className="space-y-4 py-4">
+        <div className="space-y-4 py-4 overflow-y-auto flex-1">
           <div className="space-y-2">
             <Label htmlFor="title">Title *</Label>
             <Input
@@ -137,14 +138,14 @@ export function SnippetDialog({ open, onOpenChange, onSave, editingSnippet }: Sn
 
           <div className="space-y-2">
             <Label htmlFor="code">Code *</Label>
-            <Textarea
-              id="code"
-              placeholder="Paste your code here..."
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
-              rows={12}
-              className={`font-mono text-sm ${errors.code ? 'border-destructive ring-destructive' : ''}`}
-            />
+            <div className={`rounded-md border overflow-hidden ${errors.code ? 'border-destructive ring-2 ring-destructive/20' : 'border-border'}`}>
+              <MonacoEditor
+                value={code}
+                onChange={setCode}
+                language={language}
+                height="400px"
+              />
+            </div>
             {errors.code && (
               <p className="text-sm text-destructive">{errors.code}</p>
             )}

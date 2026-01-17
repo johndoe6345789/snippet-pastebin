@@ -13,18 +13,18 @@ This is a CRUD application with search, filtering, and organization features but
 ## Essential Features
 
 ### Create Snippet
-- **Functionality**: Users can create a new code snippet with title, description, language selection, and code content
-- **Purpose**: Core value proposition - storing reusable code for later retrieval
+- **Functionality**: Users can create a new code snippet with title, description, language selection, and code content using Monaco Editor for enhanced code editing
+- **Purpose**: Core value proposition - storing reusable code for later retrieval with professional IDE-like experience
 - **Trigger**: Click "New Snippet" button or keyboard shortcut
-- **Progression**: Click New Snippet → Fill in title field → Select language from dropdown → Paste/type code → Add optional description → Click Save
-- **Success criteria**: Snippet appears in the list immediately, persists across page refreshes, and is searchable
+- **Progression**: Click New Snippet → Fill in title field → Select language from dropdown → Write/paste code in Monaco Editor with syntax highlighting → Add optional description → Click Save
+- **Success criteria**: Snippet appears in the list immediately, persists across page refreshes, Monaco Editor loads lazily without blocking UI, and code is searchable
 
 ### View & Organize Snippets
-- **Functionality**: Display all snippets in a filterable list with preview cards showing title, language, and truncated code
-- **Purpose**: Quick scanning and navigation through saved snippets
-- **Trigger**: Default view on app load
-- **Progression**: View list → Scan titles and languages → Click card to expand/view full details
-- **Success criteria**: All snippets visible, sorted by recent first, with clear visual hierarchy
+- **Functionality**: Display all snippets in a filterable list with preview cards showing title, language, and truncated code; click to open full-screen Monaco viewer
+- **Purpose**: Quick scanning and navigation through saved snippets with professional code viewing
+- **Trigger**: Default view on app load, click card to view full code
+- **Progression**: View list → Scan titles and languages → Click card to open full-screen Monaco viewer with syntax highlighting → Copy or edit from viewer
+- **Success criteria**: All snippets visible, sorted by recent first, viewer opens instantly with lazy-loaded Monaco Editor
 
 ### Search & Filter
 - **Functionality**: Real-time search across snippet titles, descriptions, and code content; filter by programming language
@@ -34,11 +34,11 @@ This is a CRUD application with search, filtering, and organization features but
 - **Success criteria**: Results appear instantly (<100ms), search is case-insensitive, highlights matched terms
 
 ### Edit & Delete
-- **Functionality**: Modify existing snippets or remove them entirely
-- **Purpose**: Keep snippet library current and relevant
-- **Trigger**: Click edit icon on snippet card or click delete with confirmation
-- **Progression**: Click Edit → Modify fields in modal → Save changes → See updated snippet in list
-- **Success criteria**: Changes persist, delete requires confirmation, no accidental data loss
+- **Functionality**: Modify existing snippets using Monaco Editor or remove them entirely
+- **Purpose**: Keep snippet library current and relevant with professional editing experience
+- **Trigger**: Click edit icon on snippet card or from viewer, click delete with confirmation
+- **Progression**: Click Edit → Monaco Editor opens with existing code → Modify fields with syntax highlighting → Save changes → See updated snippet in list
+- **Success criteria**: Changes persist, Monaco Editor retains user edits, delete requires confirmation, no accidental data loss
 
 ### Copy to Clipboard
 - **Functionality**: One-click copy of code content to clipboard
