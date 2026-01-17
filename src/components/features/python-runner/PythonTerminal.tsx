@@ -1,8 +1,8 @@
 import { useRef, useEffect } from 'react'
 import { usePythonTerminal } from '@/hooks/usePythonTerminal'
-import { TerminalHeader } from '@/components/python-terminal/TerminalHeader'
-import { TerminalOutput } from '@/components/python-terminal/TerminalOutput'
-import { TerminalInput } from '@/components/python-terminal/TerminalInput'
+import { TerminalHeader } from '@/components/features/python-runner/TerminalHeader'
+import { TerminalOutput } from '@/components/features/python-runner/TerminalOutput'
+import { TerminalInput } from '@/components/features/python-runner/TerminalInput'
 
 interface PythonTerminalProps {
   code: string

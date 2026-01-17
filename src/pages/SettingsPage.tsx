@@ -16,7 +16,7 @@ import {
   type StorageBackend 
 } from '@/lib/storage'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { PersistenceSettings } from '@/components/PersistenceSettings'
+import { PersistenceSettings } from '@/components/demo/PersistenceSettings'
 
 export function SettingsPage() {
   const [stats, setStats] = useState<{

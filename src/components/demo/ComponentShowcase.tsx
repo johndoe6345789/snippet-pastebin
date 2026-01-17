@@ -3,7 +3,7 @@ import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { FloppyDisk } from '@phosphor-icons/react'
 import { Snippet } from '@/lib/types'
-import { SnippetDialog } from '@/components/SnippetDialog'
+import { SnippetDialog } from '@/components/features/snippet-editor/SnippetDialog'
 
 interface ComponentShowcaseProps {
   children: React.ReactNode

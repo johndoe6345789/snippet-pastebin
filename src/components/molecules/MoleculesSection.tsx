@@ -16,7 +16,7 @@ import {
   Lock,
   Calendar,
 } from '@phosphor-icons/react'
-import { ComponentShowcase } from '@/components/ComponentShowcase'
+import { ComponentShowcase } from '@/components/demo/ComponentShowcase'
 import { moleculesCodeSnippets } from '@/lib/component-code-snippets'
 import { Snippet } from '@/lib/types'
 

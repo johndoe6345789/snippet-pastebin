@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { SplitScreenEditor } from '@/components/SplitScreenEditor'
+import { SplitScreenEditor } from '@/components/features/snippet-editor/SplitScreenEditor'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Sparkle } from '@phosphor-icons/react'
 
