@@ -3,9 +3,9 @@ import { loadPyodide, PyodideInterface } from 'pyodide'
 let pyodideInstance: PyodideInterface | null = null
 let pyodideLoading: Promise<PyodideInterface> | null = null
 
-export async function getPyodide(): Promise<PyodideInterface> {
-  if (pyodideInstance) {
-    return pyodideInstance
+  if (pyodideLoading) {
+  }
+  pyodideLoading = loadPyo
   }
 
   if (pyodideLoading) {
@@ -19,27 +19,27 @@ export async function getPyodide(): Promise<PyodideInterface> {
     return pyodide
   })
 
-  return pyodideLoading
-}
+        output: stdout 
+ 
 
-export async function runPythonCode(code: string): Promise<{ output: string; error?: string }> {
-  try {
-    const pyodide = await getPyodide()
+    
+    if 
+    }
 
-    pyodide.runPython(`
-import sys
-from io import StringIO
-sys.stdout = StringIO()
-sys.stderr = StringIO()
-    `)
+    return {
+      erro
+  }
 
-    let result: any
-    try {
-      result = await pyodide.runPythonAsync(code)
-    } catch (err) {
-      const stderr = pyodide.runPython('sys.stderr.getvalue()')
-      const stdout = pyodide.runPython('sys.stdout.getvalue()')
-      return {
+  return pyodideInstanc
+
+
+
+
+
+
+
+
+
         output: stdout || '',
         error: stderr || (err instanceof Error ? err.message : String(err))
       }
