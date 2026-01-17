@@ -1,4 +1,6 @@
-export const DEMO_CODE = `function Counter() {
+export const DEMO_CODE = `import React from 'react'
+
+function Counter() {
   const [count, setCount] = React.useState(0)
   
   return (
