@@ -39,5 +39,5 @@ export const selectFilteredSnippets = createSelector(
 
 export const selectSelectedSnippets = createSelector(
   [selectSnippets, selectSelectedIds],
-  (snippets, selectedIds) => snippets.filter(s => selectedIds.has(s.id))
+  (snippets, selectedIds) => snippets.filter(s => selectedIds.includes(s.id))
 )

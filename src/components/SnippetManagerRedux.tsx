@@ -182,15 +182,15 @@ export function SnippetManagerRedux() {
   }, [dispatch])
 
   const handleSelectAll = useCallback(() => {
-    if (selectedIds.size === filteredSnippets.length) {
+    if (selectedIds.length === filteredSnippets.length) {
       dispatch(clearSelection())
     } else {
       dispatch(selectAllSnippetsAction())
     }
-  }, [dispatch, filteredSnippets.length, selectedIds.size])
+  }, [dispatch, filteredSnippets.length, selectedIds.length])
 
   const handleBulkMove = useCallback(async (targetNamespaceId: string) => {
-    if (selectedIds.size === 0) {
+    if (selectedIds.length === 0) {
       toast.error('No snippets selected')
       return
     }
@@ -202,7 +202,7 @@ export function SnippetManagerRedux() {
       })).unwrap()
       
       const targetNamespace = namespaces.find(n => n.id === targetNamespaceId)
-      toast.success(`Moved ${selectedIds.size} snippet${selectedIds.size > 1 ? 's' : ''} to ${targetNamespace?.name || 'namespace'}`)
+      toast.success(`Moved ${selectedIds.length} snippet${selectedIds.length > 1 ? 's' : ''} to ${targetNamespace?.name || 'namespace'}`)
       
       if (selectedNamespaceId) {
         dispatch(fetchSnippetsByNamespace(selectedNamespaceId))
@@ -355,12 +355,12 @@ export function SnippetManagerRedux() {
             size="sm"
             onClick={handleSelectAll}
           >
-            {selectedIds.size === filteredSnippets.length ? 'Deselect All' : 'Select All'}
+            {selectedIds.length === filteredSnippets.length ? 'Deselect All' : 'Select All'}
           </Button>
-          {selectedIds.size > 0 && (
+          {selectedIds.length > 0 && (
             <>
               <span className="text-sm text-muted-foreground">
-                {selectedIds.size} selected
+                {selectedIds.length} selected
               </span>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -402,7 +402,7 @@ export function SnippetManagerRedux() {
             onDelete={handleDeleteSnippet}
             onCopy={handleCopyCode}
             selectionMode={selectionMode}
-            isSelected={selectedIds.has(snippet.id)}
+            isSelected={selectedIds.includes(snippet.id)}
             onToggleSelect={handleToggleSnippetSelection}
           />
         ))}

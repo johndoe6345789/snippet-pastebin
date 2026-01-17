@@ -11,9 +11,7 @@ export const store = configureStore({
     ui: uiReducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: false,
-    }).concat(persistenceMiddleware),
+    getDefaultMiddleware().concat(persistenceMiddleware),
   devTools: {
     name: 'CodeSnippet',
     trace: true,

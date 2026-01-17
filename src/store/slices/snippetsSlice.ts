@@ -13,7 +13,7 @@ interface SnippetsState {
   items: Snippet[]
   loading: boolean
   error: string | null
-  selectedIds: Set<string>
+  selectedIds: string[]
   selectionMode: boolean
 }
 
@@ -21,7 +21,7 @@ const initialState: SnippetsState = {
   items: [],
   loading: false,
   error: null,
-  selectedIds: new Set(),
+  selectedIds: [],
   selectionMode: false,
 }
 
@@ -88,23 +88,22 @@ const snippetsSlice = createSlice({
     toggleSelectionMode: (state) => {
       state.selectionMode = !state.selectionMode
       if (!state.selectionMode) {
-        state.selectedIds = new Set()
+        state.selectedIds = []
       }
     },
     toggleSnippetSelection: (state, action: PayloadAction<string>) => {
-      const newSet = new Set(state.selectedIds)
-      if (newSet.has(action.payload)) {
-        newSet.delete(action.payload)
+      const index = state.selectedIds.indexOf(action.payload)
+      if (index !== -1) {
+        state.selectedIds.splice(index, 1)
       } else {
-        newSet.add(action.payload)
+        state.selectedIds.push(action.payload)
       }
-      state.selectedIds = newSet
     },
     clearSelection: (state) => {
-      state.selectedIds = new Set()
+      state.selectedIds = []
     },
     selectAllSnippets: (state) => {
-      state.selectedIds = new Set(state.items.map(s => s.id))
+      state.selectedIds = state.items.map(s => s.id)
     },
   },
   extraReducers: (builder) => {
@@ -152,7 +151,7 @@ const snippetsSlice = createSlice({
             snippet.namespaceId = targetNamespaceId
           }
         })
-        state.selectedIds = new Set()
+        state.selectedIds = []
         state.selectionMode = false
       })
   },
