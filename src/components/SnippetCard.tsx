@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Copy, Pencil, Trash, Check, ArrowsOut } from '@phosphor-icons/react'
+import { Copy, Pencil, Trash, Check, ArrowsOut, SplitVertical } from '@phosphor-icons/react'
 import { Snippet, LANGUAGE_COLORS } from '@/lib/types'
 import { cn } from '@/lib/utils'
 
@@ -46,15 +46,26 @@ export function SnippetCard({ snippet, onEdit, onDelete, onCopy, onView }: Snipp
               </p>
             )}
           </div>
-          <Badge 
-            variant="outline" 
-            className={cn(
-              "shrink-0 border font-medium text-xs px-2 py-1",
-              LANGUAGE_COLORS[snippet.language] || LANGUAGE_COLORS['Other']
+          <div className="flex gap-2 shrink-0 items-start">
+            {snippet.hasPreview && (
+              <Badge 
+                variant="outline" 
+                className="border-accent/30 bg-accent/10 text-accent text-xs px-2 py-1 gap-1"
+              >
+                <SplitVertical className="h-3 w-3" weight="bold" />
+                Preview
+              </Badge>
             )}
-          >
-            {snippet.language}
-          </Badge>
+            <Badge 
+              variant="outline" 
+              className={cn(
+                "border font-medium text-xs px-2 py-1",
+                LANGUAGE_COLORS[snippet.language] || LANGUAGE_COLORS['Other']
+              )}
+            >
+              {snippet.language}
+            </Badge>
+          </div>
         </div>
 
         <div 

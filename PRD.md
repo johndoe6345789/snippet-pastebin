@@ -13,18 +13,25 @@ This is a CRUD application with search, filtering, and organization features but
 ## Essential Features
 
 ### Create Snippet
-- **Functionality**: Users can create a new code snippet with title, description, language selection, and code content using Monaco Editor for enhanced code editing
-- **Purpose**: Core value proposition - storing reusable code for later retrieval with professional IDE-like experience
+- **Functionality**: Users can create a new code snippet with title, description, language selection, code content using Monaco Editor, and optional preview mode for React components
+- **Purpose**: Core value proposition - storing reusable code for later retrieval with professional IDE-like experience and live preview capability for React snippets
 - **Trigger**: Click "New Snippet" button or keyboard shortcut
-- **Progression**: Click New Snippet → Fill in title field → Select language from dropdown → Write/paste code in Monaco Editor with syntax highlighting → Add optional description → Click Save
-- **Success criteria**: Snippet appears in the list immediately, persists across page refreshes, Monaco Editor loads lazily without blocking UI, and code is searchable
+- **Progression**: Click New Snippet → Fill in title field → Select language from dropdown (including JSX/TSX options) → Toggle preview mode checkbox if creating React component → Write/paste code in Monaco Editor with syntax highlighting → Add optional description → Click Save
+- **Success criteria**: Snippet appears in the list immediately with preview badge if enabled, persists across page refreshes, Monaco Editor loads lazily without blocking UI, and code is searchable
 
 ### View & Organize Snippets
-- **Functionality**: Display all snippets in a filterable list with preview cards showing title, language, and truncated code; click to open full-screen Monaco viewer
-- **Purpose**: Quick scanning and navigation through saved snippets with professional code viewing
+- **Functionality**: Display all snippets in a filterable list with preview cards showing title, language, preview badge, and truncated code; click to open full-screen Monaco viewer with optional split-screen preview
+- **Purpose**: Quick scanning and navigation through saved snippets with professional code viewing and live React component preview
 - **Trigger**: Default view on app load, click card to view full code
-- **Progression**: View list → Scan titles and languages → Click card to open full-screen Monaco viewer with syntax highlighting → Copy or edit from viewer
-- **Success criteria**: All snippets visible, sorted by recent first, viewer opens instantly with lazy-loaded Monaco Editor
+- **Progression**: View list → Scan titles, languages, and preview badges → Click card to open full-screen viewer with syntax highlighting → Toggle split-screen preview for React components → Copy or edit from viewer
+- **Success criteria**: All snippets visible, sorted by recent first, viewer opens instantly with lazy-loaded Monaco Editor, preview renders React components in real-time
+
+### Split-Screen Preview
+- **Functionality**: For React-compatible snippets (JSX/TSX/JavaScript/TypeScript), render live preview alongside code editor in split-screen layout
+- **Purpose**: Enable developers to see React components rendered in real-time, test UI snippets instantly, and save complete working component examples
+- **Trigger**: Enable preview mode checkbox when creating/editing snippet, toggle preview button in viewer
+- **Progression**: Create snippet with JSX/TSX → Check "Enable preview" → Save → Open viewer → See code on left, live preview on right → Toggle preview on/off as needed
+- **Success criteria**: React code compiles and renders safely, errors display helpful messages, preview updates reflect code changes, supports React hooks and JSX syntax
 
 ### Search & Filter
 - **Functionality**: Real-time search across snippet titles, descriptions, and code content; filter by programming language
@@ -54,6 +61,8 @@ This is a CRUD application with search, filtering, and organization features but
 - **Invalid Input**: Require title and code content minimum, show inline validation errors
 - **Search No Results**: Display "No snippets found" message with suggestion to adjust filters
 - **Network/Storage Errors**: Graceful error messages with retry options (though KV storage is local)
+- **Preview Rendering Errors**: Display detailed error messages when React code fails to compile or render, show warnings for non-React language previews
+- **Preview Not Available**: Show informative message for snippets without preview enabled or non-React languages
 
 ## Design Direction
 The design should evoke a premium developer tool - clean, focused, and sophisticated with subtle tech-forward aesthetics. Think VS Code meets Notion: professional minimalism with purposeful color accents and smooth micro-interactions that make frequent use satisfying.
@@ -91,20 +100,25 @@ Animations should feel responsive and technical - quick, purposeful movements th
   - Button for all actions (primary solid style for Save/Create, ghost style for secondary actions)
   - Select for language dropdown with custom styling to match theme
   - Textarea for code input with monospace font
-  - Badge for language tags with color coding
+  - Badge for language tags with color coding, preview indicator badge with split-screen icon
   - ScrollArea for long code blocks within cards
   - Toast (Sonner) for copy confirmations and success messages
   - AlertDialog for delete confirmations
+  - Checkbox for enabling split-screen preview mode
+  - Alert for displaying preview rendering errors
   
 - **Customizations**: 
-  - Custom syntax language badges with predefined color mapping (JavaScript=yellow, Python=blue, etc.)
+  - Custom syntax language badges with predefined color mapping (JavaScript=yellow, Python=blue, JSX/TSX=cyan/sky, etc.)
   - Floating action button for "New Snippet" with plus icon, fixed bottom-right on mobile
   - Custom empty state component with illustration or icon and encouraging copy
+  - Split-screen preview renderer with safe React code execution
+  - Preview badge with split-screen icon to indicate preview-enabled snippets
   
 - **States**: 
-  - Buttons: Default with subtle gradient, hover with brightness increase and shadow, active with slight scale-down (0.98), disabled with 50% opacity
-  - Cards: Default flat, hover with shadow-lg and border glow, selected/expanded with accent border
+  - Buttons: Default with subtle gradient, hover with brightness increase and shadow, active with slight scale-down (0.98), disabled with 50% opacity, toggle state for preview on/off
+  - Cards: Default flat, hover with shadow-lg and border glow, selected/expanded with accent border, preview badge visible when enabled
   - Inputs: Default with muted border, focus with accent ring and border color shift, error with red ring
+  - Preview pane: Loading state, error state with helpful message, rendered state with scrolling
   
 - **Icon Selection**: 
   - Plus (create new snippet)
@@ -114,6 +128,8 @@ Animations should feel responsive and technical - quick, purposeful movements th
   - MagnifyingGlass (search)
   - Code (app logo/branding)
   - Check (confirmation feedback)
+  - SplitVertical (preview mode indicator and toggle)
+  - WarningCircle (preview errors)
   
 - **Spacing**: 
   - Container padding: p-6 (desktop) / p-4 (mobile)
@@ -121,6 +137,7 @@ Animations should feel responsive and technical - quick, purposeful movements th
   - Form fields: space-y-4 for vertical stacking
   - Section margins: mb-8 for major sections
   - Inline elements: gap-2 for icon+text combinations
+  - Split-screen: Equal 50/50 width distribution with border separator
   
 - **Mobile**: 
   - Single column card layout with full-width cards
@@ -129,3 +146,4 @@ Animations should feel responsive and technical - quick, purposeful movements th
   - Floating action button (FAB) for create action instead of header button
   - Touch-friendly button sizes (min 44px tap targets)
   - Bottom sheet for language filter on mobile vs. dropdown on desktop
+  - Preview stacks vertically below code editor on small screens

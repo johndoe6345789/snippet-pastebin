@@ -6,11 +6,14 @@ export interface Snippet {
   code: string
   createdAt: number
   updatedAt: number
+  hasPreview?: boolean
 }
 
 export const LANGUAGES = [
   'JavaScript',
   'TypeScript',
+  'JSX',
+  'TSX',
   'Python',
   'Java',
   'C++',
@@ -33,6 +36,8 @@ export type Language = typeof LANGUAGES[number]
 export const LANGUAGE_COLORS: Record<string, string> = {
   'JavaScript': 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30',
   'TypeScript': 'bg-blue-500/20 text-blue-300 border-blue-500/30',
+  'JSX': 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30',
+  'TSX': 'bg-sky-500/20 text-sky-300 border-sky-500/30',
   'Python': 'bg-blue-400/20 text-blue-200 border-blue-400/30',
   'Java': 'bg-red-500/20 text-red-300 border-red-500/30',
   'C++': 'bg-pink-500/20 text-pink-300 border-pink-500/30',

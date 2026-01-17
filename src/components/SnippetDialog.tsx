@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
+import { Checkbox } from '@/components/ui/checkbox'
 import {
   Select,
   SelectContent,
@@ -33,6 +34,7 @@ export function SnippetDialog({ open, onOpenChange, onSave, editingSnippet }: Sn
   const [description, setDescription] = useState('')
   const [language, setLanguage] = useState('JavaScript')
   const [code, setCode] = useState('')
+  const [hasPreview, setHasPreview] = useState(false)
   const [errors, setErrors] = useState<{ title?: string; code?: string }>({})
 
   useEffect(() => {
@@ -41,11 +43,13 @@ export function SnippetDialog({ open, onOpenChange, onSave, editingSnippet }: Sn
       setDescription(editingSnippet.description)
       setLanguage(editingSnippet.language)
       setCode(editingSnippet.code)
+      setHasPreview(editingSnippet.hasPreview || false)
     } else {
       setTitle('')
       setDescription('')
       setLanguage('JavaScript')
       setCode('')
+      setHasPreview(false)
     }
     setErrors({})
   }, [editingSnippet, open])
@@ -70,12 +74,14 @@ export function SnippetDialog({ open, onOpenChange, onSave, editingSnippet }: Sn
       description: description.trim(),
       language,
       code: code.trim(),
+      hasPreview,
     })
 
     setTitle('')
     setDescription('')
     setLanguage('JavaScript')
     setCode('')
+    setHasPreview(false)
     setErrors({})
     onOpenChange(false)
   }
@@ -124,6 +130,22 @@ export function SnippetDialog({ open, onOpenChange, onSave, editingSnippet }: Sn
               </SelectContent>
             </Select>
           </div>
+
+          {['JSX', 'TSX', 'JavaScript', 'TypeScript'].includes(language) && (
+            <div className="flex items-center space-x-2 py-2">
+              <Checkbox 
+                id="hasPreview" 
+                checked={hasPreview}
+                onCheckedChange={(checked) => setHasPreview(checked as boolean)}
+              />
+              <Label 
+                htmlFor="hasPreview" 
+                className="text-sm font-normal cursor-pointer"
+              >
+                Enable split-screen preview for this snippet
+              </Label>
+            </div>
+          )}
 
           <div className="space-y-2">
             <Label htmlFor="description">Description</Label>

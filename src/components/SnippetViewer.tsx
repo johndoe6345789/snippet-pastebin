@@ -6,9 +6,10 @@ import {
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Copy, Pencil, X, Check } from '@phosphor-icons/react'
+import { Copy, Pencil, X, Check, SplitVertical } from '@phosphor-icons/react'
 import { Snippet, LANGUAGE_COLORS } from '@/lib/types'
 import { MonacoEditor } from '@/components/MonacoEditor'
+import { ReactPreview } from '@/components/ReactPreview'
 import { cn } from '@/lib/utils'
 import { useState } from 'react'
 
@@ -22,6 +23,7 @@ interface SnippetViewerProps {
 
 export function SnippetViewer({ snippet, open, onOpenChange, onEdit, onCopy }: SnippetViewerProps) {
   const [isCopied, setIsCopied] = useState(false)
+  const [showPreview, setShowPreview] = useState(true)
 
   if (!snippet) return null
 
@@ -35,6 +37,8 @@ export function SnippetViewer({ snippet, open, onOpenChange, onEdit, onCopy }: S
     onOpenChange(false)
     onEdit(snippet)
   }
+  
+  const canPreview = snippet.hasPreview && ['JSX', 'TSX', 'JavaScript', 'TypeScript'].includes(snippet.language)
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -66,6 +70,17 @@ export function SnippetViewer({ snippet, open, onOpenChange, onEdit, onCopy }: S
               </p>
             </div>
             <div className="flex gap-2 shrink-0">
+              {canPreview && (
+                <Button
+                  variant={showPreview ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setShowPreview(!showPreview)}
+                  className="gap-2"
+                >
+                  <SplitVertical className="h-4 w-4" />
+                  {showPreview ? 'Hide' : 'Show'} Preview
+                </Button>
+              )}
               <Button
                 variant="outline"
                 size="sm"
@@ -105,14 +120,33 @@ export function SnippetViewer({ snippet, open, onOpenChange, onEdit, onCopy }: S
           </div>
         </DialogHeader>
         
-        <div className="flex-1 overflow-hidden">
-          <MonacoEditor
-            value={snippet.code}
-            onChange={() => {}}
-            language={snippet.language}
-            height="100%"
-            readOnly={true}
-          />
+        <div className="flex-1 overflow-hidden flex">
+          {canPreview && showPreview ? (
+            <>
+              <div className="flex-1 overflow-hidden border-r border-border">
+                <MonacoEditor
+                  value={snippet.code}
+                  onChange={() => {}}
+                  language={snippet.language}
+                  height="100%"
+                  readOnly={true}
+                />
+              </div>
+              <div className="flex-1 overflow-hidden">
+                <ReactPreview code={snippet.code} language={snippet.language} />
+              </div>
+            </>
+          ) : (
+            <div className="flex-1 overflow-hidden">
+              <MonacoEditor
+                value={snippet.code}
+                onChange={() => {}}
+                language={snippet.language}
+                height="100%"
+                readOnly={true}
+              />
+            </div>
+          )}
         </div>
       </DialogContent>
     </Dialog>
