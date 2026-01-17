@@ -97,23 +97,6 @@ export function NavigationSidebar() {
                       className={cn(
                         'w-full justify-start gap-3',
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                         isActive && 'bg-accent text-accent-foreground'
                       )}
                     >
