@@ -33,11 +33,11 @@ A code snippet management application with an integrated component library showc
 - Success criteria: Code displays with proper formatting, live preview renders React components accurately, Python code executes with output display, copy works reliably
 
 **Split-Screen Code Editor with Live Preview/Execution**
-- Functionality: Interactive code editor with live React component preview for React code, Python execution for Python snippets, resizable panels, and view mode switching (code-only, split, preview/output-only)
-- Purpose: Enable real-time testing and visualization of React code and Python execution while editing
+- Functionality: Interactive code editor with live React component preview for React code, Python execution for Python snippets with interactive input support, resizable panels, and view mode switching (code-only, split, preview/output-only)
+- Purpose: Enable real-time testing and visualization of React code and Python execution while editing, including programs that require user input
 - Trigger: Enable "Enable split-screen preview" checkbox when creating/editing JSX/TSX/JavaScript/TypeScript/Python snippets
-- Progression: User enables preview → Split editor appears → User types code → Preview/output updates in real-time → User adjusts panel sizes or switches view modes → Saves snippet
-- Success criteria: React preview updates within 100ms of code changes, Python code executes reliably using Pyodide (WebAssembly Python), no lag during typing, error messages display clearly with AI help option
+- Progression: User enables preview → Split editor appears → User types code → Preview/output updates in real-time → For Python programs with input(), user enters values in interactive prompts → User adjusts panel sizes or switches view modes → Saves snippet
+- Success criteria: React preview updates within 100ms of code changes, Python code executes reliably using Pyodide (WebAssembly Python), interactive input() prompts work seamlessly with multiple inputs, no lag during typing, error messages display clearly with AI help option
 
 **Snippet Organization**
 - Functionality: Real-time search across title, description, language, and code content
@@ -60,11 +60,11 @@ A code snippet management application with an integrated component library showc
 - Success criteria: Demo loads with working example code, users can edit and see instant changes, educational cards explain key features
 
 **Database Management & Settings**
-- Functionality: Settings page with storage backend selection (IndexedDB or Flask), database statistics, backup/restore, data migration, and Python template library with Project Euler examples
-- Purpose: Enable users to choose between local browser storage or remote Flask backend, manage their data, export/import snippets, migrate between storage backends, and quickly load Python coding challenge examples
+- Functionality: Settings page with storage backend selection (IndexedDB or Flask), database statistics, backup/restore, data migration, and Python template library with Project Euler examples and interactive input() examples
+- Purpose: Enable users to choose between local browser storage or remote Flask backend, manage their data, export/import snippets, migrate between storage backends, and quickly load Python coding challenge and interactive program examples
 - Trigger: Navigate to "Settings" via hamburger menu
-- Progression: User opens settings → Selects storage backend (IndexedDB or Flask) → Configures Flask URL if needed → Tests connection → Migrates data if switching backends → Views database stats → Exports backup if needed → Can import previous backups → Loads Python Euler problem templates → Manages sample data → Can clear all data if needed
-- Success criteria: Backend switching works seamlessly, Flask connection test validates server availability, data migration preserves all snippets, shows accurate statistics, export creates valid .db file, import restores data correctly, Python templates load successfully, clear operation requires confirmation
+- Progression: User opens settings → Selects storage backend (IndexedDB or Flask) → Configures Flask URL if needed → Tests connection → Migrates data if switching backends → Views database stats → Exports backup if needed → Can import previous backups → Loads Python templates (Euler problems or interactive programs) → Manages sample data → Can clear all data if needed
+- Success criteria: Backend switching works seamlessly, Flask connection test validates server availability, data migration preserves all snippets, shows accurate statistics, export creates valid .db file, import restores data correctly, Python templates load successfully (including interactive input examples), clear operation requires confirmation
 
 ## Data Persistence
 
