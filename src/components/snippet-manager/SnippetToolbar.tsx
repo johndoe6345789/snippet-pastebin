@@ -1,0 +1,126 @@
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Plus, MagnifyingGlass, CaretDown, CheckSquare, X } from '@phosphor-icons/react'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+  DropdownMenuLabel,
+} from '@/components/ui/dropdown-menu'
+import { strings } from '@/lib/config'
+import { SnippetTemplate } from '@/lib/types'
+
+interface SnippetToolbarProps {
+  searchQuery: string
+  onSearchChange: (value: string) => void
+  selectionMode: boolean
+  onToggleSelectionMode: () => void
+  onCreateNew: () => void
+  onCreateFromTemplate: (templateId: string) => void
+  templates: SnippetTemplate[]
+}
+
+export function SnippetToolbar({
+  searchQuery,
+  onSearchChange,
+  selectionMode,
+  onToggleSelectionMode,
+  onCreateNew,
+  onCreateFromTemplate,
+  templates,
+}: SnippetToolbarProps) {
+  return (
+    <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+      <div className="relative flex-1 w-full sm:max-w-md">
+        <MagnifyingGlass className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+        <Input
+          placeholder={strings.app.search.placeholder}
+          value={searchQuery}
+          onChange={(e) => onSearchChange(e.target.value)}
+          className="pl-10"
+        />
+      </div>
+      <div className="flex gap-2 w-full sm:w-auto">
+        <Button 
+          variant={selectionMode ? "default" : "outline"}
+          onClick={onToggleSelectionMode}
+          className="gap-2"
+        >
+          {selectionMode ? (
+            <>
+              <X weight="bold" />
+              Cancel
+            </>
+          ) : (
+            <>
+              <CheckSquare weight="bold" />
+              Select
+            </>
+          )}
+        </Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button className="gap-2 w-full sm:w-auto">
+              <Plus weight="bold" />
+              {strings.app.header.newSnippetButton}
+              <CaretDown weight="bold" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-72 max-h-[500px] overflow-y-auto">
+            <DropdownMenuItem onClick={onCreateNew}>
+              <Plus className="mr-2 h-4 w-4" weight="bold" />
+              Blank Snippet
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuLabel>React Components</DropdownMenuLabel>
+            {templates.filter((t) => t.category === 'react').map((template) => (
+              <DropdownMenuItem
+                key={template.id}
+                onClick={() => onCreateFromTemplate(template.id)}
+              >
+                <div className="flex flex-col gap-1 py-1">
+                  <span className="font-medium">{template.title}</span>
+                  <span className="text-xs text-muted-foreground line-clamp-1">
+                    {template.description}
+                  </span>
+                </div>
+              </DropdownMenuItem>
+            ))}
+            <DropdownMenuSeparator />
+            <DropdownMenuLabel>Python Scripts</DropdownMenuLabel>
+            {templates.filter((t) => t.category === 'python').map((template) => (
+              <DropdownMenuItem
+                key={template.id}
+                onClick={() => onCreateFromTemplate(template.id)}
+              >
+                <div className="flex flex-col gap-1 py-1">
+                  <span className="font-medium">{template.title}</span>
+                  <span className="text-xs text-muted-foreground line-clamp-1">
+                    {template.description}
+                  </span>
+                </div>
+              </DropdownMenuItem>
+            ))}
+            <DropdownMenuSeparator />
+            <DropdownMenuLabel>JavaScript Utils</DropdownMenuLabel>
+            {templates.filter((t) => t.category === 'javascript').map((template) => (
+              <DropdownMenuItem
+                key={template.id}
+                onClick={() => onCreateFromTemplate(template.id)}
+              >
+                <div className="flex flex-col gap-1 py-1">
+                  <span className="font-medium">{template.title}</span>
+                  <span className="text-xs text-muted-foreground line-clamp-1">
+                    {template.description}
+                  </span>
+                </div>
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+    </div>
+  )
+}
