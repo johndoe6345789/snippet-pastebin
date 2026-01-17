@@ -1,249 +1,96 @@
-import { useState, useMemo } from 'react'
 import { useKV } from '@github/spark/hooks'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from '@/components/ui/alert-dialog'
-import { Code, Plus, MagnifyingGlass, Funnel } from '@phosphor-icons/react'
-import { toast } from 'sonner'
-import { SnippetCard } from '@/components/SnippetCard'
-import { SnippetDialog } from '@/components/SnippetDialog'
-import { SnippetViewer } from '@/components/SnippetViewer'
-import { EmptyState } from '@/components/EmptyState'
-import { Snippet, LANGUAGES } from '@/lib/types'
+import { Card } from '@/components/ui/card'
+import { Separator } from '@/components/ui/separator'
+import { Plus, Minus, ArrowCounterClockwise } from '@phosphor-icons/react'
+import { motion } from 'framer-motion'
 
 function App() {
-  const [snippets, setSnippets] = useKV<Snippet[]>('snippets', [])
-  const [dialogOpen, setDialogOpen] = useState(false)
-  const [editingSnippet, setEditingSnippet] = useState<Snippet | null>(null)
-  const [viewingSnippet, setViewingSnippet] = useState<Snippet | null>(null)
-  const [deleteId, setDeleteId] = useState<string | null>(null)
-  const [searchQuery, setSearchQuery] = useState('')
-  const [filterLanguage, setFilterLanguage] = useState<string>('all')
+  const [count, setCount] = useKV<number>('counter-value', 0)
 
-  const filteredSnippets = useMemo(() => {
-    let filtered = snippets || []
-
-    if (searchQuery.trim()) {
-      const query = searchQuery.toLowerCase()
-      filtered = filtered.filter(
-        (snippet) =>
-          snippet.title.toLowerCase().includes(query) ||
-          snippet.description.toLowerCase().includes(query) ||
-          snippet.code.toLowerCase().includes(query) ||
-          snippet.language.toLowerCase().includes(query)
-      )
-    }
-
-    if (filterLanguage !== 'all') {
-      filtered = filtered.filter((snippet) => snippet.language === filterLanguage)
-    }
-
-    return filtered.sort((a, b) => b.updatedAt - a.updatedAt)
-  }, [snippets, searchQuery, filterLanguage])
-
-  const handleSave = (snippetData: Omit<Snippet, 'id' | 'createdAt' | 'updatedAt'>) => {
-    if (editingSnippet) {
-      setSnippets((current) =>
-        (current || []).map((s) =>
-          s.id === editingSnippet.id
-            ? { ...s, ...snippetData, updatedAt: Date.now() }
-            : s
-        )
-      )
-      toast.success('Snippet updated successfully')
-    } else {
-      const newSnippet: Snippet = {
-        ...snippetData,
-        id: Date.now().toString(),
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
-      }
-      setSnippets((current) => [newSnippet, ...(current || [])])
-      toast.success('Snippet created successfully')
-    }
-    setEditingSnippet(null)
+  const increment = () => {
+    setCount((current) => (current ?? 0) + 1)
   }
 
-  const handleEdit = (snippet: Snippet) => {
-    setEditingSnippet(snippet)
-    setDialogOpen(true)
+  const decrement = () => {
+    setCount((current) => (current ?? 0) - 1)
   }
 
-  const handleDelete = (id: string) => {
-    setDeleteId(id)
+  const reset = () => {
+    setCount(0)
   }
 
-  const confirmDelete = () => {
-    if (deleteId) {
-      setSnippets((current) => (current || []).filter((s) => s.id !== deleteId))
-      toast.success('Snippet deleted')
-      setDeleteId(null)
-    }
-  }
-
-  const handleCopy = (code: string) => {
-    navigator.clipboard.writeText(code)
-    toast.success('Code copied to clipboard')
-  }
-
-  const handleNewSnippet = () => {
-    setEditingSnippet(null)
-    setDialogOpen(true)
-  }
-
-  const handleView = (snippet: Snippet) => {
-    setViewingSnippet(snippet)
-  }
+  const formattedCount = (count ?? 0).toLocaleString()
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-10">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-3">
-              <div className="rounded-lg bg-accent/10 p-2">
-                <Code className="h-7 w-7 text-accent" weight="bold" />
-              </div>
-              <div>
-                <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
-                  SnippetVault
-                </h1>
-                <p className="text-sm text-muted-foreground hidden sm:block">
-                  Your personal code snippet library
-                </p>
-              </div>
-            </div>
-            <Button onClick={handleNewSnippet} className="gap-2 hidden sm:flex">
-              <Plus className="h-5 w-5" weight="bold" />
-              New Snippet
-            </Button>
-          </div>
-
-          <div className="flex flex-col sm:flex-row gap-3">
-            <div className="relative flex-1">
-              <MagnifyingGlass className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-              <Input
-                placeholder="Search snippets..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10"
-              />
-            </div>
-            <div className="flex gap-3">
-              <div className="relative flex-1 sm:flex-none sm:w-48">
-                <Funnel className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground pointer-events-none" />
-                <Select value={filterLanguage} onValueChange={setFilterLanguage}>
-                  <SelectTrigger className="pl-10">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Languages</SelectItem>
-                    {LANGUAGES.map((lang) => (
-                      <SelectItem key={lang} value={lang}>
-                        {lang}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-          </div>
-        </div>
+    <div className="min-h-screen bg-background flex items-center justify-center p-4 sm:p-8 relative overflow-hidden">
+      <div className="absolute inset-0 opacity-30">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `
+            repeating-linear-gradient(0deg, transparent, transparent 2px, oklch(0.20 0.04 240) 2px, oklch(0.20 0.04 240) 4px),
+            repeating-linear-gradient(90deg, transparent, transparent 2px, oklch(0.20 0.04 240) 2px, oklch(0.20 0.04 240) 4px)
+          `,
+          backgroundSize: '40px 40px'
+        }} />
       </div>
 
-      <main className="container mx-auto px-4 py-8">
-        {!snippets || snippets.length === 0 ? (
-          <EmptyState onCreateClick={handleNewSnippet} />
-        ) : filteredSnippets.length === 0 ? (
-          <div className="text-center py-20">
-            <p className="text-muted-foreground text-lg">
-              No snippets match your search.
-            </p>
-            <Button
-              variant="link"
-              onClick={() => {
-                setSearchQuery('')
-                setFilterLanguage('all')
-              }}
-              className="mt-4"
+      <Card className="w-full max-w-md p-6 sm:p-12 shadow-2xl relative z-10 border-2">
+        <div className="space-y-8">
+          <div className="text-center">
+            <h1 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">Counter</h1>
+            <p className="text-sm text-muted-foreground">Track anything, one click at a time</p>
+          </div>
+
+          <Separator />
+
+          <div className="flex items-center justify-center py-8">
+            <motion.div
+              key={count}
+              initial={{ scale: 1.2, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.2, ease: 'easeOut' }}
+              className="relative"
             >
-              Clear filters
+              <div className="text-6xl sm:text-8xl font-bold text-accent tracking-tight" style={{ 
+                textShadow: '0 0 40px oklch(0.75 0.15 200 / 0.5)'
+              }}>
+                {formattedCount}
+              </div>
+            </motion.div>
+          </div>
+
+          <Separator />
+
+          <div className="flex flex-col sm:flex-row gap-4">
+            <Button
+              onClick={decrement}
+              size="lg"
+              className="flex-1 h-14 text-lg font-medium transition-all hover:scale-105 active:scale-95"
+            >
+              <Minus className="mr-2" weight="bold" />
+              Decrement
+            </Button>
+            <Button
+              onClick={increment}
+              size="lg"
+              className="flex-1 h-14 text-lg font-medium transition-all hover:scale-105 active:scale-95"
+            >
+              <Plus className="mr-2" weight="bold" />
+              Increment
             </Button>
           </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filteredSnippets.map((snippet) => (
-              <SnippetCard
-                key={snippet.id}
-                snippet={snippet}
-                onEdit={handleEdit}
-                onDelete={handleDelete}
-                onCopy={handleCopy}
-                onView={handleView}
-              />
-            ))}
-          </div>
-        )}
-      </main>
 
-      <Button
-        onClick={handleNewSnippet}
-        size="lg"
-        className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg sm:hidden"
-      >
-        <Plus className="h-6 w-6" weight="bold" />
-      </Button>
-
-      <SnippetDialog
-        open={dialogOpen}
-        onOpenChange={(open) => {
-          setDialogOpen(open)
-          if (!open) setEditingSnippet(null)
-        }}
-        onSave={handleSave}
-        editingSnippet={editingSnippet}
-      />
-
-      <SnippetViewer
-        snippet={viewingSnippet}
-        open={!!viewingSnippet}
-        onOpenChange={(open) => !open && setViewingSnippet(null)}
-        onEdit={handleEdit}
-        onCopy={handleCopy}
-      />
-
-      <AlertDialog open={!!deleteId} onOpenChange={(open) => !open && setDeleteId(null)}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Delete snippet?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete this code snippet.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={confirmDelete} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
-              Delete
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+          <Button
+            onClick={reset}
+            variant="outline"
+            size="lg"
+            className="w-full h-12 transition-all hover:scale-105 active:scale-95 hover:border-accent hover:text-accent"
+          >
+            <ArrowCounterClockwise className="mr-2" weight="bold" />
+            Reset
+          </Button>
+        </div>
+      </Card>
     </div>
   )
 }
