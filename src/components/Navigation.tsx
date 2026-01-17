@@ -8,12 +8,14 @@ import {
   FlowArrow,
   Layout,
   X,
+  Sparkle,
 } from '@phosphor-icons/react'
 import { cn } from '@/lib/utils'
 import { Link, useLocation } from 'react-router-dom'
 
 const navigationItems = [
   { path: '/', label: 'Home', icon: House },
+  { path: '/demo', label: 'Split-Screen Demo', icon: Sparkle },
   { path: '/atoms', label: 'Atoms', icon: Atom },
   { path: '/molecules', label: 'Molecules', icon: FlowArrow },
   { path: '/organisms', label: 'Organisms', icon: Layout },

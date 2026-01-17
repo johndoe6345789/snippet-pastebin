@@ -13,7 +13,7 @@ A code snippet management application with an integrated component library showc
 
 **Navigation System**
 - Functionality: Hamburger menu on the left side with page links
-- Purpose: Allow users to navigate between Home and component library pages
+- Purpose: Allow users to navigate between Home, Split-Screen Demo, and component library pages
 - Trigger: Click hamburger icon in header
 - Progression: User clicks hamburger → Menu slides in from left → User selects page → Menu closes → Page content transitions
 - Success criteria: Smooth animations, clear active page indicators, responsive on all screen sizes
@@ -51,6 +51,13 @@ A code snippet management application with an integrated component library showc
 - Trigger: Navigate via hamburger menu
 - Progression: User opens menu → Selects component level → Page loads with relevant components
 - Success criteria: Each page displays appropriate components with ability to save as snippets
+
+**Split-Screen Demo Page**
+- Functionality: Dedicated demo page showcasing the split-screen editor with a pre-populated interactive React component example
+- Purpose: Provide users with an immediate, hands-on demonstration of the live preview capabilities
+- Trigger: Navigate to "Split-Screen Demo" via hamburger menu
+- Progression: User navigates to demo → Pre-loaded Counter component displays → User experiments with code editing → Sees real-time preview updates → Learns editor features
+- Success criteria: Demo loads with working example code, users can edit and see instant changes, educational cards explain key features
 
 ## Edge Case Handling
 - **No Search Results**: Friendly message encouraging users to refine their search
@@ -120,6 +127,7 @@ Animations should feel **smooth and purposeful**, enhancing navigation and feedb
   - Split Editor view toggle: Default → Hover (subtle highlight) → Active (filled background)
 - **Icon Selection**: 
   - House (regular/bold) for home navigation
+  - Sparkle (fill) for split-screen demo page navigation
   - Atom (regular/bold) for atoms page
   - FlowArrow (regular/bold) for molecules and organisms
   - Layout (regular/bold) for templates
@@ -131,7 +139,7 @@ Animations should feel **smooth and purposeful**, enhancing navigation and feedb
   - Eye (regular) for preview-only view
   - SplitHorizontal (regular) for split-screen view
   - SplitVertical (regular) for toggle preview in viewer
-  - Sparkle (fill) for AI error helper
+  - Sparkle (fill) for AI error helper and demo page features
 - **Spacing**: 
   - Navigation menu: p-4 for nav container, space-y-2 for items
   - Navigation items: px-4 py-3 (touch-friendly 44px+ targets)

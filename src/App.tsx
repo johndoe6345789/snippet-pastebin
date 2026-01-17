@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { Code } from '@phosphor-icons/react'
 import { Navigation, NavigationProvider, NavigationSidebar, useNavigation } from '@/components/Navigation'
 import { HomePage } from '@/pages/HomePage'
+import { DemoPage } from '@/pages/DemoPage'
 import { AtomsPage } from '@/pages/AtomsPage'
 import { MoleculesPage } from '@/pages/MoleculesPage'
 import { OrganismsPage } from '@/pages/OrganismsPage'
@@ -67,6 +68,7 @@ function AppContent() {
         <main className="container mx-auto px-6 py-8">
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/demo" element={<DemoPage />} />
             <Route path="/atoms" element={<AtomsPage />} />
             <Route path="/molecules" element={<MoleculesPage />} />
             <Route path="/organisms" element={<OrganismsPage />} />
