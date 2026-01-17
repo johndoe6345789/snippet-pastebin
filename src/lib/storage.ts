@@ -235,4 +235,18 @@ export class FlaskStorageAdapter {
       throw new Error(`Failed to wipe database: ${response.statusText}`)
     }
   }
+
+  async bulkMoveSnippets(snippetIds: string[], targetNamespaceId: string): Promise<void> {
+    if (!this.isValidUrl()) {
+      throw new Error('Invalid Flask backend URL')
+    }
+    const response = await fetch(`${this.baseUrl}/api/snippets/bulk-move`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ snippetIds, targetNamespaceId })
+    })
+    if (!response.ok) {
+      throw new Error(`Failed to bulk move snippets: ${response.statusText}`)
+    }
+  }
 }

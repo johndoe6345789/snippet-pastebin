@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
+import { Checkbox } from '@/components/ui/checkbox'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,9 +26,22 @@ interface SnippetCardProps {
   onCopy: (code: string) => void
   onView: (snippet: Snippet) => void
   onMove?: () => void
+  selectionMode?: boolean
+  isSelected?: boolean
+  onToggleSelect?: (id: string) => void
 }
 
-export function SnippetCard({ snippet, onEdit, onDelete, onCopy, onView, onMove }: SnippetCardProps) {
+export function SnippetCard({ 
+  snippet, 
+  onEdit, 
+  onDelete, 
+  onCopy, 
+  onView, 
+  onMove,
+  selectionMode = false,
+  isSelected = false,
+  onToggleSelect
+}: SnippetCardProps) {
   const [isCopied, setIsCopied] = useState(false)
   const [namespaces, setNamespaces] = useState<Namespace[]>([])
   const [isMoving, setIsMoving] = useState(false)
@@ -89,7 +103,17 @@ export function SnippetCard({ snippet, onEdit, onDelete, onCopy, onView, onMove 
   }
 
   const handleView = (e: React.MouseEvent) => {
-    onView(snippet)
+    if (selectionMode) {
+      handleToggleSelect()
+    } else {
+      onView(snippet)
+    }
+  }
+
+  const handleToggleSelect = () => {
+    if (onToggleSelect) {
+      onToggleSelect(snippet.id)
+    }
   }
 
   const handleMoveToNamespace = async (targetNamespaceId: string) => {
@@ -127,20 +151,32 @@ export function SnippetCard({ snippet, onEdit, onDelete, onCopy, onView, onMove 
 
   return (
     <Card 
-      className="group overflow-hidden hover:border-accent/50 transition-all cursor-pointer"
+      className={`group overflow-hidden hover:border-accent/50 transition-all cursor-pointer ${
+        isSelected ? 'border-accent ring-2 ring-accent/20' : ''
+      }`}
       onClick={handleView}
     >
       <div className="p-6 space-y-4">
         <div className="flex items-start justify-between gap-3">
-          <div className="flex-1 min-w-0">
-            <h3 className="text-lg font-semibold text-foreground mb-1 truncate">
-              {snippet.title}
-            </h3>
-            {snippetData.description && (
-              <p className="text-sm text-muted-foreground line-clamp-2">
-                {snippetData.description}
-              </p>
+          <div className="flex items-start gap-3 flex-1 min-w-0">
+            {selectionMode && (
+              <Checkbox
+                checked={isSelected}
+                onCheckedChange={handleToggleSelect}
+                onClick={(e) => e.stopPropagation()}
+                className="mt-1"
+              />
             )}
+            <div className="flex-1 min-w-0">
+              <h3 className="text-lg font-semibold text-foreground mb-1 truncate">
+                {snippet.title}
+              </h3>
+              {snippetData.description && (
+                <p className="text-sm text-muted-foreground line-clamp-2">
+                  {snippetData.description}
+                </p>
+              )}
+            </div>
           </div>
           <Badge
             className={`shrink-0 ${LANGUAGE_COLORS[snippet.language] || LANGUAGE_COLORS['Other']}`}
@@ -160,87 +196,89 @@ export function SnippetCard({ snippet, onEdit, onDelete, onCopy, onView, onMove 
           )}
         </div>
 
-        <div className="flex items-center justify-between gap-2 pt-2">
-          <div className="flex-1 flex items-center gap-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleView}
-              className="gap-2"
-            >
-              <Eye className="h-4 w-4" />
-              {strings.snippetCard.viewButton}
-            </Button>
-          </div>
-          <div className="flex items-center gap-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleCopy}
-              className="gap-2"
-              aria-label={strings.snippetCard.ariaLabels.copy}
-            >
-              <Copy className="h-4 w-4" />
-              {isCopied ? strings.snippetCard.copiedButton : strings.snippetCard.copyButton}
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleEdit}
-              aria-label={strings.snippetCard.ariaLabels.edit}
-            >
-              <Pencil className="h-4 w-4" />
-            </Button>
-            
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={(e) => e.stopPropagation()}
-                  aria-label="More options"
-                >
-                  <DotsThree className="h-4 w-4" weight="bold" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
-                <DropdownMenuSub>
-                  <DropdownMenuSubTrigger disabled={isMoving || availableNamespaces.length === 0}>
-                    <FolderOpen className="h-4 w-4 mr-2" />
-                    <span>Move to...</span>
-                  </DropdownMenuSubTrigger>
-                  <DropdownMenuSubContent>
-                    {availableNamespaces.length === 0 ? (
-                      <DropdownMenuItem disabled>
-                        No other namespaces
-                      </DropdownMenuItem>
-                    ) : (
-                      availableNamespaces.map((namespace) => (
-                        <DropdownMenuItem
-                          key={namespace.id}
-                          onClick={() => handleMoveToNamespace(namespace.id)}
-                        >
-                          {namespace.name}
-                          {namespace.isDefault && (
-                            <span className="ml-2 text-xs text-muted-foreground">(Default)</span>
-                          )}
+        {!selectionMode && (
+          <div className="flex items-center justify-between gap-2 pt-2">
+            <div className="flex-1 flex items-center gap-2">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleView}
+                className="gap-2"
+              >
+                <Eye className="h-4 w-4" />
+                {strings.snippetCard.viewButton}
+              </Button>
+            </div>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleCopy}
+                className="gap-2"
+                aria-label={strings.snippetCard.ariaLabels.copy}
+              >
+                <Copy className="h-4 w-4" />
+                {isCopied ? strings.snippetCard.copiedButton : strings.snippetCard.copyButton}
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleEdit}
+                aria-label={strings.snippetCard.ariaLabels.edit}
+              >
+                <Pencil className="h-4 w-4" />
+              </Button>
+              
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={(e) => e.stopPropagation()}
+                    aria-label="More options"
+                  >
+                    <DotsThree className="h-4 w-4" weight="bold" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
+                  <DropdownMenuSub>
+                    <DropdownMenuSubTrigger disabled={isMoving || availableNamespaces.length === 0}>
+                      <FolderOpen className="h-4 w-4 mr-2" />
+                      <span>Move to...</span>
+                    </DropdownMenuSubTrigger>
+                    <DropdownMenuSubContent>
+                      {availableNamespaces.length === 0 ? (
+                        <DropdownMenuItem disabled>
+                          No other namespaces
                         </DropdownMenuItem>
-                      ))
-                    )}
-                  </DropdownMenuSubContent>
-                </DropdownMenuSub>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  onClick={handleDelete}
-                  className="text-destructive focus:text-destructive"
-                >
-                  <Trash className="h-4 w-4 mr-2" />
-                  Delete
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                      ) : (
+                        availableNamespaces.map((namespace) => (
+                          <DropdownMenuItem
+                            key={namespace.id}
+                            onClick={() => handleMoveToNamespace(namespace.id)}
+                          >
+                            {namespace.name}
+                            {namespace.isDefault && (
+                              <span className="ml-2 text-xs text-muted-foreground">(Default)</span>
+                            )}
+                          </DropdownMenuItem>
+                        ))
+                      )}
+                    </DropdownMenuSubContent>
+                  </DropdownMenuSub>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={handleDelete}
+                    className="text-destructive focus:text-destructive"
+                  >
+                    <Trash className="h-4 w-4 mr-2" />
+                    Delete
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </Card>
   )

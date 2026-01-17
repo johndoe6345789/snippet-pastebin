@@ -1124,6 +1124,26 @@ export async function moveSnippetToNamespace(snippetId: string, targetNamespaceI
   await saveDB()
 }
 
+export async function bulkMoveSnippets(snippetIds: string[], targetNamespaceId: string): Promise<void> {
+  const adapter = getFlaskAdapter()
+  if (adapter) {
+    await adapter.bulkMoveSnippets(snippetIds, targetNamespaceId)
+    return
+  }
+
+  const db = await initDB()
+  const now = Date.now()
+  
+  for (const snippetId of snippetIds) {
+    db.run(
+      'UPDATE snippets SET namespaceId = ?, updatedAt = ? WHERE id = ?',
+      [targetNamespaceId, now, snippetId]
+    )
+  }
+  
+  await saveDB()
+}
+
 export async function validateDatabaseSchema(): Promise<{ valid: boolean; issues: string[] }> {
   try {
     const db = await initDB()

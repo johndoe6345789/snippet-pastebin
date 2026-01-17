@@ -1,7 +1,7 @@
 import { useState, useMemo, useCallback, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Plus, MagnifyingGlass, CaretDown } from '@phosphor-icons/react'
+import { Plus, MagnifyingGlass, CaretDown, CheckSquare, FolderOpen, X } from '@phosphor-icons/react'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,13 +9,16 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
   DropdownMenuLabel,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
 } from '@/components/ui/dropdown-menu'
 import { SnippetCard } from '@/components/SnippetCard'
 import { SnippetDialog } from '@/components/SnippetDialog'
 import { SnippetViewer } from '@/components/SnippetViewer'
 import { EmptyState } from '@/components/EmptyState'
 import { NamespaceSelector } from '@/components/NamespaceSelector'
-import { Snippet, SnippetTemplate } from '@/lib/types'
+import { Snippet, SnippetTemplate, Namespace } from '@/lib/types'
 import { toast } from 'sonner'
 import { strings } from '@/lib/config'
 import templatesData from '@/data/templates.json'
@@ -28,7 +31,8 @@ import {
   syncTemplatesFromJSON,
   getSnippetsByNamespace,
   ensureDefaultNamespace,
-  getAllNamespaces
+  getAllNamespaces,
+  bulkMoveSnippets
 } from '@/lib/db'
 
 const templates = templatesData as SnippetTemplate[]
@@ -42,6 +46,9 @@ export function SnippetManager() {
   const [editingSnippet, setEditingSnippet] = useState<Snippet | null>(null)
   const [viewingSnippet, setViewingSnippet] = useState<Snippet | null>(null)
   const [selectedNamespaceId, setSelectedNamespaceId] = useState<string | null>(null)
+  const [selectionMode, setSelectionMode] = useState(false)
+  const [selectedSnippetIds, setSelectedSnippetIds] = useState<Set<string>>(new Set())
+  const [namespaces, setNamespaces] = useState<Namespace[]>([])
 
   useEffect(() => {
     const loadData = async () => {
@@ -50,8 +57,10 @@ export function SnippetManager() {
         await seedDatabase()
         await syncTemplatesFromJSON(templates)
         
-        const namespaces = await getAllNamespaces()
-        const defaultNamespace = namespaces.find(n => n.isDefault)
+        const loadedNamespaces = await getAllNamespaces()
+        setNamespaces(loadedNamespaces)
+        
+        const defaultNamespace = loadedNamespaces.find(n => n.isDefault)
         if (defaultNamespace) {
           setSelectedNamespaceId(defaultNamespace.id)
           const loadedSnippets = await getSnippetsByNamespace(defaultNamespace.id)
@@ -198,6 +207,55 @@ export function SnippetManager() {
     }
   }, [])
 
+  const handleToggleSelectionMode = useCallback(() => {
+    setSelectionMode(!selectionMode)
+    setSelectedSnippetIds(new Set())
+  }, [selectionMode])
+
+  const handleToggleSnippetSelection = useCallback((snippetId: string) => {
+    setSelectedSnippetIds((prev) => {
+      const newSet = new Set(prev)
+      if (newSet.has(snippetId)) {
+        newSet.delete(snippetId)
+      } else {
+        newSet.add(snippetId)
+      }
+      return newSet
+    })
+  }, [])
+
+  const handleSelectAll = useCallback(() => {
+    if (selectedSnippetIds.size === filteredSnippets.length) {
+      setSelectedSnippetIds(new Set())
+    } else {
+      setSelectedSnippetIds(new Set(filteredSnippets.map(s => s.id)))
+    }
+  }, [filteredSnippets, selectedSnippetIds.size])
+
+  const handleBulkMove = useCallback(async (targetNamespaceId: string) => {
+    if (selectedSnippetIds.size === 0) {
+      toast.error('No snippets selected')
+      return
+    }
+
+    try {
+      await bulkMoveSnippets(Array.from(selectedSnippetIds), targetNamespaceId)
+      const targetNamespace = namespaces.find(n => n.id === targetNamespaceId)
+      toast.success(`Moved ${selectedSnippetIds.size} snippet${selectedSnippetIds.size > 1 ? 's' : ''} to ${targetNamespace?.name || 'namespace'}`)
+      
+      setSelectedSnippetIds(new Set())
+      setSelectionMode(false)
+      
+      if (selectedNamespaceId) {
+        const loadedSnippets = await getSnippetsByNamespace(selectedNamespaceId)
+        setSnippets(loadedSnippets)
+      }
+    } catch (error) {
+      console.error('Failed to bulk move snippets:', error)
+      toast.error('Failed to move snippets')
+    }
+  }, [selectedSnippetIds, namespaces, selectedNamespaceId])
+
   const allSnippets = snippets || []
 
   if (loading) {
@@ -248,112 +306,179 @@ export function SnippetManager() {
             className="pl-10"
           />
         </div>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button className="gap-2 w-full sm:w-auto">
-              <Plus weight="bold" />
-              {strings.app.header.newSnippetButton}
-              <CaretDown weight="bold" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-72 max-h-[500px] overflow-y-auto">
-            <DropdownMenuItem onClick={handleCreateNew}>
-              <Plus className="mr-2 h-4 w-4" weight="bold" />
-              Blank Snippet
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuLabel>React Components</DropdownMenuLabel>
-            {templates.filter((t) => t.category === 'react').map((template) => (
-              <DropdownMenuItem
-                key={template.id}
-                onClick={() => handleCreateFromTemplate(template.id)}
-              >
-                <div className="flex flex-col gap-1 py-1">
-                  <span className="font-medium">{template.title}</span>
-                  <span className="text-xs text-muted-foreground line-clamp-1">
-                    {template.description}
-                  </span>
-                </div>
+        <div className="flex gap-2 w-full sm:w-auto">
+          <Button 
+            variant={selectionMode ? "default" : "outline"}
+            onClick={handleToggleSelectionMode}
+            className="gap-2"
+          >
+            {selectionMode ? (
+              <>
+                <X weight="bold" />
+                Cancel
+              </>
+            ) : (
+              <>
+                <CheckSquare weight="bold" />
+                Select
+              </>
+            )}
+          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button className="gap-2 w-full sm:w-auto">
+                <Plus weight="bold" />
+                {strings.app.header.newSnippetButton}
+                <CaretDown weight="bold" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-72 max-h-[500px] overflow-y-auto">
+              <DropdownMenuItem onClick={handleCreateNew}>
+                <Plus className="mr-2 h-4 w-4" weight="bold" />
+                Blank Snippet
               </DropdownMenuItem>
-            ))}
-            <DropdownMenuSeparator />
-            <DropdownMenuLabel>JavaScript / TypeScript</DropdownMenuLabel>
-            {templates.filter((t) => ['api', 'basics', 'async', 'types'].includes(t.category)).map((template) => (
-              <DropdownMenuItem
-                key={template.id}
-                onClick={() => handleCreateFromTemplate(template.id)}
-              >
-                <div className="flex flex-col gap-1 py-1">
-                  <span className="font-medium">{template.title}</span>
-                  <span className="text-xs text-muted-foreground line-clamp-1">
-                    {template.description}
-                  </span>
-                </div>
-              </DropdownMenuItem>
-            ))}
-            <DropdownMenuSeparator />
-            <DropdownMenuLabel>CSS Layouts</DropdownMenuLabel>
-            {templates.filter((t) => t.category === 'layout').map((template) => (
-              <DropdownMenuItem
-                key={template.id}
-                onClick={() => handleCreateFromTemplate(template.id)}
-              >
-                <div className="flex flex-col gap-1 py-1">
-                  <span className="font-medium">{template.title}</span>
-                  <span className="text-xs text-muted-foreground line-clamp-1">
-                    {template.description}
-                  </span>
-                </div>
-              </DropdownMenuItem>
-            ))}
-            <DropdownMenuSeparator />
-            <DropdownMenuLabel>Python - Project Euler</DropdownMenuLabel>
-            {templates.filter((t) => t.category === 'euler').map((template) => (
-              <DropdownMenuItem
-                key={template.id}
-                onClick={() => handleCreateFromTemplate(template.id)}
-              >
-                <div className="flex flex-col gap-1 py-1">
-                  <span className="font-medium">{template.title}</span>
-                  <span className="text-xs text-muted-foreground line-clamp-1">
-                    {template.description}
-                  </span>
-                </div>
-              </DropdownMenuItem>
-            ))}
-            <DropdownMenuSeparator />
-            <DropdownMenuLabel>Python - Algorithms</DropdownMenuLabel>
-            {templates.filter((t) => t.category === 'algorithms' && t.language === 'Python').map((template) => (
-              <DropdownMenuItem
-                key={template.id}
-                onClick={() => handleCreateFromTemplate(template.id)}
-              >
-                <div className="flex flex-col gap-1 py-1">
-                  <span className="font-medium">{template.title}</span>
-                  <span className="text-xs text-muted-foreground line-clamp-1">
-                    {template.description}
-                  </span>
-                </div>
-              </DropdownMenuItem>
-            ))}
-            <DropdownMenuSeparator />
-            <DropdownMenuLabel>Python - Interactive Programs</DropdownMenuLabel>
-            {templates.filter((t) => t.category === 'interactive').map((template) => (
-              <DropdownMenuItem
-                key={template.id}
-                onClick={() => handleCreateFromTemplate(template.id)}
-              >
-                <div className="flex flex-col gap-1 py-1">
-                  <span className="font-medium">{template.title}</span>
-                  <span className="text-xs text-muted-foreground line-clamp-1">
-                    {template.description}
-                  </span>
-                </div>
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
+              <DropdownMenuSeparator />
+              <DropdownMenuLabel>React Components</DropdownMenuLabel>
+              {templates.filter((t) => t.category === 'react').map((template) => (
+                <DropdownMenuItem
+                  key={template.id}
+                  onClick={() => handleCreateFromTemplate(template.id)}
+                >
+                  <div className="flex flex-col gap-1 py-1">
+                    <span className="font-medium">{template.title}</span>
+                    <span className="text-xs text-muted-foreground line-clamp-1">
+                      {template.description}
+                    </span>
+                  </div>
+                </DropdownMenuItem>
+              ))}
+              <DropdownMenuSeparator />
+              <DropdownMenuLabel>JavaScript / TypeScript</DropdownMenuLabel>
+              {templates.filter((t) => ['api', 'basics', 'async', 'types'].includes(t.category)).map((template) => (
+                <DropdownMenuItem
+                  key={template.id}
+                  onClick={() => handleCreateFromTemplate(template.id)}
+                >
+                  <div className="flex flex-col gap-1 py-1">
+                    <span className="font-medium">{template.title}</span>
+                    <span className="text-xs text-muted-foreground line-clamp-1">
+                      {template.description}
+                    </span>
+                  </div>
+                </DropdownMenuItem>
+              ))}
+              <DropdownMenuSeparator />
+              <DropdownMenuLabel>CSS Layouts</DropdownMenuLabel>
+              {templates.filter((t) => t.category === 'layout').map((template) => (
+                <DropdownMenuItem
+                  key={template.id}
+                  onClick={() => handleCreateFromTemplate(template.id)}
+                >
+                  <div className="flex flex-col gap-1 py-1">
+                    <span className="font-medium">{template.title}</span>
+                    <span className="text-xs text-muted-foreground line-clamp-1">
+                      {template.description}
+                    </span>
+                  </div>
+                </DropdownMenuItem>
+              ))}
+              <DropdownMenuSeparator />
+              <DropdownMenuLabel>Python - Project Euler</DropdownMenuLabel>
+              {templates.filter((t) => t.category === 'euler').map((template) => (
+                <DropdownMenuItem
+                  key={template.id}
+                  onClick={() => handleCreateFromTemplate(template.id)}
+                >
+                  <div className="flex flex-col gap-1 py-1">
+                    <span className="font-medium">{template.title}</span>
+                    <span className="text-xs text-muted-foreground line-clamp-1">
+                      {template.description}
+                    </span>
+                  </div>
+                </DropdownMenuItem>
+              ))}
+              <DropdownMenuSeparator />
+              <DropdownMenuLabel>Python - Algorithms</DropdownMenuLabel>
+              {templates.filter((t) => t.category === 'algorithms' && t.language === 'Python').map((template) => (
+                <DropdownMenuItem
+                  key={template.id}
+                  onClick={() => handleCreateFromTemplate(template.id)}
+                >
+                  <div className="flex flex-col gap-1 py-1">
+                    <span className="font-medium">{template.title}</span>
+                    <span className="text-xs text-muted-foreground line-clamp-1">
+                      {template.description}
+                    </span>
+                  </div>
+                </DropdownMenuItem>
+              ))}
+              <DropdownMenuSeparator />
+              <DropdownMenuLabel>Python - Interactive Programs</DropdownMenuLabel>
+              {templates.filter((t) => t.category === 'interactive').map((template) => (
+                <DropdownMenuItem
+                  key={template.id}
+                  onClick={() => handleCreateFromTemplate(template.id)}
+                >
+                  <div className="flex flex-col gap-1 py-1">
+                    <span className="font-medium">{template.title}</span>
+                    <span className="text-xs text-muted-foreground line-clamp-1">
+                      {template.description}
+                    </span>
+                  </div>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </div>
+
+      {selectionMode && (
+        <div className="flex items-center justify-between gap-4 p-4 bg-accent/10 border border-accent/30 rounded-lg">
+          <div className="flex items-center gap-4">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleSelectAll}
+            >
+              {selectedSnippetIds.size === filteredSnippets.length ? 'Deselect All' : 'Select All'}
+            </Button>
+            <span className="text-sm text-muted-foreground">
+              {selectedSnippetIds.size} of {filteredSnippets.length} selected
+            </span>
+          </div>
+          <div className="flex gap-2">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="default"
+                  size="sm"
+                  disabled={selectedSnippetIds.size === 0}
+                  className="gap-2"
+                >
+                  <FolderOpen className="h-4 w-4" />
+                  Move to...
+                  <CaretDown weight="bold" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                {namespaces
+                  .filter(n => n.id !== selectedNamespaceId)
+                  .map((namespace) => (
+                    <DropdownMenuItem
+                      key={namespace.id}
+                      onClick={() => handleBulkMove(namespace.id)}
+                    >
+                      {namespace.name}
+                      {namespace.isDefault && (
+                        <span className="ml-2 text-xs text-muted-foreground">(Default)</span>
+                      )}
+                    </DropdownMenuItem>
+                  ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        </div>
+      )}
 
       {filteredSnippets.length === 0 ? (
         <div className="text-center py-20">
@@ -371,6 +496,9 @@ export function SnippetManager() {
               onCopy={handleCopyCode}
               onView={handleViewSnippet}
               onMove={handleMoveSnippet}
+              selectionMode={selectionMode}
+              isSelected={selectedSnippetIds.has(snippet.id)}
+              onToggleSelect={handleToggleSnippetSelection}
             />
           ))}
         </div>
