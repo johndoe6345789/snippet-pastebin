@@ -67,6 +67,30 @@ Default: `/data/snippets.db`
 
 ## Frontend Integration
 
+### Automatic Configuration (Recommended)
+
+The frontend can be automatically configured to use the Flask backend via environment variable:
+
+**For Docker Compose (full stack):**
+```bash
+docker-compose up -d
+```
+
+The frontend will automatically connect to the backend at `http://backend:5000`.
+
+**For local development:**
+```bash
+# .env file in project root
+VITE_FLASK_BACKEND_URL=http://localhost:5000
+```
+
+When `VITE_FLASK_BACKEND_URL` is set:
+- Frontend automatically uses Flask backend
+- Manual backend selection in Settings is disabled
+- Perfect for production deployments
+
+### Manual Configuration
+
 In the CodeSnippet app:
 1. Navigate to Settings page
 2. Select "Flask Backend (Remote Server)"
@@ -74,6 +98,8 @@ In the CodeSnippet app:
 4. Click "Test" to verify connection
 5. Click "Save Storage Settings"
 6. Optionally migrate existing IndexedDB data to Flask
+
+See [BACKEND-CONFIG.md](../BACKEND-CONFIG.md) for detailed configuration guide.
 
 ## Docker Details
 

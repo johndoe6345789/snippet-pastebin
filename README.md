@@ -1,23 +1,95 @@
-# ✨ Welcome to Your Spark Template!
-You've just launched your brand-new Spark Template Codespace — everything’s fired up and ready for you to explore, build, and create with Spark!
+# CodeSnippet - Code Snippet Manager
 
-This template is your blank canvas. It comes with a minimal setup to help you get started quickly with Spark development.
+A powerful code snippet management application with flexible storage backends and an integrated component library showcase.
 
-🚀 What's Inside?
-- A clean, minimal Spark environment
-- Pre-configured for local development
-- Ready to scale with your ideas
-  
-🧠 What Can You Do?
+## 🚀 Quick Start
 
-Right now, this is just a starting point — the perfect place to begin building and testing your Spark applications.
+Choose the setup that works best for you:
 
-🧹 Just Exploring?
-No problem! If you were just checking things out and don’t need to keep this code:
+### Option 1: Full Stack with Docker (Recommended)
+```bash
+docker-compose up -d
+```
+Access at: http://localhost:3000 (auto-configured with Flask backend)
 
-- Simply delete your Spark.
-- Everything will be cleaned up — no traces left behind.
+### Option 2: Local Development
+```bash
+# Start backend
+docker-compose -f docker-compose.backend-only.yml up -d
 
-📄 License For Spark Template Resources 
+# Configure frontend
+echo "VITE_FLASK_BACKEND_URL=http://localhost:5000" > .env
+
+# Start frontend
+npm install
+npm run dev
+```
+Access at: http://localhost:5173
+
+### Option 3: Frontend Only (No Backend)
+```bash
+npm install
+npm run dev
+```
+Access at: http://localhost:5173 (uses local IndexedDB storage)
+
+📖 **[See detailed setup instructions →](./QUICKSTART.md)**
+
+## 🔑 Key Features
+
+- 📝 **Snippet Management** - Create, edit, and organize code snippets with syntax highlighting
+- 🔍 **Smart Search** - Real-time search across title, description, language, and code
+- 👁️ **Live Preview** - Split-screen editor with live React component preview
+- 💾 **Flexible Storage** - Choose between local IndexedDB or Flask backend
+- 🔄 **Auto-Configuration** - Automatically use Flask backend via environment variable
+- 🗂️ **Component Library** - Showcase organized by atomic design principles
+- 📤 **Export/Import** - Backup and restore your entire database
+- 🎨 **Beautiful UI** - Modern dark theme with purple and cyan accents
+
+## 🎯 Storage Backends
+
+CodeSnippet supports two storage backends:
+
+### IndexedDB (Default)
+- Local browser storage
+- No server required
+- Perfect for personal use
+
+### Flask Backend (Optional)
+- Remote server storage
+- Multi-device sync
+- Requires Flask backend
+
+**🔧 Auto-Configuration:**  
+Set `VITE_FLASK_BACKEND_URL` environment variable to automatically use Flask backend:
+
+```bash
+# .env file
+VITE_FLASK_BACKEND_URL=http://localhost:5000
+```
+
+When set, the app automatically connects to Flask backend and disables manual configuration.
+
+📖 **[Complete backend configuration guide →](./BACKEND-CONFIG.md)**
+
+## 📚 Documentation
+
+- **[Quick Start Guide](./QUICKSTART.md)** - Get up and running quickly
+- **[Application Guide](./README-APP.md)** - Features and usage
+- **[Backend Configuration](./BACKEND-CONFIG.md)** - Detailed backend setup
+- **[Backend API](./backend/README.md)** - Flask API documentation
+- **[Docker Examples](./docker-compose.README.md)** - Docker deployment options
+
+## 🛠️ Technology Stack
+
+- React 19 + TypeScript
+- SQL.js (SQLite in WebAssembly)
+- Flask (Python backend)
+- Monaco Editor (VS Code editor)
+- Framer Motion (animations)
+- Shadcn UI (component library)
+- Tailwind CSS (styling)
+
+## 📄 License
 
 The Spark Template files and resources from GitHub are licensed under the terms of the MIT license, Copyright GitHub, Inc.

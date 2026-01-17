@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Code } from '@phosphor-icons/react'
 import { Navigation, NavigationProvider, NavigationSidebar, useNavigation } from '@/components/Navigation'
+import { BackendIndicator } from '@/components/BackendIndicator'
 import { HomePage } from '@/pages/HomePage'
 import { DemoPage } from '@/pages/DemoPage'
 import { AtomsPage } from '@/pages/AtomsPage'
@@ -61,6 +62,13 @@ function AppContent() {
                 <h1 className="text-2xl font-bold tracking-tight bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
                   CodeSnippet
                 </h1>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.4, delay: 0.1 }}
+              >
+                <BackendIndicator />
               </motion.div>
             </div>
           </div>

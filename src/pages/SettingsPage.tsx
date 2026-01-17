@@ -29,6 +29,7 @@ export function SettingsPage() {
   const [flaskUrl, setFlaskUrl] = useState('')
   const [flaskConnectionStatus, setFlaskConnectionStatus] = useState<'unknown' | 'connected' | 'failed'>('unknown')
   const [testingConnection, setTestingConnection] = useState(false)
+  const [envVarSet, setEnvVarSet] = useState(false)
 
   const loadStats = async () => {
     setLoading(true)
@@ -62,8 +63,13 @@ export function SettingsPage() {
   useEffect(() => {
     loadStats()
     const config = loadStorageConfig()
+    
+    const envFlaskUrl = import.meta.env.VITE_FLASK_BACKEND_URL
+    const isEnvSet = Boolean(envFlaskUrl)
+    setEnvVarSet(isEnvSet)
+    
     setStorageBackend(config.backend)
-    setFlaskUrl(config.flaskUrl || 'http://localhost:5000')
+    setFlaskUrl(config.flaskUrl || envFlaskUrl || 'http://localhost:5000')
     if (config.backend === 'flask' && config.flaskUrl) {
       testFlaskConnection(config.flaskUrl)
     }
@@ -244,6 +250,57 @@ export function SettingsPage() {
       </div>
 
       <div className="grid gap-6 max-w-3xl">
+        {envVarSet && (
+          <Card className="border-accent">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-accent">
+                <CloudCheck weight="fill" size={24} />
+                Backend Auto-Configured
+              </CardTitle>
+              <CardDescription>
+                Flask backend is configured via environment variable
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between py-2">
+                  <span className="text-sm text-muted-foreground">Backend URL</span>
+                  <code className="text-sm font-mono bg-muted px-2 py-1 rounded">{flaskUrl}</code>
+                </div>
+                <div className="flex items-center justify-between py-2">
+                  <span className="text-sm text-muted-foreground">Configuration Source</span>
+                  <code className="text-sm font-mono bg-muted px-2 py-1 rounded">VITE_FLASK_BACKEND_URL</code>
+                </div>
+                <div className="flex items-center justify-between py-2">
+                  <span className="text-sm text-muted-foreground">Status</span>
+                  {flaskConnectionStatus === 'connected' && (
+                    <span className="flex items-center gap-2 text-sm text-green-600">
+                      <CloudCheck weight="fill" size={16} />
+                      Connected
+                    </span>
+                  )}
+                  {flaskConnectionStatus === 'failed' && (
+                    <span className="flex items-center gap-2 text-sm text-destructive">
+                      <CloudSlash weight="fill" size={16} />
+                      Connection Failed
+                    </span>
+                  )}
+                  {flaskConnectionStatus === 'unknown' && (
+                    <Button 
+                      onClick={handleTestConnection} 
+                      variant="outline"
+                      size="sm"
+                      disabled={testingConnection}
+                    >
+                      {testingConnection ? 'Testing...' : 'Test Connection'}
+                    </Button>
+                  )}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+        
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -255,11 +312,26 @@ export function SettingsPage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
-            <RadioGroup value={storageBackend} onValueChange={(value) => setStorageBackend(value as StorageBackend)}>
+            {envVarSet && (
+              <Alert className="border-accent bg-accent/10">
+                <AlertDescription className="flex items-center gap-2">
+                  <CloudCheck weight="fill" size={16} className="text-accent" />
+                  <span>
+                    Storage backend is configured via <code className="px-1.5 py-0.5 rounded bg-muted text-xs font-mono">VITE_FLASK_BACKEND_URL</code> environment variable and cannot be changed here.
+                  </span>
+                </AlertDescription>
+              </Alert>
+            )}
+            
+            <RadioGroup 
+              value={storageBackend} 
+              onValueChange={(value) => setStorageBackend(value as StorageBackend)}
+              disabled={envVarSet}
+            >
               <div className="flex items-start space-x-3 space-y-0">
-                <RadioGroupItem value="indexeddb" id="storage-indexeddb" />
+                <RadioGroupItem value="indexeddb" id="storage-indexeddb" disabled={envVarSet} />
                 <div className="flex-1">
-                  <Label htmlFor="storage-indexeddb" className="font-semibold cursor-pointer">
+                  <Label htmlFor="storage-indexeddb" className={`font-semibold ${envVarSet ? 'opacity-50' : 'cursor-pointer'}`}>
                     IndexedDB (Local Browser Storage)
                   </Label>
                   <p className="text-sm text-muted-foreground mt-1">
@@ -269,9 +341,9 @@ export function SettingsPage() {
               </div>
               
               <div className="flex items-start space-x-3 space-y-0 mt-4">
-                <RadioGroupItem value="flask" id="storage-flask" />
+                <RadioGroupItem value="flask" id="storage-flask" disabled={envVarSet} />
                 <div className="flex-1">
-                  <Label htmlFor="storage-flask" className="font-semibold cursor-pointer">
+                  <Label htmlFor="storage-flask" className={`font-semibold ${envVarSet ? 'opacity-50' : 'cursor-pointer'}`}>
                     Flask Backend (Remote Server)
                   </Label>
                   <p className="text-sm text-muted-foreground mt-1">
@@ -295,6 +367,7 @@ export function SettingsPage() {
                         setFlaskUrl(e.target.value)
                         setFlaskConnectionStatus('unknown')
                       }}
+                      disabled={envVarSet}
                     />
                     <Button 
                       onClick={handleTestConnection} 
@@ -342,7 +415,7 @@ export function SettingsPage() {
             )}
 
             <div className="pt-2">
-              <Button onClick={handleSaveStorageConfig} className="gap-2">
+              <Button onClick={handleSaveStorageConfig} className="gap-2" disabled={envVarSet}>
                 <Database weight="bold" size={16} />
                 Save Storage Settings
               </Button>

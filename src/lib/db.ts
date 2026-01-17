@@ -1,10 +1,11 @@
 import initSqlJs, { Database } from 'sql.js'
 import type { Snippet, SnippetTemplate } from './types'
-import { getStorageConfig, FlaskStorageAdapter } from './storage'
+import { getStorageConfig, FlaskStorageAdapter, loadStorageConfig } from './storage'
 
 let dbInstance: Database | null = null
 let sqlInstance: any = null
 let flaskAdapter: FlaskStorageAdapter | null = null
+let configLoaded = false
 
 const DB_KEY = 'codesnippet-db'
 const IDB_NAME = 'CodeSnippetDB'
@@ -195,6 +196,11 @@ async function saveDB() {
 }
 
 function getFlaskAdapter(): FlaskStorageAdapter | null {
+  if (!configLoaded) {
+    loadStorageConfig()
+    configLoaded = true
+  }
+  
   const config = getStorageConfig()
   if (config.backend === 'flask' && config.flaskUrl) {
     if (!flaskAdapter || flaskAdapter['baseUrl'] !== config.flaskUrl) {

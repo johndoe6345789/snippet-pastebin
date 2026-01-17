@@ -7,13 +7,33 @@ export interface StorageConfig {
   flaskUrl?: string
 }
 
-let currentConfig: StorageConfig = {
-  backend: 'indexeddb'
-}
-
 const STORAGE_CONFIG_KEY = 'codesnippet-storage-config'
 
+function getDefaultConfig(): StorageConfig {
+  const flaskUrl = import.meta.env.VITE_FLASK_BACKEND_URL
+  
+  if (flaskUrl) {
+    return {
+      backend: 'flask',
+      flaskUrl: flaskUrl
+    }
+  }
+  
+  return {
+    backend: 'indexeddb'
+  }
+}
+
+let currentConfig: StorageConfig = getDefaultConfig()
+
 export function loadStorageConfig(): StorageConfig {
+  const defaultConfig = getDefaultConfig()
+  
+  if (defaultConfig.backend === 'flask' && defaultConfig.flaskUrl) {
+    currentConfig = defaultConfig
+    return currentConfig
+  }
+  
   try {
     const saved = localStorage.getItem(STORAGE_CONFIG_KEY)
     if (saved) {

@@ -34,6 +34,8 @@ CodeSnippet offers flexible data storage with two backend options:
 
 ### Switching Storage Backends
 
+#### Manual Configuration
+
 Visit the **Settings** page to:
 - Choose between IndexedDB and Flask backend
 - Configure Flask backend URL
@@ -41,6 +43,31 @@ Visit the **Settings** page to:
 - Migrate data between storage backends
 - View database statistics
 - Export/import database backups
+
+#### Automatic Configuration with Environment Variable
+
+You can automatically configure the Flask backend using a Docker environment variable. When `VITE_FLASK_BACKEND_URL` is set, the app will:
+- Automatically use the Flask backend instead of IndexedDB
+- Override any manual configuration
+- Disable manual backend selection in the Settings page
+
+**Setup:**
+
+1. Create a `.env` file in the project root:
+```bash
+VITE_FLASK_BACKEND_URL=http://localhost:5000
+```
+
+2. Or set it in your Docker environment:
+```yaml
+# docker-compose.yml
+services:
+  frontend:
+    environment:
+      - VITE_FLASK_BACKEND_URL=http://backend:5000
+```
+
+**Note:** When the environment variable is set, the storage backend configuration in Settings becomes read-only. To change backends, remove the environment variable and restart the application.
 
 ## Backend Setup
 
@@ -54,7 +81,24 @@ python app.py
 
 Server runs on `http://localhost:5000` by default.
 
-### Running with Docker
+### Running with Docker Compose (Full Stack)
+
+The easiest way to run both frontend and backend with automatic Flask backend configuration:
+
+```bash
+# Start both frontend and backend
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+
+# Stop services
+docker-compose down
+```
+
+Access the app at `http://localhost:3000`. The frontend is automatically configured to use the Flask backend at `http://backend:5000`.
+
+### Running Backend Only with Docker
 
 Build and run:
 ```bash
@@ -62,10 +106,29 @@ docker build -t codesnippet-backend ./backend
 docker run -p 5000:5000 -v $(pwd)/data:/data codesnippet-backend
 ```
 
-Or use docker-compose:
-```bash
-docker-compose up -d
+Then configure the frontend manually in Settings to use `http://localhost:5000`.
+
+### Environment Variable Configuration
+
+When deploying, you can set the `VITE_FLASK_BACKEND_URL` environment variable to automatically configure the Flask backend:
+
+**For Docker Compose:**
+```yaml
+services:
+  frontend:
+    environment:
+      - VITE_FLASK_BACKEND_URL=http://backend:5000
 ```
+
+**For Local Development (.env file):**
+```bash
+VITE_FLASK_BACKEND_URL=http://localhost:5000
+```
+
+When this variable is set:
+- The app automatically uses Flask backend instead of IndexedDB
+- Manual backend configuration in Settings is disabled
+- Perfect for production deployments where backend is always available
 
 ### Backend API
 

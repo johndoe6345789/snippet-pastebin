@@ -11,5 +11,18 @@ services:
       - DB_PATH=/data/snippets.db
     restart: unless-stopped
 
+  frontend:
+    build:
+      context: .
+      args:
+        - VITE_FLASK_BACKEND_URL=http://localhost:5000
+    ports:
+      - "3000:3000"
+    environment:
+      - VITE_FLASK_BACKEND_URL=http://backend:5000
+    depends_on:
+      - backend
+    restart: unless-stopped
+
 volumes:
   snippet-data:
