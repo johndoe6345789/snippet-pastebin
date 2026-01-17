@@ -14,6 +14,11 @@ export const store = configureStore({
     getDefaultMiddleware({
       serializableCheck: false,
     }).concat(persistenceMiddleware),
+  devTools: {
+    name: 'CodeSnippet',
+    trace: true,
+    traceLimit: 25,
+  },
 })
 
 export type RootState = ReturnType<typeof store.getState>
