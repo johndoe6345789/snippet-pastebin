@@ -45,7 +45,20 @@
     "category": "Components",
     "hasPreview": true,
     "functionName": "AnimatedCard",
-    "inputParameters": [],
+    "inputParameters": [
+      {
+        "name": "title",
+        "type": "string",
+        "defaultValue": "Animated Card",
+        "description": "Card title"
+      },
+      {
+        "name": "description",
+        "type": "string",
+        "defaultValue": "Hover to see the effect",
+        "description": "Card description"
+      }
+    ],
     "createdAt": 0,
     "updatedAt": 0
   },

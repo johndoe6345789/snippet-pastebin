@@ -19,7 +19,20 @@
     "category": "Templates",
     "hasPreview": true,
     "functionName": "Greeting",
-    "inputParameters": []
+    "inputParameters": [
+      {
+        "name": "name",
+        "type": "string",
+        "defaultValue": "World",
+        "description": "Name to greet"
+      },
+      {
+        "name": "message",
+        "type": "string",
+        "defaultValue": "Hello",
+        "description": "Greeting message"
+      }
+    ]
   },
   {
     "id": "template-3",
