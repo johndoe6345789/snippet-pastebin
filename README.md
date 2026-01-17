@@ -74,10 +74,18 @@ When set, the app automatically connects to Flask backend and disables manual co
 
 ## 📚 Documentation
 
+### Getting Started
 - **[Quick Start Guide](./QUICKSTART.md)** - Get up and running quickly
 - **[Application Guide](./README-APP.md)** - Features and usage
-- **[Backend Configuration](./BACKEND-CONFIG.md)** - Detailed backend setup
+
+### Backend & Storage
+- **[Backend Configuration](./BACKEND-CONFIG.md)** - Detailed backend setup and environment variables
 - **[Backend API](./backend/README.md)** - Flask API documentation
+
+### Production Deployment
+- **[Deployment Guide](./DEPLOYMENT.md)** - Complete CapRover/Cloudflare deployment walkthrough
+- **[CORS Configuration](./CORS-GUIDE.md)** - CORS setup and troubleshooting
+- **[Deployment Checklist](./DEPLOYMENT-CHECKLIST.md)** - Quick deployment reference
 - **[Docker Examples](./docker-compose.README.md)** - Docker deployment options
 
 ## 🛠️ Technology Stack

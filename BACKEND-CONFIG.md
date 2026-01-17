@@ -148,7 +148,9 @@ Or configure manually in Settings with the remote URL.
 
 | Variable | Description | Default | Example |
 |----------|-------------|---------|---------|
-| `VITE_FLASK_BACKEND_URL` | Flask backend URL. When set, forces Flask backend usage. | (none) | `http://localhost:5000` |
+| `VITE_FLASK_BACKEND_URL` | Flask backend URL. When set, forces Flask backend usage. | (none) | `http://localhost:5000` or `https://backend.example.com` |
+| `CORS_ALLOWED_ORIGINS` | Comma-separated list of allowed frontend origins for CORS. | `*` | `https://frontend.example.com` |
+| `DATABASE_PATH` | Path to SQLite database file in backend. | `/app/data/snippets.db` | `/app/data/snippets.db` |
 
 ## Troubleshooting
 
@@ -164,7 +166,8 @@ Or configure manually in Settings with the remote URL.
 1. Verify backend is running: `curl http://localhost:5000/health`
 2. Check URL spelling and port number
 3. Review backend logs for errors
-4. Ensure CORS is enabled in Flask app
+4. Ensure CORS is enabled in Flask app (see CORS-GUIDE.md)
+5. For production deployments, see DEPLOYMENT.md
 
 ### Environment variable not working
 
@@ -258,3 +261,6 @@ VITE_FLASK_BACKEND_URL=https://api.your-domain.com
 - [Backend API Documentation](./backend/README.md#api-endpoints)
 - [Docker Compose Configuration](./docker-compose.yml)
 - [Example .env file](./.env.example)
+- [CORS Configuration Guide](./CORS-GUIDE.md)
+- [Production Deployment Guide](./DEPLOYMENT.md)
+- [Deployment Checklist](./DEPLOYMENT-CHECKLIST.md)

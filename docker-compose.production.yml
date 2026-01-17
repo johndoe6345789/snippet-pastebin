@@ -9,19 +9,27 @@ services:
       - snippet-data:/app/data
     environment:
       - DATABASE_PATH=/app/data/snippets.db
-      - CORS_ALLOWED_ORIGINS=http://localhost:3000
+      - CORS_ALLOWED_ORIGINS=https://frontend.example.com,https://app.example.com
     restart: unless-stopped
+    networks:
+      - app-network
 
   frontend:
     build:
       context: .
       args:
-        - VITE_FLASK_BACKEND_URL=http://localhost:5000
+        - VITE_FLASK_BACKEND_URL=https://backend.example.com
     ports:
       - "3000:3000"
     depends_on:
       - backend
     restart: unless-stopped
+    networks:
+      - app-network
 
 volumes:
   snippet-data:
+
+networks:
+  app-network:
+    driver: bridge

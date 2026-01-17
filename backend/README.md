@@ -113,10 +113,14 @@ docker build -t codesnippet-backend ./backend
 
 ```bash
 # With volume for persistent data
-docker run -p 5000:5000 -v $(pwd)/data:/data codesnippet-backend
+docker run -p 5000:5000 -v $(pwd)/data:/app/data codesnippet-backend
 
-# With custom database path
-docker run -p 5000:5000 -e DB_PATH=/data/custom.db -v $(pwd)/data:/data codesnippet-backend
+# With custom database path and CORS
+docker run -p 5000:5000 \
+  -e DATABASE_PATH=/app/data/custom.db \
+  -e CORS_ALLOWED_ORIGINS=https://frontend.example.com \
+  -v $(pwd)/data:/app/data \
+  codesnippet-backend
 ```
 
 ### Using Docker Compose
@@ -162,7 +166,24 @@ CREATE TABLE snippets (
 
 ## Environment Variables
 
-- `DB_PATH` - Path to SQLite database file (default: `/data/snippets.db`)
+| Variable | Description | Default | Example |
+|----------|-------------|---------|---------|
+| `DATABASE_PATH` | Path to SQLite database file | `/app/data/snippets.db` | `/app/data/snippets.db` |
+| `CORS_ALLOWED_ORIGINS` | Comma-separated list of allowed frontend origins | `*` (all origins) | `https://frontend.example.com` |
+
+### Production Configuration
+
+For production deployments, always set specific CORS origins:
+
+```bash
+# Single origin
+export CORS_ALLOWED_ORIGINS=https://frontend.example.com
+
+# Multiple origins
+export CORS_ALLOWED_ORIGINS=https://frontend.example.com,https://app.example.com
+```
+
+**Important:** Using `*` for CORS in production is a security risk. Only use in development.
 
 ## Troubleshooting
 
@@ -172,9 +193,34 @@ CREATE TABLE snippets (
 - Verify the port (5000) is not in use
 
 ### CORS Errors
-- The backend allows all origins by default
-- Modify `CORS(app)` in `app.py` if you need to restrict origins
+- The backend allows all origins by default in development (`CORS_ALLOWED_ORIGINS=*`)
+- For production, set specific origins: `CORS_ALLOWED_ORIGINS=https://frontend.example.com`
+- See [CORS-GUIDE.md](../CORS-GUIDE.md) for detailed CORS configuration and testing
+- Verify frontend URL matches exactly (including https:// and no trailing slash)
 
 ### Database Locked
 - Ensure only one instance of the backend is running
 - Check file permissions on the database file
+
+## Production Deployment
+
+For deploying to production with separate frontend and backend domains:
+
+1. **See [DEPLOYMENT.md](../DEPLOYMENT.md)** - Complete CapRover/Cloudflare deployment guide
+2. **See [CORS-GUIDE.md](../CORS-GUIDE.md)** - CORS configuration and testing
+3. **See [DEPLOYMENT-CHECKLIST.md](../DEPLOYMENT-CHECKLIST.md)** - Quick deployment checklist
+
+### Quick Production Setup
+
+```bash
+# Build and deploy backend to CapRover
+cd backend
+caprover deploy -a codesnippet-backend
+
+# Set environment variables in CapRover dashboard:
+# - CORS_ALLOWED_ORIGINS=https://frontend.example.com
+# - DATABASE_PATH=/app/data/snippets.db
+
+# Enable persistent storage at /app/data
+# Enable HTTPS and connect custom domain
+```
