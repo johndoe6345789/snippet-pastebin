@@ -1,11 +1,10 @@
 import { Alert, AlertTitle, AlertDescription } from "./components/ui/alert";
 import { Button } from "./components/ui/button";
+import { AIErrorHelper } from "./components/AIErrorHelper";
 
 import { AlertTriangleIcon, RefreshCwIcon } from "lucide-react";
 
 export const ErrorFallback = ({ error, resetErrorBoundary }) => {
-  // When encountering an error in the development mode, rethrow it and don't display the boundary.
-  // The parent UI will take care of showing a more helpful dialog.
   if (import.meta.env.DEV) throw error;
 
   return (
@@ -26,14 +25,18 @@ export const ErrorFallback = ({ error, resetErrorBoundary }) => {
           </pre>
         </div>
         
-        <Button 
-          onClick={resetErrorBoundary} 
-          className="w-full"
-          variant="outline"
-        >
-          <RefreshCwIcon />
-          Try Again
-        </Button>
+        <div className="flex flex-col gap-3">
+          <AIErrorHelper error={error} context="Application runtime error" />
+          
+          <Button 
+            onClick={resetErrorBoundary} 
+            className="w-full"
+            variant="outline"
+          >
+            <RefreshCwIcon />
+            Try Again
+          </Button>
+        </div>
       </div>
     </div>
   );

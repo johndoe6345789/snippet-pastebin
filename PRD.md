@@ -54,6 +54,13 @@ This is a CRUD application with search, filtering, and organization features but
 - **Progression**: Click copy button → Visual feedback (toast notification) → Paste code elsewhere
 - **Success criteria**: Code copies exactly as stored, toast confirms action, works across browsers
 
+### AI Error Helper
+- **Functionality**: Intelligent error analysis button that appears when errors occur, uses AI to explain errors in plain language and suggest fixes
+- **Purpose**: Help developers quickly understand and resolve errors without leaving the app
+- **Trigger**: Automatically appears when runtime errors, preview rendering errors, or validation errors occur
+- **Progression**: Error occurs → AI helper button appears with pulsing animation → Click button → AI analyzes error context → Display explanation and suggested fixes in dialog
+- **Success criteria**: Button appears within 100ms of error, AI provides helpful context-aware explanations, suggestions are actionable and specific to the error type
+
 ## Edge Case Handling
 - **Empty State**: Show welcoming illustration and "Create your first snippet" CTA when no snippets exist
 - **Long Code Blocks**: Truncate preview with "Show more" expansion, scroll within card for full view
@@ -61,8 +68,9 @@ This is a CRUD application with search, filtering, and organization features but
 - **Invalid Input**: Require title and code content minimum, show inline validation errors
 - **Search No Results**: Display "No snippets found" message with suggestion to adjust filters
 - **Network/Storage Errors**: Graceful error messages with retry options (though KV storage is local)
-- **Preview Rendering Errors**: Display detailed error messages when React code fails to compile or render, show warnings for non-React language previews
+- **Preview Rendering Errors**: Display detailed error messages when React code fails to compile or render, show warnings for non-React language previews, AI helper button available for error analysis
 - **Preview Not Available**: Show informative message for snippets without preview enabled or non-React languages
+- **AI Error Analysis Failure**: If AI service is unavailable, show graceful fallback message with standard error details
 
 ## Design Direction
 The design should evoke a premium developer tool - clean, focused, and sophisticated with subtle tech-forward aesthetics. Think VS Code meets Notion: professional minimalism with purposeful color accents and smooth micro-interactions that make frequent use satisfying.
@@ -106,6 +114,7 @@ Animations should feel responsive and technical - quick, purposeful movements th
   - AlertDialog for delete confirmations
   - Checkbox for enabling split-screen preview mode
   - Alert for displaying preview rendering errors
+  - Custom AI helper button with sparkle/magic wand icon for error analysis
   
 - **Customizations**: 
   - Custom syntax language badges with predefined color mapping (JavaScript=yellow, Python=blue, JSX/TSX=cyan/sky, etc.)
@@ -130,6 +139,7 @@ Animations should feel responsive and technical - quick, purposeful movements th
   - Check (confirmation feedback)
   - SplitVertical (preview mode indicator and toggle)
   - WarningCircle (preview errors)
+  - Sparkles/MagicWand (AI helper for error analysis)
   
 - **Spacing**: 
   - Container padding: p-6 (desktop) / p-4 (mobile)

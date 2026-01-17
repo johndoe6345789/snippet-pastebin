@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from 'react'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import { Alert, AlertDescription } from '@/components/ui/alert'
+import { AIErrorHelper } from '@/components/AIErrorHelper'
 import { WarningCircle } from '@phosphor-icons/react'
 
 interface ReactPreviewProps {
@@ -77,12 +78,16 @@ export function ReactPreview({ code, language }: ReactPreviewProps) {
   if (error) {
     return (
       <div className="h-full overflow-auto p-6 bg-destructive/5">
-        <Alert variant="destructive">
+        <Alert variant="destructive" className="mb-4">
           <WarningCircle className="h-4 w-4" />
           <AlertDescription className="font-mono text-xs whitespace-pre-wrap">
             {error}
           </AlertDescription>
         </Alert>
+        <AIErrorHelper 
+          error={error} 
+          context={`React component preview rendering (Language: ${language})`}
+        />
       </div>
     )
   }
