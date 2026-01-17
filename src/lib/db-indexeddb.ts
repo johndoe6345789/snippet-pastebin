@@ -2,10 +2,7 @@
  * IndexedDB operations for database persistence
  */
 
-const DB_KEY = 'codesnippet-db'
-const IDB_NAME = 'CodeSnippetDB'
-const IDB_STORE = 'database'
-const IDB_VERSION = 1
+import { DB_KEY, IDB_NAME, IDB_STORE, IDB_VERSION } from './db-constants'
 
 export async function openIndexedDB(): Promise<IDBDatabase | null> {
   if (typeof indexedDB === 'undefined') return null
@@ -101,5 +98,3 @@ export async function deleteFromIndexedDB(): Promise<void> {
     }
   })
 }
-
-export { DB_KEY }

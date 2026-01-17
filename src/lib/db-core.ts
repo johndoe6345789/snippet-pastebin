@@ -7,6 +7,7 @@ import { loadFromIndexedDB, saveToIndexedDB, openIndexedDB, deleteFromIndexedDB 
 import { loadFromLocalStorage, saveToLocalStorage, deleteFromLocalStorage } from './db-localstorage'
 import { validateSchema, createTables } from './db-schema'
 import { getStorageConfig, FlaskStorageAdapter, loadStorageConfig } from './storage'
+import { DB_KEY } from './db-constants'
 
 let dbInstance: Database | null = null
 let sqlInstance: any = null
@@ -151,7 +152,8 @@ export async function getDatabaseStats(): Promise<{
   const databaseSize = data.length
   
   const hasIDB = await openIndexedDB()
-  const storageType = hasIDB ? 'indexeddb' : (loadFromLocalStorage() ? 'localstorage' : 'none')
+  const hasLocalStorage = typeof localStorage !== 'undefined' && localStorage.getItem(DB_KEY) !== null
+  const storageType = hasIDB ? 'indexeddb' : (hasLocalStorage ? 'localstorage' : 'none')
   
   return {
     snippetCount,

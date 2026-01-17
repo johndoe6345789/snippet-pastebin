@@ -2,7 +2,7 @@
  * LocalStorage operations for database persistence
  */
 
-import { DB_KEY } from './db-indexeddb'
+import { DB_KEY } from './db-constants'
 
 export function loadFromLocalStorage(): Uint8Array | null {
   try {
