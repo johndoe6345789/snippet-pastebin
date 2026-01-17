@@ -4,12 +4,15 @@ import { ReactPreview } from '@/components/ReactPreview'
 import { Button } from '@/components/ui/button'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
 import { Code, Eye, SplitHorizontal } from '@phosphor-icons/react'
+import { InputParameter } from '@/lib/types'
 
 interface SplitScreenEditorProps {
   value: string
   onChange: (value: string) => void
   language: string
   height?: string
+  functionName?: string
+  inputParameters?: InputParameter[]
 }
 
 type ViewMode = 'split' | 'code' | 'preview'
@@ -18,7 +21,9 @@ export function SplitScreenEditor({
   value, 
   onChange, 
   language, 
-  height = '500px' 
+  height = '500px',
+  functionName,
+  inputParameters,
 }: SplitScreenEditorProps) {
   const [viewMode, setViewMode] = useState<ViewMode>('split')
 
@@ -83,7 +88,12 @@ export function SplitScreenEditor({
         )}
 
         {viewMode === 'preview' && (
-          <ReactPreview code={value} language={language} />
+          <ReactPreview 
+            code={value} 
+            language={language}
+            functionName={functionName}
+            inputParameters={inputParameters}
+          />
         )}
 
         {viewMode === 'split' && (
@@ -98,7 +108,12 @@ export function SplitScreenEditor({
             </ResizablePanel>
             <ResizableHandle withHandle />
             <ResizablePanel defaultSize={50} minSize={30}>
-              <ReactPreview code={value} language={language} />
+              <ReactPreview 
+                code={value} 
+                language={language}
+                functionName={functionName}
+                inputParameters={inputParameters}
+              />
             </ResizablePanel>
           </ResizablePanelGroup>
         )}

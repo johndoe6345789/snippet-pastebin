@@ -19,10 +19,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Snippet } from '@/lib/types'
+import { Snippet, InputParameter } from '@/lib/types'
 import { MonacoEditor } from '@/components/MonacoEditor'
 import { SplitScreenEditor } from '@/components/SplitScreenEditor'
 import { strings, appConfig, LANGUAGES } from '@/lib/config'
+import { Plus, Trash } from '@phosphor-icons/react'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 interface SnippetDialogProps {
   open: boolean
@@ -37,6 +39,8 @@ export function SnippetDialog({ open, onOpenChange, onSave, editingSnippet }: Sn
   const [language, setLanguage] = useState(appConfig.defaultLanguage)
   const [code, setCode] = useState('')
   const [hasPreview, setHasPreview] = useState(false)
+  const [functionName, setFunctionName] = useState('')
+  const [inputParameters, setInputParameters] = useState<InputParameter[]>([])
   const [errors, setErrors] = useState<{ title?: string; code?: string }>({})
 
   useEffect(() => {
@@ -46,12 +50,16 @@ export function SnippetDialog({ open, onOpenChange, onSave, editingSnippet }: Sn
       setLanguage(editingSnippet.language)
       setCode(editingSnippet.code)
       setHasPreview(editingSnippet.hasPreview || false)
+      setFunctionName(editingSnippet.functionName || '')
+      setInputParameters(editingSnippet.inputParameters || [])
     } else {
       setTitle('')
       setDescription('')
       setLanguage(appConfig.defaultLanguage)
       setCode('')
       setHasPreview(false)
+      setFunctionName('')
+      setInputParameters([])
     }
     setErrors({})
   }, [editingSnippet, open])
@@ -78,6 +86,8 @@ export function SnippetDialog({ open, onOpenChange, onSave, editingSnippet }: Sn
       code: code.trim(),
       category: editingSnippet?.category || 'general',
       hasPreview,
+      functionName: functionName.trim() || undefined,
+      inputParameters: inputParameters.length > 0 ? inputParameters : undefined,
     })
 
     setTitle('')
@@ -85,8 +95,29 @@ export function SnippetDialog({ open, onOpenChange, onSave, editingSnippet }: Sn
     setLanguage(appConfig.defaultLanguage)
     setCode('')
     setHasPreview(false)
+    setFunctionName('')
+    setInputParameters([])
     setErrors({})
     onOpenChange(false)
+  }
+
+  const handleAddParameter = () => {
+    setInputParameters((prev) => [
+      ...prev,
+      { name: '', type: 'string', defaultValue: '', description: '' }
+    ])
+  }
+
+  const handleRemoveParameter = (index: number) => {
+    setInputParameters((prev) => prev.filter((_, i) => i !== index))
+  }
+
+  const handleUpdateParameter = (index: number, field: keyof InputParameter, value: string) => {
+    setInputParameters((prev) =>
+      prev.map((param, i) =>
+        i === index ? { ...param, [field]: value } : param
+      )
+    )
   }
 
   return (
@@ -152,6 +183,140 @@ export function SnippetDialog({ open, onOpenChange, onSave, editingSnippet }: Sn
             </div>
           )}
 
+          {hasPreview && appConfig.previewEnabledLanguages.includes(language) && (
+            <Card className="bg-muted/30">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base font-semibold flex items-center justify-between">
+                  <span>Preview Configuration</span>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleAddParameter}
+                    className="gap-2"
+                  >
+                    <Plus className="h-3 w-3" />
+                    Add Parameter
+                  </Button>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="functionName" className="text-sm">
+                    Function/Component Name (Optional)
+                  </Label>
+                  <Input
+                    id="functionName"
+                    placeholder="e.g., MyComponent"
+                    value={functionName}
+                    onChange={(e) => setFunctionName(e.target.value)}
+                    className="bg-background"
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    The name of the function or component to render. Leave empty to use the default export.
+                  </p>
+                </div>
+
+                {inputParameters.length > 0 && (
+                  <div className="space-y-3">
+                    <Label className="text-sm font-medium">Input Parameters (Props)</Label>
+                    {inputParameters.map((param, index) => (
+                      <Card key={index} className="bg-background">
+                        <CardContent className="pt-4 space-y-3">
+                          <div className="flex items-start gap-2">
+                            <div className="flex-1 grid grid-cols-2 gap-3">
+                              <div className="space-y-1.5">
+                                <Label htmlFor={`param-name-${index}`} className="text-xs">
+                                  Name *
+                                </Label>
+                                <Input
+                                  id={`param-name-${index}`}
+                                  placeholder="paramName"
+                                  value={param.name}
+                                  onChange={(e) =>
+                                    handleUpdateParameter(index, 'name', e.target.value)
+                                  }
+                                  className="h-8 text-sm"
+                                />
+                              </div>
+                              <div className="space-y-1.5">
+                                <Label htmlFor={`param-type-${index}`} className="text-xs">
+                                  Type
+                                </Label>
+                                <Select
+                                  value={param.type}
+                                  onValueChange={(value) =>
+                                    handleUpdateParameter(index, 'type', value)
+                                  }
+                                >
+                                  <SelectTrigger id={`param-type-${index}`} className="h-8 text-sm">
+                                    <SelectValue />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="string">string</SelectItem>
+                                    <SelectItem value="number">number</SelectItem>
+                                    <SelectItem value="boolean">boolean</SelectItem>
+                                    <SelectItem value="array">array</SelectItem>
+                                    <SelectItem value="object">object</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </div>
+                            </div>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleRemoveParameter(index)}
+                              className="h-8 w-8 p-0 mt-6 text-destructive hover:text-destructive"
+                            >
+                              <Trash className="h-4 w-4" />
+                            </Button>
+                          </div>
+                          <div className="space-y-1.5">
+                            <Label htmlFor={`param-default-${index}`} className="text-xs">
+                              Default Value *
+                            </Label>
+                            <Input
+                              id={`param-default-${index}`}
+                              placeholder={
+                                param.type === 'string'
+                                  ? '"Hello World"'
+                                  : param.type === 'number'
+                                  ? '42'
+                                  : param.type === 'boolean'
+                                  ? 'true'
+                                  : param.type === 'array'
+                                  ? '["item1", "item2"]'
+                                  : '{"key": "value"}'
+                              }
+                              value={param.defaultValue}
+                              onChange={(e) =>
+                                handleUpdateParameter(index, 'defaultValue', e.target.value)
+                              }
+                              className="h-8 text-sm font-mono"
+                            />
+                          </div>
+                          <div className="space-y-1.5">
+                            <Label htmlFor={`param-desc-${index}`} className="text-xs">
+                              Description (Optional)
+                            </Label>
+                            <Input
+                              id={`param-desc-${index}`}
+                              placeholder="What does this parameter do?"
+                              value={param.description || ''}
+                              onChange={(e) =>
+                                handleUpdateParameter(index, 'description', e.target.value)
+                              }
+                              className="h-8 text-sm"
+                            />
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          )}
+
           <div className="space-y-2">
             <Label htmlFor="description">{strings.snippetDialog.fields.description.label}</Label>
             <Textarea
@@ -174,6 +339,8 @@ export function SnippetDialog({ open, onOpenChange, onSave, editingSnippet }: Sn
                   onChange={setCode}
                   language={language}
                   height="500px"
+                  functionName={functionName}
+                  inputParameters={inputParameters}
                 />
               </div>
             ) : (

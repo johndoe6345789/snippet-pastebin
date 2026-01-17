@@ -134,7 +134,12 @@ export function SnippetViewer({ snippet, open, onOpenChange, onEdit, onCopy }: S
                 />
               </div>
               <div className="flex-1 overflow-hidden">
-                <ReactPreview code={snippet.code} language={snippet.language} />
+                <ReactPreview 
+                  code={snippet.code} 
+                  language={snippet.language}
+                  functionName={snippet.functionName}
+                  inputParameters={snippet.inputParameters}
+                />
               </div>
             </>
           ) : (

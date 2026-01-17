@@ -4,13 +4,16 @@ import * as ReactDOM from 'react-dom'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { AIErrorHelper } from '@/components/AIErrorHelper'
 import { WarningCircle } from '@phosphor-icons/react'
+import { InputParameter } from '@/lib/types'
 
 interface ReactPreviewProps {
   code: string
   language: string
+  functionName?: string
+  inputParameters?: InputParameter[]
 }
 
-export function ReactPreview({ code, language }: ReactPreviewProps) {
+export function ReactPreview({ code, language, functionName, inputParameters }: ReactPreviewProps) {
   const [error, setError] = useState<string | null>(null)
   const [Component, setComponent] = useState<React.ComponentType | null>(null)
   const mountRef = useRef<HTMLDivElement>(null)
@@ -43,8 +46,10 @@ export function ReactPreview({ code, language }: ReactPreviewProps) {
           
           ${transformedCode}
           
+          ${functionName ? `return ${functionName};` : `
           const lastStatement = (${transformedCode.trim().split('\n').pop()});
           return lastStatement;
+          `}
         })
       `
 
@@ -61,7 +66,34 @@ export function ReactPreview({ code, language }: ReactPreviewProps) {
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to render preview')
     }
-  }, [code, language])
+  }, [code, language, functionName])
+
+  const props = React.useMemo(() => {
+    if (!inputParameters || inputParameters.length === 0) {
+      return {}
+    }
+
+    const parsedProps: Record<string, any> = {}
+
+    inputParameters.forEach((param) => {
+      try {
+        if (param.type === 'string') {
+          parsedProps[param.name] = param.defaultValue.replace(/^["']|["']$/g, '')
+        } else if (param.type === 'number') {
+          parsedProps[param.name] = Number(param.defaultValue)
+        } else if (param.type === 'boolean') {
+          parsedProps[param.name] = param.defaultValue === 'true'
+        } else if (param.type === 'array' || param.type === 'object') {
+          parsedProps[param.name] = JSON.parse(param.defaultValue)
+        }
+      } catch (err) {
+        console.warn(`Failed to parse parameter ${param.name}:`, err)
+        parsedProps[param.name] = param.defaultValue
+      }
+    })
+
+    return parsedProps
+  }, [inputParameters])
 
   if (!['JSX', 'TSX', 'JavaScript', 'TypeScript'].includes(language)) {
     return (
@@ -105,7 +137,7 @@ export function ReactPreview({ code, language }: ReactPreviewProps) {
   return (
     <div className="h-full overflow-auto bg-background">
       <div className="p-6" ref={mountRef}>
-        <Component />
+        <Component {...props} />
       </div>
     </div>
   )
