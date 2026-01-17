@@ -8,6 +8,7 @@ import { AtomsPage } from '@/pages/AtomsPage'
 import { MoleculesPage } from '@/pages/MoleculesPage'
 import { OrganismsPage } from '@/pages/OrganismsPage'
 import { TemplatesPage } from '@/pages/TemplatesPage'
+import { SettingsPage } from '@/pages/SettingsPage'
 
 function AppContent() {
   const { menuOpen } = useNavigation()
@@ -73,6 +74,7 @@ function AppContent() {
             <Route path="/molecules" element={<MoleculesPage />} />
             <Route path="/organisms" element={<OrganismsPage />} />
             <Route path="/templates" element={<TemplatesPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
           </Routes>
         </main>
 

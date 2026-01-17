@@ -9,6 +9,7 @@ import {
   Layout,
   X,
   Sparkle,
+  Gear,
 } from '@phosphor-icons/react'
 import { cn } from '@/lib/utils'
 import { Link, useLocation } from 'react-router-dom'
@@ -20,6 +21,7 @@ const navigationItems = [
   { path: '/molecules', label: 'Molecules', icon: FlowArrow },
   { path: '/organisms', label: 'Organisms', icon: Layout },
   { path: '/templates', label: 'Templates', icon: Layout },
+  { path: '/settings', label: 'Settings', icon: Gear },
 ]
 
 type NavigationContextType = {

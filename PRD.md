@@ -59,11 +59,38 @@ A code snippet management application with an integrated component library showc
 - Progression: User navigates to demo → Pre-loaded Counter component displays → User experiments with code editing → Sees real-time preview updates → Learns editor features
 - Success criteria: Demo loads with working example code, users can edit and see instant changes, educational cards explain key features
 
+**Database Management & Settings**
+- Functionality: Settings page with database statistics, backup/restore, and storage information
+- Purpose: Enable users to manage their local data, export/import snippets, and understand storage mechanism
+- Trigger: Navigate to "Settings" via hamburger menu
+- Progression: User opens settings → Views database stats → Exports backup if needed → Can import previous backups → Manages sample data → Can clear all data if needed
+- Success criteria: Shows accurate statistics, export creates valid .db file, import restores data correctly, clear operation requires confirmation
+
+## Data Persistence
+
+The application uses **SQL.js** (SQLite compiled to WebAssembly) for local database management with the following storage strategy:
+
+1. **Primary Storage: IndexedDB** - Used when available for better performance and larger storage capacity (typically 50MB+ depending on browser)
+2. **Fallback: localStorage** - Used when IndexedDB is unavailable (typically 5-10MB limit)
+3. **Database Structure**: Two tables - `snippets` (user-created snippets) and `snippet_templates` (reusable templates)
+4. **Automatic Persistence**: Database is automatically saved after every create, update, or delete operation
+5. **Export/Import**: Users can export their entire database as a .db file for backup or transfer to another device
+
+This approach provides:
+- Full SQL query capabilities for complex filtering and sorting
+- Reliable persistence across browser sessions
+- No external dependencies or server requirements
+- Easy backup and restore functionality
+- Protection against localStorage quota exceeded errors
+
 ## Edge Case Handling
 - **No Search Results**: Friendly message encouraging users to refine their search
 - **Duplicate Titles**: Allow duplicates, use unique IDs for management
 - **Empty States**: Display helpful guidance when no snippets exist
 - **Navigation on Mobile**: Hamburger menu adapts with full-screen overlay on small devices
+- **Storage Quota Exceeded**: Automatically switches from localStorage to IndexedDB if available, warns user if both are full
+- **Database Corruption**: Gracefully handles corrupted database files, creates new database if loading fails
+- **Import Invalid Database**: Validates imported files, shows clear error message if file is invalid
 
 ## Design Direction
 The design should evoke **precision, technical craftsmanship, and modern developer tools**.
@@ -131,6 +158,7 @@ Animations should feel **smooth and purposeful**, enhancing navigation and feedb
   - Atom (regular/bold) for atoms page
   - FlowArrow (regular/bold) for molecules and organisms
   - Layout (regular/bold) for templates
+  - Gear (regular/bold) for settings navigation
   - List (bold) for hamburger menu
   - X (bold) for close menu
   - Trash (regular) for delete
@@ -140,6 +168,9 @@ Animations should feel **smooth and purposeful**, enhancing navigation and feedb
   - SplitHorizontal (regular) for split-screen view
   - SplitVertical (regular) for toggle preview in viewer
   - Sparkle (fill) for AI error helper and demo page features
+  - Database (duotone) for database statistics
+  - Download (bold) for export database
+  - Upload (bold) for import database
 - **Spacing**: 
   - Navigation menu: p-4 for nav container, space-y-2 for items
   - Navigation items: px-4 py-3 (touch-friendly 44px+ targets)
