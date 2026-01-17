@@ -7,6 +7,7 @@ import {
   deleteSnippet as deleteSnippetDB,
   getSnippetsByNamespace,
   bulkMoveSnippets as bulkMoveSnippetsDB,
+  moveSnippetToNamespace,
 } from '@/lib/db'
 
 interface SnippetsState {
@@ -70,6 +71,14 @@ export const deleteSnippet = createAsyncThunk(
   async (id: string) => {
     await deleteSnippetDB(id)
     return id
+  }
+)
+
+export const moveSnippet = createAsyncThunk(
+  'snippets/move',
+  async ({ snippetId, targetNamespaceId }: { snippetId: string, targetNamespaceId: string }) => {
+    await moveSnippetToNamespace(snippetId, targetNamespaceId)
+    return { snippetId, targetNamespaceId }
   }
 )
 
@@ -144,13 +153,13 @@ const snippetsSlice = createSlice({
       .addCase(deleteSnippet.fulfilled, (state, action) => {
         state.items = state.items.filter(s => s.id !== action.payload)
       })
+      .addCase(moveSnippet.fulfilled, (state, action) => {
+        const { snippetId, targetNamespaceId } = action.payload
+        state.items = state.items.filter(s => s.id !== snippetId)
+      })
       .addCase(bulkMoveSnippets.fulfilled, (state, action) => {
         const { snippetIds, targetNamespaceId } = action.payload
-        state.items.forEach(snippet => {
-          if (snippetIds.includes(snippet.id)) {
-            snippet.namespaceId = targetNamespaceId
-          }
-        })
+        state.items = state.items.filter(s => !snippetIds.includes(s.id))
         state.selectedIds = []
         state.selectionMode = false
       })

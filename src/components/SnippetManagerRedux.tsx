@@ -29,6 +29,7 @@ import {
   createSnippet,
   updateSnippet,
   deleteSnippet,
+  moveSnippet,
   toggleSelectionMode,
   toggleSnippetSelection,
   selectAllSnippets as selectAllSnippetsAction,
@@ -141,6 +142,12 @@ export function SnippetManagerRedux() {
   const handleViewSnippet = useCallback((snippet: Snippet) => {
     dispatch(openViewer(snippet))
   }, [dispatch])
+
+  const handleMoveSnippet = useCallback(async () => {
+    if (selectedNamespaceId) {
+      dispatch(fetchSnippetsByNamespace(selectedNamespaceId))
+    }
+  }, [dispatch, selectedNamespaceId])
 
   const handleCreateNew = useCallback(() => {
     dispatch(openDialog(null))
@@ -401,6 +408,7 @@ export function SnippetManagerRedux() {
             onEdit={handleEditSnippet}
             onDelete={handleDeleteSnippet}
             onCopy={handleCopyCode}
+            onMove={handleMoveSnippet}
             selectionMode={selectionMode}
             isSelected={selectedIds.includes(snippet.id)}
             onToggleSelect={handleToggleSnippetSelection}
