@@ -1,11 +1,13 @@
 import { useState, useCallback } from 'react'
 import { useKV } from '@github/spark/hooks'
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Button } from '@/components/ui/button'
 import { motion } from 'framer-motion'
 import {
   Atom,
   FlowArrow,
-  Palette,
+  List,
   Layout,
   Code,
 } from '@phosphor-icons/react'
@@ -17,11 +19,10 @@ import { SnippetManager } from '@/components/SnippetManager'
 import type { AtomicLevel, Snippet } from '@/lib/types'
 import { toast } from 'sonner'
 
-type TabValue = AtomicLevel | 'snippets'
-
 function App() {
-  const [activeTab, setActiveTab] = useState<TabValue>('atoms')
+  const [activeTab, setActiveTab] = useState<AtomicLevel>('atoms')
   const [snippets, setSnippets] = useKV<Snippet[]>('snippets', [])
+  const [menuOpen, setMenuOpen] = useState(false)
 
   const handleSaveSnippet = useCallback((snippetData: Omit<Snippet, 'id' | 'createdAt' | 'updatedAt'>) => {
     const newSnippet: Snippet = {
@@ -37,168 +38,142 @@ function App() {
   return (
     <div className="min-h-screen bg-background">
       <div
-        className="fixed inset-0 opacity-10 pointer-events-none"
+        className="fixed inset-0 opacity-[0.03] pointer-events-none"
         style={{
           backgroundImage: `
             repeating-linear-gradient(
-              45deg,
+              0deg,
               transparent,
-              transparent 60px,
-              oklch(0.30 0.12 310) 60px,
-              oklch(0.30 0.12 310) 61px
+              transparent 40px,
+              oklch(0.75 0.18 200) 40px,
+              oklch(0.75 0.18 200) 41px
             ),
             repeating-linear-gradient(
-              -45deg,
+              90deg,
               transparent,
-              transparent 60px,
-              oklch(0.30 0.12 310) 60px,
-              oklch(0.30 0.12 310) 61px
+              transparent 40px,
+              oklch(0.75 0.18 200) 40px,
+              oklch(0.75 0.18 200) 41px
             )
           `,
         }}
       />
 
       <div className="relative z-10">
-        <header className="border-b border-border bg-background/80 backdrop-blur-sm sticky top-0 z-20">
-          <div className="container mx-auto px-8 py-8">
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="space-y-2"
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-                  <Palette className="h-6 w-6 text-primary-foreground" weight="bold" />
+        <header className="border-b border-border bg-background/90 backdrop-blur-md sticky top-0 z-20">
+          <div className="container mx-auto px-6 py-6">
+            <div className="flex items-center justify-between">
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.4 }}
+                className="flex items-center gap-3"
+              >
+                <div className="h-10 w-10 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center">
+                  <Code className="h-5 w-5 text-primary-foreground" weight="bold" />
                 </div>
-                <div>
-                  <h1 className="text-5xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
-                    Atomic Component Library
-                  </h1>
-                </div>
-              </div>
-              <p className="text-lg text-muted-foreground">
-                A comprehensive design system organized by atomic design principles - from fundamental atoms to complete templates
-              </p>
-            </motion.div>
+                <h1 className="text-2xl font-bold font-mono bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+                  CodeSnippet
+                </h1>
+              </motion.div>
+
+              <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
+                <SheetTrigger asChild>
+                  <Button variant="ghost" size="icon" className="h-10 w-10">
+                    <List className="h-6 w-6" weight="bold" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="left" className="w-full sm:max-w-2xl overflow-y-auto">
+                  <SheetHeader>
+                    <SheetTitle className="text-2xl">Component Library</SheetTitle>
+                  </SheetHeader>
+                  
+                  <div className="mt-6">
+                    <Tabs
+                      value={activeTab}
+                      onValueChange={(value) => setActiveTab(value as AtomicLevel)}
+                      className="space-y-6"
+                    >
+                      <TabsList className="grid w-full grid-cols-4 h-12">
+                        <TabsTrigger value="atoms" className="gap-2">
+                          <Atom weight="bold" className="h-4 w-4" />
+                          <span className="hidden sm:inline">Atoms</span>
+                        </TabsTrigger>
+                        <TabsTrigger value="molecules" className="gap-2">
+                          <FlowArrow weight="bold" className="h-4 w-4" />
+                          <span className="hidden sm:inline">Molecules</span>
+                        </TabsTrigger>
+                        <TabsTrigger value="organisms" className="gap-2">
+                          <FlowArrow weight="bold" className="h-4 w-4 rotate-90" />
+                          <span className="hidden sm:inline">Organisms</span>
+                        </TabsTrigger>
+                        <TabsTrigger value="templates" className="gap-2">
+                          <Layout weight="bold" className="h-4 w-4" />
+                          <span className="hidden sm:inline">Templates</span>
+                        </TabsTrigger>
+                      </TabsList>
+
+                      <TabsContent value="atoms" className="space-y-4">
+                        <div>
+                          <h3 className="text-xl font-bold mb-2">Atoms</h3>
+                          <p className="text-sm text-muted-foreground">
+                            Fundamental building blocks - basic HTML elements styled as reusable components
+                          </p>
+                        </div>
+                        <AtomsSection onSaveSnippet={handleSaveSnippet} />
+                      </TabsContent>
+
+                      <TabsContent value="molecules" className="space-y-4">
+                        <div>
+                          <h3 className="text-xl font-bold mb-2">Molecules</h3>
+                          <p className="text-sm text-muted-foreground">
+                            Simple groups of atoms functioning together as a unit
+                          </p>
+                        </div>
+                        <MoleculesSection onSaveSnippet={handleSaveSnippet} />
+                      </TabsContent>
+
+                      <TabsContent value="organisms" className="space-y-4">
+                        <div>
+                          <h3 className="text-xl font-bold mb-2">Organisms</h3>
+                          <p className="text-sm text-muted-foreground">
+                            Complex UI components composed of molecules and atoms
+                          </p>
+                        </div>
+                        <OrganismsSection onSaveSnippet={handleSaveSnippet} />
+                      </TabsContent>
+
+                      <TabsContent value="templates" className="space-y-4">
+                        <div>
+                          <h3 className="text-xl font-bold mb-2">Templates</h3>
+                          <p className="text-sm text-muted-foreground">
+                            Page-level layouts that combine organisms into complete interfaces
+                          </p>
+                        </div>
+                        <TemplatesSection onSaveSnippet={handleSaveSnippet} />
+                      </TabsContent>
+                    </Tabs>
+                  </div>
+                </SheetContent>
+              </Sheet>
+            </div>
           </div>
         </header>
 
-        <main className="container mx-auto px-8 py-12">
-          <Tabs
-            value={activeTab}
-            onValueChange={(value) => setActiveTab(value as TabValue)}
-            className="space-y-8"
+        <main className="container mx-auto px-6 py-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.1 }}
           >
-            <TabsList className="grid w-full max-w-3xl mx-auto grid-cols-5 h-14">
-              <TabsTrigger value="atoms" className="gap-2 text-base">
-                <Atom weight="bold" />
-                <span className="hidden sm:inline">Atoms</span>
-              </TabsTrigger>
-              <TabsTrigger value="molecules" className="gap-2 text-base">
-                <FlowArrow weight="bold" />
-                <span className="hidden sm:inline">Molecules</span>
-              </TabsTrigger>
-              <TabsTrigger value="organisms" className="gap-2 text-base">
-                <FlowArrow weight="bold" className="rotate-90" />
-                <span className="hidden sm:inline">Organisms</span>
-              </TabsTrigger>
-              <TabsTrigger value="templates" className="gap-2 text-base">
-                <Layout weight="bold" />
-                <span className="hidden sm:inline">Templates</span>
-              </TabsTrigger>
-              <TabsTrigger value="snippets" className="gap-2 text-base">
-                <Code weight="bold" />
-                <span className="hidden sm:inline">Snippets</span>
-              </TabsTrigger>
-            </TabsList>
-
-            <motion.div
-              key={activeTab}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <TabsContent value="atoms" className="mt-8">
-                <div className="mb-8">
-                  <h2 className="text-4xl font-bold mb-3">Atoms</h2>
-                  <p className="text-lg text-muted-foreground">
-                    The fundamental building blocks - basic HTML elements styled as reusable components
-                  </p>
-                </div>
-                <AtomsSection onSaveSnippet={handleSaveSnippet} />
-              </TabsContent>
-
-              <TabsContent value="molecules" className="mt-8">
-                <div className="mb-8">
-                  <h2 className="text-4xl font-bold mb-3">Molecules</h2>
-                  <p className="text-lg text-muted-foreground">
-                    Simple groups of atoms functioning together as a unit - form fields, search bars, and cards
-                  </p>
-                </div>
-                <MoleculesSection onSaveSnippet={handleSaveSnippet} />
-              </TabsContent>
-
-              <TabsContent value="organisms" className="mt-8">
-                <div className="mb-8">
-                  <h2 className="text-4xl font-bold mb-3">Organisms</h2>
-                  <p className="text-lg text-muted-foreground">
-                    Complex UI components composed of molecules and atoms - headers, forms, and data displays
-                  </p>
-                </div>
-                <OrganismsSection onSaveSnippet={handleSaveSnippet} />
-              </TabsContent>
-
-              <TabsContent value="templates" className="mt-8">
-                <div className="mb-8">
-                  <h2 className="text-4xl font-bold mb-3">Templates</h2>
-                  <p className="text-lg text-muted-foreground">
-                    Page-level layouts that combine organisms into complete user interfaces
-                  </p>
-                </div>
-                <TemplatesSection onSaveSnippet={handleSaveSnippet} />
-              </TabsContent>
-
-              <TabsContent value="snippets" className="mt-8">
-                <div className="mb-8">
-                  <h2 className="text-4xl font-bold mb-3">Code Snippets</h2>
-                  <p className="text-lg text-muted-foreground">
-                    Save and manage reusable code snippets with live preview
-                  </p>
-                </div>
-                <SnippetManager />
-              </TabsContent>
-            </motion.div>
-          </Tabs>
+            <SnippetManager />
+          </motion.div>
         </main>
 
         <footer className="border-t border-border mt-24">
-          <div className="container mx-auto px-8 py-12">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div>
-                <h3 className="font-bold text-lg mb-3">Atomic Design</h3>
-                <p className="text-sm text-muted-foreground">
-                  A methodology for creating design systems by breaking interfaces down into their basic components.
-                </p>
-              </div>
-              <div>
-                <h3 className="font-bold text-lg mb-3">Component Levels</h3>
-                <ul className="text-sm text-muted-foreground space-y-2">
-                  <li>• Atoms: Basic building blocks</li>
-                  <li>• Molecules: Simple combinations</li>
-                  <li>• Organisms: Complex components</li>
-                  <li>• Templates: Complete layouts</li>
-                </ul>
-              </div>
-              <div>
-                <h3 className="font-bold text-lg mb-3">Built With</h3>
-                <ul className="text-sm text-muted-foreground space-y-2">
-                  <li>• React + TypeScript</li>
-                  <li>• Tailwind CSS</li>
-                  <li>• Shadcn/ui Components</li>
-                  <li>• Framer Motion</li>
-                </ul>
-              </div>
+          <div className="container mx-auto px-6 py-8">
+            <div className="text-center text-sm text-muted-foreground">
+              <p>CodeSnippet - Share, organize, and discover code snippets with syntax highlighting</p>
             </div>
           </div>
         </footer>

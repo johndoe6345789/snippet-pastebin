@@ -1,261 +1,142 @@
 # Planning Guide
 
-A comprehensive atomic design system showcasing reusable component patterns organized by atomic design principles - demonstrating atoms, molecules, organisms, and templates in a living component library.
+A modern snippet pastebin for developers to share, organize, and discover code snippets with syntax highlighting, live previews, and organized collections.
 
 **Experience Qualities**: 
-1. **Systematic** - Components should demonstrate clear organizational hierarchy from smallest atoms to complex organisms, making the design system easy to understand and navigate.
-2. **Expressive** - Each component should showcase rich visual variety, multiple variants, states, and customization options that inspire creative usage.
-3. **Practical** - Examples should reflect real-world use cases with working interactions, not just static displays.
+1. **Efficient** - Quick snippet creation and sharing with minimal friction, optimized for developers who need to paste and share code instantly.
+2. **Organized** - Clear categorization and filtering that makes finding and managing snippets effortless.
+3. **Delightful** - Beautiful syntax highlighting, smooth interactions, and a refined interface that makes code sharing feel premium.
 
+**Complexity Level**: Light Application (multiple features with basic state) - A pastebin with create, view, organize, and search functionality, with an additional component library showcase as a secondary feature.
 
+## Essential Features
 
-- Trigger: Navigate t
+**Snippet Creation**
+- Functionality: Quick form to paste code, add title/description, select language
+- Purpose: Enable rapid snippet sharing and storage
+- Trigger: Click "New Snippet" button or land on homepage
+- Progression: User clicks new snippet → Form appears → User pastes code → Adds metadata → Saves → Snippet displays with shareable view
+- Success criteria: Form is fast, syntax highlighting preview works, saving is instant
 
-**Molecular Component Displa
-- Purpose: Shows how atoms combine into functional UI patterns
-- Progression: User views section → Composed components display → User interacts
+**Snippet Viewing**
+- Functionality: Display snippet with syntax highlighting, metadata, and actions
+- Purpose: Beautiful presentation of code with copy functionality
+- Trigger: Click on snippet card or navigate to snippet
+- Progression: User selects snippet → Full view displays → Code renders with highlighting → User can copy/edit/delete
+- Success criteria: Code is readable, actions are clear, copying works smoothly
 
-- Functionality: Presents complex components (navigation bars, data tables, forms, feature sections)
-- Success criteria: All base components visible, interactive, showing hover/active/disabled states
+**Snippet Organization**
+- Functionality: Filter and sort snippets by language, category, or date
+- Purpose: Easy management of growing snippet collections
+- Trigger: Use filter controls or search
+- Progression: User applies filter → Results update instantly → Snippets display organized → Clear indication of active filters
+- Success criteria: Filtering is instant, results are accurate, empty states are helpful
 
-**Molecular Component Display**
-- Functionality: Displays composed components (form fields with labels, search bars, cards with actions, navigation items)
-- Purpose: Shows how atoms combine into functional UI patterns
-- Trigger: Navigate to Molecules section
-- Progression: User views section → Composed components display → User interacts with working examples → Sees practical combinations
-- Success criteria: Component compositions are clear, interactions work, relationships between atoms are visible
+**Code Preview (for React/HTML)**
+- Functionality: Live preview of React components and HTML snippets
+- Purpose: See rendered output alongside code
+- Trigger: Automatic for supported languages
+- Progression: Snippet loads → Preview compiles → Rendered result displays → Preview updates on edit
+- Success criteria: Preview renders accurately, errors are handled gracefully
 
-**Organism Component Display**
-- Functionality: Presents complex components (navigation bars, data tables, forms, feature sections)
-- Purpose: Demonstrates production-ready component patterns with full functionality
-- Trigger: Navigate to Organisms section
-- Progression: User views section → Complex patterns display → User interacts with realistic examples → Sees complete use cases
-- Success criteria: Organisms feel production-ready, interactions are smooth, use cases are clear
-
-**Template Showcase**
-- Functionality: Shows complete page layouts combining multiple organisms
-- Purpose: Demonstrates how all components work together in real applications
-- Trigger: Navigate to Templates section
-- Progression: User views section → Full page examples display → User sees complete compositions → Layout patterns are clear
-- Success criteria: Templates show realistic page structures, responsive behavior visible
-
-**Interactive Component Playground**
-- Functionality: Live component customization with variant switching and prop controls
-- Purpose: Allows experimentation with component options and configurations
-- Trigger: Click on any component example
-- Progression: User clicks component → Customization panel opens → User toggles variants → Component updates in real-time → Code snippet shows
-- Success criteria: Controls work smoothly, visual feedback is immediate, code examples are accurate
-
-**Navigation System**
-- Functionality: Tabbed interface for switching between atomic levels with smooth transitions
-- Purpose: Clear organization and easy browsing of the component hierarchy
-- Trigger: Click tab or section link
-- Progression: User clicks navigation → Smooth transition to section → Components load and display → Active state updates
-- Success criteria: Navigation is intuitive, transitions are smooth, current location is always clear
+**Component Library (Secondary Feature)**
+- Functionality: Showcase of atomic design components accessible via hamburger menu
+- Purpose: Secondary reference for design system components
+- Trigger: Click hamburger menu → Select "Components"
+- Progression: User opens menu → Selects component section → Components display → User can save examples as snippets
+- Success criteria: Easy access from menu, can be dismissed, components can be copied to main snippets
 
 ## Edge Case Handling
 
-- **Empty States**: Show placeholder when no components in a category
-- **Long Content**: Handle component examples with overflow/truncation gracefully
-- **Mobile View**: Adapt grid layouts to single column, stack complex examples
-- **Interaction States**: Clearly show all states (default, hover, active, focus, disabled)
-- **Variant Overflow**: Handle components with many variants using tabs or dropdowns
-- **Code Display**: Syntax highlighting for code examples with copy functionality
+- **Empty State**: Show welcoming empty state with "Create your first snippet" CTA
+- **Long Code**: Handle large snippets with scrollable code blocks and truncation in list view
+- **Invalid Code**: Show preview gracefully when code doesn't compile
+- **No Language Selected**: Default to plain text with no highlighting
+- **Mobile View**: Single column layout, simplified toolbar, collapsible sections
+- **Duplicate Titles**: Allow duplicates but show creation date for disambiguation
 
 ## Design Direction
 
-The design should evoke **craftsmanship, clarity, and inspiration** - like a meticulously organized workshop where every tool has its place. The interface should feel like a premium design system documentation site with rich visual examples, smooth interactions, and thoughtful categorization that makes finding the right component effortless.
+The design should evoke **precision, creativity, and speed** - like a beautifully crafted developer tool that feels both powerful and approachable. The interface should feel like a premium code editor with rich syntax highlighting, smooth animations, and thoughtful spacing that makes code the hero.
 
 ## Color Selection
 
-A sophisticated, artistic palette that breaks from typical design system documentation.
+A developer-focused palette with strong contrast and code editor aesthetics.
 
-- **Primary Color**: Rich Plum (oklch(0.50 0.18 310)) - Distinctive and creative, used for primary actions and highlights
+- **Primary Color**: Electric Violet (oklch(0.55 0.20 280)) - Modern and technical, used for primary actions and highlights
 - **Secondary Colors**: 
-  - Deep Purple (oklch(0.20 0.12 310)) for depth and elevated surfaces
-  - Muted Violet (oklch(0.30 0.08 310)) for secondary elements and borders
-- **Accent Color**: Vibrant Coral (oklch(0.72 0.20 25)) - Eye-catching warmth for active states, badges, and emphasis
-- **Background**: Near Black (oklch(0.12 0.02 310)) - Rich dark foundation
+  - Deep Slate (oklch(0.18 0.02 280)) for elevated surfaces and cards
+  - Muted Indigo (oklch(0.28 0.04 280)) for secondary elements and borders
+- **Accent Color**: Neon Cyan (oklch(0.75 0.18 200)) - Eye-catching highlight for active states, syntax elements, and CTAs
+- **Background**: Rich Black (oklch(0.10 0.01 280)) - Deep, focused background
 - **Foreground/Background Pairings**: 
-  - Background (Near Black oklch(0.12 0.02 310)): Light Lavender (oklch(0.94 0.02 310)) - Ratio 14.8:1 ✓
-  - Primary (Rich Plum oklch(0.50 0.18 310)): White text (oklch(0.98 0 0)) - Ratio 6.2:1 ✓
-  - Accent (Vibrant Coral oklch(0.72 0.20 25)): Deep Purple text (oklch(0.20 0.12 310)) - Ratio 8.5:1 ✓
-  - Card (Deep Purple oklch(0.20 0.12 310)): Light Lavender (oklch(0.94 0.02 310)) - Ratio 11.2:1 ✓
+  - Background (Rich Black oklch(0.10 0.01 280)): Bright White (oklch(0.96 0.01 280)) - Ratio 16.2:1 ✓
+  - Primary (Electric Violet oklch(0.55 0.20 280)): White text (oklch(0.98 0 0)) - Ratio 5.8:1 ✓
+  - Accent (Neon Cyan oklch(0.75 0.18 200)): Deep Slate text (oklch(0.18 0.02 280)) - Ratio 9.8:1 ✓
+  - Card (Deep Slate oklch(0.18 0.02 280)): Bright White (oklch(0.96 0.01 280)) - Ratio 12.5:1 ✓
 
 ## Font Selection
 
-Typography should feel modern and editorial, with excellent readability for code and prose.
+Typography should feel technical yet refined, optimized for reading code and developer content.
 
 - **Typographic Hierarchy**: 
-  - Page Title: Bricolage Grotesque Bold/48px/tight letter spacing - Editorial presence
-  - Section Headers: Bricolage Grotesque Semibold/32px/normal spacing - Clear hierarchy
-  - Component Names: Bricolage Grotesque Medium/20px/normal spacing - Distinctive labels
-  - Body Text: Inter Regular/16px/relaxed line-height - Comfortable reading
-  - Code: JetBrains Mono Regular/14px/monospace - Technical precision
+  - App Title: JetBrains Mono Bold/32px/tight spacing - Technical and distinctive
+  - Section Headers: Inter Semibold/24px/normal spacing - Clean hierarchy
+  - Snippet Titles: Inter Medium/18px/normal spacing - Clear labels
+  - Body Text: Inter Regular/15px/relaxed line-height - Comfortable reading
+  - Code: JetBrains Mono Regular/14px/monospace - Optimal code readability
 
 ## Animations
 
-Animations should feel polished and purposeful - components should have subtle entrance animations using staggered fades, tabs should transition smoothly with sliding indicators, interactive elements should respond with gentle scale and color transitions (150-200ms), and the component playground should animate property changes. Hover states use quick 100ms transitions while section changes use slower 300ms fades for comprehension.
+Animations should feel snappy and developer-focused - snippets should fade in with slight upward motion (200ms), the new snippet form should slide in smoothly (250ms), syntax highlighting should appear progressively, copy actions should provide instant visual feedback with a subtle scale pulse, and the hamburger menu should slide from the side with backdrop fade. Hover states are quick (100ms) while view transitions use 200ms for clarity.
 
 ## Component Selection
 
 - **Components**: 
-  - Tabs (shadcn) for main navigation between atomic levels with underline indicator
-  - Card (shadcn) for component examples with elevated shadow
-  - Badge (shadcn) for variant labels and status indicators
-  - Button (shadcn) for all interactive controls with multiple variants
-  - Separator (shadcn) for visual grouping and section division
-  - Dialog (shadcn) for component playground modal
-  - Scroll Area (shadcn) for code examples and long content
-  - Tooltip (shadcn) for additional component information
+  - Sheet (shadcn) for hamburger menu sidebar
+  - Card (shadcn) for snippet cards with hover elevation
+  - Button (shadcn) for all actions with icon variants
+  - Input (shadcn) for search and form fields
+  - Select (shadcn) for language and category selection
+  - Textarea (shadcn) for code input
+  - Badge (shadcn) for language tags and metadata
+  - Separator (shadcn) for visual grouping
+  - Dialog (shadcn) for delete confirmations
+  - Scroll Area (shadcn) for code display
+  - Tabs (shadcn) for code/preview toggle
 - **Customizations**: 
-  - Custom grid system for component layout with responsive columns
-  - Component preview frame with dark/light background toggle
-  - Code block component with syntax highlighting using Monaco
-  - Section header with animated gradient underline
-  - Navigation breadcrumb for atomic level context
-  - Variant switcher component for toggling between options
+  - Custom syntax highlighter using Monaco editor for code display
+  - Snippet preview component with live rendering for React/HTML
+  - Filter bar component with combined search/language/sort controls
+  - Empty state component with illustration and CTA
+  - Copy button with success animation
+  - Floating action button for new snippet (mobile)
 - **States**: 
-  - Tabs: underline slides smoothly, active tab has accent color, inactive are muted
-  - Cards: default has subtle shadow, hover lifts with larger shadow, active state slightly depressed
-  - Buttons: comprehensive state examples (default, hover, active, focus, disabled, loading)
-  - Interactive elements: scale slightly on hover (1.02), depress on active (0.98)
+  - Cards: subtle shadow on default, lift on hover with accent border, selected state with accent glow
+  - Buttons: primary uses accent gradient, hover brightens, active depresses, copy button shows checkmark on success
+  - Menu: backdrop darkens when open, sheet slides in from left with spring animation
+  - Form inputs: focus shows accent ring, filled state has subtle background
 - **Icon Selection**: 
-  - Atom (bold) for atomic level
-  - MolecularStructure (bold) for molecular level
-  - FlowArrow (bold) for organism level
-  - Layout (bold) for templates
-  - Code (regular) for code examples
-  - Copy (regular) for copy actions
-  - Eye (regular) for preview
-  - Palette (regular) for theming
+  - Plus (bold) for new snippet
+  - Copy (regular) for copy action with check animation
+  - List (bold) for hamburger menu
+  - Code (bold) for snippet icon
+  - Trash (regular) for delete
+  - MagnifyingGlass (regular) for search
+  - FunnelSimple (regular) for filters
+  - Eye (regular) for preview toggle
 - **Spacing**: 
-  - Page container: px-8 py-12
-  - Section spacing: space-y-16
-  - Component grid: gap-8
-  - Card padding: p-6
-  - Inner component spacing: gap-4
-  - Tight groupings: gap-2
+  - Page container: px-6 py-8
+  - Snippet grid: gap-6
+  - Card padding: p-5
+  - Form sections: space-y-6
+  - Input grouping: gap-3
+  - Tight groups: gap-2
 - **Mobile**: 
-  - Single column layout for component grids
-  - Tabs become full-width scrollable with arrows
-  - Reduce title sizes: Page Title 32px, Section Headers 24px
-  - Card padding reduces to p-4
-  - Stack playground controls vertically
-  - Maintain 44px touch targets for all interactive elements
-- Purpose: Demonstrates production-ready component patterns with full functionality
-- Trigger: Navigate to Organisms section
-- Progression: User views section → Complex patterns display → User interacts with realistic examples → Sees complete use cases
-- Success criteria: Organisms feel production-ready, interactions are smooth, use cases are clear
-
-**Template Showcase**
-- Functionality: Shows complete page layouts combining multiple organisms
-- Purpose: Demonstrates how all components work together in real applications
-- Trigger: Navigate to Templates section
-- Progression: User views section → Full page examples display → User sees complete compositions → Layout patterns are clear
-- Success criteria: Templates show realistic page structures, responsive behavior visible
-
-**Interactive Component Playground**
-- Functionality: Live component customization with variant switching and prop controls
-- Purpose: Allows experimentation with component options and configurations
-- Trigger: Click on any component example
-- Progression: User clicks component → Customization panel opens → User toggles variants → Component updates in real-time → Code snippet shows
-- Success criteria: Controls work smoothly, visual feedback is immediate, code examples are accurate
-
-**Navigation System**
-- Functionality: Tabbed interface for switching between atomic levels with smooth transitions
-- Purpose: Clear organization and easy browsing of the component hierarchy
-- Trigger: Click tab or section link
-- Progression: User clicks navigation → Smooth transition to section → Components load and display → Active state updates
-- Success criteria: Navigation is intuitive, transitions are smooth, current location is always clear
-
-## Edge Case Handling
-
-- **Empty States**: Show placeholder when no components in a category
-- **Long Content**: Handle component examples with overflow/truncation gracefully
-- **Mobile View**: Adapt grid layouts to single column, stack complex examples
-- **Interaction States**: Clearly show all states (default, hover, active, focus, disabled)
-- **Variant Overflow**: Handle components with many variants using tabs or dropdowns
-- **Code Display**: Syntax highlighting for code examples with copy functionality
-
-## Design Direction
-
-The design should evoke **craftsmanship, clarity, and inspiration** - like a meticulously organized workshop where every tool has its place. The interface should feel like a premium design system documentation site with rich visual examples, smooth interactions, and thoughtful categorization that makes finding the right component effortless.
-
-## Color Selection
-
-A sophisticated, artistic palette that breaks from typical design system documentation.
-
-- **Primary Color**: Rich Plum (oklch(0.50 0.18 310)) - Distinctive and creative, used for primary actions and highlights
-- **Secondary Colors**: 
-  - Deep Purple (oklch(0.20 0.12 310)) for depth and elevated surfaces
-  - Muted Violet (oklch(0.30 0.08 310)) for secondary elements and borders
-- **Accent Color**: Vibrant Coral (oklch(0.72 0.20 25)) - Eye-catching warmth for active states, badges, and emphasis
-- **Background**: Near Black (oklch(0.12 0.02 310)) - Rich dark foundation
-- **Foreground/Background Pairings**: 
-  - Background (Near Black oklch(0.12 0.02 310)): Light Lavender (oklch(0.94 0.02 310)) - Ratio 14.8:1 ✓
-  - Primary (Rich Plum oklch(0.50 0.18 310)): White text (oklch(0.98 0 0)) - Ratio 6.2:1 ✓
-  - Accent (Vibrant Coral oklch(0.72 0.20 25)): Deep Purple text (oklch(0.20 0.12 310)) - Ratio 8.5:1 ✓
-  - Card (Deep Purple oklch(0.20 0.12 310)): Light Lavender (oklch(0.94 0.02 310)) - Ratio 11.2:1 ✓
-
-## Font Selection
-
-Typography should feel modern and editorial, with excellent readability for code and prose.
-
-- **Typographic Hierarchy**: 
-  - Page Title: Bricolage Grotesque Bold/48px/tight letter spacing - Editorial presence
-  - Section Headers: Bricolage Grotesque Semibold/32px/normal spacing - Clear hierarchy
-  - Component Names: Bricolage Grotesque Medium/20px/normal spacing - Distinctive labels
-  - Body Text: Inter Regular/16px/relaxed line-height - Comfortable reading
-  - Code: JetBrains Mono Regular/14px/monospace - Technical precision
-
-## Animations
-
-Animations should feel polished and purposeful - components should have subtle entrance animations using staggered fades, tabs should transition smoothly with sliding indicators, interactive elements should respond with gentle scale and color transitions (150-200ms), and the component playground should animate property changes. Hover states use quick 100ms transitions while section changes use slower 300ms fades for comprehension.
-
-## Component Selection
-
-- **Components**: 
-  - Tabs (shadcn) for main navigation between atomic levels with underline indicator
-  - Card (shadcn) for component examples with elevated shadow
-  - Badge (shadcn) for variant labels and status indicators
-  - Button (shadcn) for all interactive controls with multiple variants
-  - Separator (shadcn) for visual grouping and section division
-  - Dialog (shadcn) for component playground modal
-  - Scroll Area (shadcn) for code examples and long content
-  - Tooltip (shadcn) for additional component information
-- **Customizations**: 
-  - Custom grid system for component layout with responsive columns
-  - Component preview frame with dark/light background toggle
-  - Code block component with syntax highlighting using Monaco
-  - Section header with animated gradient underline
-  - Navigation breadcrumb for atomic level context
-  - Variant switcher component for toggling between options
-- **States**: 
-  - Tabs: underline slides smoothly, active tab has accent color, inactive are muted
-  - Cards: default has subtle shadow, hover lifts with larger shadow, active state slightly depressed
-  - Buttons: comprehensive state examples (default, hover, active, focus, disabled, loading)
-  - Interactive elements: scale slightly on hover (1.02), depress on active (0.98)
-- **Icon Selection**: 
-  - Atom (bold) for atomic level
-  - MolecularStructure (bold) for molecular level
-  - FlowArrow (bold) for organism level
-  - Layout (bold) for templates
-  - Code (regular) for code examples
-  - Copy (regular) for copy actions
-  - Eye (regular) for preview
-  - Palette (regular) for theming
-- **Spacing**: 
-  - Page container: px-8 py-12
-  - Section spacing: space-y-16
-  - Component grid: gap-8
-  - Card padding: p-6
-  - Inner component spacing: gap-4
-  - Tight groupings: gap-2
-- **Mobile**: 
-  - Single column layout for component grids
-  - Tabs become full-width scrollable with arrows
-  - Reduce title sizes: Page Title 32px, Section Headers 24px
-  - Card padding reduces to p-4
-  - Stack playground controls vertically
-  - Maintain 44px touch targets for all interactive elements
+  - Single column snippet grid
+  - Floating action button (bottom right) for new snippet
+  - Simplified header with just logo and menu
+  - Full-screen snippet view on mobile
+  - Reduce title sizes proportionally
+  - Maintain 44px touch targets
+  - Code blocks scroll horizontally with syntax wrap option
