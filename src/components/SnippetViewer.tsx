@@ -10,6 +10,7 @@ import { Copy, Pencil, X, Check, SplitVertical } from '@phosphor-icons/react'
 import { Snippet } from '@/lib/types'
 import { MonacoEditor } from '@/components/MonacoEditor'
 import { ReactPreview } from '@/components/ReactPreview'
+import { PythonOutput } from '@/components/PythonOutput'
 import { cn } from '@/lib/utils'
 import { useState } from 'react'
 import { strings, appConfig, LANGUAGE_COLORS } from '@/lib/config'
@@ -40,6 +41,7 @@ export function SnippetViewer({ snippet, open, onOpenChange, onEdit, onCopy }: S
   }
   
   const canPreview = snippet.hasPreview && appConfig.previewEnabledLanguages.includes(snippet.language)
+  const isPython = snippet.language === 'Python'
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -134,12 +136,16 @@ export function SnippetViewer({ snippet, open, onOpenChange, onEdit, onCopy }: S
                 />
               </div>
               <div className="flex-1 overflow-hidden">
-                <ReactPreview 
-                  code={snippet.code} 
-                  language={snippet.language}
-                  functionName={snippet.functionName}
-                  inputParameters={snippet.inputParameters}
-                />
+                {isPython ? (
+                  <PythonOutput code={snippet.code} />
+                ) : (
+                  <ReactPreview 
+                    code={snippet.code} 
+                    language={snippet.language}
+                    functionName={snippet.functionName}
+                    inputParameters={snippet.inputParameters}
+                  />
+                )}
               </div>
             </>
           ) : (

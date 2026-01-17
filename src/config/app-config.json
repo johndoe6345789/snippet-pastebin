@@ -117,7 +117,7 @@
       "border": "border-gray-500/30"
     }
   },
-  "previewEnabledLanguages": ["JSX", "TSX", "JavaScript", "TypeScript"],
+  "previewEnabledLanguages": ["JSX", "TSX", "JavaScript", "TypeScript", "Python"],
   "defaultLanguage": "JavaScript",
   "codePreviewMaxLength": 150,
   "copiedTimeout": 2000

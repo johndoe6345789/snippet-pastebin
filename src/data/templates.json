@@ -116,5 +116,68 @@
     "language": "CSS",
     "category": "layout",
     "code": ".grid-container {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));\n  gap: 2rem;\n  padding: 2rem;\n}\n\n.grid-item {\n  padding: 1.5rem;\n  border-radius: 0.5rem;\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n  color: white;\n}\n\n.featured {\n  grid-column: span 2;\n}\n\n@media (max-width: 768px) {\n  .featured {\n    grid-column: span 1;\n  }\n}"
+  },
+  {
+    "id": "python-euler-1",
+    "title": "Project Euler #1: Multiples of 3 or 5",
+    "description": "Find the sum of all multiples of 3 or 5 below 1000",
+    "language": "Python",
+    "category": "euler",
+    "hasPreview": true,
+    "code": "# Project Euler Problem 1\n# Find the sum of all multiples of 3 or 5 below 1000\n\ndef solve_euler_1(limit=1000):\n    total = 0\n    for i in range(limit):\n        if i % 3 == 0 or i % 5 == 0:\n            total += i\n    return total\n\nresult = solve_euler_1(1000)\nprint(f\"The sum of all multiples of 3 or 5 below 1000 is: {result}\")\n\n# More efficient solution using arithmetic series\ndef solve_euler_1_optimized(limit=1000):\n    def sum_divisible_by(n):\n        p = (limit - 1) // n\n        return n * p * (p + 1) // 2\n    \n    return sum_divisible_by(3) + sum_divisible_by(5) - sum_divisible_by(15)\n\nresult_optimized = solve_euler_1_optimized(1000)\nprint(f\"Optimized solution: {result_optimized}\")"
+  },
+  {
+    "id": "python-euler-2",
+    "title": "Project Euler #2: Even Fibonacci Numbers",
+    "description": "Find the sum of even-valued Fibonacci numbers not exceeding 4 million",
+    "language": "Python",
+    "category": "euler",
+    "hasPreview": true,
+    "code": "# Project Euler Problem 2\n# Find the sum of even-valued Fibonacci numbers not exceeding 4 million\n\ndef solve_euler_2(limit=4_000_000):\n    a, b = 1, 2\n    total = 0\n    \n    while a <= limit:\n        if a % 2 == 0:\n            total += a\n        a, b = b, a + b\n    \n    return total\n\nresult = solve_euler_2(4_000_000)\nprint(f\"The sum of even Fibonacci numbers not exceeding 4 million is: {result}\")\n\n# Show the first few even Fibonacci numbers\nprint(\"\\nFirst 10 even Fibonacci numbers:\")\na, b = 1, 2\ncount = 0\nwhile count < 10:\n    if a % 2 == 0:\n        print(f\"  {count + 1}. {a}\")\n        count += 1\n    a, b = b, a + b"
+  },
+  {
+    "id": "python-euler-6",
+    "title": "Project Euler #6: Sum Square Difference",
+    "description": "Find the difference between sum of squares and square of sum",
+    "language": "Python",
+    "category": "euler",
+    "hasPreview": true,
+    "code": "# Project Euler Problem 6\n# Find the difference between the sum of the squares of the first 100 natural numbers\n# and the square of the sum\n\ndef solve_euler_6(n=100):\n    # Sum of squares: 1^2 + 2^2 + ... + n^2\n    sum_of_squares = sum(i**2 for i in range(1, n + 1))\n    \n    # Square of sum: (1 + 2 + ... + n)^2\n    square_of_sum = sum(range(1, n + 1)) ** 2\n    \n    difference = square_of_sum - sum_of_squares\n    \n    return sum_of_squares, square_of_sum, difference\n\nsum_sq, sq_sum, diff = solve_euler_6(100)\nprint(f\"Sum of squares (1² + 2² + ... + 100²) = {sum_sq}\")\nprint(f\"Square of sum (1 + 2 + ... + 100)² = {sq_sum}\")\nprint(f\"Difference = {diff}\")\n\n# Using mathematical formulas for efficiency\ndef solve_euler_6_optimized(n=100):\n    # Formula: sum of squares = n(n+1)(2n+1)/6\n    sum_of_squares = n * (n + 1) * (2 * n + 1) // 6\n    \n    # Formula: sum = n(n+1)/2, so square of sum = [n(n+1)/2]^2\n    square_of_sum = (n * (n + 1) // 2) ** 2\n    \n    return square_of_sum - sum_of_squares\n\nprint(f\"\\nOptimized solution: {solve_euler_6_optimized(100)}\")"
+  },
+  {
+    "id": "python-fibonacci",
+    "title": "Fibonacci Sequence Generator",
+    "description": "Generate Fibonacci numbers using different approaches",
+    "language": "Python",
+    "category": "algorithms",
+    "hasPreview": true,
+    "code": "# Generate Fibonacci sequence using different methods\n\n# Method 1: Iterative\ndef fibonacci_iterative(n):\n    if n <= 0:\n        return []\n    elif n == 1:\n        return [0]\n    \n    fib = [0, 1]\n    for i in range(2, n):\n        fib.append(fib[i-1] + fib[i-2])\n    return fib\n\nprint(\"First 15 Fibonacci numbers (iterative):\")\nprint(fibonacci_iterative(15))\n\n# Method 2: Generator (memory efficient)\ndef fibonacci_generator(n):\n    a, b = 0, 1\n    count = 0\n    while count < n:\n        yield a\n        a, b = b, a + b\n        count += 1\n\nprint(\"\\nFirst 15 Fibonacci numbers (generator):\")\nprint(list(fibonacci_generator(15)))\n\n# Method 3: Recursive (with memoization)\ndef fibonacci_recursive(n, memo={}):\n    if n in memo:\n        return memo[n]\n    if n <= 1:\n        return n\n    memo[n] = fibonacci_recursive(n-1, memo) + fibonacci_recursive(n-2, memo)\n    return memo[n]\n\nprint(\"\\n20th Fibonacci number (recursive with memoization):\")\nprint(fibonacci_recursive(20))"
+  },
+  {
+    "id": "python-prime-numbers",
+    "title": "Prime Number Generator",
+    "description": "Find prime numbers using the Sieve of Eratosthenes",
+    "language": "Python",
+    "category": "algorithms",
+    "hasPreview": true,
+    "code": "# Prime number algorithms\n\n# Method 1: Simple prime checker\ndef is_prime(n):\n    if n < 2:\n        return False\n    if n == 2:\n        return True\n    if n % 2 == 0:\n        return False\n    \n    # Check odd divisors up to sqrt(n)\n    i = 3\n    while i * i <= n:\n        if n % i == 0:\n            return False\n        i += 2\n    return True\n\nprint(\"Prime numbers up to 50:\")\nprimes = [n for n in range(2, 51) if is_prime(n)]\nprint(primes)\n\n# Method 2: Sieve of Eratosthenes (efficient for finding many primes)\ndef sieve_of_eratosthenes(limit):\n    if limit < 2:\n        return []\n    \n    # Create a boolean array and initialize all as true\n    is_prime = [True] * (limit + 1)\n    is_prime[0] = is_prime[1] = False\n    \n    p = 2\n    while p * p <= limit:\n        if is_prime[p]:\n            # Mark all multiples of p as not prime\n            for i in range(p * p, limit + 1, p):\n                is_prime[i] = False\n        p += 1\n    \n    return [i for i in range(limit + 1) if is_prime[i]]\n\nprint(\"\\nFirst 25 primes using Sieve:\")\nall_primes = sieve_of_eratosthenes(100)\nprint(all_primes[:25])\nprint(f\"\\nTotal primes up to 100: {len(all_primes)}\")"
+  },
+  {
+    "id": "python-data-structures",
+    "title": "Python Data Structures Demo",
+    "description": "Working with lists, dictionaries, sets, and tuples",
+    "language": "Python",
+    "category": "basics",
+    "hasPreview": true,
+    "code": "# Python data structures examples\n\n# Lists (mutable, ordered)\nfruits = ['apple', 'banana', 'cherry', 'date']\nprint(\"Lists:\")\nprint(f\"  Original: {fruits}\")\nfruits.append('elderberry')\nprint(f\"  After append: {fruits}\")\nprint(f\"  Second item: {fruits[1]}\")\n\n# Dictionaries (key-value pairs)\nperson = {\n    'name': 'Alice',\n    'age': 30,\n    'city': 'New York',\n    'hobbies': ['reading', 'coding', 'hiking']\n}\nprint(\"\\nDictionaries:\")\nprint(f\"  Person: {person}\")\nprint(f\"  Name: {person['name']}\")\nprint(f\"  Hobbies: {', '.join(person['hobbies'])}\")\n\n# Sets (unique, unordered)\nnumbers = {1, 2, 3, 4, 5, 3, 2, 1}\nprint(\"\\nSets (duplicates removed):\")\nprint(f\"  Numbers: {numbers}\")\nmore_numbers = {4, 5, 6, 7, 8}\nprint(f\"  Union: {numbers | more_numbers}\")\nprint(f\"  Intersection: {numbers & more_numbers}\")\n\n# Tuples (immutable, ordered)\ncoordinates = (10, 20)\nprint(\"\\nTuples:\")\nprint(f\"  Coordinates: {coordinates}\")\nx, y = coordinates\nprint(f\"  x={x}, y={y}\")\n\n# List comprehensions\nsquares = [x**2 for x in range(1, 11)]\nprint(f\"\\nList comprehension (squares): {squares}\")\nevens = [x for x in range(1, 21) if x % 2 == 0]\nprint(f\"Even numbers 1-20: {evens}\")"
+  },
+  {
+    "id": "python-file-operations",
+    "title": "Python File Operations",
+    "description": "Reading and writing files with error handling",
+    "language": "Python",
+    "category": "basics",
+    "hasPreview": true,
+    "code": "# Python file operations (simulated for web environment)\n\n# Note: In a real environment, these would work with actual files\n# Here we demonstrate the patterns\n\nprint(\"File Operations Patterns:\\n\")\n\n# Writing to a file\nprint(\"1. Writing to a file:\")\nfile_content = \"\"\"# Example of writing to a file\ntry:\n    with open('example.txt', 'w') as f:\n        f.write('Hello, World!\\\\n')\n        f.write('This is a second line.\\\\n')\n    print('  ✓ File written successfully')\nexcept IOError as e:\n    print(f'  ✗ Error writing file: {e}')\n\"\"\"\nprint(file_content)\n\n# Reading from a file\nprint(\"\\n2. Reading from a file:\")\nread_example = \"\"\"try:\n    with open('example.txt', 'r') as f:\n        content = f.read()\n        print(content)\nexcept FileNotFoundError:\n    print('  ✗ File not found')\nexcept IOError as e:\n    print(f'  ✗ Error reading file: {e}')\n\"\"\"\nprint(read_example)\n\n# Reading lines\nprint(\"\\n3. Reading line by line:\")\nlines_example = \"\"\"with open('example.txt', 'r') as f:\n    for line_num, line in enumerate(f, 1):\n        print(f'  Line {line_num}: {line.strip()}')\n\"\"\"\nprint(lines_example)\n\n# Demonstrate string operations as alternative\nprint(\"\\n4. Working with text data:\")\ntext_data = \"Hello, World!\\nThis is a second line.\\nAnd a third!\"\nlines = text_data.split('\\n')\nprint(f\"  Total lines: {len(lines)}\")\nfor i, line in enumerate(lines, 1):\n    print(f\"  Line {i}: {line}\")"
   }
 ]

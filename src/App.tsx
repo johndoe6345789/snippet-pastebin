@@ -89,7 +89,8 @@ function AppContent() {
         <footer className="border-t border-border mt-24">
           <div className="container mx-auto px-6 py-8">
             <div className="text-center text-sm text-muted-foreground">
-              <p>Save, organize, and share your code snippets with beautiful syntax highlighting</p>
+              <p>Save, organize, and share your code snippets with beautiful syntax highlighting and live execution</p>
+              <p className="mt-2 text-xs">Supports React preview and Python execution via Pyodide</p>
             </div>
           </div>
         </footer>

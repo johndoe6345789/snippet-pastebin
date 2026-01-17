@@ -26,18 +26,18 @@ A code snippet management application with an integrated component library showc
 - Success criteria: Snippet appears in grid immediately with proper syntax highlighting
 
 **Snippet Viewing**
-- Functionality: Full-screen viewer with syntax highlighting, split-screen live preview for React code, and copy functionality
-- Purpose: Easy reading, testing, and copying of saved snippets
+- Functionality: Full-screen viewer with syntax highlighting, split-screen live preview for React code, Python execution for Python code, and copy functionality
+- Purpose: Easy reading, testing, executing, and copying of saved snippets
 - Trigger: Click on any snippet card
-- Progression: User clicks snippet → Full viewer opens → User reads code → Toggles preview if available → Copies if needed → Closes viewer
-- Success criteria: Code displays with proper formatting, live preview renders React components accurately, copy works reliably
+- Progression: User clicks snippet → Full viewer opens → User reads code → Toggles preview/execution if available → Copies if needed → Closes viewer
+- Success criteria: Code displays with proper formatting, live preview renders React components accurately, Python code executes with output display, copy works reliably
 
-**Split-Screen Code Editor with Live Preview**
-- Functionality: Interactive code editor with live React component preview, resizable panels, and view mode switching (code-only, split, preview-only)
-- Purpose: Enable real-time testing and visualization of React code while editing
-- Trigger: Enable "Enable split-screen preview" checkbox when creating/editing JSX/TSX/JavaScript/TypeScript snippets
-- Progression: User enables preview → Split editor appears → User types code → Preview updates in real-time → User adjusts panel sizes or switches view modes → Saves snippet
-- Success criteria: Preview updates within 100ms of code changes, no lag during typing, error messages display clearly with AI help option
+**Split-Screen Code Editor with Live Preview/Execution**
+- Functionality: Interactive code editor with live React component preview for React code, Python execution for Python snippets, resizable panels, and view mode switching (code-only, split, preview/output-only)
+- Purpose: Enable real-time testing and visualization of React code and Python execution while editing
+- Trigger: Enable "Enable split-screen preview" checkbox when creating/editing JSX/TSX/JavaScript/TypeScript/Python snippets
+- Progression: User enables preview → Split editor appears → User types code → Preview/output updates in real-time → User adjusts panel sizes or switches view modes → Saves snippet
+- Success criteria: React preview updates within 100ms of code changes, Python code executes reliably using Pyodide (WebAssembly Python), no lag during typing, error messages display clearly with AI help option
 
 **Snippet Organization**
 - Functionality: Real-time search across title, description, language, and code content
@@ -60,11 +60,11 @@ A code snippet management application with an integrated component library showc
 - Success criteria: Demo loads with working example code, users can edit and see instant changes, educational cards explain key features
 
 **Database Management & Settings**
-- Functionality: Settings page with storage backend selection (IndexedDB or Flask), database statistics, backup/restore, and data migration
-- Purpose: Enable users to choose between local browser storage or remote Flask backend, manage their data, export/import snippets, and migrate between storage backends
+- Functionality: Settings page with storage backend selection (IndexedDB or Flask), database statistics, backup/restore, data migration, and Python template library with Project Euler examples
+- Purpose: Enable users to choose between local browser storage or remote Flask backend, manage their data, export/import snippets, migrate between storage backends, and quickly load Python coding challenge examples
 - Trigger: Navigate to "Settings" via hamburger menu
-- Progression: User opens settings → Selects storage backend (IndexedDB or Flask) → Configures Flask URL if needed → Tests connection → Migrates data if switching backends → Views database stats → Exports backup if needed → Can import previous backups → Manages sample data → Can clear all data if needed
-- Success criteria: Backend switching works seamlessly, Flask connection test validates server availability, data migration preserves all snippets, shows accurate statistics, export creates valid .db file, import restores data correctly, clear operation requires confirmation
+- Progression: User opens settings → Selects storage backend (IndexedDB or Flask) → Configures Flask URL if needed → Tests connection → Migrates data if switching backends → Views database stats → Exports backup if needed → Can import previous backups → Loads Python Euler problem templates → Manages sample data → Can clear all data if needed
+- Success criteria: Backend switching works seamlessly, Flask connection test validates server availability, data migration preserves all snippets, shows accurate statistics, export creates valid .db file, import restores data correctly, Python templates load successfully, clear operation requires confirmation
 
 ## Data Persistence
 

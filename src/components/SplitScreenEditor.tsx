@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { MonacoEditor } from '@/components/MonacoEditor'
 import { ReactPreview } from '@/components/ReactPreview'
+import { PythonOutput } from '@/components/PythonOutput'
 import { Button } from '@/components/ui/button'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
 import { Code, Eye, SplitHorizontal } from '@phosphor-icons/react'
@@ -27,7 +28,8 @@ export function SplitScreenEditor({
 }: SplitScreenEditorProps) {
   const [viewMode, setViewMode] = useState<ViewMode>('split')
 
-  const isPreviewSupported = ['JSX', 'TSX', 'JavaScript', 'TypeScript'].includes(language)
+  const isPreviewSupported = ['JSX', 'TSX', 'JavaScript', 'TypeScript', 'Python'].includes(language)
+  const isPython = language === 'Python'
 
   if (!isPreviewSupported) {
     return (
@@ -69,7 +71,7 @@ export function SplitScreenEditor({
             className="gap-2 h-8"
           >
             <Eye className="h-4 w-4" />
-            <span className="hidden sm:inline">Preview</span>
+            <span className="hidden sm:inline">{isPython ? 'Output' : 'Preview'}</span>
           </Button>
         </div>
       </div>
@@ -88,12 +90,16 @@ export function SplitScreenEditor({
         )}
 
         {viewMode === 'preview' && (
-          <ReactPreview 
-            code={value} 
-            language={language}
-            functionName={functionName}
-            inputParameters={inputParameters}
-          />
+          isPython ? (
+            <PythonOutput code={value} />
+          ) : (
+            <ReactPreview 
+              code={value} 
+              language={language}
+              functionName={functionName}
+              inputParameters={inputParameters}
+            />
+          )
         )}
 
         {viewMode === 'split' && (
@@ -108,12 +114,16 @@ export function SplitScreenEditor({
             </ResizablePanel>
             <ResizableHandle withHandle />
             <ResizablePanel defaultSize={50} minSize={30}>
-              <ReactPreview 
-                code={value} 
-                language={language}
-                functionName={functionName}
-                inputParameters={inputParameters}
-              />
+              {isPython ? (
+                <PythonOutput code={value} />
+              ) : (
+                <ReactPreview 
+                  code={value} 
+                  language={language}
+                  functionName={functionName}
+                  inputParameters={inputParameters}
+                />
+              )}
             </ResizablePanel>
           </ResizablePanelGroup>
         )}
