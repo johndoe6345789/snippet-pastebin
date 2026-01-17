@@ -14,33 +14,70 @@ A powerful code snippet management application with an integrated component libr
 
 ## Data Storage
 
-CodeSnippet uses a robust local storage solution that works entirely in your browser:
+CodeSnippet offers flexible data storage with two backend options:
 
-### Storage Strategy
-1. **Primary: IndexedDB** - Used when available for better performance and larger storage capacity (typically 50MB+)
-2. **Fallback: localStorage** - Used when IndexedDB is unavailable (typically 5-10MB limit)
-3. **Technology: SQL.js** - SQLite compiled to WebAssembly for full SQL query capabilities
+### Storage Backends
 
-### Database Structure
-- **snippets** table - Stores user-created code snippets with metadata
-- **snippet_templates** table - Stores reusable snippet templates
+#### 1. **IndexedDB (Local Browser Storage)** - Default
+- All data stored locally in your browser
+- No server required
+- Data persists on this device only
+- Uses SQLite compiled to WebAssembly for full SQL capabilities
+- Primary: IndexedDB for better performance and larger storage capacity (typically 50MB+)
+- Fallback: localStorage when IndexedDB is unavailable (typically 5-10MB limit)
 
-### Features
-- ✅ Automatic persistence after every operation
-- ✅ Full SQL query capabilities for complex filtering and sorting
-- ✅ No external dependencies or server requirements
-- ✅ Export/import functionality for backup and transfer
-- ✅ Graceful fallback between storage mechanisms
-- ✅ Protection against quota exceeded errors
+#### 2. **Flask Backend (Remote Server)** - Optional
+- Snippets stored on a remote Flask server with SQLite database
+- Access your snippets from any device
+- Requires running the Flask backend (see Backend Setup below)
+- Supports data migration between IndexedDB and Flask
 
-### Managing Your Data
+### Switching Storage Backends
 
-Visit the **Settings** page (accessible from the hamburger menu) to:
-- View database statistics (snippet count, template count, storage type, database size)
-- Export your database as a backup file
-- Import a previously exported database
-- Add sample data to get started
-- Clear all data if needed
+Visit the **Settings** page to:
+- Choose between IndexedDB and Flask backend
+- Configure Flask backend URL
+- Test connection to Flask server
+- Migrate data between storage backends
+- View database statistics
+- Export/import database backups
+
+## Backend Setup
+
+### Running Flask Backend Locally
+
+```bash
+cd backend
+pip install -r requirements.txt
+python app.py
+```
+
+Server runs on `http://localhost:5000` by default.
+
+### Running with Docker
+
+Build and run:
+```bash
+docker build -t codesnippet-backend ./backend
+docker run -p 5000:5000 -v $(pwd)/data:/data codesnippet-backend
+```
+
+Or use docker-compose:
+```bash
+docker-compose up -d
+```
+
+### Backend API
+
+The Flask backend provides a REST API:
+- `GET /health` - Health check
+- `GET /api/snippets` - Get all snippets
+- `GET /api/snippets/:id` - Get a specific snippet
+- `POST /api/snippets` - Create a new snippet
+- `PUT /api/snippets/:id` - Update a snippet
+- `DELETE /api/snippets/:id` - Delete a snippet
+
+See `backend/README.md` for more details.
 
 ## Getting Started
 

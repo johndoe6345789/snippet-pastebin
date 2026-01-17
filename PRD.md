@@ -60,28 +60,49 @@ A code snippet management application with an integrated component library showc
 - Success criteria: Demo loads with working example code, users can edit and see instant changes, educational cards explain key features
 
 **Database Management & Settings**
-- Functionality: Settings page with database statistics, backup/restore, and storage information
-- Purpose: Enable users to manage their local data, export/import snippets, and understand storage mechanism
+- Functionality: Settings page with storage backend selection (IndexedDB or Flask), database statistics, backup/restore, and data migration
+- Purpose: Enable users to choose between local browser storage or remote Flask backend, manage their data, export/import snippets, and migrate between storage backends
 - Trigger: Navigate to "Settings" via hamburger menu
-- Progression: User opens settings → Views database stats → Exports backup if needed → Can import previous backups → Manages sample data → Can clear all data if needed
-- Success criteria: Shows accurate statistics, export creates valid .db file, import restores data correctly, clear operation requires confirmation
+- Progression: User opens settings → Selects storage backend (IndexedDB or Flask) → Configures Flask URL if needed → Tests connection → Migrates data if switching backends → Views database stats → Exports backup if needed → Can import previous backups → Manages sample data → Can clear all data if needed
+- Success criteria: Backend switching works seamlessly, Flask connection test validates server availability, data migration preserves all snippets, shows accurate statistics, export creates valid .db file, import restores data correctly, clear operation requires confirmation
 
 ## Data Persistence
 
-The application uses **SQL.js** (SQLite compiled to WebAssembly) for local database management with the following storage strategy:
+The application supports **flexible data storage** with two backend options:
 
-1. **Primary Storage: IndexedDB** - Used when available for better performance and larger storage capacity (typically 50MB+ depending on browser)
-2. **Fallback: localStorage** - Used when IndexedDB is unavailable (typically 5-10MB limit)
-3. **Database Structure**: Two tables - `snippets` (user-created snippets) and `snippet_templates` (reusable templates)
-4. **Automatic Persistence**: Database is automatically saved after every create, update, or delete operation
-5. **Export/Import**: Users can export their entire database as a .db file for backup or transfer to another device
+### Storage Backends
+
+1. **IndexedDB (Local Browser Storage) - Default**
+   - Uses SQL.js (SQLite compiled to WebAssembly) for local database management
+   - Primary Storage: IndexedDB - Used when available for better performance and larger storage capacity (typically 50MB+)
+   - Fallback: localStorage - Used when IndexedDB is unavailable (typically 5-10MB limit)
+   - Database Structure: Two tables - `snippets` (user-created snippets) and `snippet_templates` (reusable templates)
+   - Automatic Persistence: Database is automatically saved after every create, update, or delete operation
+   - Export/Import: Users can export their entire database as a .db file for backup or transfer
+
+2. **Flask Backend (Remote Server) - Optional**
+   - Snippets stored on a Flask REST API server with SQLite database
+   - Allows access to snippets from any device
+   - Requires running the Flask backend (Docker support included)
+   - RESTful API endpoints for all CRUD operations
+   - Data migration tools to move snippets between IndexedDB and Flask
+
+### Switching Between Backends
+
+Users can switch storage backends from the Settings page:
+- Select desired backend (IndexedDB or Flask)
+- Configure Flask URL if using remote backend
+- Test connection to Flask server
+- Migrate existing snippets between backends
+- Configuration persists in localStorage
 
 This approach provides:
 - Full SQL query capabilities for complex filtering and sorting
+- Choice between local-only or remote storage
 - Reliable persistence across browser sessions
-- No external dependencies or server requirements
 - Easy backup and restore functionality
 - Protection against localStorage quota exceeded errors
+- Multi-device access when using Flask backend
 
 ## Edge Case Handling
 - **No Search Results**: Friendly message encouraging users to refine their search
@@ -91,6 +112,9 @@ This approach provides:
 - **Storage Quota Exceeded**: Automatically switches from localStorage to IndexedDB if available, warns user if both are full
 - **Database Corruption**: Gracefully handles corrupted database files, creates new database if loading fails
 - **Import Invalid Database**: Validates imported files, shows clear error message if file is invalid
+- **Flask Connection Failure**: Tests connection before switching to Flask backend, shows clear error if server is unreachable
+- **Data Migration Errors**: Validates data during migration, provides clear feedback on success or failure
+- **Network Errors with Flask**: Shows informative error messages when Flask API calls fail, suggests checking server status
 
 ## Design Direction
 The design should evoke **precision, technical craftsmanship, and modern developer tools**.

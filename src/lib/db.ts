@@ -1,8 +1,10 @@
 import initSqlJs, { Database } from 'sql.js'
 import type { Snippet, SnippetTemplate } from './types'
+import { getStorageConfig, FlaskStorageAdapter } from './storage'
 
 let dbInstance: Database | null = null
 let sqlInstance: any = null
+let flaskAdapter: FlaskStorageAdapter | null = null
 
 const DB_KEY = 'codesnippet-db'
 const IDB_NAME = 'CodeSnippetDB'
@@ -192,7 +194,23 @@ async function saveDB() {
   }
 }
 
+function getFlaskAdapter(): FlaskStorageAdapter | null {
+  const config = getStorageConfig()
+  if (config.backend === 'flask' && config.flaskUrl) {
+    if (!flaskAdapter || flaskAdapter['baseUrl'] !== config.flaskUrl) {
+      flaskAdapter = new FlaskStorageAdapter(config.flaskUrl)
+    }
+    return flaskAdapter
+  }
+  return null
+}
+
 export async function getAllSnippets(): Promise<Snippet[]> {
+  const adapter = getFlaskAdapter()
+  if (adapter) {
+    return await adapter.getAllSnippets()
+  }
+
   const db = await initDB()
   
   const results = db.exec('SELECT * FROM snippets ORDER BY updatedAt DESC')
@@ -218,6 +236,11 @@ export async function getAllSnippets(): Promise<Snippet[]> {
 }
 
 export async function getSnippet(id: string): Promise<Snippet | null> {
+  const adapter = getFlaskAdapter()
+  if (adapter) {
+    return await adapter.getSnippet(id)
+  }
+
   const db = await initDB()
   
   const results = db.exec('SELECT * FROM snippets WHERE id = ?', [id])
@@ -242,6 +265,11 @@ export async function getSnippet(id: string): Promise<Snippet | null> {
 }
 
 export async function createSnippet(snippet: Snippet): Promise<void> {
+  const adapter = getFlaskAdapter()
+  if (adapter) {
+    return await adapter.createSnippet(snippet)
+  }
+
   const db = await initDB()
   
   db.run(
@@ -266,6 +294,11 @@ export async function createSnippet(snippet: Snippet): Promise<void> {
 }
 
 export async function updateSnippet(snippet: Snippet): Promise<void> {
+  const adapter = getFlaskAdapter()
+  if (adapter) {
+    return await adapter.updateSnippet(snippet)
+  }
+
   const db = await initDB()
   
   db.run(
@@ -290,6 +323,11 @@ export async function updateSnippet(snippet: Snippet): Promise<void> {
 }
 
 export async function deleteSnippet(id: string): Promise<void> {
+  const adapter = getFlaskAdapter()
+  if (adapter) {
+    return await adapter.deleteSnippet(id)
+  }
+
   const db = await initDB()
   
   db.run('DELETE FROM snippets WHERE id = ?', [id])

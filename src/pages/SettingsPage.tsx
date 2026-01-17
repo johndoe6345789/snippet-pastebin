@@ -2,10 +2,20 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Database, Download, Upload, Trash } from '@phosphor-icons/react'
-import { getDatabaseStats, exportDatabase, importDatabase, clearDatabase, seedDatabase } from '@/lib/db'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Database, Download, Upload, Trash, CloudArrowUp, CloudCheck, CloudSlash } from '@phosphor-icons/react'
+import { getDatabaseStats, exportDatabase, importDatabase, clearDatabase, seedDatabase, getAllSnippets } from '@/lib/db'
 import { toast } from 'sonner'
 import { Alert, AlertDescription } from '@/components/ui/alert'
+import { 
+  getStorageConfig, 
+  saveStorageConfig, 
+  loadStorageConfig, 
+  FlaskStorageAdapter,
+  type StorageBackend 
+} from '@/lib/storage'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 
 export function SettingsPage() {
   const [stats, setStats] = useState<{
@@ -15,6 +25,10 @@ export function SettingsPage() {
     databaseSize: number
   } | null>(null)
   const [loading, setLoading] = useState(true)
+  const [storageBackend, setStorageBackend] = useState<StorageBackend>('indexeddb')
+  const [flaskUrl, setFlaskUrl] = useState('')
+  const [flaskConnectionStatus, setFlaskConnectionStatus] = useState<'unknown' | 'connected' | 'failed'>('unknown')
+  const [testingConnection, setTestingConnection] = useState(false)
 
   const loadStats = async () => {
     setLoading(true)
@@ -29,8 +43,30 @@ export function SettingsPage() {
     }
   }
 
+  const testFlaskConnection = async (url: string) => {
+    setTestingConnection(true)
+    try {
+      const adapter = new FlaskStorageAdapter(url)
+      const connected = await adapter.testConnection()
+      setFlaskConnectionStatus(connected ? 'connected' : 'failed')
+      return connected
+    } catch (error) {
+      console.error('Connection test failed:', error)
+      setFlaskConnectionStatus('failed')
+      return false
+    } finally {
+      setTestingConnection(false)
+    }
+  }
+
   useEffect(() => {
     loadStats()
+    const config = loadStorageConfig()
+    setStorageBackend(config.backend)
+    setFlaskUrl(config.flaskUrl || 'http://localhost:5000')
+    if (config.backend === 'flask' && config.flaskUrl) {
+      testFlaskConnection(config.flaskUrl)
+    }
   }, [])
 
   const handleExport = async () => {
@@ -104,6 +140,98 @@ export function SettingsPage() {
     return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i]
   }
 
+  const handleTestConnection = async () => {
+    await testFlaskConnection(flaskUrl)
+  }
+
+  const handleSaveStorageConfig = async () => {
+    if (storageBackend === 'flask') {
+      if (!flaskUrl) {
+        toast.error('Please enter a Flask backend URL')
+        return
+      }
+      
+      const connected = await testFlaskConnection(flaskUrl)
+      if (!connected) {
+        toast.error('Cannot connect to Flask backend. Please check the URL and ensure the server is running.')
+        return
+      }
+    }
+
+    saveStorageConfig({
+      backend: storageBackend,
+      flaskUrl: storageBackend === 'flask' ? flaskUrl : undefined
+    })
+    
+    toast.success('Storage backend updated successfully')
+    await loadStats()
+  }
+
+  const handleMigrateToFlask = async () => {
+    if (!flaskUrl) {
+      toast.error('Please enter a Flask backend URL')
+      return
+    }
+
+    try {
+      const adapter = new FlaskStorageAdapter(flaskUrl)
+      const connected = await adapter.testConnection()
+      
+      if (!connected) {
+        toast.error('Cannot connect to Flask backend')
+        return
+      }
+
+      const snippets = await getAllSnippets()
+      
+      if (snippets.length === 0) {
+        toast.info('No snippets to migrate')
+        return
+      }
+
+      await adapter.migrateFromIndexedDB(snippets)
+      
+      saveStorageConfig({
+        backend: 'flask',
+        flaskUrl
+      })
+      
+      toast.success(`Successfully migrated ${snippets.length} snippets to Flask backend`)
+      await loadStats()
+    } catch (error) {
+      console.error('Migration failed:', error)
+      toast.error('Failed to migrate data to Flask backend')
+    }
+  }
+
+  const handleMigrateToIndexedDB = async () => {
+    if (!flaskUrl) {
+      toast.error('Please enter a Flask backend URL')
+      return
+    }
+
+    try {
+      const adapter = new FlaskStorageAdapter(flaskUrl)
+      const snippets = await adapter.migrateToIndexedDB()
+      
+      if (snippets.length === 0) {
+        toast.info('No snippets to migrate')
+        return
+      }
+
+      saveStorageConfig({
+        backend: 'indexeddb'
+      })
+      
+      window.location.reload()
+      
+      toast.success(`Successfully migrated ${snippets.length} snippets to IndexedDB`)
+    } catch (error) {
+      console.error('Migration failed:', error)
+      toast.error('Failed to migrate data from Flask backend')
+    }
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -116,6 +244,112 @@ export function SettingsPage() {
       </div>
 
       <div className="grid gap-6 max-w-3xl">
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <CloudArrowUp weight="duotone" size={24} />
+              Storage Backend
+            </CardTitle>
+            <CardDescription>
+              Choose where your snippets are stored
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <RadioGroup value={storageBackend} onValueChange={(value) => setStorageBackend(value as StorageBackend)}>
+              <div className="flex items-start space-x-3 space-y-0">
+                <RadioGroupItem value="indexeddb" id="storage-indexeddb" />
+                <div className="flex-1">
+                  <Label htmlFor="storage-indexeddb" className="font-semibold cursor-pointer">
+                    IndexedDB (Local Browser Storage)
+                  </Label>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    Store snippets locally in your browser. Data persists on this device only.
+                  </p>
+                </div>
+              </div>
+              
+              <div className="flex items-start space-x-3 space-y-0 mt-4">
+                <RadioGroupItem value="flask" id="storage-flask" />
+                <div className="flex-1">
+                  <Label htmlFor="storage-flask" className="font-semibold cursor-pointer">
+                    Flask Backend (Remote Server)
+                  </Label>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    Store snippets on a Flask backend server. Data is accessible from any device.
+                  </p>
+                </div>
+              </div>
+            </RadioGroup>
+
+            {storageBackend === 'flask' && (
+              <div className="space-y-4 p-4 border border-border rounded-lg bg-muted/50">
+                <div>
+                  <Label htmlFor="flask-url">Flask Backend URL</Label>
+                  <div className="flex gap-2 mt-2">
+                    <Input
+                      id="flask-url"
+                      type="url"
+                      placeholder="http://localhost:5000"
+                      value={flaskUrl}
+                      onChange={(e) => {
+                        setFlaskUrl(e.target.value)
+                        setFlaskConnectionStatus('unknown')
+                      }}
+                    />
+                    <Button 
+                      onClick={handleTestConnection} 
+                      variant="outline"
+                      disabled={testingConnection || !flaskUrl}
+                    >
+                      {testingConnection ? 'Testing...' : 'Test'}
+                    </Button>
+                  </div>
+                  {flaskConnectionStatus === 'connected' && (
+                    <div className="flex items-center gap-2 mt-2 text-sm text-green-600">
+                      <CloudCheck weight="fill" size={16} />
+                      Connected successfully
+                    </div>
+                  )}
+                  {flaskConnectionStatus === 'failed' && (
+                    <div className="flex items-center gap-2 mt-2 text-sm text-destructive">
+                      <CloudSlash weight="fill" size={16} />
+                      Connection failed
+                    </div>
+                  )}
+                </div>
+
+                <div className="pt-2 space-y-2">
+                  <Button 
+                    onClick={handleMigrateToFlask} 
+                    variant="outline" 
+                    size="sm"
+                    className="w-full gap-2"
+                  >
+                    <Upload weight="bold" size={16} />
+                    Migrate IndexedDB Data to Flask
+                  </Button>
+                  <Button 
+                    onClick={handleMigrateToIndexedDB} 
+                    variant="outline" 
+                    size="sm"
+                    className="w-full gap-2"
+                  >
+                    <Download weight="bold" size={16} />
+                    Migrate Flask Data to IndexedDB
+                  </Button>
+                </div>
+              </div>
+            )}
+
+            <div className="pt-2">
+              <Button onClick={handleSaveStorageConfig} className="gap-2">
+                <Database weight="bold" size={16} />
+                Save Storage Settings
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
