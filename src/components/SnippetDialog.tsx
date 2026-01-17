@@ -21,6 +21,7 @@ import {
 } from '@/components/ui/select'
 import { Snippet } from '@/lib/types'
 import { MonacoEditor } from '@/components/MonacoEditor'
+import { SplitScreenEditor } from '@/components/SplitScreenEditor'
 import { strings, appConfig, LANGUAGES } from '@/lib/config'
 
 interface SnippetDialogProps {
@@ -166,14 +167,25 @@ export function SnippetDialog({ open, onOpenChange, onSave, editingSnippet }: Sn
             <Label htmlFor="code">
               {strings.snippetDialog.fields.code.label}{strings.snippetDialog.fields.code.required ? ' *' : ''}
             </Label>
-            <div className={`rounded-md border overflow-hidden ${errors.code ? 'border-destructive ring-2 ring-destructive/20' : 'border-border'}`}>
-              <MonacoEditor
-                value={code}
-                onChange={setCode}
-                language={language}
-                height="400px"
-              />
-            </div>
+            {hasPreview && appConfig.previewEnabledLanguages.includes(language) ? (
+              <div className={errors.code ? 'ring-2 ring-destructive/20 rounded-md' : ''}>
+                <SplitScreenEditor
+                  value={code}
+                  onChange={setCode}
+                  language={language}
+                  height="500px"
+                />
+              </div>
+            ) : (
+              <div className={`rounded-md border overflow-hidden ${errors.code ? 'border-destructive ring-2 ring-destructive/20' : 'border-border'}`}>
+                <MonacoEditor
+                  value={code}
+                  onChange={setCode}
+                  language={language}
+                  height="400px"
+                />
+              </div>
+            )}
             {errors.code && (
               <p className="text-sm text-destructive">{errors.code}</p>
             )}

@@ -26,11 +26,18 @@ A code snippet management application with an integrated component library showc
 - Success criteria: Snippet appears in grid immediately with proper syntax highlighting
 
 **Snippet Viewing**
-- Functionality: Full-screen viewer with syntax highlighting and copy functionality
-- Purpose: Easy reading and copying of saved snippets
+- Functionality: Full-screen viewer with syntax highlighting, split-screen live preview for React code, and copy functionality
+- Purpose: Easy reading, testing, and copying of saved snippets
 - Trigger: Click on any snippet card
-- Progression: User clicks snippet → Full viewer opens → User reads code → Copies if needed → Closes viewer
-- Success criteria: Code displays with proper formatting, copy works reliably
+- Progression: User clicks snippet → Full viewer opens → User reads code → Toggles preview if available → Copies if needed → Closes viewer
+- Success criteria: Code displays with proper formatting, live preview renders React components accurately, copy works reliably
+
+**Split-Screen Code Editor with Live Preview**
+- Functionality: Interactive code editor with live React component preview, resizable panels, and view mode switching (code-only, split, preview-only)
+- Purpose: Enable real-time testing and visualization of React code while editing
+- Trigger: Enable "Enable split-screen preview" checkbox when creating/editing JSX/TSX/JavaScript/TypeScript snippets
+- Progression: User enables preview → Split editor appears → User types code → Preview updates in real-time → User adjusts panel sizes or switches view modes → Saves snippet
+- Success criteria: Preview updates within 100ms of code changes, no lag during typing, error messages display clearly with AI help option
 
 **Snippet Organization**
 - Functionality: Real-time search across title, description, language, and code content
@@ -90,21 +97,27 @@ Animations should feel **smooth and purposeful**, enhancing navigation and feedb
 - **Components**: 
   - Router (react-router-dom) for page navigation and routing
   - Custom Navigation component with hamburger menu using Framer Motion for slide-in animations
+  - ResizablePanel (shadcn) for split-screen editor with adjustable panel sizes
   - Button (shadcn) for all interactive actions with hover effects
   - Card (shadcn) for snippet cards with hover elevation
   - Dialog (shadcn) for snippet creation and viewing
   - Input (shadcn) for search and form fields
   - Select (shadcn) for language picker dropdown
   - Alert Dialog (shadcn) for delete confirmations
+  - Checkbox (shadcn) for preview toggle
+  - Monaco Editor (@monaco-editor/react) for code editing with syntax highlighting
 - **Customizations**: 
   - Custom Navigation drawer slides from left with backdrop overlay
+  - Custom SplitScreenEditor with three view modes (code-only, split-screen, preview-only)
   - Active navigation items show bold text and filled background
   - Page transitions use fade and slide animations
   - Buttons: Rest → Hover (brightness increase) → Active (scale 0.98) → Disabled (opacity 50%)
+  - ResizableHandle shows interactive draggable separator with visual feedback
 - **States**: 
   - Navigation items: Default → Hover (background muted) → Active (background primary, bold text)
   - Buttons: Rest → Hover (brightness increase) → Active (scale down) → Disabled (opacity 50%)
   - Cards: Rest → Hover (slight elevation and border glow)
+  - Split Editor view toggle: Default → Hover (subtle highlight) → Active (filled background)
 - **Icon Selection**: 
   - House (regular/bold) for home navigation
   - Atom (regular/bold) for atoms page
@@ -114,17 +127,24 @@ Animations should feel **smooth and purposeful**, enhancing navigation and feedb
   - X (bold) for close menu
   - Trash (regular) for delete
   - MagnifyingGlass (regular) for search
+  - Code (regular) for code-only view
+  - Eye (regular) for preview-only view
+  - SplitHorizontal (regular) for split-screen view
+  - SplitVertical (regular) for toggle preview in viewer
+  - Sparkle (fill) for AI error helper
 - **Spacing**: 
   - Navigation menu: p-4 for nav container, space-y-2 for items
   - Navigation items: px-4 py-3 (touch-friendly 44px+ targets)
   - Page container: px-6 py-8
   - Section margins: mb-8 for headers
   - Grid: gap-6 (24px) for snippet cards
+  - Split editor controls: gap-2 for view mode buttons
 - **Mobile**: 
   - Navigation menu expands to full-width overlay on mobile
   - Touch-optimized button sizes (min 44px tap targets)
   - Responsive grid adapts from multi-column to single column
   - Stack navigation items vertically with full-width buttons
+  - Split-screen editor stacks vertically on small screens or switches to single view mode
 
 
 
