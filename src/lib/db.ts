@@ -145,6 +145,15 @@ export async function initDB(): Promise<Database> {
   }
   
   dbInstance.run(`
+    CREATE TABLE IF NOT EXISTS namespaces (
+      id TEXT PRIMARY KEY,
+      name TEXT NOT NULL,
+      createdAt INTEGER NOT NULL,
+      isDefault INTEGER DEFAULT 0
+    )
+  `)
+
+  dbInstance.run(`
     CREATE TABLE IF NOT EXISTS snippets (
       id TEXT PRIMARY KEY,
       title TEXT NOT NULL,
@@ -152,11 +161,13 @@ export async function initDB(): Promise<Database> {
       code TEXT NOT NULL,
       language TEXT NOT NULL,
       category TEXT NOT NULL,
+      namespaceId TEXT,
       hasPreview INTEGER DEFAULT 0,
       functionName TEXT,
       inputParameters TEXT,
       createdAt INTEGER NOT NULL,
-      updatedAt INTEGER NOT NULL
+      updatedAt INTEGER NOT NULL,
+      FOREIGN KEY (namespaceId) REFERENCES namespaces(id)
     )
   `)
 
@@ -284,8 +295,8 @@ export async function createSnippet(snippet: Snippet): Promise<void> {
   const db = await initDB()
   
   db.run(
-    `INSERT INTO snippets (id, title, description, code, language, category, hasPreview, functionName, inputParameters, createdAt, updatedAt)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    `INSERT INTO snippets (id, title, description, code, language, category, namespaceId, hasPreview, functionName, inputParameters, createdAt, updatedAt)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     [
       snippet.id,
       snippet.title,
@@ -293,6 +304,7 @@ export async function createSnippet(snippet: Snippet): Promise<void> {
       snippet.code,
       snippet.language,
       snippet.category,
+      snippet.namespaceId || null,
       snippet.hasPreview ? 1 : 0,
       snippet.functionName || null,
       snippet.inputParameters ? JSON.stringify(snippet.inputParameters) : null,
@@ -314,7 +326,7 @@ export async function updateSnippet(snippet: Snippet): Promise<void> {
   
   db.run(
     `UPDATE snippets 
-     SET title = ?, description = ?, code = ?, language = ?, category = ?, hasPreview = ?, functionName = ?, inputParameters = ?, updatedAt = ?
+     SET title = ?, description = ?, code = ?, language = ?, category = ?, namespaceId = ?, hasPreview = ?, functionName = ?, inputParameters = ?, updatedAt = ?
      WHERE id = ?`,
     [
       snippet.title,
@@ -322,6 +334,7 @@ export async function updateSnippet(snippet: Snippet): Promise<void> {
       snippet.code,
       snippet.language,
       snippet.category,
+      snippet.namespaceId || null,
       snippet.hasPreview ? 1 : 0,
       snippet.functionName || null,
       snippet.inputParameters ? JSON.stringify(snippet.inputParameters) : null,
@@ -395,6 +408,8 @@ export async function createTemplate(template: SnippetTemplate): Promise<void> {
 
 export async function seedDatabase(): Promise<void> {
   const db = await initDB()
+  
+  await ensureDefaultNamespace()
   
   const checkSnippets = db.exec('SELECT COUNT(*) as count FROM snippets')
   const snippetCount = checkSnippets[0]?.values[0]?.[0] as number
@@ -857,4 +872,140 @@ export async function syncTemplatesFromJSON(templates: SnippetTemplate[]): Promi
       addedCount++
     }
   }
+}
+
+export async function getAllNamespaces(): Promise<import('./types').Namespace[]> {
+  const db = await initDB()
+  
+  const results = db.exec('SELECT * FROM namespaces ORDER BY isDefault DESC, name ASC')
+  
+  if (results.length === 0) return []
+  
+  const columns = results[0].columns
+  const values = results[0].values
+  
+  return values.map(row => {
+    const namespace: any = {}
+    columns.forEach((col, idx) => {
+      if (col === 'isDefault') {
+        namespace[col] = row[idx] === 1
+      } else {
+        namespace[col] = row[idx]
+      }
+    })
+    return namespace
+  })
+}
+
+export async function createNamespace(name: string): Promise<import('./types').Namespace> {
+  const db = await initDB()
+  
+  const namespace: import('./types').Namespace = {
+    id: Date.now().toString(),
+    name,
+    createdAt: Date.now(),
+    isDefault: false
+  }
+  
+  db.run(
+    `INSERT INTO namespaces (id, name, createdAt, isDefault)
+     VALUES (?, ?, ?, ?)`,
+    [namespace.id, namespace.name, namespace.createdAt, namespace.isDefault ? 1 : 0]
+  )
+  
+  await saveDB()
+  return namespace
+}
+
+export async function deleteNamespace(id: string): Promise<void> {
+  const db = await initDB()
+  
+  const defaultNamespace = db.exec('SELECT id FROM namespaces WHERE isDefault = 1')
+  if (defaultNamespace.length === 0 || defaultNamespace[0].values.length === 0) {
+    throw new Error('Default namespace not found')
+  }
+  
+  const defaultId = defaultNamespace[0].values[0][0] as string
+  
+  const checkDefault = db.exec('SELECT isDefault FROM namespaces WHERE id = ?', [id])
+  if (checkDefault.length > 0 && checkDefault[0].values[0]?.[0] === 1) {
+    throw new Error('Cannot delete default namespace')
+  }
+  
+  db.run('UPDATE snippets SET namespaceId = ? WHERE namespaceId = ?', [defaultId, id])
+  
+  db.run('DELETE FROM namespaces WHERE id = ?', [id])
+  
+  await saveDB()
+}
+
+export async function ensureDefaultNamespace(): Promise<void> {
+  const db = await initDB()
+  
+  const results = db.exec('SELECT COUNT(*) as count FROM namespaces WHERE isDefault = 1')
+  const count = results[0]?.values[0]?.[0] as number || 0
+  
+  if (count === 0) {
+    const defaultNamespace: import('./types').Namespace = {
+      id: 'default',
+      name: 'Default',
+      createdAt: Date.now(),
+      isDefault: true
+    }
+    
+    db.run(
+      `INSERT INTO namespaces (id, name, createdAt, isDefault)
+       VALUES (?, ?, ?, ?)`,
+      [defaultNamespace.id, defaultNamespace.name, defaultNamespace.createdAt, 1]
+    )
+    
+    await saveDB()
+  }
+}
+
+export async function getSnippetsByNamespace(namespaceId: string): Promise<Snippet[]> {
+  const db = await initDB()
+  
+  const results = db.exec('SELECT * FROM snippets WHERE namespaceId = ? OR (namespaceId IS NULL AND ? = (SELECT id FROM namespaces WHERE isDefault = 1)) ORDER BY updatedAt DESC', [namespaceId, namespaceId])
+  
+  if (results.length === 0) return []
+  
+  const columns = results[0].columns
+  const values = results[0].values
+  
+  return values.map(row => {
+    const snippet: any = {}
+    columns.forEach((col, idx) => {
+      if (col === 'hasPreview') {
+        snippet[col] = row[idx] === 1
+      } else if (col === 'inputParameters') {
+        snippet[col] = row[idx] ? JSON.parse(row[idx] as string) : undefined
+      } else {
+        snippet[col] = row[idx]
+      }
+    })
+    return snippet as Snippet
+  })
+}
+
+export async function getNamespaceById(id: string): Promise<import('./types').Namespace | null> {
+  const db = await initDB()
+  
+  const results = db.exec('SELECT * FROM namespaces WHERE id = ?', [id])
+  
+  if (results.length === 0 || results[0].values.length === 0) return null
+  
+  const columns = results[0].columns
+  const row = results[0].values[0]
+  
+  const namespace: any = {}
+  columns.forEach((col, idx) => {
+    if (col === 'isDefault') {
+      namespace[col] = row[idx] === 1
+    } else {
+      namespace[col] = row[idx]
+    }
+  })
+  
+  return namespace
 }

@@ -14,11 +14,19 @@ export interface Snippet {
   code: string
   language: string
   category: string
+  namespaceId?: string
   hasPreview?: boolean
   functionName?: string
   inputParameters?: InputParameter[]
   createdAt: number
   updatedAt: number
+}
+
+export interface Namespace {
+  id: string
+  name: string
+  createdAt: number
+  isDefault: boolean
 }
 
 export interface SnippetTemplate {

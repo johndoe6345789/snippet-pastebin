@@ -40,10 +40,17 @@ A code snippet management application with an integrated component library showc
 - Success criteria: React preview updates within 100ms of code changes, Python code executes reliably using Pyodide (WebAssembly Python), interactive input() prompts work seamlessly with multiple inputs, no lag during typing, error messages display clearly with AI help option
 
 **Snippet Organization**
-- Functionality: Real-time search across title, description, language, and code content
-- Purpose: Easy management of growing snippet collections
-- Progression: User types in search → Results filter instantly → User finds desired snippet
-- Success criteria: Search responds within 100ms, filters accurately
+- Functionality: Real-time search across title, description, language, and code content, plus namespace-based organization with unlimited custom namespaces
+- Purpose: Easy management of growing snippet collections with flexible categorization
+- Progression: User types in search → Results filter instantly → User finds desired snippet, or User selects namespace from dropdown → Only snippets in that namespace display → User creates new namespace via + button → User can delete non-default namespaces (snippets move to Default)
+- Success criteria: Search responds within 100ms, filters accurately, namespace switching is instant, creating/deleting namespaces works smoothly, default namespace cannot be deleted
+
+**Namespace Management**
+- Functionality: Create, switch between, and delete custom namespaces to organize snippets into logical groups
+- Purpose: Enable users to organize large snippet collections by project, language, or any custom category
+- Trigger: Click namespace dropdown or + button in the namespace selector
+- Progression: User clicks namespace dropdown → Sees all available namespaces (Default first) → Selects a namespace → Snippets filtered to that namespace only → User clicks + button → Enters namespace name → New namespace created → User can switch to it → User can delete any non-default namespace via trash icon → Confirmation dialog appears → Snippets in deleted namespace move to Default
+- Success criteria: Default namespace always exists and cannot be deleted, unlimited namespaces can be created, deleting a namespace moves all its snippets to Default, namespace selection persists during session, new snippets automatically assigned to current namespace
 
 **Component Library Pages**
 - Functionality: Separate pages for Atoms, Molecules, Organisms, and Templates
@@ -76,7 +83,7 @@ The application supports **flexible data storage** with two backend options:
    - Uses SQL.js (SQLite compiled to WebAssembly) for local database management
    - Primary Storage: IndexedDB - Used when available for better performance and larger storage capacity (typically 50MB+)
    - Fallback: localStorage - Used when IndexedDB is unavailable (typically 5-10MB limit)
-   - Database Structure: Two tables - `snippets` (user-created snippets) and `snippet_templates` (reusable templates)
+   - Database Structure: Three tables - `snippets` (user-created snippets with namespaceId foreign key), `snippet_templates` (reusable templates), and `namespaces` (custom organizational categories with one default namespace)
    - Automatic Persistence: Database is automatically saved after every create, update, or delete operation
    - Export/Import: Users can export their entire database as a .db file for backup or transfer
 

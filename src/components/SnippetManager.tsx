@@ -14,6 +14,7 @@ import { SnippetCard } from '@/components/SnippetCard'
 import { SnippetDialog } from '@/components/SnippetDialog'
 import { SnippetViewer } from '@/components/SnippetViewer'
 import { EmptyState } from '@/components/EmptyState'
+import { NamespaceSelector } from '@/components/NamespaceSelector'
 import { Snippet, SnippetTemplate } from '@/lib/types'
 import { toast } from 'sonner'
 import { strings } from '@/lib/config'
@@ -24,7 +25,10 @@ import {
   updateSnippet, 
   deleteSnippet as deleteSnippetDB,
   seedDatabase,
-  syncTemplatesFromJSON
+  syncTemplatesFromJSON,
+  getSnippetsByNamespace,
+  ensureDefaultNamespace,
+  getAllNamespaces
 } from '@/lib/db'
 
 const templates = templatesData as SnippetTemplate[]
@@ -37,25 +41,48 @@ export function SnippetManager() {
   const [viewerOpen, setViewerOpen] = useState(false)
   const [editingSnippet, setEditingSnippet] = useState<Snippet | null>(null)
   const [viewingSnippet, setViewingSnippet] = useState<Snippet | null>(null)
+  const [selectedNamespaceId, setSelectedNamespaceId] = useState<string | null>(null)
 
   useEffect(() => {
-    const loadSnippets = async () => {
+    const loadData = async () => {
       setLoading(true)
       try {
         await seedDatabase()
         await syncTemplatesFromJSON(templates)
-        const loadedSnippets = await getAllSnippets()
-        setSnippets(loadedSnippets)
+        
+        const namespaces = await getAllNamespaces()
+        const defaultNamespace = namespaces.find(n => n.isDefault)
+        if (defaultNamespace) {
+          setSelectedNamespaceId(defaultNamespace.id)
+          const loadedSnippets = await getSnippetsByNamespace(defaultNamespace.id)
+          setSnippets(loadedSnippets)
+        }
       } catch (error) {
-        console.error('Failed to load snippets:', error)
-        toast.error('Failed to load snippets')
+        console.error('Failed to load data:', error)
+        toast.error('Failed to load data')
       } finally {
         setLoading(false)
       }
     }
 
-    loadSnippets()
+    loadData()
   }, [])
+
+  useEffect(() => {
+    const loadSnippetsForNamespace = async () => {
+      if (!selectedNamespaceId) return
+      
+      try {
+        const loadedSnippets = await getSnippetsByNamespace(selectedNamespaceId)
+        setSnippets(loadedSnippets)
+      } catch (error) {
+        console.error('Failed to load snippets:', error)
+        toast.error('Failed to load snippets')
+      }
+    }
+
+    loadSnippetsForNamespace()
+  }, [selectedNamespaceId])
 
   const filteredSnippets = useMemo(() => {
     const allSnippets = snippets || []
@@ -88,6 +115,7 @@ export function SnippetManager() {
         const newSnippet: Snippet = {
           ...snippetData,
           id: Date.now().toString(),
+          namespaceId: selectedNamespaceId || undefined,
           createdAt: Date.now(),
           updatedAt: Date.now(),
         }
@@ -100,7 +128,7 @@ export function SnippetManager() {
       console.error('Failed to save snippet:', error)
       toast.error('Failed to save snippet')
     }
-  }, [editingSnippet])
+  }, [editingSnippet, selectedNamespaceId])
 
   const handleEditSnippet = useCallback((snippet: Snippet) => {
     setEditingSnippet(snippet)
@@ -171,6 +199,12 @@ export function SnippetManager() {
   if (allSnippets.length === 0) {
     return (
       <>
+        <div className="mb-6">
+          <NamespaceSelector
+            selectedNamespaceId={selectedNamespaceId}
+            onNamespaceChange={setSelectedNamespaceId}
+          />
+        </div>
         <EmptyState 
           onCreateClick={handleCreateNew}
           onCreateFromTemplate={handleCreateFromTemplate}
@@ -187,6 +221,11 @@ export function SnippetManager() {
 
   return (
     <div className="space-y-6">
+      <NamespaceSelector
+        selectedNamespaceId={selectedNamespaceId}
+        onNamespaceChange={setSelectedNamespaceId}
+      />
+      
       <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
         <div className="relative flex-1 w-full sm:max-w-md">
           <MagnifyingGlass className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
