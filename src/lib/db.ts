@@ -836,3 +836,22 @@ export async function clearDatabase(): Promise<void> {
   dbInstance = null
   await initDB()
 }
+
+export async function syncTemplatesFromJSON(templates: SnippetTemplate[]): Promise<void> {
+  const db = await initDB()
+  
+  const existingTemplates = db.exec('SELECT id FROM snippet_templates')
+  const existingIds = new Set(
+    existingTemplates[0]?.values.map(row => row[0] as string) || []
+  )
+  
+  let addedCount = 0
+  for (const template of templates) {
+    if (!existingIds.has(template.id)) {
+      await createTemplate(template)
+      addedCount++
+    }
+  }
+  
+  console.log(`Synced ${templates.length} templates from JSON, added ${addedCount} new templates`)
+}

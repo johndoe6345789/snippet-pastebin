@@ -87,6 +87,51 @@ export function EmptyState({ onCreateClick, onCreateFromTemplate }: EmptyStatePr
               </div>
             </DropdownMenuItem>
           ))}
+          <DropdownMenuSeparator />
+          <DropdownMenuLabel>Python - Project Euler</DropdownMenuLabel>
+          {templates.filter((t) => t.category === 'euler').map((template) => (
+            <DropdownMenuItem
+              key={template.id}
+              onClick={() => onCreateFromTemplate?.(template.id)}
+            >
+              <div className="flex flex-col gap-1 py-1">
+                <span className="font-medium">{template.title}</span>
+                <span className="text-xs text-muted-foreground line-clamp-1">
+                  {template.description}
+                </span>
+              </div>
+            </DropdownMenuItem>
+          ))}
+          <DropdownMenuSeparator />
+          <DropdownMenuLabel>Python - Algorithms</DropdownMenuLabel>
+          {templates.filter((t) => t.category === 'algorithms' && t.language === 'Python').map((template) => (
+            <DropdownMenuItem
+              key={template.id}
+              onClick={() => onCreateFromTemplate?.(template.id)}
+            >
+              <div className="flex flex-col gap-1 py-1">
+                <span className="font-medium">{template.title}</span>
+                <span className="text-xs text-muted-foreground line-clamp-1">
+                  {template.description}
+                </span>
+              </div>
+            </DropdownMenuItem>
+          ))}
+          <DropdownMenuSeparator />
+          <DropdownMenuLabel>Python - Interactive Programs</DropdownMenuLabel>
+          {templates.filter((t) => t.category === 'interactive').map((template) => (
+            <DropdownMenuItem
+              key={template.id}
+              onClick={() => onCreateFromTemplate?.(template.id)}
+            >
+              <div className="flex flex-col gap-1 py-1">
+                <span className="font-medium">{template.title}</span>
+                <span className="text-xs text-muted-foreground line-clamp-1">
+                  {template.description}
+                </span>
+              </div>
+            </DropdownMenuItem>
+          ))}
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
