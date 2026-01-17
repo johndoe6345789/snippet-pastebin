@@ -1,23 +1,26 @@
 import { motion } from 'framer-motion'
 import { OrganismsSection } from '@/components/organisms/OrganismsSection'
 import type { Snippet } from '@/lib/types'
-import { useKV } from '@github/spark/hooks'
 import { useCallback } from 'react'
 import { toast } from 'sonner'
+import { createSnippet } from '@/lib/db'
 
 export function OrganismsPage() {
-  const [snippets, setSnippets] = useKV<Snippet[]>('snippets', [])
-
-  const handleSaveSnippet = useCallback((snippetData: Omit<Snippet, 'id' | 'createdAt' | 'updatedAt'>) => {
-    const newSnippet: Snippet = {
-      ...snippetData,
-      id: Date.now().toString(),
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
+  const handleSaveSnippet = useCallback(async (snippetData: Omit<Snippet, 'id' | 'createdAt' | 'updatedAt'>) => {
+    try {
+      const newSnippet: Snippet = {
+        ...snippetData,
+        id: Date.now().toString(),
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+      }
+      await createSnippet(newSnippet)
+      toast.success('Component saved as snippet!')
+    } catch (error) {
+      console.error('Failed to save snippet:', error)
+      toast.error('Failed to save snippet')
     }
-    setSnippets((currentSnippets) => [newSnippet, ...(currentSnippets || [])])
-    toast.success('Component saved as snippet!')
-  }, [setSnippets])
+  }, [])
 
   return (
     <motion.div

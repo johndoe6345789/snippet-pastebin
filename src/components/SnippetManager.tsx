@@ -1,5 +1,4 @@
-import { useState, useMemo, useCallback } from 'react'
-import { useKV } from '@github/spark/hooks'
+import { useState, useMemo, useCallback, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Plus, MagnifyingGlass, CaretDown } from '@phosphor-icons/react'
@@ -19,16 +18,42 @@ import { Snippet, SnippetTemplate } from '@/lib/types'
 import { toast } from 'sonner'
 import { strings } from '@/lib/config'
 import templatesData from '@/data/templates.json'
+import { 
+  getAllSnippets, 
+  createSnippet, 
+  updateSnippet, 
+  deleteSnippet as deleteSnippetDB,
+  seedDatabase
+} from '@/lib/db'
 
 const templates = templatesData as SnippetTemplate[]
 
 export function SnippetManager() {
-  const [snippets, setSnippets] = useKV<Snippet[]>('snippets', [])
+  const [snippets, setSnippets] = useState<Snippet[]>([])
+  const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState('')
   const [dialogOpen, setDialogOpen] = useState(false)
   const [viewerOpen, setViewerOpen] = useState(false)
   const [editingSnippet, setEditingSnippet] = useState<Snippet | null>(null)
   const [viewingSnippet, setViewingSnippet] = useState<Snippet | null>(null)
+
+  useEffect(() => {
+    const loadSnippets = async () => {
+      setLoading(true)
+      try {
+        await seedDatabase()
+        const loadedSnippets = await getAllSnippets()
+        setSnippets(loadedSnippets)
+      } catch (error) {
+        console.error('Failed to load snippets:', error)
+        toast.error('Failed to load snippets')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadSnippets()
+  }, [])
 
   const filteredSnippets = useMemo(() => {
     const allSnippets = snippets || []
@@ -44,46 +69,52 @@ export function SnippetManager() {
     )
   }, [snippets, searchQuery])
 
-  const handleSaveSnippet = useCallback((snippetData: Omit<Snippet, 'id' | 'createdAt' | 'updatedAt'>) => {
-    if (editingSnippet?.id) {
-      setSnippets((currentSnippets) => {
-        const allSnippets = currentSnippets || []
-        return allSnippets.map((s) =>
-          s.id === editingSnippet.id
-            ? {
-                ...s,
-                ...snippetData,
-                updatedAt: Date.now(),
-              }
-            : s
+  const handleSaveSnippet = useCallback(async (snippetData: Omit<Snippet, 'id' | 'createdAt' | 'updatedAt'>) => {
+    try {
+      if (editingSnippet?.id) {
+        const updatedSnippet = {
+          ...editingSnippet,
+          ...snippetData,
+          updatedAt: Date.now(),
+        }
+        await updateSnippet(updatedSnippet)
+        setSnippets((current) => 
+          current.map((s) => s.id === editingSnippet.id ? updatedSnippet : s)
         )
-      })
-      toast.success(strings.toast.snippetUpdated)
-    } else {
-      const newSnippet: Snippet = {
-        ...snippetData,
-        id: Date.now().toString(),
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
+        toast.success(strings.toast.snippetUpdated)
+      } else {
+        const newSnippet: Snippet = {
+          ...snippetData,
+          id: Date.now().toString(),
+          createdAt: Date.now(),
+          updatedAt: Date.now(),
+        }
+        await createSnippet(newSnippet)
+        setSnippets((current) => [newSnippet, ...current])
+        toast.success(strings.toast.snippetCreated)
       }
-      setSnippets((currentSnippets) => [newSnippet, ...(currentSnippets || [])])
-      toast.success(strings.toast.snippetCreated)
+      setEditingSnippet(null)
+    } catch (error) {
+      console.error('Failed to save snippet:', error)
+      toast.error('Failed to save snippet')
     }
-    setEditingSnippet(null)
-  }, [editingSnippet, setSnippets])
+  }, [editingSnippet])
 
   const handleEditSnippet = useCallback((snippet: Snippet) => {
     setEditingSnippet(snippet)
     setDialogOpen(true)
   }, [])
 
-  const handleDeleteSnippet = useCallback((id: string) => {
-    setSnippets((currentSnippets) => {
-      const allSnippets = currentSnippets || []
-      return allSnippets.filter((s) => s.id !== id)
-    })
-    toast.success(strings.toast.snippetDeleted)
-  }, [setSnippets])
+  const handleDeleteSnippet = useCallback(async (id: string) => {
+    try {
+      await deleteSnippetDB(id)
+      setSnippets((current) => current.filter((s) => s.id !== id))
+      toast.success(strings.toast.snippetDeleted)
+    } catch (error) {
+      console.error('Failed to delete snippet:', error)
+      toast.error('Failed to delete snippet')
+    }
+  }, [])
 
   const handleCopyCode = useCallback((code: string) => {
     navigator.clipboard.writeText(code)
@@ -126,6 +157,14 @@ export function SnippetManager() {
   }, [])
 
   const allSnippets = snippets || []
+
+  if (loading) {
+    return (
+      <div className="text-center py-20">
+        <p className="text-muted-foreground">Loading snippets...</p>
+      </div>
+    )
+  }
 
   if (allSnippets.length === 0) {
     return (
