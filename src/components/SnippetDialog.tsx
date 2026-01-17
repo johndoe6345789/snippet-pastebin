@@ -19,9 +19,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Snippet, LANGUAGES } from '@/lib/types'
+import { Snippet } from '@/lib/types'
 import { MonacoEditor } from '@/components/MonacoEditor'
-import { strings, appConfig } from '@/lib/config'
+import { strings, appConfig, LANGUAGES } from '@/lib/config'
 
 interface SnippetDialogProps {
   open: boolean
@@ -75,6 +75,7 @@ export function SnippetDialog({ open, onOpenChange, onSave, editingSnippet }: Sn
       description: description.trim(),
       language,
       code: code.trim(),
+      category: editingSnippet?.category || 'general',
       hasPreview,
     })
 

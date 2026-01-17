@@ -7,12 +7,12 @@ import {
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Copy, Pencil, X, Check, SplitVertical } from '@phosphor-icons/react'
-import { Snippet, LANGUAGE_COLORS } from '@/lib/types'
+import { Snippet } from '@/lib/types'
 import { MonacoEditor } from '@/components/MonacoEditor'
 import { ReactPreview } from '@/components/ReactPreview'
 import { cn } from '@/lib/utils'
 import { useState } from 'react'
-import { strings, appConfig } from '@/lib/config'
+import { strings, appConfig, LANGUAGE_COLORS } from '@/lib/config'
 
 interface SnippetViewerProps {
   snippet: Snippet | null

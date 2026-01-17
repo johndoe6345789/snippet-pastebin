@@ -3,8 +3,8 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Copy, Pencil, Trash, Eye } from '@phosphor-icons/react'
-import { Snippet, LANGUAGE_COLORS } from '@/lib/types'
-import { strings, appConfig } from '@/lib/config'
+import { Snippet } from '@/lib/types'
+import { strings, appConfig, LANGUAGE_COLORS } from '@/lib/config'
 
 interface SnippetCardProps {
   snippet: Snippet
