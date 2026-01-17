@@ -1,118 +1,145 @@
 # Planning Guide
 
-A unique, constraint-based counter application where reaching a new maximum permanently limits future counting to half that value - creating an intriguing game of strategic counting.
+A comprehensive atomic design system showcasing reusable component patterns organized by atomic design principles - demonstrating atoms, molecules, organisms, and templates in a living component library.
 
 **Experience Qualities**: 
-1. **Intriguing** - The counter should create curiosity and tension as users discover the constraint mechanic and consider their counting strategy.
-2. **Clear** - The current count value and imposed limits should be immediately obvious and easy to understand.
-3. **Consequential** - Every increment feels meaningful because reaching new highs creates permanent limitations.
+1. **Systematic** - Components should demonstrate clear organizational hierarchy from smallest atoms to complex organisms, making the design system easy to understand and navigate.
+2. **Expressive** - Each component should showcase rich visual variety, multiple variants, states, and customization options that inspire creative usage.
+3. **Practical** - Examples should reflect real-world use cases with working interactions, not just static displays.
 
-**Complexity Level**: Micro Tool (single-purpose application) - This is a focused counter with a clever twist: once you reach a number, you can only count up to half of your all-time maximum.
+**Complexity Level**: Content Showcase (information-focused) - This is a comprehensive component library that catalogs and demonstrates reusable design patterns, organized by atomic design principles with interactive examples.
 
 ## Essential Features
 
-**Increment Counter (with Constraints)**
-- Functionality: Increases the counter value by 1, but only up to half of the all-time maximum
-- Purpose: Allows users to count up while experiencing the consequence of their previous highest value
-- Trigger: Click/tap the increment (+) button
-- Progression: User clicks button → System checks if increment would exceed limit → If allowed, value increases by 1 with animation → If blocked, error toast appears explaining the constraint
-- Success criteria: Counter increases correctly when under limit, button disables at limit, error message displays when limit reached
+**Atomic Component Display**
+- Functionality: Showcases fundamental building blocks (buttons, inputs, badges, icons, typography) with all variants and states
+- Purpose: Demonstrates the smallest reusable units that compose larger patterns
+- Trigger: Navigate to Atoms section
+- Progression: User views section → Grid of atomic components displays → User can interact with live examples → Variants show different states
+- Success criteria: All base components visible, interactive, showing hover/active/disabled states
 
-**Track Maximum Reached**
-- Functionality: Automatically tracks the highest value ever reached and calculates half of it as the new limit
-- Purpose: Creates the core constraint mechanic that makes each new high consequential
-- Trigger: Automatic when counter value exceeds previous maximum
-- Progression: Counter reaches new high → Maximum value updates → Limit recalculates to half of new maximum → Limit indicator appears/updates
-- Success criteria: Maximum tracks correctly, limit displays accurately, constraint is enforced
+**Molecular Component Display**
+- Functionality: Displays composed components (form fields with labels, search bars, cards with actions, navigation items)
+- Purpose: Shows how atoms combine into functional UI patterns
+- Trigger: Navigate to Molecules section
+- Progression: User views section → Composed components display → User interacts with working examples → Sees practical combinations
+- Success criteria: Component compositions are clear, interactions work, relationships between atoms are visible
 
-**Decrement Counter**
-- Functionality: Decreases the counter value by 1 (no lower limit)
-- Purpose: Allows users to count down without restrictions
-- Trigger: Click/tap the decrement (-) button
-- Progression: User clicks button → Value decreases by 1 → New value displays with brief animation
-- Success criteria: Counter value decreases correctly and persists between sessions
+**Organism Component Display**
+- Functionality: Presents complex components (navigation bars, data tables, forms, feature sections)
+- Purpose: Demonstrates production-ready component patterns with full functionality
+- Trigger: Navigate to Organisms section
+- Progression: User views section → Complex patterns display → User interacts with realistic examples → Sees complete use cases
+- Success criteria: Organisms feel production-ready, interactions are smooth, use cases are clear
 
-**Reset Counter**
-- Functionality: Returns both the counter and maximum reached to zero, removing all limits
-- Purpose: Start completely fresh and restore "full power" to the counter
-- Trigger: Click/tap the reset button
-- Progression: User clicks reset → Counter and max both return to 0 → Limit indicator disappears → Success toast appears → Visual confirmation
-- Success criteria: Counter and maximum both reset to zero, limits are removed, app returns to unlimited state
+**Template Showcase**
+- Functionality: Shows complete page layouts combining multiple organisms
+- Purpose: Demonstrates how all components work together in real applications
+- Trigger: Navigate to Templates section
+- Progression: User views section → Full page examples display → User sees complete compositions → Layout patterns are clear
+- Success criteria: Templates show realistic page structures, responsive behavior visible
+
+**Interactive Component Playground**
+- Functionality: Live component customization with variant switching and prop controls
+- Purpose: Allows experimentation with component options and configurations
+- Trigger: Click on any component example
+- Progression: User clicks component → Customization panel opens → User toggles variants → Component updates in real-time → Code snippet shows
+- Success criteria: Controls work smoothly, visual feedback is immediate, code examples are accurate
+
+**Navigation System**
+- Functionality: Tabbed interface for switching between atomic levels with smooth transitions
+- Purpose: Clear organization and easy browsing of the component hierarchy
+- Trigger: Click tab or section link
+- Progression: User clicks navigation → Smooth transition to section → Components load and display → Active state updates
+- Success criteria: Navigation is intuitive, transitions are smooth, current location is always clear
 
 ## Edge Case Handling
 
-- **Negative Numbers**: Allow negative values - no lower limit restriction
-- **Large Numbers**: Display properly formatted large numbers (with commas for readability)
-- **Rapid Clicking**: Handle multiple rapid button presses smoothly, showing toast only once when hitting limit
-- **Initial Load**: Start at 0 with no limits if no saved value exists
-- **At Limit State**: Disable increment button and show visual warning when at the imposed limit
-- **Odd Maximum Values**: When maximum is odd (e.g., 7), half rounds down (limit becomes 3)
+- **Empty States**: Show placeholder when no components in a category
+- **Long Content**: Handle component examples with overflow/truncation gracefully
+- **Mobile View**: Adapt grid layouts to single column, stack complex examples
+- **Interaction States**: Clearly show all states (default, hover, active, focus, disabled)
+- **Variant Overflow**: Handle components with many variants using tabs or dropdowns
+- **Code Display**: Syntax highlighting for code examples with copy functionality
 
 ## Design Direction
 
-The design should evoke a sense of **tension, consequence, and strategic thinking** - like a puzzle or game where every action has weight. The interface should clearly communicate the constraint mechanic through warning colors and limit indicators, while maintaining the satisfying tactile feel of the original counter. Think digital tally counter meets resource management game.
+The design should evoke **craftsmanship, clarity, and inspiration** - like a meticulously organized workshop where every tool has its place. The interface should feel like a premium design system documentation site with rich visual examples, smooth interactions, and thoughtful categorization that makes finding the right component effortless.
 
 ## Color Selection
 
-A bold, high-contrast scheme with added warning colors to communicate constraints.
+A sophisticated, artistic palette that breaks from typical design system documentation.
 
-- **Primary Color**: Deep Electric Blue (oklch(0.45 0.20 240)) - Communicates precision and digital accuracy, used for primary action buttons
+- **Primary Color**: Rich Plum (oklch(0.50 0.18 310)) - Distinctive and creative, used for primary actions and highlights
 - **Secondary Colors**: 
-  - Rich Navy (oklch(0.15 0.03 240)) for depth and cards
-  - Slate Gray (oklch(0.25 0.02 240)) for secondary elements
-- **Accent Color**: Vibrant Cyan (oklch(0.75 0.15 200)) - Eye-catching highlight for the counter value itself and focus states
-- **Destructive Color**: Warning Red (oklch(0.577 0.245 27.325)) - Used for limit warnings and error states
+  - Deep Purple (oklch(0.20 0.12 310)) for depth and elevated surfaces
+  - Muted Violet (oklch(0.30 0.08 310)) for secondary elements and borders
+- **Accent Color**: Vibrant Coral (oklch(0.72 0.20 25)) - Eye-catching warmth for active states, badges, and emphasis
+- **Background**: Near Black (oklch(0.12 0.02 310)) - Rich dark foundation
 - **Foreground/Background Pairings**: 
-  - Background (Dark Navy oklch(0.10 0.02 240)): Light Gray text (oklch(0.95 0.01 240)) - Ratio 15.2:1 ✓
-  - Primary (Electric Blue oklch(0.45 0.20 240)): White text (oklch(0.98 0 0)) - Ratio 5.8:1 ✓
-  - Accent (Vibrant Cyan oklch(0.75 0.15 200)): Dark Navy text (oklch(0.10 0.02 240)) - Ratio 12.1:1 ✓
-  - Destructive (Warning Red oklch(0.577 0.245 27.325)): White text (oklch(0.98 0 0)) - Ratio 4.5:1 ✓
+  - Background (Near Black oklch(0.12 0.02 310)): Light Lavender (oklch(0.94 0.02 310)) - Ratio 14.8:1 ✓
+  - Primary (Rich Plum oklch(0.50 0.18 310)): White text (oklch(0.98 0 0)) - Ratio 6.2:1 ✓
+  - Accent (Vibrant Coral oklch(0.72 0.20 25)): Deep Purple text (oklch(0.20 0.12 310)) - Ratio 8.5:1 ✓
+  - Card (Deep Purple oklch(0.20 0.12 310)): Light Lavender (oklch(0.94 0.02 310)) - Ratio 11.2:1 ✓
 
 ## Font Selection
 
-Typography should feel technical yet approachable, with numeric characters that are highly legible and distinctive.
+Typography should feel modern and editorial, with excellent readability for code and prose.
 
 - **Typographic Hierarchy**: 
-  - Counter Value: Space Grotesk Bold/96px/tight letter spacing - The hero element, large and commanding
-  - Button Labels: Space Grotesk Medium/16px/normal spacing - Clear and readable
-  - Secondary Text: Space Grotesk Regular/14px/relaxed spacing - Subtle guidance
+  - Page Title: Bricolage Grotesque Bold/48px/tight letter spacing - Editorial presence
+  - Section Headers: Bricolage Grotesque Semibold/32px/normal spacing - Clear hierarchy
+  - Component Names: Bricolage Grotesque Medium/20px/normal spacing - Distinctive labels
+  - Body Text: Inter Regular/16px/relaxed line-height - Comfortable reading
+  - Code: JetBrains Mono Regular/14px/monospace - Technical precision
 
 ## Animations
 
-Animations should emphasize both the counting action and the constraint system - the number should briefly scale and glow when changed, buttons should have satisfying press states with subtle scale transforms, and the limit indicator should smoothly animate in when constraints activate. Error states get a shake animation. All transitions should use snappy easing (0.2s) to feel responsive. The reset action gets a more pronounced animation to signal the restoration of full functionality.
+Animations should feel polished and purposeful - components should have subtle entrance animations using staggered fades, tabs should transition smoothly with sliding indicators, interactive elements should respond with gentle scale and color transitions (150-200ms), and the component playground should animate property changes. Hover states use quick 100ms transitions while section changes use slower 300ms fades for comprehension.
 
 ## Component Selection
 
 - **Components**: 
-  - Button (shadcn) for all interactive controls, with `size="lg"` for main increment/decrement, `variant="outline"` for reset, and `disabled` state for increment when at limit
-  - Card (shadcn) as the main container for the counter interface
-  - Separator (shadcn) to divide counter from controls
-  - Toast (sonner) for error messages when hitting limit and success message on reset
+  - Tabs (shadcn) for main navigation between atomic levels with underline indicator
+  - Card (shadcn) for component examples with elevated shadow
+  - Badge (shadcn) for variant labels and status indicators
+  - Button (shadcn) for all interactive controls with multiple variants
+  - Separator (shadcn) for visual grouping and section division
+  - Dialog (shadcn) for component playground modal
+  - Scroll Area (shadcn) for code examples and long content
+  - Tooltip (shadcn) for additional component information
 - **Customizations**: 
-  - Custom counter display component with animated number transitions using framer-motion
-  - Limit indicator that appears beside the counter value showing the imposed maximum
-  - Warning banner component with destructive styling that explains the constraint
-  - Button hover/active states enhanced with scale transforms
-  - Gradient background pattern using CSS for visual interest
+  - Custom grid system for component layout with responsive columns
+  - Component preview frame with dark/light background toggle
+  - Code block component with syntax highlighting using Monaco
+  - Section header with animated gradient underline
+  - Navigation breadcrumb for atomic level context
+  - Variant switcher component for toggling between options
 - **States**: 
-  - Buttons: default has subtle shadow, hover scales to 1.05 and brightens, active scales to 0.95, disabled is muted and doesn't scale
-  - Counter display: pulses briefly on value change with scale animation
-  - Increment button: disabled state when at limit with reduced opacity
-  - Warning banner: only visible when a limit is active
+  - Tabs: underline slides smoothly, active tab has accent color, inactive are muted
+  - Cards: default has subtle shadow, hover lifts with larger shadow, active state slightly depressed
+  - Buttons: comprehensive state examples (default, hover, active, focus, disabled, loading)
+  - Interactive elements: scale slightly on hover (1.02), depress on active (0.98)
 - **Icon Selection**: 
-  - Plus (bold weight) for increment
-  - Minus (bold weight) for decrement  
-  - ArrowCounterClockwise (bold weight) for reset
-  - Warning (bold weight) for constraint alerts
+  - Atom (bold) for atomic level
+  - MolecularStructure (bold) for molecular level
+  - FlowArrow (bold) for organism level
+  - Layout (bold) for templates
+  - Code (regular) for code examples
+  - Copy (regular) for copy actions
+  - Eye (regular) for preview
+  - Palette (regular) for theming
 - **Spacing**: 
-  - Outer container: p-8
-  - Card padding: p-12
-  - Button gaps: gap-4
-  - Section spacing: space-y-8
-  - Warning banner: p-3 with gap-2 for icon and text
+  - Page container: px-8 py-12
+  - Section spacing: space-y-16
+  - Component grid: gap-8
+  - Card padding: p-6
+  - Inner component spacing: gap-4
+  - Tight groupings: gap-2
 - **Mobile**: 
-  - Stack buttons vertically on mobile with full-width layout
-  - Reduce counter font size to 64px on small screens
-  - Maintain tap-friendly 44px minimum touch targets
-  - Card padding reduces to p-6 on mobile
-  - Limit indicator repositions for smaller screens
+  - Single column layout for component grids
+  - Tabs become full-width scrollable with arrows
+  - Reduce title sizes: Page Title 32px, Section Headers 24px
+  - Card padding reduces to p-4
+  - Stack playground controls vertically
+  - Maintain 44px touch targets for all interactive elements

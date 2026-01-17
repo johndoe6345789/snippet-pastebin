@@ -1,180 +1,176 @@
 import { useState } from 'react'
-import { useKV } from '@github/spark/hooks'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Plus, MagnifyingGlass, Code } from '@phosphor-icons/react'
-import { Snippet } from '@/lib/types'
-import { SnippetCard } from '@/components/SnippetCard'
-import { SnippetDialog } from '@/components/SnippetDialog'
-import { SnippetViewer } from '@/components/SnippetViewer'
-import { EmptyState } from '@/components/EmptyState'
-import { toast } from 'sonner'
-import { strings } from '@/lib/config'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { motion } from 'framer-motion'
+import {
+  Atom,
+  FlowArrow,
+  Palette,
+  Layout,
+} from '@phosphor-icons/react'
+import { AtomsSection } from '@/components/atoms/AtomsSection'
+import { MoleculesSection } from '@/components/molecules/MoleculesSection'
+import { OrganismsSection } from '@/components/organisms/OrganismsSection'
+import { TemplatesSection } from '@/components/templates/TemplatesSection'
+import type { AtomicLevel } from '@/lib/types'
 
 function App() {
-  const [snippets, setSnippets] = useKV<Snippet[]>('snippets', [])
-  const [searchQuery, setSearchQuery] = useState('')
-  const [dialogOpen, setDialogOpen] = useState(false)
-  const [viewerOpen, setViewerOpen] = useState(false)
-  const [editingSnippet, setEditingSnippet] = useState<Snippet | null>(null)
-  const [viewingSnippet, setViewingSnippet] = useState<Snippet | null>(null)
-
-  const currentSnippets = snippets ?? []
-
-  const filteredSnippets = currentSnippets.filter((snippet) => {
-    const query = searchQuery.toLowerCase()
-    return (
-      snippet.title.toLowerCase().includes(query) ||
-      snippet.description.toLowerCase().includes(query) ||
-      snippet.language.toLowerCase().includes(query) ||
-      snippet.code.toLowerCase().includes(query)
-    )
-  })
-
-  const handleSaveSnippet = (snippetData: Omit<Snippet, 'id' | 'createdAt' | 'updatedAt'>) => {
-    if (editingSnippet) {
-      setSnippets((current) =>
-        (current ?? []).map((s) =>
-          s.id === editingSnippet.id
-            ? { ...s, ...snippetData, updatedAt: Date.now() }
-            : s
-        )
-      )
-      toast.success(strings.toast.snippetUpdated)
-    } else {
-      const newSnippet: Snippet = {
-        ...snippetData,
-        id: crypto.randomUUID(),
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
-      }
-      setSnippets((current) => [...(current ?? []), newSnippet])
-      toast.success(strings.toast.snippetCreated)
-    }
-    setEditingSnippet(null)
-  }
-
-  const handleEditSnippet = (snippet: Snippet) => {
-    setEditingSnippet(snippet)
-    setDialogOpen(true)
-  }
-
-  const handleDeleteSnippet = (id: string) => {
-    setSnippets((current) => (current ?? []).filter((s) => s.id !== id))
-    toast.success(strings.toast.snippetDeleted)
-  }
-
-  const handleCopySnippet = (code: string) => {
-    navigator.clipboard.writeText(code)
-    toast.success(strings.toast.codeCopied)
-  }
-
-  const handleViewSnippet = (snippet: Snippet) => {
-    setViewingSnippet(snippet)
-    setViewerOpen(true)
-  }
-
-  const handleCreateNew = () => {
-    setEditingSnippet(null)
-    setDialogOpen(true)
-  }
+  const [activeTab, setActiveTab] = useState<AtomicLevel>('atoms')
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="absolute inset-0 opacity-20 pointer-events-none">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `repeating-linear-gradient(45deg, transparent, transparent 50px, oklch(0.20 0.04 240) 50px, oklch(0.20 0.04 240) 51px)`,
-          }}
-        />
-      </div>
+      <div
+        className="fixed inset-0 opacity-10 pointer-events-none"
+        style={{
+          backgroundImage: `
+            repeating-linear-gradient(
+              45deg,
+              transparent,
+              transparent 60px,
+              oklch(0.30 0.12 310) 60px,
+              oklch(0.30 0.12 310) 61px
+            ),
+            repeating-linear-gradient(
+              -45deg,
+              transparent,
+              transparent 60px,
+              oklch(0.30 0.12 310) 60px,
+              oklch(0.30 0.12 310) 61px
+            )
+          `,
+        }}
+      />
 
       <div className="relative z-10">
         <header className="border-b border-border bg-background/80 backdrop-blur-sm sticky top-0 z-20">
-          <div className="container mx-auto px-4 py-4 sm:py-6">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <div className="rounded-lg bg-accent/20 p-2 border border-accent/30">
-                  <Code className="h-6 w-6 text-accent" weight="duotone" />
+          <div className="container mx-auto px-8 py-8">
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="space-y-2"
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center">
+                  <Palette className="h-6 w-6 text-primary-foreground" weight="bold" />
                 </div>
                 <div>
-                  <h1 className="text-2xl sm:text-3xl font-bold text-foreground">
-                    {strings.app.header.title}
+                  <h1 className="text-5xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+                    Atomic Component Library
                   </h1>
-                  <p className="text-sm text-muted-foreground">
-                    {currentSnippets.length} {currentSnippets.length === 1 ? strings.app.header.snippetCount.singular : strings.app.header.snippetCount.plural} saved
-                  </p>
                 </div>
               </div>
-              <Button
-                onClick={handleCreateNew}
-                size="lg"
-                className="gap-2 w-full sm:w-auto"
-              >
-                <Plus weight="bold" />
-                {strings.app.header.newSnippetButton}
-              </Button>
-            </div>
-
-            {currentSnippets.length > 0 && (
-              <div className="mt-6">
-                <div className="relative">
-                  <MagnifyingGlass className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                  <Input
-                    placeholder={strings.app.search.placeholder}
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-10 h-11"
-                  />
-                </div>
-              </div>
-            )}
+              <p className="text-lg text-muted-foreground">
+                A comprehensive design system organized by atomic design principles - from fundamental atoms to complete templates
+              </p>
+            </motion.div>
           </div>
         </header>
 
-        <main className="container mx-auto px-4 py-8">
-          {currentSnippets.length === 0 ? (
-            <EmptyState onCreateClick={handleCreateNew} />
-          ) : filteredSnippets.length === 0 ? (
-            <div className="text-center py-20">
-              <MagnifyingGlass className="h-16 w-16 text-muted-foreground/50 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold mb-2">{strings.noResults.title}</h3>
-              <p className="text-muted-foreground">
-                {strings.noResults.description}
-              </p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredSnippets.map((snippet) => (
-                <SnippetCard
-                  key={snippet.id}
-                  snippet={snippet}
-                  onEdit={handleEditSnippet}
-                  onDelete={handleDeleteSnippet}
-                  onCopy={handleCopySnippet}
-                  onView={handleViewSnippet}
-                />
-              ))}
-            </div>
-          )}
+        <main className="container mx-auto px-8 py-12">
+          <Tabs
+            value={activeTab}
+            onValueChange={(value) => setActiveTab(value as AtomicLevel)}
+            className="space-y-8"
+          >
+            <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-4 h-14">
+              <TabsTrigger value="atoms" className="gap-2 text-base">
+                <Atom weight="bold" />
+                <span className="hidden sm:inline">Atoms</span>
+              </TabsTrigger>
+              <TabsTrigger value="molecules" className="gap-2 text-base">
+                <FlowArrow weight="bold" />
+                <span className="hidden sm:inline">Molecules</span>
+              </TabsTrigger>
+              <TabsTrigger value="organisms" className="gap-2 text-base">
+                <FlowArrow weight="bold" className="rotate-90" />
+                <span className="hidden sm:inline">Organisms</span>
+              </TabsTrigger>
+              <TabsTrigger value="templates" className="gap-2 text-base">
+                <Layout weight="bold" />
+                <span className="hidden sm:inline">Templates</span>
+              </TabsTrigger>
+            </TabsList>
+
+            <motion.div
+              key={activeTab}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <TabsContent value="atoms" className="mt-8">
+                <div className="mb-8">
+                  <h2 className="text-4xl font-bold mb-3">Atoms</h2>
+                  <p className="text-lg text-muted-foreground">
+                    The fundamental building blocks - basic HTML elements styled as reusable components
+                  </p>
+                </div>
+                <AtomsSection />
+              </TabsContent>
+
+              <TabsContent value="molecules" className="mt-8">
+                <div className="mb-8">
+                  <h2 className="text-4xl font-bold mb-3">Molecules</h2>
+                  <p className="text-lg text-muted-foreground">
+                    Simple groups of atoms functioning together as a unit - form fields, search bars, and cards
+                  </p>
+                </div>
+                <MoleculesSection />
+              </TabsContent>
+
+              <TabsContent value="organisms" className="mt-8">
+                <div className="mb-8">
+                  <h2 className="text-4xl font-bold mb-3">Organisms</h2>
+                  <p className="text-lg text-muted-foreground">
+                    Complex UI components composed of molecules and atoms - headers, forms, and data displays
+                  </p>
+                </div>
+                <OrganismsSection />
+              </TabsContent>
+
+              <TabsContent value="templates" className="mt-8">
+                <div className="mb-8">
+                  <h2 className="text-4xl font-bold mb-3">Templates</h2>
+                  <p className="text-lg text-muted-foreground">
+                    Page-level layouts that combine organisms into complete user interfaces
+                  </p>
+                </div>
+                <TemplatesSection />
+              </TabsContent>
+            </motion.div>
+          </Tabs>
         </main>
+
+        <footer className="border-t border-border mt-24">
+          <div className="container mx-auto px-8 py-12">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div>
+                <h3 className="font-bold text-lg mb-3">Atomic Design</h3>
+                <p className="text-sm text-muted-foreground">
+                  A methodology for creating design systems by breaking interfaces down into their basic components.
+                </p>
+              </div>
+              <div>
+                <h3 className="font-bold text-lg mb-3">Component Levels</h3>
+                <ul className="text-sm text-muted-foreground space-y-2">
+                  <li>• Atoms: Basic building blocks</li>
+                  <li>• Molecules: Simple combinations</li>
+                  <li>• Organisms: Complex components</li>
+                  <li>• Templates: Complete layouts</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="font-bold text-lg mb-3">Built With</h3>
+                <ul className="text-sm text-muted-foreground space-y-2">
+                  <li>• React + TypeScript</li>
+                  <li>• Tailwind CSS</li>
+                  <li>• Shadcn/ui Components</li>
+                  <li>• Framer Motion</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </footer>
       </div>
-
-      <SnippetDialog
-        open={dialogOpen}
-        onOpenChange={setDialogOpen}
-        onSave={handleSaveSnippet}
-        editingSnippet={editingSnippet}
-      />
-
-      <SnippetViewer
-        snippet={viewingSnippet}
-        open={viewerOpen}
-        onOpenChange={setViewerOpen}
-        onEdit={handleEditSnippet}
-        onCopy={handleCopySnippet}
-      />
     </div>
   )
 }

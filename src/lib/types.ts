@@ -1,16 +1,9 @@
-import { LANGUAGES, LANGUAGE_COLORS } from './config'
+export type AtomicLevel = 'atoms' | 'molecules' | 'organisms' | 'templates'
 
-export interface Snippet {
+export interface ComponentExample {
   id: string
-  title: string
+  name: string
   description: string
-  language: string
-  code: string
-  createdAt: number
-  updatedAt: number
-  hasPreview?: boolean
+  category: string
+  level: AtomicLevel
 }
-
-export type Language = typeof LANGUAGES[number]
-
-export { LANGUAGES, LANGUAGE_COLORS }
