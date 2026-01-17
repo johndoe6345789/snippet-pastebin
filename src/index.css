@@ -1,1 +1,7 @@
-/* This is where custom CSS goes */
+* {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+code, pre, textarea.font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
