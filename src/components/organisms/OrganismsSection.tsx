@@ -32,7 +32,7 @@ import {
   Plus,
 } from '@phosphor-icons/react'
 import { useState } from 'react'
-import { ComponentShowcase } from '@/components/ComponentShowcase'
+import { ComponentShowcase } from '@/components/demo/ComponentShowcase'
 import { organismsCodeSnippets } from '@/lib/component-code-snippets'
 import { Snippet } from '@/lib/types'
 

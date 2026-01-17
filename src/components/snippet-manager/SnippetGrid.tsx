@@ -1,4 +1,4 @@
-import { SnippetCard } from '@/components/SnippetCard'
+import { SnippetCard } from '@/components/features/snippet-display/SnippetCard'
 import { Snippet } from '@/lib/types'
 
 interface SnippetGridProps {

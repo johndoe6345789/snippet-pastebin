@@ -10,9 +10,9 @@ import { Button } from '@/components/ui/button'
 import { Snippet } from '@/lib/types'
 import { strings, appConfig } from '@/lib/config'
 import { useSnippetForm } from '@/hooks/useSnippetForm'
-import { SnippetFormFields } from '@/components/snippet-dialog/SnippetFormFields'
-import { CodeEditorSection } from '@/components/snippet-dialog/CodeEditorSection'
-import { InputParameterList } from '@/components/snippet-dialog/InputParameterList'
+import { SnippetFormFields } from '@/components/features/snippet-editor/SnippetFormFields'
+import { CodeEditorSection } from '@/components/features/snippet-editor/CodeEditorSection'
+import { InputParameterList } from '@/components/features/snippet-editor/InputParameterList'
 
 interface SnippetDialogProps {
   open: boolean

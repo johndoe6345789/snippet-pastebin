@@ -7,7 +7,7 @@ import { loadStorageConfig } from '@/lib/storage'
 import { store } from '@/store'
 
 import App from './App.tsx'
-import { ErrorFallback } from './components/ErrorFallback.tsx'
+import { ErrorFallback } from './components/error/ErrorFallback.tsx'
 
 import "./main.css"
 import "./styles/theme.css"

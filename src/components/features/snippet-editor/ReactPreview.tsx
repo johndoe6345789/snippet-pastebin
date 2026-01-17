@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from 'react'
 import * as React from 'react'
 import { Alert, AlertDescription } from '@/components/ui/alert'
-import { AIErrorHelper } from '@/components/AIErrorHelper'
+import { AIErrorHelper } from '@/components/error/AIErrorHelper'
 import { WarningCircle } from '@phosphor-icons/react'
 import { InputParameter } from '@/lib/types'
 import { transformReactCode } from '@/lib/react-transform'

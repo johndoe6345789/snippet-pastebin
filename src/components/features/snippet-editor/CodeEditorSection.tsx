@@ -1,7 +1,7 @@
 import { Label } from '@/components/ui/label'
 import { Checkbox } from '@/components/ui/checkbox'
-import { MonacoEditor } from '@/components/MonacoEditor'
-import { SplitScreenEditor } from '@/components/SplitScreenEditor'
+import { MonacoEditor } from '@/components/features/snippet-editor/MonacoEditor'
+import { SplitScreenEditor } from '@/components/features/snippet-editor/SplitScreenEditor'
 import { InputParameter } from '@/lib/types'
 import { appConfig } from '@/lib/config'
 

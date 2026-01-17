@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { runPythonCode, getPyodide, isPyodideReady } from '@/lib/pyodide-runner'
-import { PythonTerminal } from '@/components/PythonTerminal'
+import { PythonTerminal } from '@/components/features/python-runner/PythonTerminal'
 import { toast } from 'sonner'
 
 interface PythonOutputProps {
