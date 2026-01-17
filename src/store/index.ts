@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import snippetsReducer from './slices/snippetsSlice'
 import namespacesReducer from './slices/namespacesSlice'
 import uiReducer from './slices/uiSlice'
+import { persistenceMiddleware } from './middleware'
 
 export const store = configureStore({
   reducer: {
@@ -12,7 +13,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
-    }),
+    }).concat(persistenceMiddleware),
 })
 
 export type RootState = ReturnType<typeof store.getState>

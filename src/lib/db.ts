@@ -260,7 +260,7 @@ export async function initDB(): Promise<Database> {
   return dbInstance
 }
 
-async function saveDB() {
+export async function saveDB() {
   if (!dbInstance) return
   
   try {

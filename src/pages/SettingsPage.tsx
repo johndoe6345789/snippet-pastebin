@@ -16,6 +16,7 @@ import {
   type StorageBackend 
 } from '@/lib/storage'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { PersistenceSettings } from '@/components/PersistenceSettings'
 
 export function SettingsPage() {
   const [stats, setStats] = useState<{
@@ -268,6 +269,8 @@ export function SettingsPage() {
       </div>
 
       <div className="grid gap-6 max-w-3xl">
+        <PersistenceSettings />
+
         {schemaHealth === 'corrupted' && (
           <Card className="border-destructive bg-destructive/10">
             <CardHeader>
