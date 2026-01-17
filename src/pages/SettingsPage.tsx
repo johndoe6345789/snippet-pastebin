@@ -1,22 +1,20 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Database, Download, Upload, Trash, CloudArrowUp, CloudCheck, CloudSlash, FirstAid, CheckCircle, Warning } from '@phosphor-icons/react'
 import { getDatabaseStats, exportDatabase, importDatabase, clearDatabase, seedDatabase, getAllSnippets, validateDatabaseSchema } from '@/lib/db'
 import { toast } from 'sonner'
-import { Alert, AlertDescription } from '@/components/ui/alert'
 import { 
-  getStorageConfig, 
   saveStorageConfig, 
   loadStorageConfig, 
   FlaskStorageAdapter,
   type StorageBackend 
 } from '@/lib/storage'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { PersistenceSettings } from '@/components/demo/PersistenceSettings'
+import { SchemaHealthCard } from '@/components/settings/SchemaHealthCard'
+import { BackendAutoConfigCard } from '@/components/settings/BackendAutoConfigCard'
+import { StorageBackendCard } from '@/components/settings/StorageBackendCard'
+import { DatabaseStatsCard } from '@/components/settings/DatabaseStatsCard'
+import { StorageInfoCard } from '@/components/settings/StorageInfoCard'
+import { DatabaseActionsCard } from '@/components/settings/DatabaseActionsCard'
 
 export function SettingsPage() {
   const [stats, setStats] = useState<{
@@ -271,356 +269,52 @@ export function SettingsPage() {
       <div className="grid gap-6 max-w-3xl">
         <PersistenceSettings />
 
-        {schemaHealth === 'corrupted' && (
-          <Card className="border-destructive bg-destructive/10">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-destructive">
-                <Warning weight="fill" size={24} />
-                Schema Corruption Detected
-              </CardTitle>
-              <CardDescription>
-                Your database schema is outdated or corrupted and needs to be repaired
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <Alert className="border-destructive">
-                <AlertDescription>
-                  The database schema is missing required tables or columns (likely due to namespace feature addition).
-                  This can cause errors when loading or saving snippets. Click the button below to wipe and recreate the database with the correct schema.
-                </AlertDescription>
-              </Alert>
-              <div className="flex gap-2">
-                <Button onClick={handleClear} variant="destructive" className="gap-2">
-                  <FirstAid weight="bold" size={16} />
-                  Repair Database (Wipe & Recreate)
-                </Button>
-                <Button onClick={checkSchemaHealth} variant="outline" disabled={checkingSchema}>
-                  {checkingSchema ? 'Checking...' : 'Re-check Schema'}
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        )}
+        <SchemaHealthCard 
+          schemaHealth={schemaHealth}
+          checkingSchema={checkingSchema}
+          onClear={handleClear}
+          onCheckSchema={checkSchemaHealth}
+        />
 
-        {schemaHealth === 'healthy' && (
-          <Card className="border-green-600 bg-green-600/10">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-green-600">
-                <CheckCircle weight="fill" size={24} />
-                Schema Healthy
-              </CardTitle>
-              <CardDescription>
-                Your database schema is up to date and functioning correctly
-              </CardDescription>
-            </CardHeader>
-          </Card>
-        )}
-
-        {envVarSet && (
-          <Card className="border-accent">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-accent">
-                <CloudCheck weight="fill" size={24} />
-                Backend Auto-Configured
-              </CardTitle>
-              <CardDescription>
-                Flask backend is configured via environment variable
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                <div className="flex items-center justify-between py-2">
-                  <span className="text-sm text-muted-foreground">Backend URL</span>
-                  <code className="text-sm font-mono bg-muted px-2 py-1 rounded">{flaskUrl}</code>
-                </div>
-                <div className="flex items-center justify-between py-2">
-                  <span className="text-sm text-muted-foreground">Configuration Source</span>
-                  <code className="text-sm font-mono bg-muted px-2 py-1 rounded">VITE_FLASK_BACKEND_URL</code>
-                </div>
-                <div className="flex items-center justify-between py-2">
-                  <span className="text-sm text-muted-foreground">Status</span>
-                  {flaskConnectionStatus === 'connected' && (
-                    <span className="flex items-center gap-2 text-sm text-green-600">
-                      <CloudCheck weight="fill" size={16} />
-                      Connected
-                    </span>
-                  )}
-                  {flaskConnectionStatus === 'failed' && (
-                    <span className="flex items-center gap-2 text-sm text-destructive">
-                      <CloudSlash weight="fill" size={16} />
-                      Connection Failed
-                    </span>
-                  )}
-                  {flaskConnectionStatus === 'unknown' && (
-                    <Button 
-                      onClick={handleTestConnection} 
-                      variant="outline"
-                      size="sm"
-                      disabled={testingConnection}
-                    >
-                      {testingConnection ? 'Testing...' : 'Test Connection'}
-                    </Button>
-                  )}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        )}
+        <BackendAutoConfigCard 
+          envVarSet={envVarSet}
+          flaskUrl={flaskUrl}
+          flaskConnectionStatus={flaskConnectionStatus}
+          testingConnection={testingConnection}
+          onTestConnection={handleTestConnection}
+        />
         
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <CloudArrowUp weight="duotone" size={24} />
-              Storage Backend
-            </CardTitle>
-            <CardDescription>
-              Choose where your snippets are stored
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            {envVarSet && (
-              <Alert className="border-accent bg-accent/10">
-                <AlertDescription className="flex items-center gap-2">
-                  <CloudCheck weight="fill" size={16} className="text-accent" />
-                  <span>
-                    Storage backend is configured via <code className="px-1.5 py-0.5 rounded bg-muted text-xs font-mono">VITE_FLASK_BACKEND_URL</code> environment variable and cannot be changed here.
-                  </span>
-                </AlertDescription>
-              </Alert>
-            )}
-            
-            <RadioGroup 
-              value={storageBackend} 
-              onValueChange={(value) => setStorageBackend(value as StorageBackend)}
-              disabled={envVarSet}
-            >
-              <div className="flex items-start space-x-3 space-y-0">
-                <RadioGroupItem value="indexeddb" id="storage-indexeddb" disabled={envVarSet} />
-                <div className="flex-1">
-                  <Label htmlFor="storage-indexeddb" className={`font-semibold ${envVarSet ? 'opacity-50' : 'cursor-pointer'}`}>
-                    IndexedDB (Local Browser Storage)
-                  </Label>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    Store snippets locally in your browser. Data persists on this device only.
-                  </p>
-                </div>
-              </div>
-              
-              <div className="flex items-start space-x-3 space-y-0 mt-4">
-                <RadioGroupItem value="flask" id="storage-flask" disabled={envVarSet} />
-                <div className="flex-1">
-                  <Label htmlFor="storage-flask" className={`font-semibold ${envVarSet ? 'opacity-50' : 'cursor-pointer'}`}>
-                    Flask Backend (Remote Server)
-                  </Label>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    Store snippets on a Flask backend server. Data is accessible from any device.
-                  </p>
-                </div>
-              </div>
-            </RadioGroup>
+        <StorageBackendCard 
+          storageBackend={storageBackend}
+          flaskUrl={flaskUrl}
+          flaskConnectionStatus={flaskConnectionStatus}
+          testingConnection={testingConnection}
+          envVarSet={envVarSet}
+          onStorageBackendChange={setStorageBackend}
+          onFlaskUrlChange={(url) => {
+            setFlaskUrl(url)
+            setFlaskConnectionStatus('unknown')
+          }}
+          onTestConnection={handleTestConnection}
+          onSaveConfig={handleSaveStorageConfig}
+          onMigrateToFlask={handleMigrateToFlask}
+          onMigrateToIndexedDB={handleMigrateToIndexedDB}
+        />
 
-            {storageBackend === 'flask' && (
-              <div className="space-y-4 p-4 border border-border rounded-lg bg-muted/50">
-                <div>
-                  <Label htmlFor="flask-url">Flask Backend URL</Label>
-                  <div className="flex gap-2 mt-2">
-                    <Input
-                      id="flask-url"
-                      type="url"
-                      placeholder="http://localhost:5000"
-                      value={flaskUrl}
-                      onChange={(e) => {
-                        setFlaskUrl(e.target.value)
-                        setFlaskConnectionStatus('unknown')
-                      }}
-                      disabled={envVarSet}
-                    />
-                    <Button 
-                      onClick={handleTestConnection} 
-                      variant="outline"
-                      disabled={testingConnection || !flaskUrl}
-                    >
-                      {testingConnection ? 'Testing...' : 'Test'}
-                    </Button>
-                  </div>
-                  {flaskConnectionStatus === 'connected' && (
-                    <div className="flex items-center gap-2 mt-2 text-sm text-green-600">
-                      <CloudCheck weight="fill" size={16} />
-                      Connected successfully
-                    </div>
-                  )}
-                  {flaskConnectionStatus === 'failed' && (
-                    <div className="flex items-center gap-2 mt-2 text-sm text-destructive">
-                      <CloudSlash weight="fill" size={16} />
-                      Connection failed
-                    </div>
-                  )}
-                </div>
+        <DatabaseStatsCard 
+          loading={loading}
+          stats={stats}
+          formatBytes={formatBytes}
+        />
 
-                <div className="pt-2 space-y-2">
-                  <Button 
-                    onClick={handleMigrateToFlask} 
-                    variant="outline" 
-                    size="sm"
-                    className="w-full gap-2"
-                  >
-                    <Upload weight="bold" size={16} />
-                    Migrate IndexedDB Data to Flask
-                  </Button>
-                  <Button 
-                    onClick={handleMigrateToIndexedDB} 
-                    variant="outline" 
-                    size="sm"
-                    className="w-full gap-2"
-                  >
-                    <Download weight="bold" size={16} />
-                    Migrate Flask Data to IndexedDB
-                  </Button>
-                </div>
-              </div>
-            )}
+        <StorageInfoCard storageType={stats?.storageType} />
 
-            <div className="pt-2">
-              <Button onClick={handleSaveStorageConfig} className="gap-2" disabled={envVarSet}>
-                <Database weight="bold" size={16} />
-                Save Storage Settings
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Database weight="duotone" size={24} />
-              Database Statistics
-            </CardTitle>
-            <CardDescription>
-              Information about your local database storage
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            {loading ? (
-              <p className="text-muted-foreground">Loading...</p>
-            ) : stats ? (
-              <div className="space-y-3">
-                <div className="flex justify-between items-center py-2 border-b border-border">
-                  <span className="text-sm text-muted-foreground">Snippets</span>
-                  <span className="font-semibold">{stats.snippetCount}</span>
-                </div>
-                <div className="flex justify-between items-center py-2 border-b border-border">
-                  <span className="text-sm text-muted-foreground">Templates</span>
-                  <span className="font-semibold">{stats.templateCount}</span>
-                </div>
-                <div className="flex justify-between items-center py-2 border-b border-border">
-                  <span className="text-sm text-muted-foreground">Storage Type</span>
-                  <span className="font-semibold capitalize">{stats.storageType}</span>
-                </div>
-                <div className="flex justify-between items-center py-2">
-                  <span className="text-sm text-muted-foreground">Database Size</span>
-                  <span className="font-semibold">{formatBytes(stats.databaseSize)}</span>
-                </div>
-              </div>
-            ) : (
-              <p className="text-destructive">Failed to load statistics</p>
-            )}
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Storage Information</CardTitle>
-            <CardDescription>
-              How your data is stored
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Alert>
-              <AlertDescription>
-                {stats?.storageType === 'indexeddb' ? (
-                  <>
-                    <strong>IndexedDB</strong> is being used for storage. This provides better performance and
-                    larger storage capacity compared to localStorage. Your data persists locally in your browser.
-                  </>
-                ) : stats?.storageType === 'localstorage' ? (
-                  <>
-                    <strong>localStorage</strong> is being used for storage. IndexedDB is not available in your
-                    browser. Note that localStorage has a smaller storage limit (typically 5-10MB).
-                  </>
-                ) : (
-                  <>
-                    No persistent storage detected. Your data will be lost when you close the browser.
-                  </>
-                )}
-              </AlertDescription>
-            </Alert>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Database Actions</CardTitle>
-            <CardDescription>
-              Backup, restore, or reset your database
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div>
-              <h3 className="text-sm font-semibold mb-2">Export Database</h3>
-              <p className="text-sm text-muted-foreground mb-3">
-                Download your database as a file for backup or transfer to another device
-              </p>
-              <Button onClick={handleExport} variant="outline" className="gap-2">
-                <Download weight="bold" size={16} />
-                Export Database
-              </Button>
-            </div>
-
-            <div className="pt-4 border-t border-border">
-              <h3 className="text-sm font-semibold mb-2">Import Database</h3>
-              <p className="text-sm text-muted-foreground mb-3">
-                Restore a previously exported database file
-              </p>
-              <label>
-                <input
-                  type="file"
-                  accept=".db"
-                  onChange={handleImport}
-                  className="hidden"
-                  id="import-db"
-                />
-                <Button variant="outline" className="gap-2" asChild>
-                  <span>
-                    <Upload weight="bold" size={16} />
-                    Import Database
-                  </span>
-                </Button>
-              </label>
-            </div>
-
-            <div className="pt-4 border-t border-border">
-              <h3 className="text-sm font-semibold mb-2">Sample Data</h3>
-              <p className="text-sm text-muted-foreground mb-3">
-                Add sample code snippets to get started (only if database is empty)
-              </p>
-              <Button onClick={handleSeed} variant="outline" className="gap-2">
-                <Database weight="bold" size={16} />
-                Add Sample Data
-              </Button>
-            </div>
-
-            <div className="pt-4 border-t border-border">
-              <h3 className="text-sm font-semibold mb-2 text-destructive">Clear All Data</h3>
-              <p className="text-sm text-muted-foreground mb-3">
-                Permanently delete all snippets and templates. This cannot be undone.
-              </p>
-              <Button onClick={handleClear} variant="destructive" className="gap-2">
-                <Trash weight="bold" size={16} />
-                Clear Database
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+        <DatabaseActionsCard 
+          onExport={handleExport}
+          onImport={handleImport}
+          onSeed={handleSeed}
+          onClear={handleClear}
+        />
       </div>
     </motion.div>
   )
