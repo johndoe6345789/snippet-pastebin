@@ -1,6 +1,4 @@
 import { useState, useEffect } from 'react'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import {
   Select,
   SelectContent,
@@ -8,26 +6,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog'
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from '@/components/ui/alert-dialog'
-import { Plus, Trash, Folder } from '@phosphor-icons/react'
+import { Folder } from '@phosphor-icons/react'
 import { toast } from 'sonner'
 import { Namespace } from '@/lib/types'
 import {
@@ -35,6 +14,8 @@ import {
   createNamespace,
   deleteNamespace,
 } from '@/lib/db'
+import { CreateNamespaceDialog } from './CreateNamespaceDialog'
+import { DeleteNamespaceDialog } from './DeleteNamespaceDialog'
 
 interface NamespaceSelectorProps {
   selectedNamespaceId: string | null
@@ -149,67 +130,29 @@ export function NamespaceSelector({ selectedNamespaceId, onNamespaceChange }: Na
         </SelectContent>
       </Select>
 
-      <Dialog open={createDialogOpen} onOpenChange={setCreateDialogOpen}>
-        <DialogTrigger asChild>
-          <Button variant="outline" size="icon">
-            <Plus weight="bold" />
-          </Button>
-        </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Create Namespace</DialogTitle>
-            <DialogDescription>
-              Create a new namespace to organize your snippets
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4 py-4">
-            <Input
-              placeholder="Namespace name"
-              value={newNamespaceName}
-              onChange={(e) => setNewNamespaceName(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && handleCreateNamespace()}
-            />
-          </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setCreateDialogOpen(false)}>
-              Cancel
-            </Button>
-            <Button onClick={handleCreateNamespace} disabled={loading}>
-              Create
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <CreateNamespaceDialog
+        open={createDialogOpen}
+        onOpenChange={setCreateDialogOpen}
+        namespaceName={newNamespaceName}
+        onNamespaceNameChange={setNewNamespaceName}
+        onCreateNamespace={handleCreateNamespace}
+        loading={loading}
+      />
 
       {selectedNamespace && !selectedNamespace.isDefault && (
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={() => {
+        <DeleteNamespaceDialog
+          open={deleteDialogOpen}
+          onOpenChange={setDeleteDialogOpen}
+          namespace={namespaceToDelete}
+          onDeleteNamespace={handleDeleteNamespace}
+          loading={loading}
+          showTrigger
+          onOpenDialog={() => {
             setNamespaceToDelete(selectedNamespace)
             setDeleteDialogOpen(true)
           }}
-        >
-          <Trash weight="bold" />
-        </Button>
+        />
       )}
-
-      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Delete Namespace</AlertDialogTitle>
-            <AlertDialogDescription>
-              Are you sure you want to delete "{namespaceToDelete?.name}"? All snippets in this namespace will be moved to the default namespace.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDeleteNamespace} disabled={loading}>
-              Delete
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
     </div>
   )
 }
