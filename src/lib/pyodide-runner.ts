@@ -62,30 +62,6 @@ export async function runPythonCodeInteractive(
 ): Promise<void> {
   const pyodide = await getPyodide()
 
-  const inputQueue: string[] = []
-  let inputResolve: ((value: string) => void) | null = null
-
-  const customInput = async (prompt = '') => {
-    if (callbacks.onOutput && prompt) {
-      callbacks.onOutput(prompt)
-    }
-
-    if (callbacks.onInputRequest) {
-      const value = await callbacks.onInputRequest(prompt)
-      return value
-    }
-
-    return new Promise<string>((resolve) => {
-      if (inputQueue.length > 0) {
-        resolve(inputQueue.shift()!)
-      } else {
-        inputResolve = resolve
-      }
-    })
-  }
-
-  pyodide.globals.set('__custom_input__', customInput)
-
   pyodide.runPython(`
 import sys
 from io import StringIO
@@ -149,9 +125,29 @@ class InteractiveStderr:
   pyodide.runPython(`
 sys.stdout = InteractiveStdout(__output_callback__)
 sys.stderr = InteractiveStderr(__error_callback__)
+`)
 
+  const customInput = async (prompt = '') => {
+    if (callbacks.onInputRequest) {
+      const value = await callbacks.onInputRequest(prompt)
+      return value
+    }
+    return ''
+  }
+
+  pyodide.globals.set('__js_input__', customInput)
+
+  pyodide.runPython(`
 import builtins
-builtins.input = __custom_input__
+from js import __js_input__
+
+def custom_input(prompt=""):
+    sys.stdout.write(prompt)
+    sys.stdout.flush()
+    result = __js_input__(prompt)
+    return result
+
+builtins.input = custom_input
 `)
 
   try {
