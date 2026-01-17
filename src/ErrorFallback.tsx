@@ -1,19 +1,19 @@
 import { useState } from "react";
 import { Alert, AlertTitle, AlertDescription } from "./components/ui/alert";
-import { Button } from "./components/ui/button";
-import { AIErrorHelper } from "./components/AIErrorHelper";
+import { AIErrorHelper } from "./components/AIEr
+import { AlertTriangleIcon, RefreshCwIcon, ChevronDownIcon,
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./components/ui/collapsible";
 import { AlertTriangleIcon, RefreshCwIcon, ChevronDownIcon, ChevronUpIcon, CopyIcon, CheckIcon } from "lucide-react";
 
 interface ErrorFallbackProps {
-  error: Error;
-  resetErrorBoundary: () => void;
-}
 
-export function ErrorFallback({ error, resetErrorBoundary }: ErrorFallbackProps) {
-  if (import.meta.env.DEV) throw error;
+  if (import.meta.env.DEV) throw 
+ 
+
+
+    navigator.clipboard.writeText(error
   
-  const [isStackOpen, setIsStackOpen] = useState(false);
+
   const [copied, setCopied] = useState(false);
 
   const errorDetails = `Error: ${error.message}\n\nStack Trace:\n${error.stack || 'No stack trace available'}`;
@@ -30,81 +30,81 @@ export function ErrorFallback({ error, resetErrorBoundary }: ErrorFallbackProps)
         <Alert variant="destructive" className="mb-6">
           <AlertTriangleIcon />
           <AlertTitle>This spark has encountered a runtime error</AlertTitle>
-          <AlertDescription>
-            Something unexpected happened while running the application. The error details are shown below. Contact the spark author and let them know about this issue.
-          </AlertDescription>
-        </Alert>
-        
-        <div className="bg-card rounded-lg border border-border p-6 mb-6">
-          <div className="flex items-start justify-between mb-4">
-            <h3 className="text-lg font-semibold text-destructive">Error Message</h3>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleCopy}
-              className="gap-2"
+              onClick={handl
             >
-              {copied ? (
                 <>
-                  <CheckIcon className="h-3.5 w-3.5" />
-                  Copied
-                </>
-              ) : (
-                <>
+                
+        
                   <CopyIcon className="h-3.5 w-3.5" />
-                  Copy All
                 </>
-              )}
             </Button>
-          </div>
           
-          <p className="text-sm text-foreground mb-4 font-mono bg-muted p-3 rounded">
             {error.message}
-          </p>
 
-          <Collapsible open={isStackOpen} onOpenChange={setIsStackOpen}>
-            <CollapsibleTrigger asChild>
-              <Button
+            <CollapsibleTrigger as
                 variant="ghost"
-                size="sm"
-                className="gap-2 w-full justify-start"
-              >
-                {isStackOpen ? (
-                  <>
-                    <ChevronUpIcon className="h-4 w-4" />
-                    Hide Stack Trace
+             
+                {isStackO
+                  
                   </>
-                ) : (
                   <>
-                    <ChevronDownIcon className="h-4 w-4" />
-                    Show Stack Trace
-                  </>
+                   
                 )}
-              </Button>
-            </CollapsibleTrigger>
-            <CollapsibleContent>
+            </Coll
               <div className="mt-4">
-                <pre className="text-xs bg-muted p-4 rounded overflow-x-auto font-mono">
-                  {error.stack || 'No stack trace available'}
-                </pre>
-              </div>
-            </CollapsibleContent>
-          </Collapsible>
-        </div>
+                  {error.s
+              </div
+          </Coll
 
-        <div className="flex flex-col gap-4">
-          <AIErrorHelper error={error} />
+          <AIErr
           
-          <Button
-            onClick={resetErrorBoundary}
             variant="outline"
-            className="gap-2"
           >
-            <RefreshCwIcon className="h-4 w-4" />
-            Try Again
-          </Button>
-        </div>
-      </div>
+            Tr
+
     </div>
-  );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
