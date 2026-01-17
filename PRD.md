@@ -1,20 +1,27 @@
 # Planning Guide
 
-**Experience Qualities**: 
+A code snippet management application with an integrated component library showcase, organized using atomic design principles.
 
 **Experience Qualities**: 
 1. **Efficient** - Lightning-fast snippet creation and sharing with minimal friction, optimized for developers who need to paste and share code instantly.
-2. **Organized** - Intuitive search and filtering that makes finding and managing snippets effortless.
+2. **Organized** - Intuitive navigation and search that makes finding and managing snippets effortless across multiple pages.
 3. **Delightful** - Beautiful syntax highlighting, smooth interactions, and a refined interface that makes code sharing feel premium.
 
-**Complexity Level**: Light Application (multiple features with basic state) - A pastebin focused on create, view, organize, and search functionality, with an optional component library showcase accessible via hamburger menu.
+**Complexity Level**: Light Application (multiple features with basic state) - A multi-page application with routing, featuring a snippet manager and component library pages organized by atomic design levels (Atoms, Molecules, Organisms, Templates).
 
 ## Essential Features
+
+**Navigation System**
+- Functionality: Hamburger menu on the left side with page links
+- Purpose: Allow users to navigate between Home and component library pages
+- Trigger: Click hamburger icon in header
+- Progression: User clicks hamburger → Menu slides in from left → User selects page → Menu closes → Page content transitions
+- Success criteria: Smooth animations, clear active page indicators, responsive on all screen sizes
 
 **Snippet Creation**
 - Functionality: Quick form to paste code, add title/description, select language
 - Purpose: Enable rapid snippet sharing and storage
-- Trigger: Click "New Snippet" button from main view
+- Trigger: Click "New Snippet" button from Home page
 - Progression: User clicks new snippet → Dialog appears → User pastes code → Adds title/description/language → Saves → Returns to grid with new snippet visible
 - Success criteria: Snippet appears in grid immediately with proper syntax highlighting
 
@@ -31,57 +38,93 @@
 - Progression: User types in search → Results filter instantly → User finds desired snippet
 - Success criteria: Search responds within 100ms, filters accurately
 
-**Snippet Management**
-- Functionality: Edit and delete actions on each snippet
-- Purpose: Allow users to maintain their snippet library
-- Functionality: Showcase of design system components
-- Trigger: Click hamburger menu icon
-- Success criteria: Accessible but not primary focus of 
+**Component Library Pages**
+- Functionality: Separate pages for Atoms, Molecules, Organisms, and Templates
+- Purpose: Showcase design system components organized by atomic design principles
+- Trigger: Navigate via hamburger menu
+- Progression: User opens menu → Selects component level → Page loads with relevant components
+- Success criteria: Each page displays appropriate components with ability to save as snippets
 
-- **No Search Results**: Friendly message
+## Edge Case Handling
+- **No Search Results**: Friendly message encouraging users to refine their search
 - **Duplicate Titles**: Allow duplicates, use unique IDs for management
+- **Empty States**: Display helpful guidance when no snippets exist
+- **Navigation on Mobile**: Hamburger menu adapts with full-screen overlay on small devices
 
-The design should evoke **precision,
+## Design Direction
+The design should evoke **precision, technical craftsmanship, and modern developer tools**.
+
 ## Color Selection
 
+Color scheme approach: Deep, sophisticated dark theme with vibrant purple accents and cyan highlights for a technical, modern aesthetic.
 
-- **Foreground/Backgr
-  - Card (Deep Slate oklch(0.18 0.02 280)): Bright White (oklch(0.96 0.01 280)
-  - Background (Dark Base oklch(0.10 0.01 280)): Foreground (oklch(0.96
+- **Primary Color**: Deep Purple `oklch(0.55 0.20 280)` - Communicates creativity and technical sophistication, used for main actions and branding
+- **Secondary Colors**: Dark Slate `oklch(0.28 0.04 280)` - Provides subtle contrast for secondary elements and hover states
+- **Accent Color**: Vibrant Cyan `oklch(0.75 0.18 200)` - Attention-grabbing highlight for CTAs, focus states, and important elements
+- **Background**: Very Dark Base `oklch(0.10 0.01 280)` - Deep foundation that reduces eye strain and emphasizes content
+- **Card/Surface**: Elevated Slate `oklch(0.18 0.02 280)` - Distinguishes content areas from background
+- **Foreground/Background Pairings**: 
+  - Background (Dark Base oklch(0.10 0.01 280)): Foreground (oklch(0.96 0.01 280)) - Ratio 9.2:1 ✓
+  - Card (Deep Slate oklch(0.18 0.02 280)): Card Foreground (oklch(0.96 0.01 280)) - Ratio 7.8:1 ✓
+  - Primary (Purple oklch(0.55 0.20 280)): White (oklch(0.98 0 0)) - Ratio 4.9:1 ✓
+  - Accent (Cyan oklch(0.75 0.18 200)): Card Background (oklch(0.18 0.02 280)) - Ratio 6.1:1 ✓
+
 ## Font Selection
 
-  - App Title: Inter Bold/24px/tight letter-spacing (-0.02
+Typefaces should convey **technical precision** with **modern readability**. Using Inter for UI elements (clean and highly legible) and JetBrains Mono for code (optimized for programming).
 
-  - Snippet Titles:
+- **Typographic Hierarchy**: 
+  - H1 (Page Titles): Inter Bold/32px/tight letter-spacing (-0.02em)
+  - H2 (Section Headers): Inter Bold/24px/tight letter-spacing (-0.01em)
+  - H3 (Subsection Headers): Inter Semibold/20px/normal letter-spacing
+  - Body Text: Inter Regular/16px/1.5 line-height
+  - Code Text: JetBrains Mono Regular/14px/1.6 line-height
+  - Small Text/Captions: Inter Regular/14px/muted color
 
+## Animations
 
-- **Page Load**: G
-- **Dialog Open/Close**: Scale and fade with backdrop blur transition over 250ms
+Animations should feel **smooth and purposeful**, enhancing navigation and feedback without distracting. Use spring physics for menu transitions, subtle fade-ins for page loads (300-400ms), and scale transforms for interactive elements. Focus on creating a sense of depth and responsive feedback.
 
 ## Component Selection
+
 - **Components**: 
-  - Sheet (shadcn) for hamburger menu sidebar with component library
-  - Input (shadcn) for search and form
-  - Card (shadcn) for snippet cards with hover effects
+  - Router (react-router-dom) for page navigation and routing
+  - Custom Navigation component with hamburger menu using Framer Motion for slide-in animations
+  - Button (shadcn) for all interactive actions with hover effects
+  - Card (shadcn) for snippet cards with hover elevation
+  - Dialog (shadcn) for snippet creation and viewing
+  - Input (shadcn) for search and form fields
   - Select (shadcn) for language picker dropdown
   - Alert Dialog (shadcn) for delete confirmations
 - **Customizations**: 
-
-  
+  - Custom Navigation drawer slides from left with backdrop overlay
+  - Active navigation items show bold text and filled background
+  - Page transitions use fade and slide animations
+  - Buttons: Rest → Hover (brightness increase) → Active (scale 0.98) → Disabled (opacity 50%)
+- **States**: 
+  - Navigation items: Default → Hover (background muted) → Active (background primary, bold text)
   - Buttons: Rest → Hover (brightness increase) → Active (scale down) → Disabled (opacity 50%)
-
+  - Cards: Rest → Hover (slight elevation and border glow)
 - **Icon Selection**: 
+  - House (regular/bold) for home navigation
+  - Atom (regular/bold) for atoms page
+  - FlowArrow (regular/bold) for molecules and organisms
+  - Layout (regular/bold) for templates
   - List (bold) for hamburger menu
+  - X (bold) for close menu
   - Trash (regular) for delete
   - MagnifyingGlass (regular) for search
-  - X (regular) for close/dismiss
 - **Spacing**: 
-  - Snippet grid: gap-6 (24px)
-
-  - Header: p
+  - Navigation menu: p-4 for nav container, space-y-2 for items
+  - Navigation items: px-4 py-3 (touch-friendly 44px+ targets)
+  - Page container: px-6 py-8
+  - Section margins: mb-8 for headers
+  - Grid: gap-6 (24px) for snippet cards
 - **Mobile**: 
-
+  - Navigation menu expands to full-width overlay on mobile
   - Touch-optimized button sizes (min 44px tap targets)
+  - Responsive grid adapts from multi-column to single column
+  - Stack navigation items vertically with full-width buttons
 
 
 
