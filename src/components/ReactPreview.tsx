@@ -35,6 +35,15 @@ export function ReactPreview({ code, language, functionName, inputParameters }: 
         .replace(/export\s+default\s+/g, '')
         .replace(/export\s+/g, '')
 
+      let componentToReturn = functionName
+
+      if (!componentToReturn) {
+        const functionMatch = transformedCode.match(/(?:function|const|let|var)\s+([A-Z]\w*)/);
+        if (functionMatch) {
+          componentToReturn = functionMatch[1]
+        }
+      }
+
       const wrappedCode = `
         (function() {
           const React = arguments[0];
@@ -46,9 +55,8 @@ export function ReactPreview({ code, language, functionName, inputParameters }: 
           
           ${transformedCode}
           
-          ${functionName ? `return ${functionName};` : `
-          const lastStatement = (${transformedCode.trim().split('\n').pop()});
-          return lastStatement;
+          ${componentToReturn ? `return ${componentToReturn};` : `
+          return null;
           `}
         })
       `
@@ -60,6 +68,8 @@ export function ReactPreview({ code, language, functionName, inputParameters }: 
         setComponent(() => CreatedComponent)
       } else if (React.isValidElement(CreatedComponent)) {
         setComponent(() => () => CreatedComponent)
+      } else if (CreatedComponent === null) {
+        setError('No component found. Please specify a function/component name or ensure your code exports a component.')
       } else {
         setError('Code must export a React component or JSX element')
       }
