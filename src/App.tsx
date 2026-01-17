@@ -6,15 +6,19 @@ import {
   FlowArrow,
   Palette,
   Layout,
+  Code,
 } from '@phosphor-icons/react'
 import { AtomsSection } from '@/components/atoms/AtomsSection'
 import { MoleculesSection } from '@/components/molecules/MoleculesSection'
 import { OrganismsSection } from '@/components/organisms/OrganismsSection'
 import { TemplatesSection } from '@/components/templates/TemplatesSection'
+import { SnippetManager } from '@/components/SnippetManager'
 import type { AtomicLevel } from '@/lib/types'
 
+type TabValue = AtomicLevel | 'snippets'
+
 function App() {
-  const [activeTab, setActiveTab] = useState<AtomicLevel>('atoms')
+  const [activeTab, setActiveTab] = useState<TabValue>('atoms')
 
   return (
     <div className="min-h-screen bg-background">
@@ -69,10 +73,10 @@ function App() {
         <main className="container mx-auto px-8 py-12">
           <Tabs
             value={activeTab}
-            onValueChange={(value) => setActiveTab(value as AtomicLevel)}
+            onValueChange={(value) => setActiveTab(value as TabValue)}
             className="space-y-8"
           >
-            <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-4 h-14">
+            <TabsList className="grid w-full max-w-3xl mx-auto grid-cols-5 h-14">
               <TabsTrigger value="atoms" className="gap-2 text-base">
                 <Atom weight="bold" />
                 <span className="hidden sm:inline">Atoms</span>
@@ -88,6 +92,10 @@ function App() {
               <TabsTrigger value="templates" className="gap-2 text-base">
                 <Layout weight="bold" />
                 <span className="hidden sm:inline">Templates</span>
+              </TabsTrigger>
+              <TabsTrigger value="snippets" className="gap-2 text-base">
+                <Code weight="bold" />
+                <span className="hidden sm:inline">Snippets</span>
               </TabsTrigger>
             </TabsList>
 
@@ -135,6 +143,16 @@ function App() {
                   </p>
                 </div>
                 <TemplatesSection />
+              </TabsContent>
+
+              <TabsContent value="snippets" className="mt-8">
+                <div className="mb-8">
+                  <h2 className="text-4xl font-bold mb-3">Code Snippets</h2>
+                  <p className="text-lg text-muted-foreground">
+                    Save and manage reusable code snippets with live preview
+                  </p>
+                </div>
+                <SnippetManager />
               </TabsContent>
             </motion.div>
           </Tabs>
