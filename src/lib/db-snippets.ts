@@ -6,6 +6,8 @@ import type { Snippet, SnippetTemplate } from './types'
 import { initDB, saveDB, getFlaskAdapter } from './db-core'
 import { mapRowToObject, mapRowsToObjects } from './db-mapper'
 import { ensureDefaultNamespace } from './db-namespaces'
+import seedSnippetsData from '@/data/seed-snippets.json'
+import seedTemplatesData from '@/data/seed-templates.json'
 
 export async function getAllSnippets(): Promise<Snippet[]> {
   const adapter = getFlaskAdapter()
