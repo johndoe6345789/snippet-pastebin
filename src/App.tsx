@@ -72,7 +72,7 @@ function App() {
                 <div className="h-10 w-10 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center">
                   <Code className="h-5 w-5 text-primary-foreground" weight="bold" />
                 </div>
-                <h1 className="text-2xl font-bold font-mono bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+                <h1 className="text-2xl font-bold tracking-tight bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
                   CodeSnippet
                 </h1>
               </motion.div>
@@ -83,7 +83,7 @@ function App() {
                     <List className="h-6 w-6" weight="bold" />
                   </Button>
                 </SheetTrigger>
-                <SheetContent side="left" className="w-full sm:max-w-2xl overflow-y-auto">
+                <SheetContent side="right" className="w-full sm:max-w-2xl overflow-y-auto">
                   <SheetHeader>
                     <SheetTitle className="text-2xl">Component Library</SheetTitle>
                   </SheetHeader>
@@ -173,7 +173,7 @@ function App() {
         <footer className="border-t border-border mt-24">
           <div className="container mx-auto px-6 py-8">
             <div className="text-center text-sm text-muted-foreground">
-              <p>CodeSnippet - Share, organize, and discover code snippets with syntax highlighting</p>
+              <p>Save, organize, and share your code snippets with beautiful syntax highlighting</p>
             </div>
           </div>
         </footer>
