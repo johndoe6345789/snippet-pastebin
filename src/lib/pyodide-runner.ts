@@ -135,24 +135,18 @@ sys.stderr = InteractiveStderr(__error_callback__)
     return ''
   }
 
-  pyodide.globals.set('__js_input__', customInput)
+  pyodide.globals.set('js_input_handler', customInput)
 
-  pyodide.runPython(`
+  await pyodide.runPythonAsync(`
 import builtins
-import asyncio
+from pyodide.ffi import to_js
 
-async def custom_input_async(prompt=""):
+async def custom_input(prompt=""):
+    import sys
     sys.stdout.write(prompt)
     sys.stdout.flush()
     
-    from js import __js_input__
-    result = await __js_input__(prompt)
-    return result
-
-def custom_input(prompt=""):
-    import asyncio
-    loop = asyncio.get_event_loop()
-    result = loop.run_until_complete(custom_input_async(prompt))
+    result = await js_input_handler(prompt)
     return result
 
 builtins.input = custom_input
