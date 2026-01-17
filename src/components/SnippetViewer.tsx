@@ -6,7 +6,7 @@ import {
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Copy, Pencil, X, Check, SplitVertical } from '@phosphor-icons/react'
+import { Copy, Pencil, Check, SplitVertical } from '@phosphor-icons/react'
 import { Snippet } from '@/lib/types'
 import { MonacoEditor } from '@/components/MonacoEditor'
 import { ReactPreview } from '@/components/ReactPreview'
@@ -110,14 +110,6 @@ export function SnippetViewer({ snippet, open, onOpenChange, onEdit, onCopy }: S
               >
                 <Pencil className="h-4 w-4" />
                 {strings.snippetViewer.buttons.edit}
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => onOpenChange(false)}
-                className="h-9 w-9 p-0"
-              >
-                <X className="h-5 w-5" />
               </Button>
             </div>
           </div>
