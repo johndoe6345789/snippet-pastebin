@@ -7,6 +7,11 @@ import type { Monaco } from '@monaco-editor/react'
 
 /**
  * TypeScript compiler options for both TypeScript and JavaScript files
+ * Note: Values are enum numbers since Monaco enums aren't directly importable:
+ * - target: 2 = ScriptTarget.Latest
+ * - moduleResolution: 2 = ModuleResolutionKind.NodeJs
+ * - module: 99 = ModuleKind.ESNext
+ * - jsx: 2 = JsxEmit.React
  */
 export const compilerOptions = {
   target: 2, // ScriptTarget.Latest

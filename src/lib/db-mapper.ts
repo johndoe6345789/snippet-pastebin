@@ -17,9 +17,18 @@ export function mapRowToObject<T>(row: any[], columns: string[]): T {
     if (col === 'hasPreview' || col === 'isDefault') {
       obj[col] = value === 1
     } 
-    // Parse JSON string fields
+    // Parse JSON string fields with error handling
     else if (col === 'inputParameters') {
-      obj[col] = value ? JSON.parse(value as string) : undefined
+      if (value) {
+        try {
+          obj[col] = JSON.parse(value as string)
+        } catch (error) {
+          console.warn(`Failed to parse JSON for ${col}:`, error)
+          obj[col] = undefined
+        }
+      } else {
+        obj[col] = undefined
+      }
     } 
     // All other fields pass through as-is
     else {

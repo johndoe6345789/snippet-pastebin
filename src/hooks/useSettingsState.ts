@@ -246,6 +246,8 @@ export function useSettingsState() {
         backend: 'indexeddb'
       })
       
+      // Full page reload is necessary here to reinitialize the database layer
+      // with the new backend after migration from Flask to IndexedDB
       window.location.reload()
       
       toast.success(`Successfully migrated ${snippets.length} snippets to IndexedDB`)
