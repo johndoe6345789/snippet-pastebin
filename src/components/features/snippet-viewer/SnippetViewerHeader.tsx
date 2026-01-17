@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { DialogTitle } from '@/components/ui/dialog'
 import { Copy, Pencil, Check, SplitVertical } from '@phosphor-icons/react'
 import { Snippet } from '@/lib/types'
 import { cn } from '@/lib/utils'
@@ -28,9 +29,9 @@ export function SnippetViewerHeader({
     <div className="flex items-start justify-between gap-4">
       <div className="flex-1 min-w-0 space-y-2">
         <div className="flex items-center gap-3">
-          <h2 className="text-2xl font-bold truncate">
+          <DialogTitle className="text-2xl font-bold truncate">
             {snippet.title}
-          </h2>
+          </DialogTitle>
           <Badge 
             variant="outline" 
             className={cn(
