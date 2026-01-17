@@ -203,10 +203,15 @@ function getFlaskAdapter(): FlaskStorageAdapter | null {
   
   const config = getStorageConfig()
   if (config.backend === 'flask' && config.flaskUrl) {
-    if (!flaskAdapter || flaskAdapter['baseUrl'] !== config.flaskUrl) {
-      flaskAdapter = new FlaskStorageAdapter(config.flaskUrl)
+    try {
+      if (!flaskAdapter || flaskAdapter['baseUrl'] !== config.flaskUrl) {
+        flaskAdapter = new FlaskStorageAdapter(config.flaskUrl)
+      }
+      return flaskAdapter
+    } catch (error) {
+      console.warn('Failed to create Flask adapter:', error)
+      return null
     }
-    return flaskAdapter
   }
   return null
 }
@@ -852,6 +857,4 @@ export async function syncTemplatesFromJSON(templates: SnippetTemplate[]): Promi
       addedCount++
     }
   }
-  
-  console.log(`Synced ${templates.length} templates from JSON, added ${addedCount} new templates`)
 }

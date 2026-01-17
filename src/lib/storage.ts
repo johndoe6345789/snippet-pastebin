@@ -62,23 +62,42 @@ export class FlaskStorageAdapter {
   private baseUrl: string
 
   constructor(baseUrl: string) {
+    if (!baseUrl || baseUrl.trim() === '') {
+      throw new Error('Flask backend URL cannot be empty')
+    }
     this.baseUrl = baseUrl.replace(/\/$/, '')
   }
 
-  async testConnection(): Promise<boolean> {
+  private isValidUrl(): boolean {
     try {
-      const response = await fetch(`${this.baseUrl}/health`, {
+      new URL(this.baseUrl)
+      return true
+    } catch {
+      return false
+    }
+  }
+
+  async testConnection(): Promise<boolean> {
+    if (!this.isValidUrl()) {
+      return false
+    }
+
+    try {
+      const url = new URL('/health', this.baseUrl)
+      const response = await fetch(url.toString(), {
         method: 'GET',
         signal: AbortSignal.timeout(5000)
       })
       return response.ok
     } catch (error) {
-      console.error('Flask connection test failed:', error)
       return false
     }
   }
 
   async getAllSnippets(): Promise<Snippet[]> {
+    if (!this.isValidUrl()) {
+      throw new Error('Invalid Flask backend URL')
+    }
     const response = await fetch(`${this.baseUrl}/api/snippets`)
     if (!response.ok) {
       throw new Error(`Failed to fetch snippets: ${response.statusText}`)
@@ -92,6 +111,9 @@ export class FlaskStorageAdapter {
   }
 
   async getSnippet(id: string): Promise<Snippet | null> {
+    if (!this.isValidUrl()) {
+      throw new Error('Invalid Flask backend URL')
+    }
     const response = await fetch(`${this.baseUrl}/api/snippets/${id}`)
     if (response.status === 404) {
       return null
@@ -108,6 +130,9 @@ export class FlaskStorageAdapter {
   }
 
   async createSnippet(snippet: Snippet): Promise<void> {
+    if (!this.isValidUrl()) {
+      throw new Error('Invalid Flask backend URL')
+    }
     const response = await fetch(`${this.baseUrl}/api/snippets`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -123,6 +148,9 @@ export class FlaskStorageAdapter {
   }
 
   async updateSnippet(snippet: Snippet): Promise<void> {
+    if (!this.isValidUrl()) {
+      throw new Error('Invalid Flask backend URL')
+    }
     const response = await fetch(`${this.baseUrl}/api/snippets/${snippet.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -138,6 +166,9 @@ export class FlaskStorageAdapter {
   }
 
   async deleteSnippet(id: string): Promise<void> {
+    if (!this.isValidUrl()) {
+      throw new Error('Invalid Flask backend URL')
+    }
     const response = await fetch(`${this.baseUrl}/api/snippets/${id}`, {
       method: 'DELETE'
     })

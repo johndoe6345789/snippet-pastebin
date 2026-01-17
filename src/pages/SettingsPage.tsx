@@ -70,9 +70,6 @@ export function SettingsPage() {
     
     setStorageBackend(config.backend)
     setFlaskUrl(config.flaskUrl || envFlaskUrl || 'http://localhost:5000')
-    if (config.backend === 'flask' && config.flaskUrl) {
-      testFlaskConnection(config.flaskUrl)
-    }
   }, [])
 
   const handleExport = async () => {
