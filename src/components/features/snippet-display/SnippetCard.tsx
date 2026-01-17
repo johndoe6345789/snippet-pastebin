@@ -1,23 +1,12 @@
 import { useState, useMemo, useEffect } from 'react'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
-import { Checkbox } from '@/components/ui/checkbox'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { Copy, Pencil, Trash, Eye, DotsThree, FolderOpen } from '@phosphor-icons/react'
 import { Snippet, Namespace } from '@/lib/types'
-import { strings, appConfig, LANGUAGE_COLORS } from '@/lib/config'
+import { strings, appConfig } from '@/lib/config'
 import { getAllNamespaces, moveSnippetToNamespace } from '@/lib/db'
 import { toast } from 'sonner'
+import { SnippetCardHeader } from './SnippetCardHeader'
+import { SnippetCodePreview } from './SnippetCodePreview'
+import { SnippetCardActions } from './SnippetCardActions'
 
 interface SnippetCardProps {
   snippet: Snippet
@@ -157,127 +146,30 @@ export function SnippetCard({
       onClick={handleView}
     >
       <div className="p-6 space-y-4">
-        <div className="flex items-start justify-between gap-3">
-          <div className="flex items-start gap-3 flex-1 min-w-0">
-            {selectionMode && (
-              <Checkbox
-                checked={isSelected}
-                onCheckedChange={handleToggleSelect}
-                onClick={(e) => e.stopPropagation()}
-                className="mt-1"
-              />
-            )}
-            <div className="flex-1 min-w-0">
-              <h3 className="text-lg font-semibold text-foreground mb-1 truncate">
-                {snippet.title}
-              </h3>
-              {snippetData.description && (
-                <p className="text-sm text-muted-foreground line-clamp-2">
-                  {snippetData.description}
-                </p>
-              )}
-            </div>
-          </div>
-          <Badge
-            className={`shrink-0 ${LANGUAGE_COLORS[snippet.language] || LANGUAGE_COLORS['Other']}`}
-          >
-            {snippet.language}
-          </Badge>
-        </div>
+        <SnippetCardHeader 
+          snippet={snippet}
+          description={snippetData.description}
+          selectionMode={selectionMode}
+          isSelected={isSelected}
+          onToggleSelect={handleToggleSelect}
+        />
 
-        <div className="rounded-md bg-secondary/30 p-3 border border-border">
-          <pre className="text-xs text-muted-foreground overflow-x-auto whitespace-pre-wrap break-words font-mono">
-            {snippetData.displayCode}
-          </pre>
-          {snippetData.isTruncated && (
-            <p className="text-xs text-accent mt-2">
-              {strings.snippetCard.viewFullCode}
-            </p>
-          )}
-        </div>
+        <SnippetCodePreview 
+          displayCode={snippetData.displayCode}
+          isTruncated={snippetData.isTruncated}
+        />
 
         {!selectionMode && (
-          <div className="flex items-center justify-between gap-2 pt-2">
-            <div className="flex-1 flex items-center gap-2">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={handleView}
-                className="gap-2"
-              >
-                <Eye className="h-4 w-4" />
-                {strings.snippetCard.viewButton}
-              </Button>
-            </div>
-            <div className="flex items-center gap-2">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={handleCopy}
-                className="gap-2"
-                aria-label={strings.snippetCard.ariaLabels.copy}
-              >
-                <Copy className="h-4 w-4" />
-                {isCopied ? strings.snippetCard.copiedButton : strings.snippetCard.copyButton}
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={handleEdit}
-                aria-label={strings.snippetCard.ariaLabels.edit}
-              >
-                <Pencil className="h-4 w-4" />
-              </Button>
-              
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={(e) => e.stopPropagation()}
-                    aria-label="More options"
-                  >
-                    <DotsThree className="h-4 w-4" weight="bold" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
-                  <DropdownMenuSub>
-                    <DropdownMenuSubTrigger disabled={isMoving || availableNamespaces.length === 0}>
-                      <FolderOpen className="h-4 w-4 mr-2" />
-                      <span>Move to...</span>
-                    </DropdownMenuSubTrigger>
-                    <DropdownMenuSubContent>
-                      {availableNamespaces.length === 0 ? (
-                        <DropdownMenuItem disabled>
-                          No other namespaces
-                        </DropdownMenuItem>
-                      ) : (
-                        availableNamespaces.map((namespace) => (
-                          <DropdownMenuItem
-                            key={namespace.id}
-                            onClick={() => handleMoveToNamespace(namespace.id)}
-                          >
-                            {namespace.name}
-                            {namespace.isDefault && (
-                              <span className="ml-2 text-xs text-muted-foreground">(Default)</span>
-                            )}
-                          </DropdownMenuItem>
-                        ))
-                      )}
-                    </DropdownMenuSubContent>
-                  </DropdownMenuSub>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem
-                    onClick={handleDelete}
-                    className="text-destructive focus:text-destructive"
-                  >
-                    <Trash className="h-4 w-4 mr-2" />
-                    Delete
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          </div>
+          <SnippetCardActions 
+            isCopied={isCopied}
+            isMoving={isMoving}
+            availableNamespaces={availableNamespaces}
+            onView={handleView}
+            onCopy={handleCopy}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+            onMoveToNamespace={handleMoveToNamespace}
+          />
         )}
       </div>
     </Card>
