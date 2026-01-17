@@ -36,7 +36,7 @@ export function AIErrorHelper({ error, context, className }: AIErrorHelperProps)
       const contextInfo = context ? `\n\nContext: ${context}` : ''
       const stackInfo = errorStack ? `\n\nStack trace: ${errorStack}` : ''
       
-      const promptText = `You are a helpful debugging assistant for a code snippet manager app. Analyze this error and provide:
+      const prompt = (window.spark.llmPrompt as any)`You are a helpful debugging assistant for a code snippet manager app. Analyze this error and provide:
 
 1. A clear explanation of what went wrong (in plain language)
 2. Why this error likely occurred
@@ -46,7 +46,7 @@ Error message: ${errorMessage}${contextInfo}${stackInfo}
 
 Keep your response concise, friendly, and focused on practical solutions. Format your response with clear sections using markdown.`
 
-      const result = await window.spark.llm(promptText, 'gpt-4o-mini')
+      const result = await window.spark.llm(prompt, 'gpt-4o-mini')
       setAnalysis(result)
     } catch (err) {
       setAnalysisError('Unable to analyze error. The AI service may be temporarily unavailable.')

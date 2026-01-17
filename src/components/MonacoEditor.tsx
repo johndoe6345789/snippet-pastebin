@@ -66,6 +66,8 @@ function getMonacoLanguage(language: string): string {
   const languageMap: Record<string, string> = {
     'JavaScript': 'javascript',
     'TypeScript': 'typescript',
+    'JSX': 'javascript',
+    'TSX': 'typescript',
     'Python': 'python',
     'Java': 'java',
     'C++': 'cpp',
