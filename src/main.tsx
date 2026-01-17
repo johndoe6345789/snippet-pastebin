@@ -1,8 +1,10 @@
 import { createRoot } from 'react-dom/client'
 import { ErrorBoundary } from "react-error-boundary";
+import { Provider } from 'react-redux'
 import "@github/spark/spark"
 import { Toaster } from '@/components/ui/sonner'
 import { loadStorageConfig } from '@/lib/storage'
+import { store } from '@/store'
 
 import App from './App.tsx'
 import { ErrorFallback } from './ErrorFallback.tsx'
@@ -21,11 +23,13 @@ const logErrorToConsole = (error: Error, info: { componentStack?: string }) => {
 };
 
 createRoot(document.getElementById('root')!).render(
-  <ErrorBoundary 
-    FallbackComponent={ErrorFallback}
-    onError={logErrorToConsole}
-  >
-    <App />
-    <Toaster />
-   </ErrorBoundary>
+  <Provider store={store}>
+    <ErrorBoundary 
+      FallbackComponent={ErrorFallback}
+      onError={logErrorToConsole}
+    >
+      <App />
+      <Toaster />
+    </ErrorBoundary>
+  </Provider>
 )

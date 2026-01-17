@@ -1,0 +1,168 @@
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
+import { Snippet } from '@/lib/types'
+import {
+  getAllSnippets,
+  createSnippet as createSnippetDB,
+  updateSnippet as updateSnippetDB,
+  deleteSnippet as deleteSnippetDB,
+  getSnippetsByNamespace,
+  bulkMoveSnippets as bulkMoveSnippetsDB,
+} from '@/lib/db'
+
+interface SnippetsState {
+  items: Snippet[]
+  loading: boolean
+  error: string | null
+  selectedIds: Set<string>
+  selectionMode: boolean
+}
+
+const initialState: SnippetsState = {
+  items: [],
+  loading: false,
+  error: null,
+  selectedIds: new Set(),
+  selectionMode: false,
+}
+
+export const fetchAllSnippets = createAsyncThunk(
+  'snippets/fetchAll',
+  async () => {
+    return await getAllSnippets()
+  }
+)
+
+export const fetchSnippetsByNamespace = createAsyncThunk(
+  'snippets/fetchByNamespace',
+  async (namespaceId: string) => {
+    return await getSnippetsByNamespace(namespaceId)
+  }
+)
+
+export const createSnippet = createAsyncThunk(
+  'snippets/create',
+  async (snippetData: Omit<Snippet, 'id' | 'createdAt' | 'updatedAt'>) => {
+    const newSnippet: Snippet = {
+      ...snippetData,
+      id: Date.now().toString(),
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+    }
+    await createSnippetDB(newSnippet)
+    return newSnippet
+  }
+)
+
+export const updateSnippet = createAsyncThunk(
+  'snippets/update',
+  async (snippet: Snippet) => {
+    const updatedSnippet = {
+      ...snippet,
+      updatedAt: Date.now(),
+    }
+    await updateSnippetDB(updatedSnippet)
+    return updatedSnippet
+  }
+)
+
+export const deleteSnippet = createAsyncThunk(
+  'snippets/delete',
+  async (id: string) => {
+    await deleteSnippetDB(id)
+    return id
+  }
+)
+
+export const bulkMoveSnippets = createAsyncThunk(
+  'snippets/bulkMove',
+  async ({ snippetIds, targetNamespaceId }: { snippetIds: string[], targetNamespaceId: string }) => {
+    await bulkMoveSnippetsDB(snippetIds, targetNamespaceId)
+    return { snippetIds, targetNamespaceId }
+  }
+)
+
+const snippetsSlice = createSlice({
+  name: 'snippets',
+  initialState,
+  reducers: {
+    toggleSelectionMode: (state) => {
+      state.selectionMode = !state.selectionMode
+      if (!state.selectionMode) {
+        state.selectedIds = new Set()
+      }
+    },
+    toggleSnippetSelection: (state, action: PayloadAction<string>) => {
+      const newSet = new Set(state.selectedIds)
+      if (newSet.has(action.payload)) {
+        newSet.delete(action.payload)
+      } else {
+        newSet.add(action.payload)
+      }
+      state.selectedIds = newSet
+    },
+    clearSelection: (state) => {
+      state.selectedIds = new Set()
+    },
+    selectAllSnippets: (state) => {
+      state.selectedIds = new Set(state.items.map(s => s.id))
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchAllSnippets.pending, (state) => {
+        state.loading = true
+        state.error = null
+      })
+      .addCase(fetchAllSnippets.fulfilled, (state, action) => {
+        state.loading = false
+        state.items = action.payload
+      })
+      .addCase(fetchAllSnippets.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.error.message || 'Failed to fetch snippets'
+      })
+      .addCase(fetchSnippetsByNamespace.pending, (state) => {
+        state.loading = true
+        state.error = null
+      })
+      .addCase(fetchSnippetsByNamespace.fulfilled, (state, action) => {
+        state.loading = false
+        state.items = action.payload
+      })
+      .addCase(fetchSnippetsByNamespace.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.error.message || 'Failed to fetch snippets'
+      })
+      .addCase(createSnippet.fulfilled, (state, action) => {
+        state.items.unshift(action.payload)
+      })
+      .addCase(updateSnippet.fulfilled, (state, action) => {
+        const index = state.items.findIndex(s => s.id === action.payload.id)
+        if (index !== -1) {
+          state.items[index] = action.payload
+        }
+      })
+      .addCase(deleteSnippet.fulfilled, (state, action) => {
+        state.items = state.items.filter(s => s.id !== action.payload)
+      })
+      .addCase(bulkMoveSnippets.fulfilled, (state, action) => {
+        const { snippetIds, targetNamespaceId } = action.payload
+        state.items.forEach(snippet => {
+          if (snippetIds.includes(snippet.id)) {
+            snippet.namespaceId = targetNamespaceId
+          }
+        })
+        state.selectedIds = new Set()
+        state.selectionMode = false
+      })
+  },
+})
+
+export const {
+  toggleSelectionMode,
+  toggleSnippetSelection,
+  clearSelection,
+  selectAllSnippets,
+} = snippetsSlice.actions
+
+export default snippetsSlice.reducer

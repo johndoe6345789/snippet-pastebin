@@ -111,6 +111,48 @@ This approach provides:
 - Protection against localStorage quota exceeded errors
 - Multi-device access when using Flask backend
 
+## State Management Architecture
+
+The application now uses **Redux Toolkit** for centralized state management, replacing the previous component-level state approach.
+
+### Redux Store Structure
+
+**Three Main Slices:**
+1. **Snippets Slice** (`snippetsSlice.ts`)
+   - Manages all snippet data (items, loading states, errors)
+   - Handles selection mode and selected snippet IDs
+   - Async thunks for CRUD operations (create, read, update, delete, bulk move)
+   - Integrates with database layer (IndexedDB or Flask)
+
+2. **Namespaces Slice** (`namespacesSlice.ts`)
+   - Manages namespace data and selected namespace
+   - Async thunks for namespace operations (fetch, create, delete)
+   - Ensures default namespace always exists
+   - Handles automatic namespace selection on load
+
+3. **UI Slice** (`uiSlice.ts`)
+   - Controls dialog states (snippet dialog, viewer dialog)
+   - Manages currently editing/viewing snippets
+   - Handles search query state
+   - Pure synchronous actions for instant UI updates
+
+### Key Features
+- **Centralized State**: All application state in one predictable location
+- **TypeScript Integration**: Fully typed state and actions with type inference
+- **Memoized Selectors**: Efficient computed state using Reselect
+- **Async Actions**: Built-in loading/error states for all database operations
+- **Custom Hooks**: `useAppDispatch` and `useAppSelector` for type-safe Redux access
+- **DevTools Support**: Redux DevTools integration for time-travel debugging
+- **Immutable Updates**: Automatic immutability with Immer (via Redux Toolkit)
+
+### Benefits Over Previous Approach
+- **Predictable State Flow**: Actions → Reducers → State → UI (unidirectional)
+- **Easier Debugging**: Redux DevTools shows every state change with time-travel
+- **Better Testing**: Pure functions and isolated state make testing straightforward
+- **Scalability**: Easy to add new features without prop drilling
+- **Performance**: Memoized selectors prevent unnecessary re-renders
+- **Developer Experience**: TypeScript autocomplete for all state and actions
+
 ## Edge Case Handling
 - **No Search Results**: Friendly message encouraging users to refine their search
 - **Duplicate Titles**: Allow duplicates, use unique IDs for management

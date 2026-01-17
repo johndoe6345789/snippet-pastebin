@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { SnippetManager } from '@/components/SnippetManager'
+import { SnippetManagerRedux } from '@/components/SnippetManagerRedux'
 
 export function HomePage() {
   return (
@@ -12,7 +12,7 @@ export function HomePage() {
         <h2 className="text-3xl font-bold tracking-tight mb-2">My Snippets</h2>
         <p className="text-muted-foreground">Save, organize, and share your code snippets</p>
       </div>
-      <SnippetManager />
+      <SnippetManagerRedux />
     </motion.div>
   )
 }
