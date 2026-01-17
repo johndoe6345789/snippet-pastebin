@@ -44,7 +44,7 @@ export function PythonOutput({ code }: PythonOutputProps) {
 
     try {
       const result = await runPythonCode(code)
-      setOutput(result.output)
+      setOutput(result.output || '')
       if (result.error) {
         setError(result.error)
       }
