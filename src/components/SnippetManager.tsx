@@ -2,14 +2,25 @@ import { useState, useMemo, useCallback } from 'react'
 import { useKV } from '@github/spark/hooks'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Plus, MagnifyingGlass } from '@phosphor-icons/react'
+import { Plus, MagnifyingGlass, CaretDown } from '@phosphor-icons/react'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+  DropdownMenuLabel,
+} from '@/components/ui/dropdown-menu'
 import { SnippetCard } from '@/components/SnippetCard'
 import { SnippetDialog } from '@/components/SnippetDialog'
 import { SnippetViewer } from '@/components/SnippetViewer'
 import { EmptyState } from '@/components/EmptyState'
-import { Snippet } from '@/lib/types'
+import { Snippet, SnippetTemplate } from '@/lib/types'
 import { toast } from 'sonner'
 import { strings } from '@/lib/config'
+import templatesData from '@/data/templates.json'
+
+const templates = templatesData as SnippetTemplate[]
 
 export function SnippetManager() {
   const [snippets, setSnippets] = useKV<Snippet[]>('snippets', [])
@@ -89,6 +100,27 @@ export function SnippetManager() {
     setDialogOpen(true)
   }, [])
 
+  const handleCreateFromTemplate = useCallback((templateId: string) => {
+    const template = templates.find((t) => t.id === templateId)
+    if (!template) return
+
+    const templateSnippet: Snippet = {
+      id: Date.now().toString(),
+      title: template.title,
+      description: template.description,
+      language: template.language,
+      code: template.code,
+      category: template.category,
+      hasPreview: template.hasPreview,
+      functionName: template.functionName,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+    }
+    
+    setEditingSnippet(templateSnippet)
+    setDialogOpen(true)
+  }, [])
+
   const handleDialogClose = useCallback((open: boolean) => {
     setDialogOpen(open)
     if (!open) {
@@ -101,7 +133,10 @@ export function SnippetManager() {
   if (allSnippets.length === 0) {
     return (
       <>
-        <EmptyState onCreateClick={handleCreateNew} />
+        <EmptyState 
+          onCreateClick={handleCreateNew}
+          onCreateFromTemplate={handleCreateFromTemplate}
+        />
         <SnippetDialog
           open={dialogOpen}
           onOpenChange={handleDialogClose}
@@ -124,10 +159,66 @@ export function SnippetManager() {
             className="pl-10"
           />
         </div>
-        <Button onClick={handleCreateNew} className="gap-2 w-full sm:w-auto">
-          <Plus weight="bold" />
-          {strings.app.header.newSnippetButton}
-        </Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button className="gap-2 w-full sm:w-auto">
+              <Plus weight="bold" />
+              {strings.app.header.newSnippetButton}
+              <CaretDown weight="bold" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-72 max-h-[500px] overflow-y-auto">
+            <DropdownMenuItem onClick={handleCreateNew}>
+              <Plus className="mr-2 h-4 w-4" weight="bold" />
+              Blank Snippet
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuLabel>React Components</DropdownMenuLabel>
+            {templates.filter((t) => t.category === 'react').map((template) => (
+              <DropdownMenuItem
+                key={template.id}
+                onClick={() => handleCreateFromTemplate(template.id)}
+              >
+                <div className="flex flex-col gap-1 py-1">
+                  <span className="font-medium">{template.title}</span>
+                  <span className="text-xs text-muted-foreground line-clamp-1">
+                    {template.description}
+                  </span>
+                </div>
+              </DropdownMenuItem>
+            ))}
+            <DropdownMenuSeparator />
+            <DropdownMenuLabel>JavaScript / TypeScript</DropdownMenuLabel>
+            {templates.filter((t) => ['api', 'basics', 'async', 'types'].includes(t.category)).map((template) => (
+              <DropdownMenuItem
+                key={template.id}
+                onClick={() => handleCreateFromTemplate(template.id)}
+              >
+                <div className="flex flex-col gap-1 py-1">
+                  <span className="font-medium">{template.title}</span>
+                  <span className="text-xs text-muted-foreground line-clamp-1">
+                    {template.description}
+                  </span>
+                </div>
+              </DropdownMenuItem>
+            ))}
+            <DropdownMenuSeparator />
+            <DropdownMenuLabel>CSS Layouts</DropdownMenuLabel>
+            {templates.filter((t) => t.category === 'layout').map((template) => (
+              <DropdownMenuItem
+                key={template.id}
+                onClick={() => handleCreateFromTemplate(template.id)}
+              >
+                <div className="flex flex-col gap-1 py-1">
+                  <span className="font-medium">{template.title}</span>
+                  <span className="text-xs text-muted-foreground line-clamp-1">
+                    {template.description}
+                  </span>
+                </div>
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
 
       {filteredSnippets.length === 0 ? (

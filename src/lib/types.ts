@@ -21,6 +21,18 @@ export interface Snippet {
   updatedAt: number
 }
 
+export interface SnippetTemplate {
+  id: string
+  title: string
+  description: string
+  code: string
+  language: string
+  category: string
+  hasPreview?: boolean
+  functionName?: string
+  inputParameters?: InputParameter[]
+}
+
 
 
 
