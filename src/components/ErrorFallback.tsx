@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { Alert, AlertTitle, AlertDescription } from "./components/ui/alert";
-import { AIErrorHelper } from "./components/AIErrorHelper";
-import { Button } from "./components/ui/button";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./components/ui/collapsible";
+import { Alert, AlertTitle, AlertDescription } from "./ui/alert";
+import { AIErrorHelper } from "./AIErrorHelper";
+import { Button } from "./ui/button";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
 import { AlertTriangleIcon, RefreshCwIcon, ChevronDownIcon, ChevronUpIcon, CopyIcon, CheckIcon } from "lucide-react";
 
 interface ErrorFallbackProps {
