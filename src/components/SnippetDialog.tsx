@@ -123,7 +123,7 @@ export function SnippetDialog({ open, onOpenChange, onSave, editingSnippet }: Sn
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[900px] max-h-[90vh] overflow-hidden flex flex-col">
-        <DialogHeader>
+        <DialogHeader className="pr-8">
           <DialogTitle className="text-2xl">
             {editingSnippet?.id ? strings.snippetDialog.edit.title : strings.snippetDialog.create.title}
           </DialogTitle>

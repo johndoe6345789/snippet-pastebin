@@ -46,7 +46,7 @@ export function SnippetViewer({ snippet, open, onOpenChange, onEdit, onCopy }: S
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[95vw] sm:max-h-[95vh] h-[95vh] overflow-hidden flex flex-col p-0">
-        <DialogHeader className="px-6 pt-6 pb-4 border-b border-border">
+        <DialogHeader className="px-6 pt-6 pb-4 pr-14 border-b border-border">
           <div className="flex items-start justify-between gap-4">
             <div className="flex-1 min-w-0 space-y-2">
               <div className="flex items-center gap-3">

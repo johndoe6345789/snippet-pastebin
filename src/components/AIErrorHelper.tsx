@@ -81,7 +81,7 @@ Keep your response concise, friendly, and focused on practical solutions. Format
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-w-2xl max-h-[80vh] overflow-hidden flex flex-col">
-          <DialogHeader>
+          <DialogHeader className="pr-8">
             <DialogTitle className="flex items-center gap-2">
               <Sparkle className="h-5 w-5 text-accent" weight="fill" />
               AI Error Analysis
