@@ -10,6 +10,9 @@ import {
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Sparkle } from '@phosphor-icons/react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { analyzeErrorWithAI } from './analyzeError'
+import { MarkdownRenderer } from './MarkdownRenderer'
+import { LoadingAnalysis } from './LoadingAnalysis'
 
 interface AIErrorHelperProps {
   error: Error | string
@@ -33,20 +36,7 @@ export function AIErrorHelper({ error, context, className }: AIErrorHelperProps)
     setAnalysis('')
 
     try {
-      const contextInfo = context ? `\n\nContext: ${context}` : ''
-      const stackInfo = errorStack ? `\n\nStack trace: ${errorStack}` : ''
-      
-      const prompt = (window.spark.llmPrompt as any)`You are a helpful debugging assistant for a code snippet manager app. Analyze this error and provide:
-
-1. A clear explanation of what went wrong (in plain language)
-2. Why this error likely occurred
-3. 2-3 specific actionable steps to fix it
-
-Error message: ${errorMessage}${contextInfo}${stackInfo}
-
-Keep your response concise, friendly, and focused on practical solutions. Format your response with clear sections using markdown.`
-
-      const result = await window.spark.llm(prompt, 'gpt-4o-mini')
+      const result = await analyzeErrorWithAI(errorMessage, errorStack, context)
       setAnalysis(result)
     } catch (err) {
       setAnalysisError('Unable to analyze error. The AI service may be temporarily unavailable.')
@@ -98,30 +88,7 @@ Keep your response concise, friendly, and focused on practical solutions. Format
               </AlertDescription>
             </Alert>
 
-            {isAnalyzing && (
-              <div className="space-y-3">
-                <div className="flex items-center gap-2 text-muted-foreground">
-                  <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-                  >
-                    <Sparkle className="h-4 w-4" weight="fill" />
-                  </motion.div>
-                  <span className="text-sm">Analyzing error...</span>
-                </div>
-                <div className="space-y-2">
-                  {[1, 2, 3].map((i) => (
-                    <motion.div
-                      key={i}
-                      initial={{ opacity: 0.3 }}
-                      animate={{ opacity: [0.3, 0.6, 0.3] }}
-                      transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.2 }}
-                      className="h-4 bg-muted rounded"
-                    />
-                  ))}
-                </div>
-              </div>
-            )}
+            {isAnalyzing && <LoadingAnalysis />}
 
             {analysisError && (
               <Alert variant="destructive">
@@ -130,55 +97,7 @@ Keep your response concise, friendly, and focused on practical solutions. Format
             )}
 
             <AnimatePresence>
-              {analysis && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0 }}
-                  className="prose prose-invert prose-sm max-w-none"
-                >
-                  <div className="bg-card/50 rounded-lg p-4 border border-border space-y-3">
-                    {analysis.split('\n').map((line, idx) => {
-                      if (line.startsWith('###')) {
-                        return (
-                          <h3 key={idx} className="text-base font-semibold text-foreground mt-4 mb-2">
-                            {line.replace('###', '').trim()}
-                          </h3>
-                        )
-                      }
-                      if (line.startsWith('##')) {
-                        return (
-                          <h2 key={idx} className="text-lg font-semibold text-foreground mt-4 mb-2">
-                            {line.replace('##', '').trim()}
-                          </h2>
-                        )
-                      }
-                      if (line.match(/^\d+\./)) {
-                        return (
-                          <div key={idx} className="text-foreground/90 ml-2">
-                            {line}
-                          </div>
-                        )
-                      }
-                      if (line.startsWith('-')) {
-                        return (
-                          <div key={idx} className="text-foreground/90 ml-4">
-                            {line}
-                          </div>
-                        )
-                      }
-                      if (line.trim()) {
-                        return (
-                          <p key={idx} className="text-foreground/80 text-sm leading-relaxed">
-                            {line}
-                          </p>
-                        )
-                      }
-                      return null
-                    })}
-                  </div>
-                </motion.div>
-              )}
+              {analysis && <MarkdownRenderer content={analysis} />}
             </AnimatePresence>
           </div>
         </DialogContent>
