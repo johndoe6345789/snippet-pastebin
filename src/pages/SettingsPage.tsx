@@ -4,8 +4,8 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/com
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Database, Download, Upload, Trash, CloudArrowUp, CloudCheck, CloudSlash } from '@phosphor-icons/react'
-import { getDatabaseStats, exportDatabase, importDatabase, clearDatabase, seedDatabase, getAllSnippets } from '@/lib/db'
+import { Database, Download, Upload, Trash, CloudArrowUp, CloudCheck, CloudSlash, FirstAid, CheckCircle, Warning } from '@phosphor-icons/react'
+import { getDatabaseStats, exportDatabase, importDatabase, clearDatabase, seedDatabase, getAllSnippets, validateDatabaseSchema } from '@/lib/db'
 import { toast } from 'sonner'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { 
@@ -30,6 +30,8 @@ export function SettingsPage() {
   const [flaskConnectionStatus, setFlaskConnectionStatus] = useState<'unknown' | 'connected' | 'failed'>('unknown')
   const [testingConnection, setTestingConnection] = useState(false)
   const [envVarSet, setEnvVarSet] = useState(false)
+  const [schemaHealth, setSchemaHealth] = useState<'unknown' | 'healthy' | 'corrupted'>('unknown')
+  const [checkingSchema, setCheckingSchema] = useState(false)
 
   const loadStats = async () => {
     setLoading(true)
@@ -60,8 +62,26 @@ export function SettingsPage() {
     }
   }
 
+  const checkSchemaHealth = async () => {
+    setCheckingSchema(true)
+    try {
+      const result = await validateDatabaseSchema()
+      setSchemaHealth(result.valid ? 'healthy' : 'corrupted')
+      
+      if (!result.valid) {
+        console.warn('Schema validation failed:', result.issues)
+      }
+    } catch (error) {
+      console.error('Schema check failed:', error)
+      setSchemaHealth('corrupted')
+    } finally {
+      setCheckingSchema(false)
+    }
+  }
+
   useEffect(() => {
     loadStats()
+    checkSchemaHealth()
     const config = loadStorageConfig()
     
     const envFlaskUrl = import.meta.env.VITE_FLASK_BACKEND_URL
@@ -116,8 +136,9 @@ export function SettingsPage() {
 
     try {
       await clearDatabase()
-      toast.success('Database cleared successfully')
+      toast.success('Database cleared and schema recreated successfully')
       await loadStats()
+      await checkSchemaHealth()
     } catch (error) {
       console.error('Failed to clear:', error)
       toast.error('Failed to clear database')
@@ -247,6 +268,51 @@ export function SettingsPage() {
       </div>
 
       <div className="grid gap-6 max-w-3xl">
+        {schemaHealth === 'corrupted' && (
+          <Card className="border-destructive bg-destructive/10">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-destructive">
+                <Warning weight="fill" size={24} />
+                Schema Corruption Detected
+              </CardTitle>
+              <CardDescription>
+                Your database schema is outdated or corrupted and needs to be repaired
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <Alert className="border-destructive">
+                <AlertDescription>
+                  The database schema is missing required tables or columns (likely due to namespace feature addition).
+                  This can cause errors when loading or saving snippets. Click the button below to wipe and recreate the database with the correct schema.
+                </AlertDescription>
+              </Alert>
+              <div className="flex gap-2">
+                <Button onClick={handleClear} variant="destructive" className="gap-2">
+                  <FirstAid weight="bold" size={16} />
+                  Repair Database (Wipe & Recreate)
+                </Button>
+                <Button onClick={checkSchemaHealth} variant="outline" disabled={checkingSchema}>
+                  {checkingSchema ? 'Checking...' : 'Re-check Schema'}
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {schemaHealth === 'healthy' && (
+          <Card className="border-green-600 bg-green-600/10">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-green-600">
+                <CheckCircle weight="fill" size={24} />
+                Schema Healthy
+              </CardTitle>
+              <CardDescription>
+                Your database schema is up to date and functioning correctly
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        )}
+
         {envVarSet && (
           <Card className="border-accent">
             <CardHeader>

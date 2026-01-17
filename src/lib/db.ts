@@ -112,6 +112,64 @@ function saveToLocalStorage(data: Uint8Array): boolean {
   }
 }
 
+async function validateSchema(db: Database): Promise<boolean> {
+  try {
+    const snippetsCheck = db.exec("PRAGMA table_info(snippets)")
+    if (snippetsCheck.length === 0) return true
+    
+    const columns = snippetsCheck[0].values.map(row => row[1] as string)
+    const requiredColumns = ['id', 'title', 'code', 'language', 'category', 'namespaceId', 'createdAt', 'updatedAt']
+    
+    for (const col of requiredColumns) {
+      if (!columns.includes(col)) {
+        console.warn(`Schema validation failed: missing column '${col}'`)
+        return false
+      }
+    }
+    
+    const namespacesCheck = db.exec("PRAGMA table_info(namespaces)")
+    if (namespacesCheck.length === 0) {
+      console.warn('Schema validation failed: namespaces table missing')
+      return false
+    }
+    
+    return true
+  } catch (error) {
+    console.error('Schema validation error:', error)
+    return false
+  }
+}
+
+async function wipeAndRecreateDB(): Promise<void> {
+  console.warn('Wiping corrupted database and creating fresh schema...')
+  
+  await saveToIndexedDB(new Uint8Array())
+  saveToLocalStorage(new Uint8Array())
+  
+  const idb = await openIndexedDB()
+  if (idb) {
+    try {
+      const transaction = idb.transaction([IDB_STORE], 'readwrite')
+      const store = transaction.objectStore(IDB_STORE)
+      await new Promise<void>((resolve) => {
+        const request = store.delete(DB_KEY)
+        request.onsuccess = () => resolve()
+        request.onerror = () => resolve()
+      })
+    } catch (error) {
+      console.warn('Error clearing IndexedDB:', error)
+    }
+  }
+  
+  try {
+    localStorage.removeItem(DB_KEY)
+  } catch (error) {
+    console.warn('Error clearing localStorage:', error)
+  }
+  
+  dbInstance = null
+}
+
 export async function initDB(): Promise<Database> {
   if (dbInstance) return dbInstance
 
@@ -122,6 +180,7 @@ export async function initDB(): Promise<Database> {
   }
 
   let loadedData: Uint8Array | null = null
+  let schemaValid = false
   
   loadedData = await loadFromIndexedDB()
   
@@ -129,11 +188,22 @@ export async function initDB(): Promise<Database> {
     loadedData = loadFromLocalStorage()
   }
   
-  if (loadedData) {
+  if (loadedData && loadedData.length > 0) {
     try {
-      dbInstance = new sqlInstance.Database(loadedData)
+      const testDb = new sqlInstance.Database(loadedData)
+      schemaValid = await validateSchema(testDb)
+      
+      if (schemaValid) {
+        dbInstance = testDb
+      } else {
+        console.warn('Schema validation failed, wiping database')
+        testDb.close()
+        await wipeAndRecreateDB()
+        dbInstance = new sqlInstance.Database()
+      }
     } catch (error) {
       console.error('Failed to load saved database, creating new one:', error)
+      await wipeAndRecreateDB()
       dbInstance = new sqlInstance.Database()
     }
   } else {
@@ -836,6 +906,12 @@ export async function getDatabaseStats(): Promise<{
 }
 
 export async function clearDatabase(): Promise<void> {
+  const adapter = getFlaskAdapter()
+  if (adapter) {
+    await adapter.wipeDatabase()
+    return
+  }
+
   const db = await openIndexedDB()
   if (db) {
     try {
@@ -875,6 +951,11 @@ export async function syncTemplatesFromJSON(templates: SnippetTemplate[]): Promi
 }
 
 export async function getAllNamespaces(): Promise<import('./types').Namespace[]> {
+  const adapter = getFlaskAdapter()
+  if (adapter) {
+    return await adapter.getAllNamespaces()
+  }
+
   const db = await initDB()
   
   const results = db.exec('SELECT * FROM namespaces ORDER BY isDefault DESC, name ASC')
@@ -898,14 +979,20 @@ export async function getAllNamespaces(): Promise<import('./types').Namespace[]>
 }
 
 export async function createNamespace(name: string): Promise<import('./types').Namespace> {
-  const db = await initDB()
-  
   const namespace: import('./types').Namespace = {
     id: Date.now().toString(),
     name,
     createdAt: Date.now(),
     isDefault: false
   }
+
+  const adapter = getFlaskAdapter()
+  if (adapter) {
+    await adapter.createNamespace(namespace)
+    return namespace
+  }
+
+  const db = await initDB()
   
   db.run(
     `INSERT INTO namespaces (id, name, createdAt, isDefault)
@@ -918,6 +1005,11 @@ export async function createNamespace(name: string): Promise<import('./types').N
 }
 
 export async function deleteNamespace(id: string): Promise<void> {
+  const adapter = getFlaskAdapter()
+  if (adapter) {
+    return await adapter.deleteNamespace(id)
+  }
+
   const db = await initDB()
   
   const defaultNamespace = db.exec('SELECT id FROM namespaces WHERE isDefault = 1')
@@ -1008,4 +1100,35 @@ export async function getNamespaceById(id: string): Promise<import('./types').Na
   })
   
   return namespace
+}
+
+export async function validateDatabaseSchema(): Promise<{ valid: boolean; issues: string[] }> {
+  try {
+    const db = await initDB()
+    const issues: string[] = []
+    
+    const snippetsCheck = db.exec("PRAGMA table_info(snippets)")
+    if (snippetsCheck.length === 0) {
+      issues.push('Snippets table missing')
+      return { valid: false, issues }
+    }
+    
+    const columns = snippetsCheck[0].values.map(row => row[1] as string)
+    const requiredColumns = ['id', 'title', 'code', 'language', 'category', 'namespaceId', 'createdAt', 'updatedAt']
+    
+    for (const col of requiredColumns) {
+      if (!columns.includes(col)) {
+        issues.push(`Missing column '${col}' in snippets table`)
+      }
+    }
+    
+    const namespacesCheck = db.exec("SELECT name FROM sqlite_master WHERE type='table' AND name='namespaces'")
+    if (namespacesCheck.length === 0) {
+      issues.push('Namespaces table missing')
+    }
+    
+    return { valid: issues.length === 0, issues }
+  } catch (error) {
+    return { valid: false, issues: ['Failed to validate schema: ' + (error as Error).message] }
+  }
 }

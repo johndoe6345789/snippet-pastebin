@@ -186,4 +186,53 @@ export class FlaskStorageAdapter {
   async migrateToIndexedDB(): Promise<Snippet[]> {
     return this.getAllSnippets()
   }
+
+  async getAllNamespaces(): Promise<import('./types').Namespace[]> {
+    if (!this.isValidUrl()) {
+      throw new Error('Invalid Flask backend URL')
+    }
+    const response = await fetch(`${this.baseUrl}/api/namespaces`)
+    if (!response.ok) {
+      throw new Error(`Failed to fetch namespaces: ${response.statusText}`)
+    }
+    return await response.json()
+  }
+
+  async createNamespace(namespace: import('./types').Namespace): Promise<void> {
+    if (!this.isValidUrl()) {
+      throw new Error('Invalid Flask backend URL')
+    }
+    const response = await fetch(`${this.baseUrl}/api/namespaces`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(namespace)
+    })
+    if (!response.ok) {
+      throw new Error(`Failed to create namespace: ${response.statusText}`)
+    }
+  }
+
+  async deleteNamespace(id: string): Promise<void> {
+    if (!this.isValidUrl()) {
+      throw new Error('Invalid Flask backend URL')
+    }
+    const response = await fetch(`${this.baseUrl}/api/namespaces/${id}`, {
+      method: 'DELETE'
+    })
+    if (!response.ok) {
+      throw new Error(`Failed to delete namespace: ${response.statusText}`)
+    }
+  }
+
+  async wipeDatabase(): Promise<void> {
+    if (!this.isValidUrl()) {
+      throw new Error('Invalid Flask backend URL')
+    }
+    const response = await fetch(`${this.baseUrl}/api/wipe`, {
+      method: 'POST'
+    })
+    if (!response.ok) {
+      throw new Error(`Failed to wipe database: ${response.statusText}`)
+    }
+  }
 }
