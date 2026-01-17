@@ -5,6 +5,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert'
 import { AIErrorHelper } from '@/components/AIErrorHelper'
 import { WarningCircle } from '@phosphor-icons/react'
 import { InputParameter } from '@/lib/types'
+import * as Babel from '@babel/standalone'
 
 interface ReactPreviewProps {
   code: string
@@ -29,7 +30,7 @@ export function ReactPreview({ code, language, functionName, inputParameters }: 
     }
 
     try {
-      const transformedCode = code
+      const cleanedCode = code
         .replace(/^import\s+.*from\s+['"]react['"];?\s*/gm, '')
         .replace(/^import\s+.*from\s+['"].*['"];?\s*/gm, '')
         .replace(/export\s+default\s+/g, '')
@@ -38,20 +39,23 @@ export function ReactPreview({ code, language, functionName, inputParameters }: 
       let componentToReturn = functionName
 
       if (!componentToReturn) {
-        const functionMatch = transformedCode.match(/(?:function|const|let|var)\s+([A-Z]\w*)/);
+        const functionMatch = cleanedCode.match(/(?:function|const|let|var)\s+([A-Z]\w*)/);
         if (functionMatch) {
           componentToReturn = functionMatch[1]
         }
       }
 
+      const transformedResult = Babel.transform(cleanedCode, {
+        presets: ['react', 'typescript'],
+        filename: 'component.tsx',
+      })
+
+      const transformedCode = transformedResult.code || ''
+
       const wrappedCode = `
         (function() {
           const React = arguments[0];
-          const useState = React.useState;
-          const useEffect = React.useEffect;
-          const useRef = React.useRef;
-          const useMemo = React.useMemo;
-          const useCallback = React.useCallback;
+          const { useState, useEffect, useRef, useMemo, useCallback, useReducer, useContext } = React;
           
           ${transformedCode}
           
