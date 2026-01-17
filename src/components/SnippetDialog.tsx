@@ -125,10 +125,10 @@ export function SnippetDialog({ open, onOpenChange, onSave, editingSnippet }: Sn
       <DialogContent className="sm:max-w-[900px] max-h-[90vh] overflow-hidden flex flex-col">
         <DialogHeader>
           <DialogTitle className="text-2xl">
-            {editingSnippet ? strings.snippetDialog.edit.title : strings.snippetDialog.create.title}
+            {editingSnippet?.id ? strings.snippetDialog.edit.title : strings.snippetDialog.create.title}
           </DialogTitle>
           <DialogDescription>
-            {editingSnippet 
+            {editingSnippet?.id
               ? strings.snippetDialog.edit.description
               : strings.snippetDialog.create.description}
           </DialogDescription>

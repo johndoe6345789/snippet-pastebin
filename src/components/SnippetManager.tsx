@@ -45,7 +45,7 @@ export function SnippetManager() {
   }, [snippets, searchQuery])
 
   const handleSaveSnippet = useCallback((snippetData: Omit<Snippet, 'id' | 'createdAt' | 'updatedAt'>) => {
-    if (editingSnippet) {
+    if (editingSnippet?.id) {
       setSnippets((currentSnippets) => {
         const allSnippets = currentSnippets || []
         return allSnippets.map((s) =>
@@ -104,8 +104,7 @@ export function SnippetManager() {
     const template = templates.find((t) => t.id === templateId)
     if (!template) return
 
-    const templateSnippet: Snippet = {
-      id: Date.now().toString(),
+    const templateSnippet = {
       title: template.title,
       description: template.description,
       language: template.language,
@@ -113,11 +112,9 @@ export function SnippetManager() {
       category: template.category,
       hasPreview: template.hasPreview,
       functionName: template.functionName,
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
-    }
+    } as Partial<Snippet>
     
-    setEditingSnippet(templateSnippet)
+    setEditingSnippet(templateSnippet as Snippet)
     setDialogOpen(true)
   }, [])
 
