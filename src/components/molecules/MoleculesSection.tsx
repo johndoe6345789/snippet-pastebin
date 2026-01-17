@@ -16,8 +16,15 @@ import {
   Lock,
   Calendar,
 } from '@phosphor-icons/react'
+import { ComponentShowcase } from '@/components/ComponentShowcase'
+import { moleculesCodeSnippets } from '@/lib/component-code-snippets'
+import { Snippet } from '@/lib/types'
 
-export function MoleculesSection() {
+interface MoleculesSectionProps {
+  onSaveSnippet: (snippet: Omit<Snippet, 'id' | 'createdAt' | 'updatedAt'>) => void
+}
+
+export function MoleculesSection({ onSaveSnippet }: MoleculesSectionProps) {
   return (
     <div className="space-y-16">
       <section className="space-y-6">
@@ -28,33 +35,41 @@ export function MoleculesSection() {
           </p>
         </div>
 
-        <Card className="p-6">
-          <div className="space-y-6 max-w-md">
-            <div className="space-y-2">
-              <Label htmlFor="name">Full Name</Label>
-              <Input id="name" placeholder="John Doe" />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="email">Email Address</Label>
-              <div className="relative">
-                <Envelope className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                <Input id="email" type="email" placeholder="john@example.com" className="pl-10" />
+        <ComponentShowcase
+          code={moleculesCodeSnippets.formField}
+          title="Form Field with Icon and Helper Text"
+          description="Complete form field with label, icon, and validation message"
+          category="molecules"
+          onSaveSnippet={onSaveSnippet}
+        >
+          <Card className="p-6">
+            <div className="space-y-6 max-w-md">
+              <div className="space-y-2">
+                <Label htmlFor="name">Full Name</Label>
+                <Input id="name" placeholder="John Doe" />
               </div>
-              <p className="text-sm text-muted-foreground">
-                We'll never share your email with anyone else.
-              </p>
-            </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                <Input id="password" type="password" placeholder="••••••••" className="pl-10" />
+              <div className="space-y-2">
+                <Label htmlFor="email">Email Address</Label>
+                <div className="relative">
+                  <Envelope className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                  <Input id="email" type="email" placeholder="john@example.com" className="pl-10" />
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  We'll never share your email with anyone else.
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                  <Input id="password" type="password" placeholder="••••••••" className="pl-10" />
+                </div>
               </div>
             </div>
-          </div>
-        </Card>
+          </Card>
+        </ComponentShowcase>
       </section>
 
       <section className="space-y-6">
@@ -65,31 +80,39 @@ export function MoleculesSection() {
           </p>
         </div>
 
-        <Card className="p-6">
-          <div className="space-y-6">
-            <div className="relative max-w-md">
-              <MagnifyingGlass className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-              <Input placeholder="Search..." className="pl-10" />
-            </div>
-
-            <Separator />
-
-            <div className="flex gap-2 max-w-md">
-              <div className="relative flex-1">
+        <ComponentShowcase
+          code={moleculesCodeSnippets.searchBarWithButton}
+          title="Search Bar with Button"
+          description="Search input combined with action button"
+          category="molecules"
+          onSaveSnippet={onSaveSnippet}
+        >
+          <Card className="p-6">
+            <div className="space-y-6">
+              <div className="relative max-w-md">
                 <MagnifyingGlass className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                 <Input placeholder="Search..." className="pl-10" />
               </div>
-              <Button>Search</Button>
-            </div>
 
-            <Separator />
+              <Separator />
 
-            <div className="relative max-w-md">
-              <MagnifyingGlass className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-              <Input placeholder="Search products, articles, documentation..." className="pl-10 h-12" />
+              <div className="flex gap-2 max-w-md">
+                <div className="relative flex-1">
+                  <MagnifyingGlass className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                  <Input placeholder="Search..." className="pl-10" />
+                </div>
+                <Button>Search</Button>
+              </div>
+
+              <Separator />
+
+              <div className="relative max-w-md">
+                <MagnifyingGlass className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                <Input placeholder="Search products, articles, documentation..." className="pl-10 h-12" />
+              </div>
             </div>
-          </div>
-        </Card>
+          </Card>
+        </ComponentShowcase>
       </section>
 
       <section className="space-y-6">

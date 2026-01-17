@@ -13,8 +13,15 @@ import {
   Minus,
   MagnifyingGlass,
 } from '@phosphor-icons/react'
+import { ComponentShowcase } from '@/components/ComponentShowcase'
+import { atomsCodeSnippets } from '@/lib/component-code-snippets'
+import { Snippet } from '@/lib/types'
 
-export function AtomsSection() {
+interface AtomsSectionProps {
+  onSaveSnippet: (snippet: Omit<Snippet, 'id' | 'createdAt' | 'updatedAt'>) => void
+}
+
+export function AtomsSection({ onSaveSnippet }: AtomsSectionProps) {
   return (
     <div className="space-y-16">
       <section className="space-y-6">
@@ -25,75 +32,83 @@ export function AtomsSection() {
           </p>
         </div>
         
-        <Card className="p-6">
-          <div className="space-y-8">
-            <div className="space-y-3">
-              <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
-                Variants
-              </h3>
-              <div className="flex flex-wrap gap-4">
-                <Button>Default</Button>
-                <Button variant="secondary">Secondary</Button>
-                <Button variant="destructive">Destructive</Button>
-                <Button variant="outline">Outline</Button>
-                <Button variant="ghost">Ghost</Button>
-                <Button variant="link">Link</Button>
+        <ComponentShowcase
+          code={atomsCodeSnippets.buttonWithIcons}
+          title="Button with Icons"
+          description="Buttons with icon and text combinations"
+          category="atoms"
+          onSaveSnippet={onSaveSnippet}
+        >
+          <Card className="p-6">
+            <div className="space-y-8">
+              <div className="space-y-3">
+                <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
+                  Variants
+                </h3>
+                <div className="flex flex-wrap gap-4">
+                  <Button>Default</Button>
+                  <Button variant="secondary">Secondary</Button>
+                  <Button variant="destructive">Destructive</Button>
+                  <Button variant="outline">Outline</Button>
+                  <Button variant="ghost">Ghost</Button>
+                  <Button variant="link">Link</Button>
+                </div>
+              </div>
+
+              <Separator />
+
+              <div className="space-y-3">
+                <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
+                  Sizes
+                </h3>
+                <div className="flex flex-wrap items-center gap-4">
+                  <Button size="sm">Small</Button>
+                  <Button size="default">Default</Button>
+                  <Button size="lg">Large</Button>
+                  <Button size="icon">
+                    <Heart weight="fill" />
+                  </Button>
+                </div>
+              </div>
+
+              <Separator />
+
+              <div className="space-y-3">
+                <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
+                  With Icons
+                </h3>
+                <div className="flex flex-wrap gap-4">
+                  <Button>
+                    <Star weight="fill" />
+                    Favorite
+                  </Button>
+                  <Button variant="outline">
+                    <Plus weight="bold" />
+                    Add Item
+                  </Button>
+                  <Button variant="secondary">
+                    <Lightning weight="fill" />
+                    Quick Action
+                  </Button>
+                </div>
+              </div>
+
+              <Separator />
+
+              <div className="space-y-3">
+                <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
+                  States
+                </h3>
+                <div className="flex flex-wrap gap-4">
+                  <Button disabled>Disabled</Button>
+                  <Button variant="outline" disabled>
+                    Disabled Outline
+                  </Button>
+                </div>
               </div>
             </div>
-
-            <Separator />
-
-            <div className="space-y-3">
-              <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
-                Sizes
-              </h3>
-              <div className="flex flex-wrap items-center gap-4">
-                <Button size="sm">Small</Button>
-                <Button size="default">Default</Button>
-                <Button size="lg">Large</Button>
-                <Button size="icon">
-                  <Heart weight="fill" />
-                </Button>
-              </div>
-            </div>
-
-            <Separator />
-
-            <div className="space-y-3">
-              <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
-                With Icons
-              </h3>
-              <div className="flex flex-wrap gap-4">
-                <Button>
-                  <Star weight="fill" />
-                  Favorite
-                </Button>
-                <Button variant="outline">
-                  <Plus weight="bold" />
-                  Add Item
-                </Button>
-                <Button variant="secondary">
-                  <Lightning weight="fill" />
-                  Quick Action
-                </Button>
-              </div>
-            </div>
-
-            <Separator />
-
-            <div className="space-y-3">
-              <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
-                States
-              </h3>
-              <div className="flex flex-wrap gap-4">
-                <Button disabled>Disabled</Button>
-                <Button variant="outline" disabled>
-                  Disabled Outline
-                </Button>
-              </div>
-            </div>
-          </div>
-        </Card>
+          </Card>
+        </ComponentShowcase>
       </section>
 
       <section className="space-y-6">
@@ -104,43 +119,51 @@ export function AtomsSection() {
           </p>
         </div>
         
-        <Card className="p-6">
-          <div className="space-y-8">
-            <div className="space-y-3">
-              <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
-                Variants
-              </h3>
-              <div className="flex flex-wrap gap-4">
-                <Badge>Default</Badge>
-                <Badge variant="secondary">Secondary</Badge>
-                <Badge variant="destructive">Destructive</Badge>
-                <Badge variant="outline">Outline</Badge>
+        <ComponentShowcase
+          code={atomsCodeSnippets.badgeWithIcons}
+          title="Badge with Icons"
+          description="Badge components with icon combinations"
+          category="atoms"
+          onSaveSnippet={onSaveSnippet}
+        >
+          <Card className="p-6">
+            <div className="space-y-8">
+              <div className="space-y-3">
+                <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
+                  Variants
+                </h3>
+                <div className="flex flex-wrap gap-4">
+                  <Badge>Default</Badge>
+                  <Badge variant="secondary">Secondary</Badge>
+                  <Badge variant="destructive">Destructive</Badge>
+                  <Badge variant="outline">Outline</Badge>
+                </div>
+              </div>
+
+              <Separator />
+
+              <div className="space-y-3">
+                <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
+                  With Icons
+                </h3>
+                <div className="flex flex-wrap gap-4">
+                  <Badge>
+                    <Check weight="bold" className="mr-1" />
+                    Completed
+                  </Badge>
+                  <Badge variant="destructive">
+                    <X weight="bold" className="mr-1" />
+                    Failed
+                  </Badge>
+                  <Badge variant="secondary">
+                    <Star weight="fill" className="mr-1" />
+                    Featured
+                  </Badge>
+                </div>
               </div>
             </div>
-
-            <Separator />
-
-            <div className="space-y-3">
-              <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
-                With Icons
-              </h3>
-              <div className="flex flex-wrap gap-4">
-                <Badge>
-                  <Check weight="bold" className="mr-1" />
-                  Completed
-                </Badge>
-                <Badge variant="destructive">
-                  <X weight="bold" className="mr-1" />
-                  Failed
-                </Badge>
-                <Badge variant="secondary">
-                  <Star weight="fill" className="mr-1" />
-                  Featured
-                </Badge>
-              </div>
-            </div>
-          </div>
-        </Card>
+          </Card>
+        </ComponentShowcase>
       </section>
 
       <section className="space-y-6">
@@ -151,37 +174,45 @@ export function AtomsSection() {
           </p>
         </div>
         
-        <Card className="p-6">
-          <div className="space-y-8">
-            <div className="space-y-3">
-              <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
-                States
-              </h3>
-              <div className="space-y-4 max-w-md">
-                <Input placeholder="Default input" />
-                <Input placeholder="Disabled input" disabled />
-                <div className="relative">
-                  <MagnifyingGlass className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                  <Input placeholder="Search..." className="pl-10" />
+        <ComponentShowcase
+          code={atomsCodeSnippets.inputWithIcon}
+          title="Input with Icon"
+          description="Input field with icon decoration"
+          category="atoms"
+          onSaveSnippet={onSaveSnippet}
+        >
+          <Card className="p-6">
+            <div className="space-y-8">
+              <div className="space-y-3">
+                <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
+                  States
+                </h3>
+                <div className="space-y-4 max-w-md">
+                  <Input placeholder="Default input" />
+                  <Input placeholder="Disabled input" disabled />
+                  <div className="relative">
+                    <MagnifyingGlass className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                    <Input placeholder="Search..." className="pl-10" />
+                  </div>
+                </div>
+              </div>
+
+              <Separator />
+
+              <div className="space-y-3">
+                <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
+                  Types
+                </h3>
+                <div className="space-y-4 max-w-md">
+                  <Input type="text" placeholder="Text input" />
+                  <Input type="email" placeholder="email@example.com" />
+                  <Input type="password" placeholder="Password" />
+                  <Input type="number" placeholder="123" />
                 </div>
               </div>
             </div>
-
-            <Separator />
-
-            <div className="space-y-3">
-              <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
-                Types
-              </h3>
-              <div className="space-y-4 max-w-md">
-                <Input type="text" placeholder="Text input" />
-                <Input type="email" placeholder="email@example.com" />
-                <Input type="password" placeholder="Password" />
-                <Input type="number" placeholder="123" />
-              </div>
-            </div>
-          </div>
-        </Card>
+          </Card>
+        </ComponentShowcase>
       </section>
 
       <section className="space-y-6">

@@ -32,8 +32,15 @@ import {
   Plus,
 } from '@phosphor-icons/react'
 import { useState } from 'react'
+import { ComponentShowcase } from '@/components/ComponentShowcase'
+import { organismsCodeSnippets } from '@/lib/component-code-snippets'
+import { Snippet } from '@/lib/types'
 
-export function OrganismsSection() {
+interface OrganismsSectionProps {
+  onSaveSnippet: (snippet: Omit<Snippet, 'id' | 'createdAt' | 'updatedAt'>) => void
+}
+
+export function OrganismsSection({ onSaveSnippet }: OrganismsSectionProps) {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
 
   return (
@@ -46,47 +53,55 @@ export function OrganismsSection() {
           </p>
         </div>
 
-        <Card className="overflow-hidden">
-          <div className="border-b border-border bg-card p-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-6">
-                <h3 className="text-xl font-bold">BrandName</h3>
-                <nav className="hidden md:flex items-center gap-1">
-                  <Button variant="ghost" size="sm">
-                    <House className="mr-2" />
-                    Home
+        <ComponentShowcase
+          code={organismsCodeSnippets.navigationBar}
+          title="Navigation Bar"
+          description="Primary navigation with user menu and notifications"
+          category="organisms"
+          onSaveSnippet={onSaveSnippet}
+        >
+          <Card className="overflow-hidden">
+            <div className="border-b border-border bg-card p-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-6">
+                  <h3 className="text-xl font-bold">BrandName</h3>
+                  <nav className="hidden md:flex items-center gap-1">
+                    <Button variant="ghost" size="sm">
+                      <House className="mr-2" />
+                      Home
+                    </Button>
+                    <Button variant="ghost" size="sm">
+                      <ChartBar className="mr-2" />
+                      Analytics
+                    </Button>
+                    <Button variant="ghost" size="sm">
+                      <Folder className="mr-2" />
+                      Projects
+                    </Button>
+                  </nav>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Button variant="ghost" size="icon">
+                    <Bell />
                   </Button>
-                  <Button variant="ghost" size="sm">
-                    <ChartBar className="mr-2" />
-                    Analytics
+                  <Button variant="ghost" size="icon">
+                    <Gear />
                   </Button>
-                  <Button variant="ghost" size="sm">
-                    <Folder className="mr-2" />
-                    Projects
-                  </Button>
-                </nav>
-              </div>
-              <div className="flex items-center gap-2">
-                <Button variant="ghost" size="icon">
-                  <Bell />
-                </Button>
-                <Button variant="ghost" size="icon">
-                  <Gear />
-                </Button>
-                <Avatar className="h-8 w-8">
-                  <AvatarImage src="https://i.pravatar.cc/150?img=3" />
-                  <AvatarFallback>U</AvatarFallback>
-                </Avatar>
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage src="https://i.pravatar.cc/150?img=3" />
+                    <AvatarFallback>U</AvatarFallback>
+                  </Avatar>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="p-6">
-            <p className="text-sm text-muted-foreground">
-              Primary navigation with user menu and notifications
-            </p>
-          </div>
-        </Card>
+            <div className="p-6">
+              <p className="text-sm text-muted-foreground">
+                Primary navigation with user menu and notifications
+              </p>
+            </div>
+          </Card>
+        </ComponentShowcase>
 
         <Card className="overflow-hidden">
           <div className="border-b border-border bg-card">

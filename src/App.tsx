@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
+import { useKV } from '@github/spark/hooks'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { motion } from 'framer-motion'
 import {
@@ -13,12 +14,25 @@ import { MoleculesSection } from '@/components/molecules/MoleculesSection'
 import { OrganismsSection } from '@/components/organisms/OrganismsSection'
 import { TemplatesSection } from '@/components/templates/TemplatesSection'
 import { SnippetManager } from '@/components/SnippetManager'
-import type { AtomicLevel } from '@/lib/types'
+import type { AtomicLevel, Snippet } from '@/lib/types'
+import { toast } from 'sonner'
 
 type TabValue = AtomicLevel | 'snippets'
 
 function App() {
   const [activeTab, setActiveTab] = useState<TabValue>('atoms')
+  const [snippets, setSnippets] = useKV<Snippet[]>('snippets', [])
+
+  const handleSaveSnippet = useCallback((snippetData: Omit<Snippet, 'id' | 'createdAt' | 'updatedAt'>) => {
+    const newSnippet: Snippet = {
+      ...snippetData,
+      id: Date.now().toString(),
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+    }
+    setSnippets((currentSnippets) => [newSnippet, ...(currentSnippets || [])])
+    toast.success('Component saved as snippet!')
+  }, [setSnippets])
 
   return (
     <div className="min-h-screen bg-background">
@@ -112,7 +126,7 @@ function App() {
                     The fundamental building blocks - basic HTML elements styled as reusable components
                   </p>
                 </div>
-                <AtomsSection />
+                <AtomsSection onSaveSnippet={handleSaveSnippet} />
               </TabsContent>
 
               <TabsContent value="molecules" className="mt-8">
@@ -122,7 +136,7 @@ function App() {
                     Simple groups of atoms functioning together as a unit - form fields, search bars, and cards
                   </p>
                 </div>
-                <MoleculesSection />
+                <MoleculesSection onSaveSnippet={handleSaveSnippet} />
               </TabsContent>
 
               <TabsContent value="organisms" className="mt-8">
@@ -132,7 +146,7 @@ function App() {
                     Complex UI components composed of molecules and atoms - headers, forms, and data displays
                   </p>
                 </div>
-                <OrganismsSection />
+                <OrganismsSection onSaveSnippet={handleSaveSnippet} />
               </TabsContent>
 
               <TabsContent value="templates" className="mt-8">
@@ -142,7 +156,7 @@ function App() {
                     Page-level layouts that combine organisms into complete user interfaces
                   </p>
                 </div>
-                <TemplatesSection />
+                <TemplatesSection onSaveSnippet={handleSaveSnippet} />
               </TabsContent>
 
               <TabsContent value="snippets" className="mt-8">
