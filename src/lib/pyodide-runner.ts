@@ -13,7 +13,7 @@ export async function getPyodide(): Promise<PyodideInterface> {
   }
 
   pyodideLoading = loadPyodide({
-    indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.26.4/full/',
+    indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.29.1/full/',
   }).then((pyodide) => {
     pyodideInstance = pyodide
     return pyodide
