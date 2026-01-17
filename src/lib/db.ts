@@ -1,6 +1,7 @@
 import initSqlJs, { Database } from 'sql.js'
 import type { Snippet, SnippetTemplate } from './types'
 import { getStorageConfig, FlaskStorageAdapter, loadStorageConfig } from './storage'
+import { mapRowToObject, mapRowsToObjects } from './db-mapper'
 
 let dbInstance: Database | null = null
 let sqlInstance: any = null
@@ -304,27 +305,9 @@ export async function getAllSnippets(): Promise<Snippet[]> {
   }
 
   const db = await initDB()
-  
   const results = db.exec('SELECT * FROM snippets ORDER BY updatedAt DESC')
   
-  if (results.length === 0) return []
-  
-  const columns = results[0].columns
-  const values = results[0].values
-  
-  return values.map(row => {
-    const snippet: any = {}
-    columns.forEach((col, idx) => {
-      if (col === 'hasPreview') {
-        snippet[col] = row[idx] === 1
-      } else if (col === 'inputParameters') {
-        snippet[col] = row[idx] ? JSON.parse(row[idx] as string) : undefined
-      } else {
-        snippet[col] = row[idx]
-      }
-    })
-    return snippet as Snippet
-  })
+  return mapRowsToObjects<Snippet>(results)
 }
 
 export async function getSnippet(id: string): Promise<Snippet | null> {
@@ -334,7 +317,6 @@ export async function getSnippet(id: string): Promise<Snippet | null> {
   }
 
   const db = await initDB()
-  
   const results = db.exec('SELECT * FROM snippets WHERE id = ?', [id])
   
   if (results.length === 0 || results[0].values.length === 0) return null
@@ -342,18 +324,7 @@ export async function getSnippet(id: string): Promise<Snippet | null> {
   const columns = results[0].columns
   const row = results[0].values[0]
   
-  const snippet: any = {}
-  columns.forEach((col, idx) => {
-    if (col === 'hasPreview') {
-      snippet[col] = row[idx] === 1
-    } else if (col === 'inputParameters') {
-      snippet[col] = row[idx] ? JSON.parse(row[idx] as string) : undefined
-    } else {
-      snippet[col] = row[idx]
-    }
-  })
-  
-  return snippet as Snippet
+  return mapRowToObject<Snippet>(row, columns)
 }
 
 export async function createSnippet(snippet: Snippet): Promise<void> {
@@ -431,27 +402,9 @@ export async function deleteSnippet(id: string): Promise<void> {
 
 export async function getAllTemplates(): Promise<SnippetTemplate[]> {
   const db = await initDB()
-  
   const results = db.exec('SELECT * FROM snippet_templates')
   
-  if (results.length === 0) return []
-  
-  const columns = results[0].columns
-  const values = results[0].values
-  
-  return values.map(row => {
-    const template: any = {}
-    columns.forEach((col, idx) => {
-      if (col === 'hasPreview') {
-        template[col] = row[idx] === 1
-      } else if (col === 'inputParameters') {
-        template[col] = row[idx] ? JSON.parse(row[idx] as string) : undefined
-      } else {
-        template[col] = row[idx]
-      }
-    })
-    return template as SnippetTemplate
-  })
+  return mapRowsToObjects<SnippetTemplate>(results)
 }
 
 export async function createTemplate(template: SnippetTemplate): Promise<void> {
@@ -957,25 +910,9 @@ export async function getAllNamespaces(): Promise<import('./types').Namespace[]>
   }
 
   const db = await initDB()
-  
   const results = db.exec('SELECT * FROM namespaces ORDER BY isDefault DESC, name ASC')
   
-  if (results.length === 0) return []
-  
-  const columns = results[0].columns
-  const values = results[0].values
-  
-  return values.map(row => {
-    const namespace: any = {}
-    columns.forEach((col, idx) => {
-      if (col === 'isDefault') {
-        namespace[col] = row[idx] === 1
-      } else {
-        namespace[col] = row[idx]
-      }
-    })
-    return namespace
-  })
+  return mapRowsToObjects<import('./types').Namespace>(results)
 }
 
 export async function createNamespace(name: string): Promise<import('./types').Namespace> {
@@ -1057,32 +994,13 @@ export async function ensureDefaultNamespace(): Promise<void> {
 
 export async function getSnippetsByNamespace(namespaceId: string): Promise<Snippet[]> {
   const db = await initDB()
-  
   const results = db.exec('SELECT * FROM snippets WHERE namespaceId = ? OR (namespaceId IS NULL AND ? = (SELECT id FROM namespaces WHERE isDefault = 1)) ORDER BY updatedAt DESC', [namespaceId, namespaceId])
   
-  if (results.length === 0) return []
-  
-  const columns = results[0].columns
-  const values = results[0].values
-  
-  return values.map(row => {
-    const snippet: any = {}
-    columns.forEach((col, idx) => {
-      if (col === 'hasPreview') {
-        snippet[col] = row[idx] === 1
-      } else if (col === 'inputParameters') {
-        snippet[col] = row[idx] ? JSON.parse(row[idx] as string) : undefined
-      } else {
-        snippet[col] = row[idx]
-      }
-    })
-    return snippet as Snippet
-  })
+  return mapRowsToObjects<Snippet>(results)
 }
 
 export async function getNamespaceById(id: string): Promise<import('./types').Namespace | null> {
   const db = await initDB()
-  
   const results = db.exec('SELECT * FROM namespaces WHERE id = ?', [id])
   
   if (results.length === 0 || results[0].values.length === 0) return null
@@ -1090,16 +1008,7 @@ export async function getNamespaceById(id: string): Promise<import('./types').Na
   const columns = results[0].columns
   const row = results[0].values[0]
   
-  const namespace: any = {}
-  columns.forEach((col, idx) => {
-    if (col === 'isDefault') {
-      namespace[col] = row[idx] === 1
-    } else {
-      namespace[col] = row[idx]
-    }
-  })
-  
-  return namespace
+  return mapRowToObject<import('./types').Namespace>(row, columns)
 }
 
 export async function moveSnippetToNamespace(snippetId: string, targetNamespaceId: string): Promise<void> {
