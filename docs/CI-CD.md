@@ -14,7 +14,7 @@ This workflow automatically builds a Docker image of the application and pushes 
 - Pull requests to `main` (build only, no push)
 
 **Features:**
-- Multi-platform Docker image building
+- Multi-platform Docker image building (AMD64 and ARM64)
 - Automatic tagging strategy:
   - `latest` - Latest build from main branch
   - `v1.0.0` - Semantic version tags
@@ -31,7 +31,7 @@ This workflow automatically builds a Docker image of the application and pushes 
 **Using the Docker Image:**
 
 ```bash
-# Pull the latest image
+# Pull the latest image (will automatically use the correct architecture for your system)
 docker pull ghcr.io/<owner>/<repo>:latest
 
 # Run the container
@@ -39,6 +39,10 @@ docker run -p 3000:3000 ghcr.io/<owner>/<repo>:latest
 
 # Pull a specific version
 docker pull ghcr.io/<owner>/<repo>:v1.0.0
+
+# Pull for a specific architecture (optional)
+docker pull --platform linux/amd64 ghcr.io/<owner>/<repo>:latest
+docker pull --platform linux/arm64 ghcr.io/<owner>/<repo>:latest
 ```
 
 **Making Images Public:**
@@ -145,6 +149,7 @@ This will build and push the Docker image with tags: `v1.0.0`, `v1.0`, `v1`, and
 1. Check the build logs in the Actions tab
 2. Ensure the Dockerfile is valid
 3. Test the build locally: `docker build -t test .`
+4. For multi-arch builds locally, use: `docker buildx build --platform linux/amd64,linux/arm64 -t test .`
 
 ### GitHub Pages Deployment Fails
 
@@ -169,7 +174,19 @@ To test the workflows locally, you can:
    docker run -p 3000:3000 <repo>
    ```
 
-2. **Build for GitHub Pages:**
+2. **Build for multiple architectures (requires Docker Buildx):**
+   ```bash
+   # Create a new builder instance (one-time setup)
+   docker buildx create --use
+   
+   # Build for both AMD64 and ARM64
+   docker buildx build --platform linux/amd64,linux/arm64 -t <repo> .
+   
+   # Build and load for your current architecture
+   docker buildx build --platform linux/amd64 -t <repo> --load .
+   ```
+
+3. **Build for GitHub Pages:**
    ```bash
    npm ci
    npm run build
