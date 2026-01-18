@@ -35,6 +35,7 @@ jobs:
         run: npm run build
         env:
           VITE_FLASK_BACKEND_URL: ${{ vars.VITE_FLASK_BACKEND_URL || '' }}
+          VITE_BASE_PATH: ${{ vars.VITE_BASE_PATH || '/' }}
 
       - name: Setup Pages
         uses: actions/configure-pages@v4

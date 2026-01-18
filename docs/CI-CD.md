@@ -64,16 +64,15 @@ This workflow builds the frontend application and deploys it to GitHub Pages.
    - Go to repository Settings → Pages
    - Under "Build and deployment", select "Source: GitHub Actions"
 
-2. **Configure Base Path (if needed):**
+2. **Configure Base Path:**
    
-   If your repository is not deployed to the root domain, you may need to configure the base path in `vite.config.ts`:
+   Set the `VITE_BASE_PATH` repository variable for proper asset loading:
+   - For deployment at `https://<username>.github.io/<repo>/`, set: `/snippet-pastebin/`
+   - For custom domain or root deployment, set: `/`
    
-   ```typescript
-   export default defineConfig({
-     base: '/snippet-pastebin/', // Replace with your repo name
-     // ... rest of config
-   });
-   ```
+   Go to Settings → Secrets and variables → Actions → Variables → New repository variable
+   - Name: `VITE_BASE_PATH`
+   - Value: `/snippet-pastebin/` (or your repository name)
 
 3. **Optional Configuration:**
    - Set `VITE_FLASK_BACKEND_URL` as a repository variable if you want to connect to a backend
@@ -90,6 +89,9 @@ After the workflow runs successfully, your site will be available at:
 
 Set these variables in your repository settings (Settings → Secrets and variables → Actions → Variables):
 
+- `VITE_BASE_PATH` (recommended for GitHub Pages): Base path for the application
+  - Example: `/snippet-pastebin/` for `username.github.io/snippet-pastebin/`
+  - Use `/` for custom domains or root deployment
 - `VITE_FLASK_BACKEND_URL` (optional): URL of your Flask backend API
   - Example: `https://api.example.com`
   - If not set, the app will use local IndexedDB storage
