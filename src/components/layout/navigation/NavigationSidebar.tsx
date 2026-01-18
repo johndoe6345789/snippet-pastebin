@@ -1,66 +1,10 @@
-import { createContext, useContext, useState } from 'react'
 import { motion } from 'framer-motion'
-import { Button } from '@/components/ui/button'
-import {
-  List,
-  House,
-  Atom,
-  FlowArrow,
-  Layout,
-  X,
-  Sparkle,
-  Gear,
-} from '@phosphor-icons/react'
-import { cn } from '@/lib/utils'
 import { Link, useLocation } from 'react-router-dom'
-
-const navigationItems = [
-  { path: '/', label: 'Home', icon: House },
-  { path: '/demo', label: 'Split-Screen Demo', icon: Sparkle },
-  { path: '/atoms', label: 'Atoms', icon: Atom },
-  { path: '/molecules', label: 'Molecules', icon: FlowArrow },
-  { path: '/organisms', label: 'Organisms', icon: Layout },
-  { path: '/templates', label: 'Templates', icon: Layout },
-  { path: '/settings', label: 'Settings', icon: Gear },
-]
-
-type NavigationContextType = {
-  menuOpen: boolean
-  setMenuOpen: (open: boolean) => void
-}
-
-const NavigationContext = createContext<NavigationContextType | undefined>(undefined)
-
-export function NavigationProvider({ children }: { children: React.ReactNode }) {
-  const [menuOpen, setMenuOpen] = useState(false)
-
-  return (
-    <NavigationContext.Provider value={{ menuOpen, setMenuOpen }}>
-      {children}
-    </NavigationContext.Provider>
-  )
-}
-
-export function useNavigation() {
-  const context = useContext(NavigationContext)
-  if (!context) {
-    throw new Error('useNavigation must be used within NavigationProvider')
-  }
-  return context
-}
-
-export function Navigation() {
-  const { menuOpen, setMenuOpen } = useNavigation()
-  return (
-    <Button
-      variant="ghost"
-      size="icon"
-      onClick={() => setMenuOpen(!menuOpen)}
-    >
-      <List className="h-5 w-5" />
-    </Button>
-  )
-}
+import { X } from '@phosphor-icons/react'
+import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
+import { navigationItems } from './navigation-items'
+import { useNavigation } from './useNavigation'
 
 export function NavigationSidebar() {
   const { menuOpen, setMenuOpen } = useNavigation()
