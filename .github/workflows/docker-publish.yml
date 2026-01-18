@@ -62,3 +62,4 @@ jobs:
           cache-to: type=gha,mode=max
           build-args: |
             VITE_FLASK_BACKEND_URL=${{ vars.VITE_FLASK_BACKEND_URL || '' }}
+            VITE_BASE_PATH=${{ vars.VITE_BASE_PATH || '/' }}

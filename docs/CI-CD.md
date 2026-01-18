@@ -32,13 +32,13 @@ This workflow automatically builds a Docker image of the application and pushes 
 
 ```bash
 # Pull the latest image
-docker pull ghcr.io/johndoe6345789/snippet-pastebin:latest
+docker pull ghcr.io/<owner>/<repo>:latest
 
 # Run the container
-docker run -p 3000:3000 ghcr.io/johndoe6345789/snippet-pastebin:latest
+docker run -p 3000:3000 ghcr.io/<owner>/<repo>:latest
 
 # Pull a specific version
-docker pull ghcr.io/johndoe6345789/snippet-pastebin:v1.0.0
+docker pull ghcr.io/<owner>/<repo>:v1.0.0
 ```
 
 **Making Images Public:**
@@ -67,12 +67,12 @@ This workflow builds the frontend application and deploys it to GitHub Pages.
 2. **Configure Base Path:**
    
    Set the `VITE_BASE_PATH` repository variable for proper asset loading:
-   - For deployment at `https://<username>.github.io/<repo>/`, set: `/snippet-pastebin/`
+   - For deployment at `https://<username>.github.io/<repo>/`, set: `/<repo>/`
    - For custom domain or root deployment, set: `/`
    
    Go to Settings → Secrets and variables → Actions → Variables → New repository variable
    - Name: `VITE_BASE_PATH`
-   - Value: `/snippet-pastebin/` (or your repository name)
+   - Value: `/<repo>/` (or your repository name)
 
 3. **Optional Configuration:**
    - Set `VITE_FLASK_BACKEND_URL` as a repository variable if you want to connect to a backend
@@ -90,7 +90,7 @@ After the workflow runs successfully, your site will be available at:
 Set these variables in your repository settings (Settings → Secrets and variables → Actions → Variables):
 
 - `VITE_BASE_PATH` (recommended for GitHub Pages): Base path for the application
-  - Example: `/snippet-pastebin/` for `username.github.io/snippet-pastebin/`
+  - Example: `/<repo>/` for `username.github.io/<repo>/`
   - Use `/` for custom domains or root deployment
 - `VITE_FLASK_BACKEND_URL` (optional): URL of your Flask backend API
   - Example: `https://api.example.com`
@@ -165,8 +165,8 @@ To test the workflows locally, you can:
 
 1. **Build the Docker image:**
    ```bash
-   docker build -t snippet-pastebin .
-   docker run -p 3000:3000 snippet-pastebin
+   docker build -t <repo> .
+   docker run -p 3000:3000 <repo>
    ```
 
 2. **Build for GitHub Pages:**
@@ -179,11 +179,11 @@ To test the workflows locally, you can:
 
 ## Workflow Status Badges
 
-Add these badges to your README.md:
+Add these badges to your README.md (replace `<owner>` and `<repo>` with your values):
 
 ```markdown
-[![Docker Build](https://github.com/johndoe6345789/snippet-pastebin/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/johndoe6345789/snippet-pastebin/actions/workflows/docker-publish.yml)
-[![Deploy to Pages](https://github.com/johndoe6345789/snippet-pastebin/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/johndoe6345789/snippet-pastebin/actions/workflows/deploy-pages.yml)
+[![Docker Build](https://github.com/<owner>/<repo>/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/<owner>/<repo>/actions/workflows/docker-publish.yml)
+[![Deploy to Pages](https://github.com/<owner>/<repo>/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/<owner>/<repo>/actions/workflows/deploy-pages.yml)
 ```
 
 ## Further Customization
