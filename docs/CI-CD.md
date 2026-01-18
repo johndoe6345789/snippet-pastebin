@@ -6,7 +6,7 @@ This repository includes automated CI/CD workflows for building, testing, and de
 
 ### 1. Docker Build and Push to GHCR (`docker-publish.yml`)
 
-This workflow automatically builds a Docker image of the application and pushes it to GitHub Container Registry (GHCR).
+This workflow automatically builds **two separate Docker images** (backend and frontend) and pushes them to GitHub Container Registry (GHCR).
 
 **Triggers:**
 - Push to `main` branch
@@ -14,6 +14,9 @@ This workflow automatically builds a Docker image of the application and pushes 
 - Pull requests to `main` (build only, no push)
 
 **Features:**
+- Two clearly marked build jobs:
+  - **Backend**: Python/Flask API (`ghcr.io/<owner>/<repo>-backend`)
+  - **Frontend**: React/Vite application (`ghcr.io/<owner>/<repo>-frontend`)
 - Multi-platform Docker image building (AMD64 and ARM64)
 - Automatic tagging strategy:
   - `latest` - Latest build from main branch
@@ -21,33 +24,46 @@ This workflow automatically builds a Docker image of the application and pushes 
   - `v1.0` - Major.minor version
   - `v1` - Major version
   - `main-<sha>` - Branch with commit SHA
-- Docker layer caching for faster builds
-- Automatic push to `ghcr.io/<owner>/<repo>`
+- Separate Docker layer caching for each image
+- Parallel builds for faster CI/CD
 
 **Configuration:**
 - The workflow uses the `GITHUB_TOKEN` for authentication (automatic)
-- Optional: Set `VITE_FLASK_BACKEND_URL` as a repository variable for backend configuration
+- Optional: Set `VITE_FLASK_BACKEND_URL` as a repository variable for frontend backend configuration
 
-**Using the Docker Image:**
+**Using the Docker Images:**
 
 ```bash
-# Pull the latest image (will automatically use the correct architecture for your system)
-docker pull ghcr.io/<owner>/<repo>:latest
+# Backend - Pull and run
+docker pull ghcr.io/<owner>/<repo>-backend:latest
+docker run -p 5000:5000 ghcr.io/<owner>/<repo>-backend:latest
 
-# Run the container
-docker run -p 3000:3000 ghcr.io/<owner>/<repo>:latest
+# Frontend - Pull and run
+docker pull ghcr.io/<owner>/<repo>-frontend:latest
+docker run -p 3000:3000 ghcr.io/<owner>/<repo>-frontend:latest
 
-# Pull a specific version
-docker pull ghcr.io/<owner>/<repo>:v1.0.0
+# Pull specific versions
+docker pull ghcr.io/<owner>/<repo>-backend:v1.0.0
+docker pull ghcr.io/<owner>/<repo>-frontend:v1.0.0
 
 # Pull for a specific architecture (optional)
-docker pull --platform linux/amd64 ghcr.io/<owner>/<repo>:latest
-docker pull --platform linux/arm64 ghcr.io/<owner>/<repo>:latest
+docker pull --platform linux/amd64 ghcr.io/<owner>/<repo>-backend:latest
+docker pull --platform linux/arm64 ghcr.io/<owner>/<repo>-frontend:latest
+
+# Run full stack with docker-compose
+# Create a docker-compose.yml referencing GHCR images:
+# backend:
+#   image: ghcr.io/<owner>/<repo>-backend:latest
+# frontend:
+#   image: ghcr.io/<owner>/<repo>-frontend:latest
 ```
 
 **Making Images Public:**
-1. Go to your package at `https://github.com/users/<username>/packages/container/<repo>/settings`
-2. Change visibility to "Public" if you want the image to be publicly accessible
+1. Go to your packages at `https://github.com/users/<username>/packages`
+2. For each image (`<repo>-backend` and `<repo>-frontend`):
+   - Click on the package
+   - Go to "Package settings"
+   - Change visibility to "Public" if you want the image to be publicly accessible
 
 ### 2. Deploy to GitHub Pages (`deploy-pages.yml`)
 
@@ -111,7 +127,7 @@ Both workflows require the following permissions (already configured):
 
 **docker-publish.yml:**
 - `contents: read` - Read repository contents
-- `packages: write` - Push to GitHub Container Registry
+- `packages: write` - Push to GitHub Container Registry (for both backend and frontend images)
 - `id-token: write` - OIDC token for security
 
 **deploy-pages.yml:**
@@ -168,25 +184,36 @@ This will build and push the Docker image with tags: `v1.0.0`, `v1.0`, `v1`, and
 
 To test the workflows locally, you can:
 
-1. **Build the Docker image:**
+1. **Build the Backend Docker image:**
    ```bash
-   docker build -t <repo> .
-   docker run -p 3000:3000 <repo>
+   cd backend
+   docker build -t <repo>-backend .
+   docker run -p 5000:5000 <repo>-backend
    ```
 
-2. **Build for multiple architectures (requires Docker Buildx):**
+2. **Build the Frontend Docker image:**
+   ```bash
+   docker build -t <repo>-frontend .
+   docker run -p 3000:3000 <repo>-frontend
+   ```
+
+3. **Build for multiple architectures (requires Docker Buildx):**
    ```bash
    # Create a new builder instance (one-time setup)
    docker buildx create --use
    
-   # Build for both AMD64 and ARM64
-   docker buildx build --platform linux/amd64,linux/arm64 -t <repo> .
+   # Build backend for both AMD64 and ARM64
+   docker buildx build --platform linux/amd64,linux/arm64 -t <repo>-backend ./backend
+   
+   # Build frontend for both AMD64 and ARM64
+   docker buildx build --platform linux/amd64,linux/arm64 -t <repo>-frontend .
    
    # Build and load for your current architecture
-   docker buildx build --platform linux/amd64 -t <repo> --load .
+   docker buildx build --platform linux/amd64 -t <repo>-backend --load ./backend
+   docker buildx build --platform linux/amd64 -t <repo>-frontend --load .
    ```
 
-3. **Build for GitHub Pages:**
+4. **Build for GitHub Pages:**
    ```bash
    npm ci
    npm run build
@@ -223,7 +250,8 @@ For staging and production environments, consider:
 
 ### Backend Deployment
 
-The current workflows focus on the frontend. For backend deployment:
-- Consider adding a separate workflow for the Flask backend
-- Deploy backend to a service like Heroku, DigitalOcean, or AWS
+The workflow now includes automated backend deployment to GHCR:
+- Backend image is automatically built from the `/backend` directory
+- Image is available at `ghcr.io/<owner>/<repo>-backend`
+- Deploy backend to a service like Heroku, DigitalOcean, or AWS using the GHCR image
 - Update `VITE_FLASK_BACKEND_URL` to point to your deployed backend
