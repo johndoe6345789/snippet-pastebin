@@ -83,6 +83,7 @@ When set, the app automatically connects to Flask backend and disables manual co
 - **[Backend API](./backend/README.md)** - Flask API documentation
 
 ### Production Deployment
+- **[CI/CD Workflows](./docs/CI-CD.md)** - GitHub Actions workflows for GHCR and GitHub Pages
 - **[Deployment Guide](./DEPLOYMENT.md)** - Complete CapRover/Cloudflare deployment walkthrough
 - **[CORS Configuration](./CORS-GUIDE.md)** - CORS setup and troubleshooting
 - **[Deployment Checklist](./DEPLOYMENT-CHECKLIST.md)** - Quick deployment reference
