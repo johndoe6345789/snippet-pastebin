@@ -142,3 +142,180 @@ $space-values: (2, 3, 4, 6, 8);
   .space-y-#{$value} > * + * { margin-top: fn.spacing($value) !important; }
   .space-x-#{$value} > * + * { margin-left: fn.spacing($value) !important; }
 }
+
+// Additional height classes
+.h-9 { height: 2.25rem !important; }
+.h-10 { height: 2.5rem !important; }
+.h-12 { height: 3rem !important; }
+.h-16 { height: 4rem !important; }
+.h-24 { height: 6rem !important; }
+.h-32 { height: 8rem !important; }
+.h-60 { height: 15rem !important; }
+.h-screen { height: 100vh !important; }
+
+// Container
+.container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+
+  @media (min-width: 640px) {
+    max-width: 640px;
+  }
+  @media (min-width: 768px) {
+    max-width: 768px;
+  }
+  @media (min-width: 1024px) {
+    max-width: 1024px;
+  }
+  @media (min-width: 1280px) {
+    max-width: 1280px;
+  }
+}
+
+// Additional positioning
+.inset-0 {
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+}
+
+.top-0 { top: 0 !important; }
+.left-0 { left: 0 !important; }
+.right-0 { right: 0 !important; }
+.bottom-0 { bottom: 0 !important; }
+
+// Z-index
+.z-10 { z-index: 10 !important; }
+.z-20 { z-index: 20 !important; }
+.z-30 { z-index: 30 !important; }
+.z-40 { z-index: 40 !important; }
+.z-50 { z-index: 50 !important; }
+
+// Whitespace
+.whitespace-nowrap { white-space: nowrap !important; }
+.whitespace-normal { white-space: normal !important; }
+
+// Pointer events
+.pointer-events-none { pointer-events: none !important; }
+
+// Outline
+.outline-none { outline: none !important; }
+
+// Shrink
+.shrink-0 { flex-shrink: 0 !important; }
+.shrink { flex-shrink: 1 !important; }
+
+// Overflow specific
+.overflow-x-hidden { overflow-x: hidden !important; }
+.overflow-y-auto { overflow-y: auto !important; }
+.overflow-y-hidden { overflow-y: hidden !important; }
+
+// Backdrop
+.backdrop-blur-md { backdrop-filter: blur(12px) !important; }
+
+// Gradients (using CSS custom properties for compatibility)
+.bg-gradient-to-r { 
+  background-image: linear-gradient(to right, var(--gradient-from-color, transparent), var(--gradient-to-color, transparent)) !important; 
+}
+
+.bg-gradient-to-br { 
+  background-image: linear-gradient(to bottom right, var(--gradient-from-color, transparent), var(--gradient-to-color, transparent)) !important; 
+}
+
+.from-primary { 
+  --gradient-from-color: hsl(var(--primary)) !important; 
+}
+
+.to-accent { 
+  --gradient-to-color: hsl(var(--accent)) !important; 
+}
+
+.via-accent { 
+  --gradient-via-color: hsl(var(--accent)) !important;
+}
+
+// Background clip
+.bg-clip-text { 
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+}
+
+// Text transparent for gradient text
+.text-transparent { color: transparent !important; }
+
+// Tracking (letter-spacing)
+.tracking-tight { letter-spacing: -0.025em !important; }
+
+// Shadow variants
+.shadow-xs {
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05) !important;
+}
+
+// Underline offset
+.underline-offset-4 {
+  text-underline-offset: 4px !important;
+}
+
+// Gap variations (additional to the ones from spacing loop)
+.gap-1 { gap: 0.25rem !important; }
+.gap-1\.5 { gap: 0.375rem !important; }
+.gap-2 { gap: 0.5rem !important; }
+.gap-3 { gap: 0.75rem !important; }
+.gap-4 { gap: 1rem !important; }
+.gap-6 { gap: 1.5rem !important; }
+.gap-8 { gap: 2rem !important; }
+.gap-12 { gap: 3rem !important; }
+
+// Rounded variations (additional)
+.rounded-xs { border-radius: 0.125rem !important; }
+.rounded-full { border-radius: 9999px !important; }
+
+// Padding variations (additional single values not in spacing map)
+.px-1 { padding-left: 0.25rem !important; padding-right: 0.25rem !important; }
+.px-2 { padding-left: 0.5rem !important; padding-right: 0.5rem !important; }
+.px-3 { padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
+.px-4 { padding-left: 1rem !important; padding-right: 1rem !important; }
+.px-6 { padding-left: 1.5rem !important; padding-right: 1.5rem !important; }
+
+.py-0 { padding-top: 0 !important; padding-bottom: 0 !important; }
+.py-1 { padding-top: 0.25rem !important; padding-bottom: 0.25rem !important; }
+.py-2 { padding-top: 0.5rem !important; padding-bottom: 0.5rem !important; }
+.py-4 { padding-top: 1rem !important; padding-bottom: 1rem !important; }
+.py-6 { padding-top: 1.5rem !important; padding-bottom: 1.5rem !important; }
+.py-8 { padding-top: 2rem !important; padding-bottom: 2rem !important; }
+.py-20 { padding-top: 5rem !important; padding-bottom: 5rem !important; }
+
+// Space between variations (additional)
+.space-x-2 > * + * { margin-left: 0.5rem !important; }
+.space-x-3 > * + * { margin-left: 0.75rem !important; }
+.space-y-0 > * + * { margin-top: 0 !important; }
+.space-y-1 > * + * { margin-top: 0.25rem !important; }
+.space-y-16 > * + * { margin-top: 4rem !important; }
+
+// SVG sizing helper - using attribute selector instead of complex class name
+svg {
+  &[class*="h-5"] { height: 1.25rem; }
+  &[class*="w-5"] { width: 1.25rem; }
+}
+
+// Button-specific utilities using nesting
+button {
+  &:disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  &:focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
+  
+  svg {
+    pointer-events: none;
+    flex-shrink: 0;
+  }
+}
