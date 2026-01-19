@@ -134,13 +134,9 @@
 .shadow-md { @include shadow-md; }
 .shadow-lg { @include shadow-lg; }
 
-// Space between children
-.space-y-2 > * + * { margin-top: spacing(2) !important; }
-.space-y-3 > * + * { margin-top: spacing(3) !important; }
-.space-y-4 > * + * { margin-top: spacing(4) !important; }
-.space-y-6 > * + * { margin-top: spacing(6) !important; }
-.space-y-8 > * + * { margin-top: spacing(8) !important; }
-
-.space-x-2 > * + * { margin-left: spacing(2) !important; }
-.space-x-3 > * + * { margin-left: spacing(3) !important; }
-.space-x-4 > * + * { margin-left: spacing(4) !important; }
+// Space between children - DRY loop
+$space-values: (2, 3, 4, 6, 8);
+@each $value in $space-values {
+  .space-y-#{$value} > * + * { margin-top: spacing($value) !important; }
+  .space-x-#{$value} > * + * { margin-left: spacing($value) !important; }
+}
