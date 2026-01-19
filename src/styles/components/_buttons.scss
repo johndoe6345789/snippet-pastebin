@@ -1,0 +1,92 @@
+@use '../abstracts' as *;
+
+// Button component styles
+// These complement the existing Tailwind-based button components
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $size-2;
+  padding: $size-2 $size-4;
+  border: none;
+  border-radius: $radius-md;
+  font-weight: 500;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  outline: none;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+  }
+
+  &:focus-visible {
+    box-shadow: 0 0 0 3px $secondary, 0 0 0 6px $ring;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  // Primary variant - MD3 filled button
+  &-primary {
+    background: $primary;
+    color: $primary-foreground;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12); // MD3 elevation-1
+
+    &:hover:not(:disabled) {
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.14); // MD3 elevation-2
+      background: hsl(260, 45%, 58%); // Slightly lighter on hover
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(0);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+    }
+  }
+
+  // Secondary variant
+  &-secondary {
+    background-color: $secondary;
+    color: $secondary-foreground;
+    border: 1px solid $border;
+
+    &:hover:not(:disabled) {
+      background-color: hsl(217.2, 32.6%, 20%);
+    }
+  }
+
+  // Ghost variant
+  &-ghost {
+    background-color: transparent;
+    color: $accent;
+    border: 1px solid $accent;
+
+    &:hover:not(:disabled) {
+      background-color: rgba(99, 242, 255, 0.1);
+    }
+  }
+
+  // Outline variant
+  &-outline {
+    background-color: transparent;
+    color: $foreground;
+    border: 1px solid $border;
+
+    &:hover:not(:disabled) {
+      background-color: $secondary;
+    }
+  }
+
+  // Size variants
+  &-sm {
+    padding: calc($size-1 * 0.75) $size-2;
+    font-size: 0.75rem;
+  }
+
+  &-lg {
+    padding: $size-3 $size-6;
+    font-size: 1rem;
+  }
+}

@@ -1,23 +1,49 @@
-// Color Variables
+// Color Variables - Material Design 3 (Material You) inspired
 $background: hsl(222.2, 84%, 4.9%);
-$foreground: hsl(210, 40%, 98%);
-$card: hsl(222.2, 84%, 4.9%);
-$card-foreground: hsl(210, 40%, 98%);
-$popover: hsl(222.2, 84%, 4.9%);
-$popover-foreground: hsl(210, 40%, 98%);
-$primary: hsl(263, 70%, 50%);
-$primary-foreground: hsl(210, 40%, 98%);
-$secondary: hsl(217.2, 32.6%, 17.5%);
-$secondary-foreground: hsl(210, 40%, 98%);
-$muted: hsl(217.2, 32.6%, 17.5%);
-$muted-foreground: hsl(215, 20.2%, 65.1%);
-$accent: hsl(195, 100%, 70%);
+$foreground: hsl(210, 15%, 88%); // MD3 on-surface
+$card: hsl(222.2, 40%, 8%); // MD3 surface-container
+$card-foreground: hsl(210, 15%, 88%);
+$popover: hsl(222.2, 40%, 10%); // MD3 surface-container-high
+$popover-foreground: hsl(210, 15%, 88%);
+$primary: hsl(260, 45%, 55%); // MD3 primary - softer purple
+$primary-foreground: hsl(210, 15%, 95%);
+$secondary: hsl(217.2, 25%, 20%); // MD3 secondary-container
+$secondary-foreground: hsl(210, 15%, 88%);
+$muted: hsl(217.2, 25%, 22%);
+$muted-foreground: hsl(215, 12%, 60%); // MD3 on-surface-variant
+$accent: hsl(195, 50%, 50%); // MD3 tertiary - balanced cyan
 $accent-foreground: hsl(222.2, 84%, 4.9%);
-$destructive: hsl(0, 62.8%, 30.6%);
-$destructive-foreground: hsl(210, 40%, 98%);
-$border: hsl(217.2, 32.6%, 17.5%);
-$input: hsl(217.2, 32.6%, 17.5%);
-$ring: hsl(195, 100%, 70%);
+$destructive: hsl(0, 50%, 50%); // MD3 error
+$destructive-foreground: hsl(210, 15%, 95%);
+$border: hsl(217.2, 20%, 25%); // MD3 outline
+$input: hsl(217.2, 25%, 18%);
+$ring: hsl(195, 50%, 50%); // Match accent
+
+// Size scale variables (for direct use in component styles)
+$size-scale: 1;
+$size-0: 0px;
+$size-px: 1px;
+$size-0-5: calc(0.125rem * $size-scale);
+$size-1: calc(0.25rem * $size-scale);
+$size-2: calc(0.5rem * $size-scale);
+$size-3: calc(0.75rem * $size-scale);
+$size-4: calc(1rem * $size-scale);
+$size-5: calc(1.25rem * $size-scale);
+$size-6: calc(1.5rem * $size-scale);
+$size-8: calc(2rem * $size-scale);
+$size-10: calc(2.5rem * $size-scale);
+$size-12: calc(3rem * $size-scale);
+$size-16: calc(4rem * $size-scale);
+$size-20: calc(5rem * $size-scale);
+$size-24: calc(6rem * $size-scale);
+
+// Border radii variables (for direct use)
+$radius-factor: 1;
+$radius-sm: calc(2px * $radius-factor * $size-scale);
+$radius-md: calc(6px * $radius-factor * $size-scale);
+$radius-lg: calc(8px * $radius-factor * $size-scale);
+$radius-xl: calc(12px * $radius-factor * $size-scale);
+$radius-full: 9999px;
 
 // Spacing Scale
 $spacing: (
@@ -117,3 +143,11 @@ $z-index: (
   50: 50,
   auto: auto,
 );
+
+// Shadow values - Material Design 3 elevation system
+$shadow-accent: rgba(99, 150, 180, 0.08); // MD3 elevation tint
+$shadow-accent-md: rgba(99, 150, 180, 0.12);
+$shadow-focus: rgba(99, 150, 180, 0.10);
+
+// Hover colors - MD3 state layers
+$accent-hover: hsl(195, 50%, 55%);

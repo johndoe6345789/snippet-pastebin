@@ -1,0 +1,84 @@
+@use '../abstracts' as *;
+
+// Form component styles
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: $size-4;
+
+  &__group {
+    display: flex;
+    flex-direction: column;
+    gap: $size-2;
+  }
+
+  &__label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: $foreground;
+  }
+
+  &__input,
+  &__select,
+  &__textarea {
+    padding: $size-2 $size-3;
+    background-color: $input;
+    color: $foreground;
+    border: 1px solid $border;
+    border-radius: $radius-md;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+
+    &:focus {
+      outline: none;
+      border-color: $ring;
+      box-shadow: 0 0 0 3px $shadow-focus;
+    }
+
+    &::placeholder {
+      color: $muted-foreground;
+      opacity: 0.6;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      background-color: $muted;
+    }
+  }
+
+  &__textarea {
+    resize: vertical;
+    min-height: 120px;
+    font-family: var(--font-jetbrains-mono), 'JetBrains Mono', monospace;
+  }
+
+  &__select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23cbd5e1' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right $size-3 center;
+    padding-right: $size-8;
+  }
+
+  &__helper {
+    font-size: 0.75rem;
+    color: $muted-foreground;
+    margin-top: -$size-1;
+  }
+
+  &__error {
+    font-size: 0.75rem;
+    color: $destructive;
+    margin-top: -$size-1;
+  }
+
+  // Checkbox and radio styles
+  &__checkbox,
+  &__radio {
+    width: 1rem;
+    height: 1rem;
+    accent-color: $primary;
+  }
+}
