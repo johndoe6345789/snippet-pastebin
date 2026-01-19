@@ -4,6 +4,7 @@ declare const BASE_KV_SERVICE_URL: string
 
 interface ImportMetaEnv {
   readonly VITE_FLASK_BACKEND_URL?: string
+  readonly DEV?: boolean
 }
 
 interface ImportMeta {

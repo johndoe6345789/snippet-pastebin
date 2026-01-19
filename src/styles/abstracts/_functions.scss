@@ -1,24 +1,27 @@
+@use 'sass:map';
+@use './variables' as vars;
+
 // Spacing function
 @function spacing($key) {
-  @return map-get($spacing, $key);
+  @return map.get(vars.$spacing, $key);
 }
 
 // Border radius function
 @function radius($key) {
-  @return map-get($radius, $key);
+  @return map.get(vars.$radius, $key);
 }
 
 // Font size function
 @function font-size($key) {
-  @return map-get($font-sizes, $key);
+  @return map.get(vars.$font-sizes, $key);
 }
 
 // Font weight function
 @function font-weight($key) {
-  @return map-get($font-weights, $key);
+  @return map.get(vars.$font-weights, $key);
 }
 
 // Breakpoint function
 @function breakpoint($key) {
-  @return map-get($breakpoints, $key);
+  @return map.get(vars.$breakpoints, $key);
 }

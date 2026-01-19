@@ -1,7 +1,9 @@
-@import '../abstracts';
+@use '../abstracts/functions' as fn;
+@use '../abstracts/variables' as vars;
+@use '../abstracts/mixins' as mx;
 
 // Utility classes generator
-@each $name, $value in $spacing {
+@each $name, $value in vars.$spacing {
   .p-#{$name} { padding: $value !important; }
   .px-#{$name} { padding-left: $value !important; padding-right: $value !important; }
   .py-#{$name} { padding-top: $value !important; padding-bottom: $value !important; }
@@ -51,17 +53,17 @@
 .grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
 
 // Border radius
-@each $name, $value in $radius {
+@each $name, $value in vars.$radius {
   .rounded-#{$name} { border-radius: $value !important; }
 }
 
 // Text sizes
-@each $name, $value in $font-sizes {
+@each $name, $value in vars.$font-sizes {
   .text-#{$name} { font-size: $value !important; }
 }
 
 // Font weights
-@each $name, $value in $font-weights {
+@each $name, $value in vars.$font-weights {
   .font-#{$name} { font-weight: $value !important; }
 }
 
@@ -71,26 +73,26 @@
 .text-right { text-align: right !important; }
 
 // Colors
-.text-foreground { color: $foreground !important; }
-.text-muted-foreground { color: $muted-foreground !important; }
-.text-primary { color: $primary !important; }
-.text-destructive { color: $destructive !important; }
-.text-accent { color: $accent !important; }
+.text-foreground { color: vars.$foreground !important; }
+.text-muted-foreground { color: vars.$muted-foreground !important; }
+.text-primary { color: vars.$primary !important; }
+.text-destructive { color: vars.$destructive !important; }
+.text-accent { color: vars.$accent !important; }
 
-.bg-background { background-color: $background !important; }
-.bg-card { background-color: $card !important; }
-.bg-primary { background-color: $primary !important; }
-.bg-secondary { background-color: $secondary !important; }
-.bg-muted { background-color: $muted !important; }
-.bg-accent { background-color: $accent !important; }
-.bg-destructive { background-color: $destructive !important; }
+.bg-background { background-color: vars.$background !important; }
+.bg-card { background-color: vars.$card !important; }
+.bg-primary { background-color: vars.$primary !important; }
+.bg-secondary { background-color: vars.$secondary !important; }
+.bg-muted { background-color: vars.$muted !important; }
+.bg-accent { background-color: vars.$accent !important; }
+.bg-destructive { background-color: vars.$destructive !important; }
 
 // Border
-.border { border: 1px solid $border !important; }
-.border-b { border-bottom: 1px solid $border !important; }
-.border-t { border-top: 1px solid $border !important; }
-.border-l { border-left: 1px solid $border !important; }
-.border-r { border-right: 1px solid $border !important; }
+.border { border: 1px solid vars.$border !important; }
+.border-b { border-bottom: 1px solid vars.$border !important; }
+.border-t { border-top: 1px solid vars.$border !important; }
+.border-l { border-left: 1px solid vars.$border !important; }
+.border-r { border-right: 1px solid vars.$border !important; }
 
 // Width & Height
 .w-full { width: 100% !important; }
@@ -129,14 +131,14 @@
 .transition-colors { transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease !important; }
 
 // Shadow
-.shadow-sm { @include shadow-sm; }
-.shadow { @include shadow; }
-.shadow-md { @include shadow-md; }
-.shadow-lg { @include shadow-lg; }
+.shadow-sm { @include mx.shadow-sm; }
+.shadow { @include mx.shadow; }
+.shadow-md { @include mx.shadow-md; }
+.shadow-lg { @include mx.shadow-lg; }
 
 // Space between children - DRY loop
 $space-values: (2, 3, 4, 6, 8);
 @each $value in $space-values {
-  .space-y-#{$value} > * + * { margin-top: spacing($value) !important; }
-  .space-x-#{$value} > * + * { margin-left: spacing($value) !important; }
+  .space-y-#{$value} > * + * { margin-top: fn.spacing($value) !important; }
+  .space-x-#{$value} > * + * { margin-left: fn.spacing($value) !important; }
 }

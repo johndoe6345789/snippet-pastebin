@@ -1,6 +1,6 @@
-@import '../styles/abstracts';
-@import '../styles/utilities/utilities';
-@import './theme.scss';
+@use '../styles/abstracts' as *;
+@use '../styles/utilities/utilities';
+@use './theme.scss';
 
 * {
   margin: 0;
