@@ -1,0 +1,23 @@
+'use client';
+
+import { motion } from 'framer-motion';
+import { SnippetManagerRedux } from '@/components/SnippetManagerRedux';
+import { PageLayout } from './PageLayout';
+
+export default function HomePage() {
+  return (
+    <PageLayout>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+      >
+        <div className="mb-8">
+          <h2 className="text-3xl font-bold tracking-tight mb-2">My Snippets</h2>
+          <p className="text-muted-foreground">Save, organize, and share your code snippets</p>
+        </div>
+        <SnippetManagerRedux />
+      </motion.div>
+    </PageLayout>
+  );
+}

@@ -51,7 +51,7 @@ export function StorageBackendCard({
             <AlertDescription className="flex items-center gap-2">
               <CloudCheck weight="fill" size={16} className="text-accent" />
               <span>
-                Storage backend is configured via <code className="px-1.5 py-0.5 rounded bg-muted text-xs font-mono">VITE_FLASK_BACKEND_URL</code> environment variable and cannot be changed here.
+                Storage backend is configured via <code className="px-1.5 py-0.5 rounded bg-muted text-xs font-mono">NEXT_PUBLIC_FLASK_BACKEND_URL</code> environment variable and cannot be changed here.
               </span>
             </AlertDescription>
           </Alert>

@@ -10,7 +10,7 @@ export interface StorageConfig {
 const STORAGE_CONFIG_KEY = 'codesnippet-storage-config'
 
 function getDefaultConfig(): StorageConfig {
-  const flaskUrl = import.meta.env.VITE_FLASK_BACKEND_URL
+  const flaskUrl = process.env.NEXT_PUBLIC_FLASK_BACKEND_URL
   
   if (flaskUrl) {
     return {

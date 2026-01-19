@@ -1,14 +1,17 @@
-import { motion } from 'framer-motion'
-import { Link, useLocation } from 'react-router-dom'
-import { X } from '@phosphor-icons/react'
-import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
-import { navigationItems } from './navigation-items'
-import { useNavigation } from './useNavigation'
+'use client';
+
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { X } from '@phosphor-icons/react';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+import { navigationItems } from './navigation-items';
+import { useNavigation } from './useNavigation';
 
 export function NavigationSidebar() {
-  const { menuOpen, setMenuOpen } = useNavigation()
-  const location = useLocation()
+  const { menuOpen, setMenuOpen } = useNavigation();
+  const pathname = usePathname();
 
   return (
     <motion.aside
@@ -31,11 +34,11 @@ export function NavigationSidebar() {
         <nav className="p-4">
           <ul className="space-y-2">
             {navigationItems.map((item) => {
-              const Icon = item.icon
-              const isActive = location.pathname === item.path
+              const Icon = item.icon;
+              const isActive = pathname === item.path;
               return (
                 <li key={item.path}>
-                  <Link to={item.path}>
+                  <Link href={item.path}>
                     <Button
                       variant={isActive ? 'secondary' : 'ghost'}
                       className={cn(
@@ -48,7 +51,7 @@ export function NavigationSidebar() {
                     </Button>
                   </Link>
                 </li>
-              )
+              );
             })}
           </ul>
         </nav>
@@ -60,5 +63,5 @@ export function NavigationSidebar() {
         </div>
       </div>
     </motion.aside>
-  )
+  );
 }

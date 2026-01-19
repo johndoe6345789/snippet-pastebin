@@ -13,6 +13,12 @@ dist-ssr
 *-dist
 *.local
 
+# Next.js
+/.next/
+/out/
+next-env.d.ts
+.vercel
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -25,6 +31,8 @@ dist-ssr
 *.sw?
 
 .env
+.env.local
+.env*.local
 **/agent-eval-report*
 packages
 pids

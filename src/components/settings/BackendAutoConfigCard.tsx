@@ -38,7 +38,7 @@ export function BackendAutoConfigCard({
           </div>
           <div className="flex items-center justify-between py-2">
             <span className="text-sm text-muted-foreground">Configuration Source</span>
-            <code className="text-sm font-mono bg-muted px-2 py-1 rounded">VITE_FLASK_BACKEND_URL</code>
+            <code className="text-sm font-mono bg-muted px-2 py-1 rounded">NEXT_PUBLIC_FLASK_BACKEND_URL</code>
           </div>
           <div className="flex items-center justify-between py-2">
             <span className="text-sm text-muted-foreground">Status</span>

@@ -32,7 +32,7 @@ export function useStorageConfig() {
 
   const loadConfig = useCallback(() => {
     const config = loadStorageConfig()
-    const envFlaskUrl = import.meta.env.VITE_FLASK_BACKEND_URL
+    const envFlaskUrl = process.env.NEXT_PUBLIC_FLASK_BACKEND_URL
     const isEnvSet = Boolean(envFlaskUrl)
     
     setEnvVarSet(isEnvSet)
