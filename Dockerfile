@@ -13,10 +13,11 @@ COPY . .
 # Build arguments for environment variables
 ARG NEXT_PUBLIC_FLASK_BACKEND_URL
 ARG NEXT_PUBLIC_BASE_PATH
+ARG TARGETPLATFORM
 ENV NEXT_PUBLIC_FLASK_BACKEND_URL=$NEXT_PUBLIC_FLASK_BACKEND_URL
 ENV NEXT_PUBLIC_BASE_PATH=$NEXT_PUBLIC_BASE_PATH
 
-# Build Next.js app
+# Build Next.js app with platform-specific output dir to avoid conflicts
 RUN npm run build
 
 # Production stage
