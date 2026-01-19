@@ -1,3 +1,6 @@
+@use './functions' as fn;
+@use './variables' as vars;
+
 // Flexbox mixins
 @mixin flex($direction: row, $justify: flex-start, $align: stretch, $wrap: nowrap) {
   display: flex;
@@ -20,7 +23,7 @@
 }
 
 // Grid mixin
-@mixin grid($columns: 1, $gap: spacing(4)) {
+@mixin grid($columns: 1, $gap: fn.spacing(4)) {
   display: grid;
   grid-template-columns: repeat($columns, 1fr);
   gap: $gap;
@@ -28,87 +31,87 @@
 
 // Spacing mixins
 @mixin p($value) {
-  padding: spacing($value);
+  padding: fn.spacing($value);
 }
 
 @mixin px($value) {
-  padding-left: spacing($value);
-  padding-right: spacing($value);
+  padding-left: fn.spacing($value);
+  padding-right: fn.spacing($value);
 }
 
 @mixin py($value) {
-  padding-top: spacing($value);
-  padding-bottom: spacing($value);
+  padding-top: fn.spacing($value);
+  padding-bottom: fn.spacing($value);
 }
 
 @mixin pt($value) {
-  padding-top: spacing($value);
+  padding-top: fn.spacing($value);
 }
 
 @mixin pr($value) {
-  padding-right: spacing($value);
+  padding-right: fn.spacing($value);
 }
 
 @mixin pb($value) {
-  padding-bottom: spacing($value);
+  padding-bottom: fn.spacing($value);
 }
 
 @mixin pl($value) {
-  padding-left: spacing($value);
+  padding-left: fn.spacing($value);
 }
 
 @mixin m($value) {
-  margin: spacing($value);
+  margin: fn.spacing($value);
 }
 
 @mixin mx($value) {
-  margin-left: spacing($value);
-  margin-right: spacing($value);
+  margin-left: fn.spacing($value);
+  margin-right: fn.spacing($value);
 }
 
 @mixin my($value) {
-  margin-top: spacing($value);
-  margin-bottom: spacing($value);
+  margin-top: fn.spacing($value);
+  margin-bottom: fn.spacing($value);
 }
 
 @mixin mt($value) {
-  margin-top: spacing($value);
+  margin-top: fn.spacing($value);
 }
 
 @mixin mr($value) {
-  margin-right: spacing($value);
+  margin-right: fn.spacing($value);
 }
 
 @mixin mb($value) {
-  margin-bottom: spacing($value);
+  margin-bottom: fn.spacing($value);
 }
 
 @mixin ml($value) {
-  margin-left: spacing($value);
+  margin-left: fn.spacing($value);
 }
 
 // Gap mixin
 @mixin gap($value) {
-  gap: spacing($value);
+  gap: fn.spacing($value);
 }
 
 // Border radius mixin
 @mixin rounded($value: base) {
-  border-radius: radius($value);
+  border-radius: fn.radius($value);
 }
 
 // Typography mixins
 @mixin text($size) {
-  font-size: font-size($size);
+  font-size: fn.font-size($size);
 }
 
 @mixin font($weight) {
-  font-weight: font-weight($weight);
+  font-weight: fn.font-weight($weight);
 }
 
 // Responsive breakpoint mixin
 @mixin respond-to($breakpoint) {
-  $size: breakpoint($breakpoint);
+  $size: fn.breakpoint($breakpoint);
   @media (min-width: $size) {
     @content;
   }
@@ -124,7 +127,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: spacing(2);
+  gap: fn.spacing(2);
   cursor: pointer;
   transition: all 0.2s ease;
   border: none;
@@ -138,9 +141,9 @@
 
 // Card mixin
 @mixin card {
-  background: $card;
-  color: $card-foreground;
-  border: 1px solid $border;
+  background: vars.$card;
+  color: vars.$card-foreground;
+  border: 1px solid vars.$border;
   @include rounded(lg);
   @include p(6);
 }
@@ -206,7 +209,7 @@
 // Focus ring
 @mixin focus-ring {
   &:focus-visible {
-    outline: 2px solid $ring;
+    outline: 2px solid vars.$ring;
     outline-offset: 2px;
   }
 }

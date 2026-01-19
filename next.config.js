@@ -5,11 +5,6 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  typescript: {
-    // TypeScript incorrectly flags CSS imports as errors in Next.js
-    // This is a known issue: https://github.com/vercel/next.js/issues/54282
-    ignoreBuildErrors: true,
-  },
   experimental: {
     optimizePackageImports: ['@radix-ui/react-icons', '@phosphor-icons/react'],
     turbopackScopeHoisting: false,

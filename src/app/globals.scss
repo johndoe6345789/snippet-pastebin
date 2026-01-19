@@ -1,17 +1,18 @@
-@import '../styles/abstracts';
-@import '../styles/utilities/utilities';
-@import './theme.scss';
+@use '../styles/abstracts' as *;
+@use '../styles/abstracts/variables' as vars;
+@use '../styles/utilities/utilities';
+@use './theme.scss';
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  border-color: $border;
+  border-color: vars.$border;
 }
 
 body {
-  background: $background;
-  color: $foreground;
+  background: vars.$background;
+  color: vars.$foreground;
   font-family: var(--font-inter), 'Inter', sans-serif;
   line-height: 1.5;
 }
