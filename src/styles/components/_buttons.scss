@@ -1,0 +1,90 @@
+@use '../abstracts' as *;
+
+// Button component styles
+// These complement the existing Tailwind-based button components
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $size-2;
+  padding: $size-2 $size-4;
+  border: none;
+  border-radius: $radius-md;
+  font-weight: 500;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  outline: none;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+  }
+
+  &:focus-visible {
+    box-shadow: 0 0 0 3px var(--color-bg-inset), 0 0 0 6px var(--color-focus-ring);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  // Primary variant
+  &-primary {
+    background: linear-gradient(135deg, hsl(263, 70%, 50%) 0%, hsl(263, 70%, 45%) 100%);
+    color: $primary-foreground;
+
+    &:hover:not(:disabled) {
+      filter: brightness(1.1);
+      box-shadow: 0 8px 16px rgba(147, 51, 234, 0.4);
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(0);
+    }
+  }
+
+  // Secondary variant
+  &-secondary {
+    background-color: $secondary;
+    color: $secondary-foreground;
+    border: 1px solid $border;
+
+    &:hover:not(:disabled) {
+      background-color: hsl(217.2, 32.6%, 20%);
+    }
+  }
+
+  // Ghost variant
+  &-ghost {
+    background-color: transparent;
+    color: $accent;
+    border: 1px solid $accent;
+
+    &:hover:not(:disabled) {
+      background-color: rgba(99, 242, 255, 0.1);
+    }
+  }
+
+  // Outline variant
+  &-outline {
+    background-color: transparent;
+    color: $foreground;
+    border: 1px solid $border;
+
+    &:hover:not(:disabled) {
+      background-color: $secondary;
+    }
+  }
+
+  // Size variants
+  &-sm {
+    padding: calc($size-1 * 0.75) $size-2;
+    font-size: 0.75rem;
+  }
+
+  &-lg {
+    padding: $size-3 $size-6;
+    font-size: 1rem;
+  }
+}
