@@ -43,34 +43,24 @@ export function SnippetCard({
     try {
       const loadedNamespaces = await getAllNamespaces()
       setNamespaces(loadedNamespaces)
-    } catch (error) {
-      console.error('Failed to load namespaces:', error)
+    } catch {
+      console.error('Failed to load namespaces')
     }
   }
 
   const snippetData = useMemo(() => {
-    try {
-      const code = snippet?.code || ''
-      const description = snippet?.description || ''
-      const maxLength = appConfig.codePreviewMaxLength
-      const isTruncated = code.length > maxLength
-      const displayCode = isTruncated ? code.slice(0, maxLength) + '...' : code
+    const code = snippet?.code || ''
+    const description = snippet?.description || ''
+    const maxLength = appConfig.codePreviewMaxLength
+    const isTruncated = code.length > maxLength
+    const displayCode = isTruncated ? code.slice(0, maxLength) + '...' : code
 
-      return {
-        description,
-        displayCode,
-        fullCode: code,
-        isTruncated,
-        hasPreview: snippet?.hasPreview || false
-      }
-    } catch (error) {
-      return {
-        description: '',
-        displayCode: '',
-        fullCode: '',
-        isTruncated: false,
-        hasPreview: false
-      }
+    return {
+      description,
+      displayCode,
+      fullCode: code,
+      isTruncated,
+      hasPreview: snippet?.hasPreview || false
     }
   }, [snippet])
 
@@ -92,6 +82,7 @@ export function SnippetCard({
   }
 
   const handleView = (e: React.MouseEvent) => {
+    e.stopPropagation()
     if (selectionMode) {
       handleToggleSelect()
     } else {
@@ -135,7 +126,6 @@ export function SnippetCard({
     )
   }
 
-  const currentNamespace = namespaces.find(n => n.id === snippet.namespaceId)
   const availableNamespaces = namespaces.filter(n => n.id !== snippet.namespaceId)
 
   return (

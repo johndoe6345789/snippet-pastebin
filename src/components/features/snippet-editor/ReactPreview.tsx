@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react'
+import { useMemo } from 'react'
 import * as React from 'react'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { AIErrorHelper } from '@/components/error/AIErrorHelper'
@@ -15,24 +15,17 @@ interface ReactPreviewProps {
 }
 
 export function ReactPreview({ code, language, functionName, inputParameters }: ReactPreviewProps) {
-  const [error, setError] = useState<string | null>(null)
-  const [Component, setComponent] = useState<React.ComponentType | null>(null)
-
-  useEffect(() => {
-    setError(null)
-    setComponent(null)
-
+  const { Component, error } = useMemo(() => {
     const isReactCode = ['JSX', 'TSX', 'JavaScript', 'TypeScript'].includes(language)
-    
     if (!isReactCode) {
-      return
+      return { Component: null, error: null }
     }
 
     try {
       const transformedComponent = transformReactCode(code, functionName)
-      setComponent(() => transformedComponent)
+      return { Component: transformedComponent, error: null }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to render preview')
+      return { Component: null, error: err instanceof Error ? err.message : 'Failed to render preview' }
     }
   }, [code, language, functionName])
 

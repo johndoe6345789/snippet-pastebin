@@ -4,8 +4,8 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useAppDispatch } from '@/store/hooks'
-import { createSnippet, updateSnippet, deleteSnippet } from '@/store/slices/snippetsSlice'
-import { FloppyDisk, Plus, Pencil, Trash } from '@phosphor-icons/react'
+import { createSnippet } from '@/store/slices/snippetsSlice'
+import { FloppyDisk, Plus } from '@phosphor-icons/react'
 import { toast } from 'sonner'
 
 export function PersistenceExample() {

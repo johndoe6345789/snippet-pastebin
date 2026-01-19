@@ -98,7 +98,7 @@ export async function createTemplate(snippet: Omit<Snippet, 'id' | 'createdAt' |
   await createSnippet(template);
 }
 
-export async function syncTemplatesFromJSON(templates: any[]): Promise<void> {
+export async function syncTemplatesFromJSON(templates: unknown[]): Promise<void> {
   // This would sync predefined templates - implement as needed
   console.log('Syncing templates', templates.length);
 }

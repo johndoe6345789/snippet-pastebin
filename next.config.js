@@ -1,3 +1,4 @@
+/* eslint-env node */
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: process.env.BUILD_STATIC ? 'export' : 'standalone',

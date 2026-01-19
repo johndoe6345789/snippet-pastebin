@@ -14,7 +14,6 @@ export function usePythonTerminal() {
   const [isInitializing, setIsInitializing] = useState(!isPyodideReady())
   const [inputValue, setInputValue] = useState('')
   const [waitingForInput, setWaitingForInput] = useState(false)
-  const [inputPrompt, setInputPrompt] = useState('')
   const inputResolveRef = useRef<((value: string) => void) | null>(null)
 
   useEffect(() => {
@@ -42,7 +41,6 @@ export function usePythonTerminal() {
 
   const handleInputPrompt = (prompt: string): Promise<string> => {
     return new Promise((resolve) => {
-      setInputPrompt(prompt)
       addLine('input-prompt', prompt)
       setWaitingForInput(true)
       inputResolveRef.current = resolve

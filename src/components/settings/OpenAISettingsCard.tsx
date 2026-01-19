@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -8,17 +8,9 @@ import { Label } from '@/components/ui/label';
 import { Eye, EyeClosed, Key } from '@phosphor-icons/react';
 
 export function OpenAISettingsCard() {
-  const [apiKey, setApiKey] = useState('');
+  const [apiKey, setApiKey] = useState(() => (typeof window !== 'undefined' ? localStorage.getItem('openai_api_key') || '' : ''));
   const [showKey, setShowKey] = useState(false);
   const [saved, setSaved] = useState(false);
-
-  useEffect(() => {
-    // Load the API key from localStorage on mount
-    const storedKey = localStorage.getItem('openai_api_key');
-    if (storedKey) {
-      setApiKey(storedKey);
-    }
-  }, []);
 
   const handleSave = () => {
     if (apiKey.trim()) {

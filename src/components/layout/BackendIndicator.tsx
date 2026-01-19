@@ -1,17 +1,10 @@
-import { useState, useEffect } from 'react'
 import { Database, CloudCheck } from '@phosphor-icons/react'
 import { getStorageConfig } from '@/lib/storage'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 
 export function BackendIndicator() {
-  const [backend, setBackend] = useState<'indexeddb' | 'flask'>('indexeddb')
-  const [isEnvConfigured, setIsEnvConfigured] = useState(false)
-
-  useEffect(() => {
-    const config = getStorageConfig()
-    setBackend(config.backend)
-    setIsEnvConfigured(Boolean(process.env.NEXT_PUBLIC_FLASK_BACKEND_URL))
-  }, [])
+  const { backend } = getStorageConfig()
+  const isEnvConfigured = Boolean(process.env.NEXT_PUBLIC_FLASK_BACKEND_URL)
 
   if (backend === 'indexeddb') {
     return (

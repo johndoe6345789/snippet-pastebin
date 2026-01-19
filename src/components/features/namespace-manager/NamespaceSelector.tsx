@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import {
   Select,
   SelectContent,
@@ -30,11 +30,7 @@ export function NamespaceSelector({ selectedNamespaceId, onNamespaceChange }: Na
   const [namespaceToDelete, setNamespaceToDelete] = useState<Namespace | null>(null)
   const [loading, setLoading] = useState(false)
 
-  useEffect(() => {
-    loadNamespaces()
-  }, [])
-
-  const loadNamespaces = async () => {
+  const loadNamespaces = useCallback(async () => {
     try {
       const loadedNamespaces = await getAllNamespaces()
       setNamespaces(loadedNamespaces)
@@ -49,7 +45,11 @@ export function NamespaceSelector({ selectedNamespaceId, onNamespaceChange }: Na
       console.error('Failed to load namespaces:', error)
       toast.error('Failed to load namespaces')
     }
-  }
+  }, [onNamespaceChange, selectedNamespaceId])
+
+  useEffect(() => {
+    loadNamespaces()
+  }, [loadNamespaces])
 
   const handleCreateNamespace = async () => {
     if (!newNamespaceName.trim()) {

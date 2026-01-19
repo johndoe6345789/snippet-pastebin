@@ -1,6 +1,6 @@
 "use client"
 
-import { CSSProperties, ComponentProps, useMemo } from "react"
+import { CSSProperties, ComponentProps } from "react"
 import { cn } from "@/lib/utils"
 import { Skeleton } from "@/components/ui/skeleton"
 
@@ -11,10 +11,8 @@ export function SidebarMenuSkeleton({
 }: ComponentProps<"div"> & {
   showIcon?: boolean
 }) {
-  // Random width between 50 to 90%.
-  const width = useMemo(() => {
-    return `${Math.floor(Math.random() * 40) + 50}%`
-  }, [])
+  // Use a stable width so skeletons don't change across renders.
+  const width = "70%"
 
   return (
     <div

@@ -1,5 +1,3 @@
-import { ComponentShowcase } from '@/components/demo/ComponentShowcase'
-import { organismsCodeSnippets } from '@/lib/component-code-snippets'
 import { Snippet } from '@/lib/types'
 import { NavigationBarsShowcase } from './showcases/NavigationBarsShowcase'
 import { DataTablesShowcase } from './showcases/DataTablesShowcase'

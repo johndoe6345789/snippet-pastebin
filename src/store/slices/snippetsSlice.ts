@@ -154,11 +154,11 @@ const snippetsSlice = createSlice({
         state.items = state.items.filter(s => s.id !== action.payload)
       })
       .addCase(moveSnippet.fulfilled, (state, action) => {
-        const { snippetId, targetNamespaceId } = action.payload
+        const { snippetId } = action.payload
         state.items = state.items.filter(s => s.id !== snippetId)
       })
       .addCase(bulkMoveSnippets.fulfilled, (state, action) => {
-        const { snippetIds, targetNamespaceId } = action.payload
+        const { snippetIds } = action.payload
         state.items = state.items.filter(s => !snippetIds.includes(s.id))
         state.selectedIds = []
         state.selectionMode = false

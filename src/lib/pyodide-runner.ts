@@ -46,7 +46,9 @@ sys.stderr = StringIO()
 `)
 
     try {
-      const result = pyodide.runPython(code)
+      const result = await pyodide.runPythonAsync(code)
+
+      // Flush and collect stdout/stderr after async execution
       const stdout = pyodide.runPython('sys.stdout.getvalue()')
       const stderr = pyodide.runPython('sys.stderr.getvalue()')
 

@@ -13,7 +13,7 @@ import type { Monaco } from '@monaco-editor/react'
  * - module: 99 = ModuleKind.ESNext
  * - jsx: 2 = JsxEmit.React
  */
-export const compilerOptions = {
+export const compilerOptions: Monaco['languages']['typescript']['CompilerOptions'] = {
   target: 2, // ScriptTarget.Latest
   allowNonTsExtensions: true,
   moduleResolution: 2, // ModuleResolutionKind.NodeJs
@@ -29,7 +29,7 @@ export const compilerOptions = {
 /**
  * Diagnostics options for TypeScript/JavaScript validation
  */
-export const diagnosticsOptions = {
+export const diagnosticsOptions: Monaco['languages']['typescript']['DiagnosticsOptions'] = {
   noSemanticValidation: false,
   noSyntaxValidation: false,
 }
@@ -160,10 +160,10 @@ export const shadcnTypes = `
  */
 export function configureMonacoTypeScript(monaco: Monaco) {
   // Set compiler options for TypeScript
-  monaco.languages.typescript.typescriptDefaults.setCompilerOptions(compilerOptions as any)
+  monaco.languages.typescript.typescriptDefaults.setCompilerOptions(compilerOptions)
   
   // Set compiler options for JavaScript
-  monaco.languages.typescript.javascriptDefaults.setCompilerOptions(compilerOptions as any)
+  monaco.languages.typescript.javascriptDefaults.setCompilerOptions(compilerOptions)
 
   // Set diagnostics options for TypeScript
   monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions(diagnosticsOptions)

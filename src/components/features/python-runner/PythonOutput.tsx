@@ -59,8 +59,8 @@ export function PythonOutput({ code }: PythonOutputProps) {
   }, [initializePyodide])
 
   useEffect(() => {
-    const codeToCheck = code.toLowerCase()
-    setHasInput(codeToCheck.includes('input('))
+    const hasInputCall = /\binput\s*\(/i.test(code)
+    setHasInput(hasInputCall)
   }, [code])
 
   const statusTone = initError

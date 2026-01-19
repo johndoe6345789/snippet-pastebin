@@ -1,11 +1,11 @@
 import { InputParameter } from '@/lib/types'
 
-export function parseInputParameters(inputParameters?: InputParameter[]): Record<string, any> {
+export function parseInputParameters(inputParameters?: InputParameter[]): Record<string, unknown> {
   if (!inputParameters || inputParameters.length === 0) {
     return {}
   }
 
-  const parsedProps: Record<string, any> = {}
+  const parsedProps: Record<string, unknown> = {}
 
   inputParameters.forEach((param) => {
     try {

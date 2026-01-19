@@ -39,6 +39,7 @@ export function AIErrorHelper({ error, context, className }: AIErrorHelperProps)
       const result = await analyzeErrorWithAI(errorMessage, errorStack, context)
       setAnalysis(result)
     } catch (err) {
+      console.error('AI analysis failed', err)
       setAnalysisError('Unable to analyze error. The AI service may be temporarily unavailable.')
     } finally {
       setIsAnalyzing(false)
@@ -105,4 +106,3 @@ export function AIErrorHelper({ error, context, className }: AIErrorHelperProps)
     </>
   )
 }
-

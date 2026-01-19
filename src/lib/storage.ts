@@ -89,7 +89,7 @@ export class FlaskStorageAdapter {
         signal: AbortSignal.timeout(5000)
       })
       return response.ok
-    } catch (error) {
+    } catch {
       return false
     }
   }
@@ -102,8 +102,8 @@ export class FlaskStorageAdapter {
     if (!response.ok) {
       throw new Error(`Failed to fetch snippets: ${response.statusText}`)
     }
-    const data = await response.json()
-    return data.map((s: any) => ({
+    const data: Snippet[] = await response.json()
+    return data.map((s) => ({
       ...s,
       createdAt: typeof s.createdAt === 'string' ? new Date(s.createdAt).getTime() : s.createdAt,
       updatedAt: typeof s.updatedAt === 'string' ? new Date(s.updatedAt).getTime() : s.updatedAt
