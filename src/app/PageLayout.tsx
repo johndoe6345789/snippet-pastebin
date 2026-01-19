@@ -13,27 +13,7 @@ export function PageLayout({ children }: { children: ReactNode }) {
 
   return (
     <div className="min-h-screen bg-background">
-      <div
-        className="fixed inset-0 opacity-[0.03] pointer-events-none"
-        style={{
-          backgroundImage: `
-            repeating-linear-gradient(
-              0deg,
-              transparent,
-              transparent 40px,
-              oklch(0.75 0.18 200) 40px,
-              oklch(0.75 0.18 200) 41px
-            ),
-            repeating-linear-gradient(
-              90deg,
-              transparent,
-              transparent 40px,
-              oklch(0.75 0.18 200) 40px,
-              oklch(0.75 0.18 200) 41px
-            )
-          `,
-        }}
-      />
+      <div className="grid-pattern" />
 
       <NavigationSidebar />
 
@@ -50,13 +30,13 @@ export function PageLayout({ children }: { children: ReactNode }) {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.4 }}
-                className="flex items-center gap-3"
+                className="logo-container"
               >
                 <Navigation />
-                <div className="h-10 w-10 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-                  <Code className="h-5 w-5 text-primary-foreground" weight="bold" />
+                <div className="logo-icon-box">
+                  <Code weight="bold" />
                 </div>
-                <h1 className="text-2xl font-bold tracking-tight bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+                <h1 className="logo-text">
                   CodeSnippet
                 </h1>
               </motion.div>
