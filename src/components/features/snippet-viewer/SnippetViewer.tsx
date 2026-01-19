@@ -34,7 +34,7 @@ export function SnippetViewer({ snippet, open, onOpenChange, onEdit, onCopy }: S
     onEdit(snippet)
   }
   
-  const canPreview = snippet.hasPreview && appConfig.previewEnabledLanguages.includes(snippet.language)
+  const canPreview = !!(snippet.hasPreview && appConfig.previewEnabledLanguages.includes(snippet.language))
   const isPython = snippet.language === 'Python'
 
   return (

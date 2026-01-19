@@ -18,7 +18,7 @@ services:
     build:
       context: .
       args:
-        - VITE_FLASK_BACKEND_URL=https://backend.example.com
+        - NEXT_PUBLIC_FLASK_BACKEND_URL=https://backend.example.com
     ports:
       - "3000:3000"
     depends_on:

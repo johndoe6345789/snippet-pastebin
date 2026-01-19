@@ -10,7 +10,7 @@ export function BackendIndicator() {
   useEffect(() => {
     const config = getStorageConfig()
     setBackend(config.backend)
-    setIsEnvConfigured(Boolean(import.meta.env.VITE_FLASK_BACKEND_URL))
+    setIsEnvConfigured(Boolean(process.env.NEXT_PUBLIC_FLASK_BACKEND_URL))
   }, [])
 
   if (backend === 'indexeddb') {

@@ -32,7 +32,14 @@ export const fetchNamespaces = createAsyncThunk(
 export const createNamespace = createAsyncThunk(
   'namespaces/create',
   async (name: string) => {
-    return await createNamespaceDB(name)
+    const namespace: Namespace = {
+      id: Date.now().toString(),
+      name,
+      createdAt: Date.now(),
+      isDefault: false,
+    }
+    await createNamespaceDB(namespace)
+    return namespace
   }
 )
 

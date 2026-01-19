@@ -16,7 +16,7 @@ services:
     build:
       context: .
       args:
-        - VITE_FLASK_BACKEND_URL=http://localhost:5000
+        - NEXT_PUBLIC_FLASK_BACKEND_URL=http://localhost:5000
     ports:
       - "3000:3000"
     depends_on:

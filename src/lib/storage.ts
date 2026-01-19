@@ -10,7 +10,7 @@ export interface StorageConfig {
 const STORAGE_CONFIG_KEY = 'codesnippet-storage-config'
 
 function getDefaultConfig(): StorageConfig {
-  const flaskUrl = import.meta.env.VITE_FLASK_BACKEND_URL
+  const flaskUrl = process.env.NEXT_PUBLIC_FLASK_BACKEND_URL
   
   if (flaskUrl) {
     return {
@@ -247,6 +247,51 @@ export class FlaskStorageAdapter {
     })
     if (!response.ok) {
       throw new Error(`Failed to bulk move snippets: ${response.statusText}`)
+    }
+  }
+
+  async getSnippetsByNamespace(namespaceId: string): Promise<Snippet[]> {
+    const snippets = await this.getAllSnippets();
+    return snippets.filter(s => s.namespaceId === namespaceId);
+  }
+
+  async getNamespace(id: string): Promise<import('./types').Namespace | null> {
+    const namespaces = await this.getAllNamespaces();
+    return namespaces.find(ns => ns.id === id) || null;
+  }
+
+  async clearDatabase(): Promise<void> {
+    return this.wipeDatabase();
+  }
+
+  async getStats() {
+    const snippets = await this.getAllSnippets();
+    const namespaces = await this.getAllNamespaces();
+    const templates = snippets.filter(s => s.isTemplate);
+    return {
+      snippetCount: snippets.length,
+      templateCount: templates.length,
+      namespaceCount: namespaces.length,
+      storageType: 'indexeddb' as const,
+      databaseSize: 0,
+    };
+  }
+
+  async exportDatabase(): Promise<{ snippets: Snippet[]; namespaces: import('./types').Namespace[] }> {
+    const snippets = await this.getAllSnippets();
+    const namespaces = await this.getAllNamespaces();
+    return { snippets, namespaces };
+  }
+
+  async importDatabase(data: { snippets: Snippet[]; namespaces: import('./types').Namespace[] }): Promise<void> {
+    await this.wipeDatabase();
+    
+    for (const namespace of data.namespaces) {
+      await this.createNamespace(namespace);
+    }
+    
+    for (const snippet of data.snippets) {
+      await this.createSnippet(snippet);
     }
   }
 }

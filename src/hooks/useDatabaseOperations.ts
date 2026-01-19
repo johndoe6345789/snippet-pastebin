@@ -37,11 +37,7 @@ export function useDatabaseOperations() {
     setCheckingSchema(true)
     try {
       const result = await validateDatabaseSchema()
-      setSchemaHealth(result.valid ? 'healthy' : 'corrupted')
-      
-      if (!result.valid) {
-        console.warn('Schema validation failed:', result.issues)
-      }
+      setSchemaHealth(result ? 'healthy' : 'corrupted')
     } catch (error) {
       console.error('Schema check failed:', error)
       setSchemaHealth('corrupted')
@@ -52,12 +48,12 @@ export function useDatabaseOperations() {
 
   const handleExport = useCallback(async () => {
     try {
-      const data = await exportDatabase()
-      const blob = new Blob([new Uint8Array(data)], { type: 'application/octet-stream' })
+      const jsonData = await exportDatabase()
+      const blob = new Blob([jsonData], { type: 'application/json' })
       const url = URL.createObjectURL(blob)
       const a = document.createElement('a')
       a.href = url
-      a.download = `codesnippet-backup-${Date.now()}.db`
+      a.download = `codesnippet-backup-${Date.now()}.json`
       document.body.appendChild(a)
       a.click()
       document.body.removeChild(a)
@@ -74,9 +70,8 @@ export function useDatabaseOperations() {
     if (!file) return
 
     try {
-      const arrayBuffer = await file.arrayBuffer()
-      const data = new Uint8Array(arrayBuffer)
-      await importDatabase(data)
+      const text = await file.text()
+      await importDatabase(text)
       toast.success('Database imported successfully')
       await loadStats()
     } catch (error) {
