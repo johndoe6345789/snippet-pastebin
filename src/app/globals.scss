@@ -16,86 +16,596 @@
 ::before,
 ::backdrop,
 ::file-selector-button {
-  border-color: var(--color-neutral-3, $border);
+  border-color: var(--md3-outline-variant);
 }
 
-// Body and base styles
+// Body and base styles - Android Material You feel
 body {
   background: $background;
   color: $foreground;
-  font-family: var(--font-inter), 'Inter', 'Bricolage Grotesque', sans-serif;
-  line-height: 1.5;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  font-family: var(--font-inter), 'Inter', 'Roboto', system-ui, sans-serif;
+  font-size: $font-body-medium;
+  line-height: $line-height-body-medium;
+  letter-spacing: $letter-spacing-body;
+  transition: background-color $duration-medium-2 $easing-standard,
+              color $duration-medium-2 $easing-standard;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-// Typography base - detailed styles in components/_typography.scss
+// ============================================
+// MD3 Typography Classes
+// ============================================
+
+// Display styles
+.md3-display-large {
+  font-size: $font-display-large;
+  line-height: $line-height-display-large;
+  letter-spacing: $letter-spacing-display;
+  font-weight: 400;
+}
+
+.md3-display-medium {
+  font-size: $font-display-medium;
+  line-height: $line-height-display-medium;
+  letter-spacing: $letter-spacing-display;
+  font-weight: 400;
+}
+
+.md3-display-small {
+  font-size: $font-display-small;
+  line-height: $line-height-display-small;
+  letter-spacing: $letter-spacing-display;
+  font-weight: 400;
+}
+
+// Headline styles
+.md3-headline-large {
+  font-size: $font-headline-large;
+  line-height: $line-height-headline-large;
+  letter-spacing: $letter-spacing-headline;
+  font-weight: 400;
+}
+
+.md3-headline-medium {
+  font-size: $font-headline-medium;
+  line-height: $line-height-headline-medium;
+  letter-spacing: $letter-spacing-headline;
+  font-weight: 400;
+}
+
+.md3-headline-small {
+  font-size: $font-headline-small;
+  line-height: $line-height-headline-small;
+  letter-spacing: $letter-spacing-headline;
+  font-weight: 400;
+}
+
+// Title styles
+.md3-title-large {
+  font-size: $font-title-large;
+  line-height: $line-height-title-large;
+  letter-spacing: $letter-spacing-title;
+  font-weight: 400;
+}
+
+.md3-title-medium {
+  font-size: $font-title-medium;
+  line-height: $line-height-title-medium;
+  letter-spacing: $letter-spacing-title;
+  font-weight: 500;
+}
+
+.md3-title-small {
+  font-size: $font-title-small;
+  line-height: $line-height-title-small;
+  letter-spacing: $letter-spacing-title;
+  font-weight: 500;
+}
+
+// Body styles
+.md3-body-large {
+  font-size: $font-body-large;
+  line-height: $line-height-body-large;
+  letter-spacing: $letter-spacing-body;
+  font-weight: 400;
+}
+
+.md3-body-medium {
+  font-size: $font-body-medium;
+  line-height: $line-height-body-medium;
+  letter-spacing: $letter-spacing-body;
+  font-weight: 400;
+}
+
+.md3-body-small {
+  font-size: $font-body-small;
+  line-height: $line-height-body-small;
+  letter-spacing: $letter-spacing-body;
+  font-weight: 400;
+}
+
+// Label styles
+.md3-label-large {
+  font-size: $font-label-large;
+  line-height: $line-height-label-large;
+  letter-spacing: $letter-spacing-label;
+  font-weight: 500;
+}
+
+.md3-label-medium {
+  font-size: $font-label-medium;
+  line-height: $line-height-label-medium;
+  letter-spacing: $letter-spacing-label;
+  font-weight: 500;
+}
+
+.md3-label-small {
+  font-size: $font-label-small;
+  line-height: $line-height-label-small;
+  letter-spacing: $letter-spacing-label;
+  font-weight: 500;
+}
+
+// Typography base for headings
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-inter), 'Inter', 'Bricolage Grotesque', sans-serif;
-  font-weight: 600;
-  line-height: 1.2;
+  font-family: var(--font-inter), 'Inter', 'Roboto', system-ui, sans-serif;
+  font-weight: 400;
+  letter-spacing: $letter-spacing-headline;
+}
+
+h1 {
+  font-size: $font-headline-large;
+  line-height: $line-height-headline-large;
+}
+
+h2 {
+  font-size: $font-headline-medium;
+  line-height: $line-height-headline-medium;
+}
+
+h3 {
+  font-size: $font-headline-small;
+  line-height: $line-height-headline-small;
+}
+
+h4 {
+  font-size: $font-title-large;
+  line-height: $line-height-title-large;
+}
+
+h5 {
+  font-size: $font-title-medium;
+  line-height: $line-height-title-medium;
+  font-weight: 500;
+}
+
+h6 {
+  font-size: $font-title-small;
+  line-height: $line-height-title-small;
+  font-weight: 500;
 }
 
 code, pre {
-  font-family: var(--font-jetbrains-mono), 'JetBrains Mono', monospace;
+  font-family: var(--font-jetbrains-mono), 'JetBrains Mono', 'Roboto Mono', monospace;
 }
 
-// CSS Custom Properties for theme
+// ============================================
+// MD3 CSS Custom Properties (Dark Theme)
+// ============================================
 :root {
-  --background: 222.2 84% 4.9%;
-  --foreground: 210 40% 98%;
-  --card: 222.2 84% 4.9%;
-  --card-foreground: 210 40% 98%;
-  --popover: 222.2 84% 4.9%;
-  --popover-foreground: 210 40% 98%;
-  --primary: 263 70% 50%;
-  --primary-foreground: 210 40% 98%;
-  --secondary: 217.2 32.6% 17.5%;
-  --secondary-foreground: 210 40% 98%;
-  --muted: 217.2 32.6% 17.5%;
-  --muted-foreground: 215 20.2% 65.1%;
-  --accent: 195 100% 70%;
-  --accent-foreground: 222.2 84% 4.9%;
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 210 40% 98%;
-  --border: 217.2 32.6% 17.5%;
-  --input: 217.2 32.6% 17.5%;
-  --ring: 195 100% 70%;
-  --radius: 0.5rem;
+  // Primary
+  --md3-primary: #{$primary};
+  --md3-on-primary: #{$on-primary};
+  --md3-primary-container: #{$primary-container};
+  --md3-on-primary-container: #{$on-primary-container};
 
-  // Chart colors
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
+  // Secondary
+  --md3-secondary: #{$secondary};
+  --md3-on-secondary: #{$on-secondary};
+  --md3-secondary-container: #{$secondary-container};
+  --md3-on-secondary-container: #{$on-secondary-container};
 
-  // Sidebar colors
-  --sidebar: 217.2 32.6% 17.5%;
-  --sidebar-foreground: 210 40% 98%;
-  --sidebar-primary: 263 70% 50%;
-  --sidebar-primary-foreground: 210 40% 98%;
-  --sidebar-accent: 217.2 32.6% 17.5%;
-  --sidebar-accent-foreground: 210 40% 98%;
-  --sidebar-border: 217.2 32.6% 17.5%;
-  --sidebar-ring: 195 100% 70%;
+  // Tertiary
+  --md3-tertiary: #{$accent};
+  --md3-on-tertiary: #{$on-tertiary};
+  --md3-tertiary-container: #{$tertiary-container};
+  --md3-on-tertiary-container: #{$on-tertiary-container};
+
+  // Error
+  --md3-error: #{$destructive};
+  --md3-on-error: #{$on-error};
+  --md3-error-container: #{$error-container};
+  --md3-on-error-container: #{$on-error-container};
+
+  // Surface
+  --md3-surface: #{$surface};
+  --md3-on-surface: #{$on-surface};
+  --md3-surface-variant: #{$surface-variant};
+  --md3-on-surface-variant: #{$on-surface-variant};
+  --md3-surface-dim: #{$surface-dim};
+  --md3-surface-bright: #{$surface-bright};
+
+  // Surface Containers (MD3 tonal elevation)
+  --md3-surface-container-lowest: #{$surface-container-lowest};
+  --md3-surface-container-low: #{$surface-container-low};
+  --md3-surface-container: #{$surface-container};
+  --md3-surface-container-high: #{$surface-container-high};
+  --md3-surface-container-highest: #{$surface-container-highest};
+
+  // Background
+  --md3-background: #{$background};
+  --md3-on-background: #{$on-background};
+
+  // Outline
+  --md3-outline: #{$outline};
+  --md3-outline-variant: #{$outline-variant};
+
+  // Inverse
+  --md3-inverse-surface: #{$inverse-surface};
+  --md3-inverse-on-surface: #{$inverse-on-surface};
+  --md3-inverse-primary: #{$inverse-primary};
+
+  // Scrim & Shadow
+  --md3-scrim: #{$scrim};
+  --md3-shadow: #{$shadow};
+
+  // Semantic colors
+  --md3-success: #{$md3-success-80};
+  --md3-on-success: #{$md3-success-40};
+  --md3-warning: #{$md3-warning-80};
+  --md3-on-warning: #{$md3-warning-40};
+  --md3-info: #{$md3-info-80};
+  --md3-on-info: #{$md3-info-40};
+
+  // State layers
+  --md3-state-hover: #{$state-hover-opacity};
+  --md3-state-focus: #{$state-focus-opacity};
+  --md3-state-pressed: #{$state-pressed-opacity};
+  --md3-state-dragged: #{$state-dragged-opacity};
+  --md3-state-disabled: #{$state-disabled-opacity};
+
+  // Elevation
+  --md3-elevation-1: #{$elevation-1};
+  --md3-elevation-2: #{$elevation-2};
+  --md3-elevation-3: #{$elevation-3};
+  --md3-elevation-4: #{$elevation-4};
+  --md3-elevation-5: #{$elevation-5};
+
+  // Motion
+  --md3-duration-short: #{$duration-short-4};
+  --md3-duration-medium: #{$duration-medium-2};
+  --md3-duration-long: #{$duration-long-2};
+  --md3-easing-standard: #{$easing-standard};
+  --md3-easing-emphasized: #{$easing-emphasized};
+  --md3-easing-emphasized-decelerate: #{$easing-emphasized-decelerate};
+
+  // Shape
+  --md3-shape-extra-small: #{$radius-extra-small};
+  --md3-shape-small: #{$radius-small};
+  --md3-shape-medium: #{$radius-medium};
+  --md3-shape-large: #{$radius-large};
+  --md3-shape-extra-large: #{$radius-extra-large};
+  --md3-shape-full: #{$radius-full};
+
+  // Legacy compatibility
+  --background: 260 10% 6%;
+  --foreground: 260 10% 90%;
+  --card: 260 10% 10%;
+  --card-foreground: 260 10% 90%;
+  --popover: 260 10% 17%;
+  --popover-foreground: 260 10% 90%;
+  --primary: 260 50% 80%;
+  --primary-foreground: 260 50% 20%;
+  --secondary: 260 15% 80%;
+  --secondary-foreground: 260 15% 20%;
+  --muted: 260 10% 12%;
+  --muted-foreground: 260 15% 80%;
+  --accent: 180 50% 80%;
+  --accent-foreground: 180 50% 20%;
+  --destructive: 0 75% 80%;
+  --destructive-foreground: 0 75% 20%;
+  --border: 260 15% 30%;
+  --input: 260 10% 22%;
+  --ring: 260 50% 80%;
+  --radius: 0.75rem;
+
+  // Chart colors (MD3 inspired)
+  --chart-1: #{$md3-primary-60};
+  --chart-2: #{$md3-secondary-60};
+  --chart-3: #{$md3-tertiary-60};
+  --chart-4: #{$md3-error-60};
+  --chart-5: #{$md3-warning-80};
+
+  // Sidebar colors (MD3)
+  --sidebar: 260 10% 10%;
+  --sidebar-foreground: 260 10% 90%;
+  --sidebar-primary: 260 50% 80%;
+  --sidebar-primary-foreground: 260 50% 20%;
+  --sidebar-accent: 260 10% 17%;
+  --sidebar-accent-foreground: 260 10% 90%;
+  --sidebar-border: 260 15% 30%;
+  --sidebar-ring: 260 50% 80%;
 }
 
-// Accordion animations
+// ============================================
+// MD3 Surface Utility Classes
+// ============================================
+
+.md3-surface {
+  background-color: var(--md3-surface);
+  color: var(--md3-on-surface);
+}
+
+.md3-surface-dim {
+  background-color: var(--md3-surface-dim);
+  color: var(--md3-on-surface);
+}
+
+.md3-surface-bright {
+  background-color: var(--md3-surface-bright);
+  color: var(--md3-on-surface);
+}
+
+.md3-surface-container-lowest {
+  background-color: var(--md3-surface-container-lowest);
+  color: var(--md3-on-surface);
+}
+
+.md3-surface-container-low {
+  background-color: var(--md3-surface-container-low);
+  color: var(--md3-on-surface);
+}
+
+.md3-surface-container {
+  background-color: var(--md3-surface-container);
+  color: var(--md3-on-surface);
+}
+
+.md3-surface-container-high {
+  background-color: var(--md3-surface-container-high);
+  color: var(--md3-on-surface);
+}
+
+.md3-surface-container-highest {
+  background-color: var(--md3-surface-container-highest);
+  color: var(--md3-on-surface);
+}
+
+// ============================================
+// MD3 Elevation Classes
+// ============================================
+
+.md3-elevation-1 {
+  box-shadow: var(--md3-elevation-1);
+}
+
+.md3-elevation-2 {
+  box-shadow: var(--md3-elevation-2);
+}
+
+.md3-elevation-3 {
+  box-shadow: var(--md3-elevation-3);
+}
+
+.md3-elevation-4 {
+  box-shadow: var(--md3-elevation-4);
+}
+
+.md3-elevation-5 {
+  box-shadow: var(--md3-elevation-5);
+}
+
+// ============================================
+// MD3 State Layer Mixin Classes
+// ============================================
+
+.md3-state-layer {
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: currentColor;
+    opacity: 0;
+    transition: opacity $duration-short-4 $easing-standard;
+    pointer-events: none;
+    border-radius: inherit;
+  }
+
+  &:hover::before {
+    opacity: var(--md3-state-hover);
+  }
+
+  &:focus-visible::before {
+    opacity: var(--md3-state-focus);
+  }
+
+  &:active::before {
+    opacity: var(--md3-state-pressed);
+  }
+}
+
+// ============================================
+// MD3 Ripple Effect
+// ============================================
+
+@keyframes md3-ripple {
+  from {
+    transform: scale(0);
+    opacity: 0.12;
+  }
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+.md3-ripple {
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background: radial-gradient(circle, currentColor 10%, transparent 10.01%);
+    opacity: 0;
+    pointer-events: none;
+    border-radius: 50%;
+  }
+
+  &:active::after {
+    animation: md3-ripple $duration-medium-4 $easing-standard;
+  }
+}
+
+// ============================================
+// Animations (MD3 Motion)
+// ============================================
+
 @keyframes accordion-down {
   from {
     height: 0;
+    opacity: 0;
   }
   to {
     height: var(--radix-accordion-content-height);
+    opacity: 1;
   }
 }
 
 @keyframes accordion-up {
   from {
     height: var(--radix-accordion-content-height);
+    opacity: 1;
   }
   to {
     height: 0;
+    opacity: 0;
   }
+}
+
+@keyframes md3-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes md3-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes md3-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes md3-slide-in-bottom {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes md3-slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+// ============================================
+// Android-style System UI
+// ============================================
+
+// Status bar simulation (optional)
+.android-status-bar {
+  height: 24px;
+  background: var(--md3-surface-container-lowest);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 $size-4;
+  font-size: $font-label-small;
+  color: var(--md3-on-surface);
+}
+
+// Navigation bar simulation (bottom gesture bar)
+.android-nav-bar {
+  height: 20px;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: $size-2;
+
+  &::after {
+    content: '';
+    width: 134px;
+    height: 5px;
+    background: var(--md3-on-surface-variant);
+    border-radius: $radius-full;
+    opacity: 0.4;
+  }
+}
+
+// Selection styling
+::selection {
+  background: rgba($primary, 0.3);
+  color: $on-surface;
+}
+
+// Scrollbar styling (Android-like thin scrollbar)
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--md3-outline-variant);
+  border-radius: $radius-full;
+
+  &:hover {
+    background: var(--md3-outline);
+  }
+}
+
+// Focus visible styling (MD3 style)
+:focus-visible {
+  outline: 2px solid var(--md3-primary);
+  outline-offset: 2px;
 }

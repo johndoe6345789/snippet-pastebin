@@ -1,67 +1,146 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { X } from '@phosphor-icons/react';
-import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { navigationItems } from './navigation-items';
 import { useNavigation } from './useNavigation';
 
+/**
+ * Material Design 3 Navigation Drawer
+ *
+ * Android-style modal navigation drawer with:
+ * - Scrim overlay
+ * - Slide-in animation
+ * - Active indicator pill
+ * - MD3 typography and spacing
+ */
 export function NavigationSidebar() {
   const { menuOpen, setMenuOpen } = useNavigation();
   const pathname = usePathname();
 
   return (
-    <motion.aside
-      initial={false}
-      animate={{ x: menuOpen ? 0 : -320 }}
-      transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-      className="fixed left-0 top-0 h-screen w-80 bg-card border-r border-border z-30 flex flex-col"
-    >
-      <div className="flex-1 overflow-y-auto">
-        <div className="p-6 border-b border-border flex items-center justify-between">
-          <h2 className="text-lg font-semibold">Navigation</h2>
-          <Button
-            variant="ghost"
-            size="icon"
+    <AnimatePresence>
+      {menuOpen && (
+        <>
+          {/* Scrim/Overlay */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-40 bg-black/32"
             onClick={() => setMenuOpen(false)}
-          >
-            <X className="h-5 w-5" />
-          </Button>
-        </div>
-        <nav className="p-4">
-          <ul className="space-y-2">
-            {navigationItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = pathname === item.path;
-              return (
-                <li key={item.path}>
-                  <Link href={item.path}>
-                    <Button
-                      variant={isActive ? 'secondary' : 'ghost'}
-                      className={cn(
-                        'w-full justify-start gap-3',
-                        isActive && 'bg-accent text-accent-foreground'
-                      )}
-                    >
-                      <Icon className="h-5 w-5" />
-                      {item.label}
-                    </Button>
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
+            aria-hidden="true"
+          />
 
-        <div className="p-6 border-t border-border">
-          <p className="text-sm text-muted-foreground">
-            CodeSnippet Library
-          </p>
-        </div>
-      </div>
-    </motion.aside>
+          {/* Navigation Drawer */}
+          <motion.aside
+            initial={{ x: -320 }}
+            animate={{ x: 0 }}
+            exit={{ x: -320 }}
+            transition={{
+              type: 'spring',
+              damping: 30,
+              stiffness: 300,
+              mass: 0.8
+            }}
+            className={cn(
+              "fixed left-0 top-0 h-screen w-80 z-50",
+              "bg-[hsl(var(--card))]",
+              "flex flex-col",
+              "shadow-xl"
+            )}
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between h-16 px-4 border-b border-border/50">
+              <span className="text-base font-medium text-foreground pl-3">
+                CodeSnippet
+              </span>
+              <button
+                onClick={() => setMenuOpen(false)}
+                className={cn(
+                  "flex items-center justify-center",
+                  "size-10 rounded-full",
+                  "text-muted-foreground",
+                  "hover:bg-foreground/[0.08]",
+                  "active:bg-foreground/[0.12]",
+                  "transition-colors duration-200",
+                  "outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                )}
+                aria-label="Close navigation"
+              >
+                <X weight="bold" className="size-5" />
+              </button>
+            </div>
+
+            {/* Navigation Items */}
+            <nav className="flex-1 overflow-y-auto py-2 px-3">
+              <ul className="space-y-0.5">
+                {navigationItems.map((item) => {
+                  const Icon = item.icon;
+                  const isActive = pathname === item.path;
+
+                  return (
+                    <li key={item.path}>
+                      <Link
+                        href={item.path}
+                        onClick={() => setMenuOpen(false)}
+                        className={cn(
+                          "relative flex items-center gap-3",
+                          "h-14 px-4 rounded-full",
+                          "text-sm font-medium",
+                          "transition-all duration-200",
+                          "outline-none",
+                          // State layer
+                          "before:absolute before:inset-0 before:rounded-full",
+                          "before:bg-current before:opacity-0 before:transition-opacity",
+                          "hover:before:opacity-[0.08]",
+                          "focus-visible:before:opacity-[0.12]",
+                          "active:before:opacity-[0.12]",
+                          // Active state
+                          isActive
+                            ? "bg-secondary text-secondary-foreground"
+                            : "text-muted-foreground hover:text-foreground"
+                        )}
+                      >
+                        <Icon
+                          weight={isActive ? "fill" : "regular"}
+                          className="size-6 relative z-10 shrink-0"
+                        />
+                        <span className="relative z-10">{item.label}</span>
+
+                        {/* Active indicator line */}
+                        {isActive && (
+                          <motion.div
+                            layoutId="nav-indicator"
+                            className="absolute right-3 w-1 h-4 bg-primary rounded-full"
+                            transition={{ type: 'spring', damping: 30, stiffness: 500 }}
+                          />
+                        )}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </nav>
+
+            {/* Footer */}
+            <div className="p-4 border-t border-border/50">
+              <p className="text-xs text-muted-foreground text-center">
+                Material Design 3
+              </p>
+            </div>
+
+            {/* Android gesture bar indicator */}
+            <div className="h-5 flex items-center justify-center pb-2">
+              <div className="w-[134px] h-[5px] bg-muted-foreground/40 rounded-full" />
+            </div>
+          </motion.aside>
+        </>
+      )}
+    </AnimatePresence>
   );
 }

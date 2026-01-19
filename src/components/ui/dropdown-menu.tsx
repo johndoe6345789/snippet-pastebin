@@ -8,6 +8,15 @@ import CircleIcon from "lucide-react/dist/esm/icons/circle"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * Material Design 3 Dropdown Menu
+ *
+ * Android-style menu with:
+ * - 48dp minimum touch targets
+ * - Proper state layers
+ * - Clear focus indicators
+ */
+
 function DropdownMenu({
   ...props
 }: ComponentProps<typeof DropdownMenuPrimitive.Root>) {
@@ -35,7 +44,7 @@ function DropdownMenuTrigger({
 
 function DropdownMenuContent({
   className,
-  sideOffset = 4,
+  sideOffset = 8,
   ...props
 }: ComponentProps<typeof DropdownMenuPrimitive.Content>) {
   return (
@@ -44,7 +53,22 @@ function DropdownMenuContent({
         data-slot="dropdown-menu-content"
         sideOffset={sideOffset}
         className={cn(
-          "bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 max-h-(--radix-dropdown-menu-content-available-height) min-w-[8rem] origin-(--radix-dropdown-menu-content-transform-origin) overflow-x-hidden overflow-y-auto rounded-md border p-1 shadow-md",
+          // MD3 surface container
+          "bg-[hsl(var(--popover))] text-[hsl(var(--popover-foreground))]",
+          // Shape and shadow
+          "z-50 min-w-[180px] overflow-hidden rounded-lg border-0 p-1",
+          "shadow-lg",
+          // Constrain height and enable scrolling
+          "max-h-[min(var(--radix-dropdown-menu-content-available-height),400px)]",
+          "overflow-y-auto",
+          // Animations
+          "data-[state=open]:animate-in data-[state=closed]:animate-out",
+          "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+          "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
+          "data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2",
+          "data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
+          // Transform origin
+          "origin-[var(--radix-dropdown-menu-content-transform-origin)]",
           className
         )}
         {...props}
@@ -76,7 +100,29 @@ function DropdownMenuItem({
       data-inset={inset}
       data-variant={variant}
       className={cn(
-        "focus:bg-accent focus:text-accent-foreground data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 dark:data-[variant=destructive]:focus:bg-destructive/20 data-[variant=destructive]:focus:text-destructive data-[variant=destructive]:*:[svg]:!text-destructive [&_svg:not([class*='text-'])]:text-muted-foreground relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[inset]:pl-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        // MD3 menu item - minimum 48dp height for touch
+        "relative flex items-center gap-3",
+        "min-h-[48px] px-3 py-2",
+        "text-sm font-normal",
+        "rounded-md cursor-pointer select-none outline-none",
+        // State layer
+        "transition-colors duration-150",
+        // Default colors
+        "text-[hsl(var(--popover-foreground))]",
+        // Hover/focus state
+        "hover:bg-[hsl(var(--muted))]",
+        "focus:bg-[hsl(var(--muted))]",
+        // Destructive variant
+        "data-[variant=destructive]:text-destructive",
+        "data-[variant=destructive]:hover:bg-destructive/10",
+        "data-[variant=destructive]:focus:bg-destructive/10",
+        // Disabled state
+        "data-[disabled]:pointer-events-none data-[disabled]:opacity-[0.38]",
+        // Inset for items without icons
+        "data-[inset]:pl-10",
+        // Icon styling
+        "[&_svg]:size-5 [&_svg]:shrink-0 [&_svg]:text-[hsl(var(--muted-foreground))]",
+        "[&_svg]:pointer-events-none",
         className
       )}
       {...props}
@@ -94,15 +140,24 @@ function DropdownMenuCheckboxItem({
     <DropdownMenuPrimitive.CheckboxItem
       data-slot="dropdown-menu-checkbox-item"
       className={cn(
-        "focus:bg-accent focus:text-accent-foreground relative flex cursor-default items-center gap-2 rounded-sm py-1.5 pr-2 pl-8 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        // MD3 checkbox item
+        "relative flex items-center gap-3",
+        "min-h-[48px] pl-10 pr-3 py-2",
+        "text-sm font-normal",
+        "rounded-md cursor-pointer select-none outline-none",
+        "transition-colors duration-150",
+        "hover:bg-[hsl(var(--muted))]",
+        "focus:bg-[hsl(var(--muted))]",
+        "data-[disabled]:pointer-events-none data-[disabled]:opacity-[0.38]",
+        "[&_svg]:size-5 [&_svg]:shrink-0",
         className
       )}
       checked={checked}
       {...props}
     >
-      <span className="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center">
+      <span className="absolute left-3 flex size-5 items-center justify-center">
         <DropdownMenuPrimitive.ItemIndicator>
-          <CheckIcon className="size-4" />
+          <CheckIcon className="size-5 text-primary" />
         </DropdownMenuPrimitive.ItemIndicator>
       </span>
       {children}
@@ -130,14 +185,23 @@ function DropdownMenuRadioItem({
     <DropdownMenuPrimitive.RadioItem
       data-slot="dropdown-menu-radio-item"
       className={cn(
-        "focus:bg-accent focus:text-accent-foreground relative flex cursor-default items-center gap-2 rounded-sm py-1.5 pr-2 pl-8 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        // MD3 radio item
+        "relative flex items-center gap-3",
+        "min-h-[48px] pl-10 pr-3 py-2",
+        "text-sm font-normal",
+        "rounded-md cursor-pointer select-none outline-none",
+        "transition-colors duration-150",
+        "hover:bg-[hsl(var(--muted))]",
+        "focus:bg-[hsl(var(--muted))]",
+        "data-[disabled]:pointer-events-none data-[disabled]:opacity-[0.38]",
+        "[&_svg]:size-5 [&_svg]:shrink-0",
         className
       )}
       {...props}
     >
-      <span className="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center">
+      <span className="absolute left-3 flex size-5 items-center justify-center">
         <DropdownMenuPrimitive.ItemIndicator>
-          <CircleIcon className="size-2 fill-current" />
+          <CircleIcon className="size-2 fill-primary text-primary" />
         </DropdownMenuPrimitive.ItemIndicator>
       </span>
       {children}
@@ -157,7 +221,10 @@ function DropdownMenuLabel({
       data-slot="dropdown-menu-label"
       data-inset={inset}
       className={cn(
-        "px-2 py-1.5 text-sm font-medium data-[inset]:pl-8",
+        // MD3 label style
+        "px-3 py-2 text-xs font-medium uppercase tracking-wider",
+        "text-[hsl(var(--muted-foreground))]",
+        "data-[inset]:pl-10",
         className
       )}
       {...props}
@@ -172,7 +239,7 @@ function DropdownMenuSeparator({
   return (
     <DropdownMenuPrimitive.Separator
       data-slot="dropdown-menu-separator"
-      className={cn("bg-border -mx-1 my-1 h-px", className)}
+      className={cn("my-1 h-px bg-[hsl(var(--border))]", className)}
       {...props}
     />
   )
@@ -186,7 +253,7 @@ function DropdownMenuShortcut({
     <span
       data-slot="dropdown-menu-shortcut"
       className={cn(
-        "text-muted-foreground ml-auto text-xs tracking-widest",
+        "ml-auto text-xs text-[hsl(var(--muted-foreground))] tracking-widest",
         className
       )}
       {...props}
@@ -213,13 +280,22 @@ function DropdownMenuSubTrigger({
       data-slot="dropdown-menu-sub-trigger"
       data-inset={inset}
       className={cn(
-        "focus:bg-accent focus:text-accent-foreground data-[state=open]:bg-accent data-[state=open]:text-accent-foreground flex cursor-default items-center rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[inset]:pl-8",
+        // MD3 sub-menu trigger
+        "relative flex items-center gap-3",
+        "min-h-[48px] px-3 py-2",
+        "text-sm font-normal",
+        "rounded-md cursor-pointer select-none outline-none",
+        "transition-colors duration-150",
+        "hover:bg-[hsl(var(--muted))]",
+        "focus:bg-[hsl(var(--muted))]",
+        "data-[state=open]:bg-[hsl(var(--muted))]",
+        "data-[inset]:pl-10",
         className
       )}
       {...props}
     >
       {children}
-      <ChevronRightIcon className="ml-auto size-4" />
+      <ChevronRightIcon className="ml-auto size-5 text-[hsl(var(--muted-foreground))]" />
     </DropdownMenuPrimitive.SubTrigger>
   )
 }
@@ -232,7 +308,17 @@ function DropdownMenuSubContent({
     <DropdownMenuPrimitive.SubContent
       data-slot="dropdown-menu-sub-content"
       className={cn(
-        "bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 min-w-[8rem] origin-(--radix-dropdown-menu-content-transform-origin) overflow-hidden rounded-md border p-1 shadow-lg",
+        // MD3 sub-menu surface
+        "bg-[hsl(var(--popover))] text-[hsl(var(--popover-foreground))]",
+        "z-50 min-w-[180px] overflow-hidden rounded-lg border-0 p-1",
+        "shadow-lg",
+        // Animations
+        "data-[state=open]:animate-in data-[state=closed]:animate-out",
+        "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+        "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
+        "data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2",
+        "data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
+        "origin-[var(--radix-dropdown-menu-content-transform-origin)]",
         className
       )}
       {...props}

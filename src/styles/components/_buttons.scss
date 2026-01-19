@@ -1,92 +1,360 @@
 @use '../abstracts' as *;
 
-// Button component styles
-// These complement the existing Tailwind-based button components
+// ============================================
+// Material Design 3 Button Styles
+// ============================================
+
+// Base button styles (MD3)
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: $size-2;
-  padding: $size-2 $size-4;
+  padding: $size-2-5 $size-6;
+  min-width: 64px;
+  min-height: 40px;
   border: none;
-  border-radius: $radius-md;
+  border-radius: $radius-full;
+  font-family: inherit;
   font-weight: 500;
-  font-size: 0.875rem;
+  font-size: $font-label-large;
+  line-height: $line-height-label-large;
+  letter-spacing: $letter-spacing-label;
   cursor: pointer;
-  transition: all 0.2s ease;
+  user-select: none;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  transition:
+    background-color $duration-short-4 $easing-standard,
+    box-shadow $duration-short-4 $easing-standard,
+    color $duration-short-4 $easing-standard;
   outline: none;
 
-  &:hover:not(:disabled) {
-    transform: translateY(-2px);
+  // State layer
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background-color: currentColor;
+    opacity: 0;
+    transition: opacity $duration-short-4 $easing-standard;
+    pointer-events: none;
+  }
+
+  &:hover::before {
+    opacity: $state-hover-opacity;
+  }
+
+  &:focus-visible::before {
+    opacity: $state-focus-opacity;
+  }
+
+  &:active::before {
+    opacity: $state-pressed-opacity;
   }
 
   &:focus-visible {
-    box-shadow: 0 0 0 3px $secondary, 0 0 0 6px $ring;
+    outline: 2px solid $ring;
+    outline-offset: 2px;
   }
 
   &:disabled {
-    opacity: 0.5;
+    opacity: $state-disabled-opacity;
     cursor: not-allowed;
+    pointer-events: none;
   }
 
-  // Primary variant - MD3 filled button
-  &-primary {
-    background: $primary;
-    color: $primary-foreground;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12); // MD3 elevation-1
+  svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+
+  // ============================================
+  // MD3 Filled Button (Primary)
+  // ============================================
+  &-primary,
+  &-filled {
+    background-color: $primary;
+    color: $on-primary;
+    box-shadow: $elevation-1;
 
     &:hover:not(:disabled) {
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.14); // MD3 elevation-2
-      background: hsl(260, 45%, 58%); // Slightly lighter on hover
+      box-shadow: $elevation-2;
     }
 
     &:active:not(:disabled) {
-      transform: translateY(0);
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+      box-shadow: $elevation-1;
     }
   }
 
-  // Secondary variant
-  &-secondary {
-    background-color: $secondary;
-    color: $secondary-foreground;
-    border: 1px solid $border;
+  // ============================================
+  // MD3 Filled Tonal Button
+  // ============================================
+  &-tonal {
+    background-color: $secondary-container;
+    color: $on-secondary-container;
 
     &:hover:not(:disabled) {
-      background-color: hsl(217.2, 32.6%, 20%);
+      box-shadow: $elevation-1;
     }
   }
 
-  // Ghost variant
+  // ============================================
+  // MD3 Elevated Button
+  // ============================================
+  &-elevated {
+    background-color: $surface-container-low;
+    color: $primary;
+    box-shadow: $elevation-1;
+
+    &:hover:not(:disabled) {
+      box-shadow: $elevation-2;
+    }
+
+    &:active:not(:disabled) {
+      box-shadow: $elevation-1;
+    }
+  }
+
+  // ============================================
+  // MD3 Outlined Button
+  // ============================================
+  &-outline,
+  &-outlined {
+    background-color: transparent;
+    color: $primary;
+    border: 1px solid $outline;
+
+    &:hover:not(:disabled) {
+      background-color: rgba($primary, $state-hover-opacity);
+    }
+  }
+
+  // ============================================
+  // MD3 Text Button
+  // ============================================
+  &-text,
   &-ghost {
     background-color: transparent;
-    color: $accent;
-    border: 1px solid $accent;
+    color: $primary;
+    padding-left: $size-3;
+    padding-right: $size-3;
 
     &:hover:not(:disabled) {
-      background-color: rgba(99, 242, 255, 0.1);
+      background-color: rgba($primary, $state-hover-opacity);
     }
   }
 
-  // Outline variant
-  &-outline {
-    background-color: transparent;
-    color: $foreground;
-    border: 1px solid $border;
+  // ============================================
+  // Destructive/Error Button
+  // ============================================
+  &-destructive,
+  &-error {
+    background-color: $destructive;
+    color: $on-error;
+    box-shadow: $elevation-1;
 
     &:hover:not(:disabled) {
-      background-color: $secondary;
+      box-shadow: $elevation-2;
+    }
+
+    &:focus-visible {
+      outline-color: $destructive;
     }
   }
 
-  // Size variants
+  // ============================================
+  // Secondary Button (maps to tonal)
+  // ============================================
+  &-secondary {
+    background-color: $secondary-container;
+    color: $on-secondary-container;
+
+    &:hover:not(:disabled) {
+      box-shadow: $elevation-1;
+    }
+  }
+
+  // ============================================
+  // Size Variants
+  // ============================================
   &-sm {
-    padding: calc($size-1 * 0.75) $size-2;
-    font-size: 0.75rem;
+    padding: $size-1-5 $size-4;
+    min-height: 32px;
+    font-size: $font-label-medium;
+    gap: $size-1-5;
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
   }
 
   &-lg {
-    padding: $size-3 $size-6;
-    font-size: 1rem;
+    padding: $size-3 $size-8;
+    min-height: 48px;
+    font-size: $font-label-large;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  // ============================================
+  // Icon Button
+  // ============================================
+  &-icon {
+    padding: 0;
+    min-width: 40px;
+    width: 40px;
+    height: 40px;
+    border-radius: $radius-full;
+
+    &.btn-sm {
+      min-width: 32px;
+      width: 32px;
+      height: 32px;
+    }
+
+    &.btn-lg {
+      min-width: 48px;
+      width: 48px;
+      height: 48px;
+    }
+  }
+}
+
+// ============================================
+// MD3 Icon Button (standalone)
+// ============================================
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  border-radius: $radius-full;
+  background-color: transparent;
+  color: $on-surface-variant;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: color $duration-short-4 $easing-standard;
+  outline: none;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background-color: currentColor;
+    opacity: 0;
+    transition: opacity $duration-short-4 $easing-standard;
+    pointer-events: none;
+  }
+
+  &:hover::before {
+    opacity: $state-hover-opacity;
+  }
+
+  &:focus-visible::before {
+    opacity: $state-focus-opacity;
+  }
+
+  &:active::before {
+    opacity: $state-pressed-opacity;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $ring;
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    opacity: $state-disabled-opacity;
+    cursor: not-allowed;
+  }
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  // Filled variant
+  &-filled {
+    background-color: $primary;
+    color: $on-primary;
+  }
+
+  // Tonal variant
+  &-tonal {
+    background-color: $secondary-container;
+    color: $on-secondary-container;
+  }
+
+  // Outlined variant
+  &-outlined {
+    border: 1px solid $outline;
+    color: $on-surface-variant;
+  }
+}
+
+// ============================================
+// Navigation Button (burger menu)
+// ============================================
+.nav-burger-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: none;
+  border-radius: $radius-full;
+  background-color: transparent;
+  color: $on-surface;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: color $duration-short-4 $easing-standard;
+  outline: none;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background-color: currentColor;
+    opacity: 0;
+    transition: opacity $duration-short-4 $easing-standard;
+    pointer-events: none;
+  }
+
+  &:hover::before {
+    opacity: $state-hover-opacity;
+  }
+
+  &:focus-visible::before {
+    opacity: $state-focus-opacity;
+  }
+
+  &:active::before {
+    opacity: $state-pressed-opacity;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $ring;
+    outline-offset: 2px;
+  }
+
+  svg {
+    width: 24px;
+    height: 24px;
   }
 }
