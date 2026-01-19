@@ -1,6 +1,6 @@
-@use '../abstracts' as *;
 @use '../abstracts/functions' as fn;
 @use '../abstracts/variables' as vars;
+@use '../abstracts/mixins' as mx;
 
 // Utility classes generator
 @each $name, $value in vars.$spacing {
@@ -131,10 +131,10 @@
 .transition-colors { transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease !important; }
 
 // Shadow
-.shadow-sm { @include shadow-sm; }
-.shadow { @include shadow; }
-.shadow-md { @include shadow-md; }
-.shadow-lg { @include shadow-lg; }
+.shadow-sm { @include mx.shadow-sm; }
+.shadow { @include mx.shadow; }
+.shadow-md { @include mx.shadow-md; }
+.shadow-lg { @include mx.shadow-lg; }
 
 // Space between children - DRY loop
 $space-values: (2, 3, 4, 6, 8);

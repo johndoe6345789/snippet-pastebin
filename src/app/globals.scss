@@ -1,5 +1,4 @@
 @use '../styles/abstracts' as *;
-@use '../styles/abstracts/variables' as vars;
 @use '../styles/utilities/utilities';
 @use './theme.scss';
 
@@ -7,12 +6,12 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  border-color: vars.$border;
+  border-color: $border;
 }
 
 body {
-  background: vars.$background;
-  color: vars.$foreground;
+  background: $background;
+  color: $foreground;
   font-family: var(--font-inter), 'Inter', sans-serif;
   line-height: 1.5;
 }
