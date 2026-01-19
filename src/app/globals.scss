@@ -1,7 +1,9 @@
 @use '../styles/abstracts' as *;
 @use '../styles/utilities/utilities';
+@use '../styles/components';
 @use './theme.scss';
 
+// Global resets
 * {
   margin: 0;
   padding: 0;
@@ -9,22 +11,36 @@
   border-color: $border;
 }
 
+*,
+::after,
+::before,
+::backdrop,
+::file-selector-button {
+  border-color: var(--color-neutral-3, $border);
+}
+
+// Body and base styles
 body {
   background: $background;
   color: $foreground;
-  font-family: var(--font-inter), 'Inter', sans-serif;
+  font-family: var(--font-inter), 'Inter', 'Bricolage Grotesque', sans-serif;
   line-height: 1.5;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  overflow-x: hidden;
 }
 
+// Typography base - detailed styles in components/_typography.scss
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-inter), 'Inter', sans-serif;
+  font-family: var(--font-inter), 'Inter', 'Bricolage Grotesque', sans-serif;
   font-weight: 600;
+  line-height: 1.2;
 }
 
 code, pre {
   font-family: var(--font-jetbrains-mono), 'JetBrains Mono', monospace;
 }
 
+// CSS Custom Properties for theme
 :root {
   --background: 222.2 84% 4.9%;
   --foreground: 210 40% 98%;
@@ -46,4 +62,40 @@ code, pre {
   --input: 217.2 32.6% 17.5%;
   --ring: 195 100% 70%;
   --radius: 0.5rem;
+
+  // Chart colors
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+
+  // Sidebar colors
+  --sidebar: 217.2 32.6% 17.5%;
+  --sidebar-foreground: 210 40% 98%;
+  --sidebar-primary: 263 70% 50%;
+  --sidebar-primary-foreground: 210 40% 98%;
+  --sidebar-accent: 217.2 32.6% 17.5%;
+  --sidebar-accent-foreground: 210 40% 98%;
+  --sidebar-border: 217.2 32.6% 17.5%;
+  --sidebar-ring: 195 100% 70%;
+}
+
+// Accordion animations
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
 }
