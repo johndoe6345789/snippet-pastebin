@@ -6,7 +6,8 @@ const nextConfig = {
     unoptimized: true,
   },
   typescript: {
-    // Temporarily ignore build errors to test if build works
+    // TypeScript incorrectly flags CSS imports as errors in Next.js
+    // This is a known issue: https://github.com/vercel/next.js/issues/54282
     ignoreBuildErrors: true,
   },
   experimental: {

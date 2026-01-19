@@ -67,7 +67,7 @@ Keep your response concise, friendly, and focused on practical solutions. Format
     });
 
     if (!response.ok) {
-      throw new Error(`OpenAI API error: ${response.status} ${response.statusText}`);
+      throw new Error('Failed to analyze error with AI. Please check your API key.');
     }
 
     const data = await response.json();

@@ -98,7 +98,7 @@ export function OpenAISettingsCard() {
 
         {apiKey && (
           <div className="text-sm text-muted-foreground bg-muted/50 p-3 rounded-md">
-            ✓ API key is configured. Error analysis will use OpenAI GPT-4.
+            ✓ API key is configured. Error analysis will use OpenAI GPT-4o-mini.
           </div>
         )}
       </CardContent>
