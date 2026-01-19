@@ -1,6 +1,5 @@
 'use client';
 
-import '@github/spark/spark';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Provider } from 'react-redux';
 import { Toaster } from '@/components/ui/sonner';

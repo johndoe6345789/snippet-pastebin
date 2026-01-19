@@ -1,8 +1,14 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { SnippetManagerRedux } from '@/components/SnippetManagerRedux';
+import dynamic from 'next/dynamic';
 import { PageLayout } from './PageLayout';
+
+// Dynamically import SnippetManagerRedux to avoid SSR issues with Pyodide
+const SnippetManagerRedux = dynamic(
+  () => import('@/components/SnippetManagerRedux').then(mod => ({ default: mod.SnippetManagerRedux })),
+  { ssr: false }
+);
 
 export default function HomePage() {
   return (

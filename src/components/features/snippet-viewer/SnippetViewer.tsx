@@ -5,9 +5,15 @@ import {
 } from '@/components/ui/dialog'
 import { Snippet } from '@/lib/types'
 import { useState } from 'react'
+import dynamic from 'next/dynamic'
 import { appConfig } from '@/lib/config'
 import { SnippetViewerHeader } from './SnippetViewerHeader'
-import { SnippetViewerContent } from './SnippetViewerContent'
+
+// Dynamically import SnippetViewerContent to avoid SSR issues with Pyodide
+const SnippetViewerContent = dynamic(
+  () => import('./SnippetViewerContent').then(mod => ({ default: mod.SnippetViewerContent })),
+  { ssr: false }
+)
 
 interface SnippetViewerProps {
   snippet: Snippet | null

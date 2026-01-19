@@ -3,19 +3,23 @@ export async function analyzeErrorWithAI(
   errorStack?: string,
   context?: string
 ): Promise<string> {
-  const contextInfo = context ? `\n\nContext: ${context}` : ''
-  const stackInfo = errorStack ? `\n\nStack trace: ${errorStack}` : ''
+  // Simple error analysis without AI - just return helpful debugging info
+  const lines = ['## Error Analysis\n'];
   
-  const prompt = (window.spark.llmPrompt as any)`You are a helpful debugging assistant for a code snippet manager app. Analyze this error and provide:
-
-1. A clear explanation of what went wrong (in plain language)
-2. Why this error likely occurred
-3. 2-3 specific actionable steps to fix it
-
-Error message: ${errorMessage}${contextInfo}${stackInfo}
-
-Keep your response concise, friendly, and focused on practical solutions. Format your response with clear sections using markdown.`
-
-  const result = await window.spark.llm(prompt, 'gpt-4o-mini')
-  return result
+  lines.push('**Error Message:**');
+  lines.push(`\`${errorMessage}\`\n`);
+  
+  if (context) {
+    lines.push('**Context:**');
+    lines.push(`${context}\n`);
+  }
+  
+  if (errorStack) {
+    lines.push('**Possible Solutions:**');
+    lines.push('1. Check the browser console for more details');
+    lines.push('2. Try refreshing the page');
+    lines.push('3. Clear your browser cache and local storage\n');
+  }
+  
+  return lines.join('\n');
 }
