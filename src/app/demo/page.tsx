@@ -1,13 +1,19 @@
 'use client';
 
 import { useState } from 'react';
+import dynamic from 'next/dynamic';
 import { motion } from 'framer-motion';
-import { SplitScreenEditor } from '@/components/features/snippet-editor/SplitScreenEditor';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Sparkle } from '@phosphor-icons/react';
 import { DEMO_CODE } from '@/components/demo/demo-constants';
 import { DemoFeatureCards } from '@/components/demo/DemoFeatureCards';
 import { PageLayout } from '../PageLayout';
+
+// Dynamically import SplitScreenEditor to avoid SSR issues with Pyodide
+const SplitScreenEditor = dynamic(
+  () => import('@/components/features/snippet-editor/SplitScreenEditor').then(mod => ({ default: mod.SplitScreenEditor })),
+  { ssr: false }
+);
 
 export default function DemoPage() {
   const [code, setCode] = useState(DEMO_CODE);

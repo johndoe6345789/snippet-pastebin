@@ -1,0 +1,212 @@
+// Flexbox mixins
+@mixin flex($direction: row, $justify: flex-start, $align: stretch, $wrap: nowrap) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
+  flex-wrap: $wrap;
+}
+
+@mixin flex-center {
+  @include flex(row, center, center);
+}
+
+@mixin flex-between {
+  @include flex(row, space-between, center);
+}
+
+@mixin flex-col {
+  @include flex(column, flex-start, stretch);
+}
+
+// Grid mixin
+@mixin grid($columns: 1, $gap: spacing(4)) {
+  display: grid;
+  grid-template-columns: repeat($columns, 1fr);
+  gap: $gap;
+}
+
+// Spacing mixins
+@mixin p($value) {
+  padding: spacing($value);
+}
+
+@mixin px($value) {
+  padding-left: spacing($value);
+  padding-right: spacing($value);
+}
+
+@mixin py($value) {
+  padding-top: spacing($value);
+  padding-bottom: spacing($value);
+}
+
+@mixin pt($value) {
+  padding-top: spacing($value);
+}
+
+@mixin pr($value) {
+  padding-right: spacing($value);
+}
+
+@mixin pb($value) {
+  padding-bottom: spacing($value);
+}
+
+@mixin pl($value) {
+  padding-left: spacing($value);
+}
+
+@mixin m($value) {
+  margin: spacing($value);
+}
+
+@mixin mx($value) {
+  margin-left: spacing($value);
+  margin-right: spacing($value);
+}
+
+@mixin my($value) {
+  margin-top: spacing($value);
+  margin-bottom: spacing($value);
+}
+
+@mixin mt($value) {
+  margin-top: spacing($value);
+}
+
+@mixin mr($value) {
+  margin-right: spacing($value);
+}
+
+@mixin mb($value) {
+  margin-bottom: spacing($value);
+}
+
+@mixin ml($value) {
+  margin-left: spacing($value);
+}
+
+// Gap mixin
+@mixin gap($value) {
+  gap: spacing($value);
+}
+
+// Border radius mixin
+@mixin rounded($value: base) {
+  border-radius: radius($value);
+}
+
+// Typography mixins
+@mixin text($size) {
+  font-size: font-size($size);
+}
+
+@mixin font($weight) {
+  font-weight: font-weight($weight);
+}
+
+// Responsive breakpoint mixin
+@mixin respond-to($breakpoint) {
+  $size: breakpoint($breakpoint);
+  @media (min-width: $size) {
+    @content;
+  }
+}
+
+// Button base styles mixin
+@mixin button-base {
+  @include px(4);
+  @include py(2);
+  @include rounded(md);
+  @include font(medium);
+  @include text(sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: spacing(2);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  outline: none;
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+// Card mixin
+@mixin card {
+  background: $card;
+  color: $card-foreground;
+  border: 1px solid $border;
+  @include rounded(lg);
+  @include p(6);
+}
+
+// Shadow mixins
+@mixin shadow-sm {
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+@mixin shadow {
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+}
+
+@mixin shadow-md {
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+@mixin shadow-lg {
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+// Transition mixin
+@mixin transition($properties: all, $duration: 0.2s, $timing: ease) {
+  transition: $properties $duration $timing;
+}
+
+// Truncate text
+@mixin truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Visually hidden (for accessibility)
+@mixin sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+// Absolute positioning shortcuts
+@mixin absolute-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin absolute-fill {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+// Focus ring
+@mixin focus-ring {
+  &:focus-visible {
+    outline: 2px solid $ring;
+    outline-offset: 2px;
+  }
+}

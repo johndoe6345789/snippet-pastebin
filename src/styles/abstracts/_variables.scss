@@ -1,0 +1,119 @@
+// Color Variables
+$background: hsl(222.2, 84%, 4.9%);
+$foreground: hsl(210, 40%, 98%);
+$card: hsl(222.2, 84%, 4.9%);
+$card-foreground: hsl(210, 40%, 98%);
+$popover: hsl(222.2, 84%, 4.9%);
+$popover-foreground: hsl(210, 40%, 98%);
+$primary: hsl(263, 70%, 50%);
+$primary-foreground: hsl(210, 40%, 98%);
+$secondary: hsl(217.2, 32.6%, 17.5%);
+$secondary-foreground: hsl(210, 40%, 98%);
+$muted: hsl(217.2, 32.6%, 17.5%);
+$muted-foreground: hsl(215, 20.2%, 65.1%);
+$accent: hsl(195, 100%, 70%);
+$accent-foreground: hsl(222.2, 84%, 4.9%);
+$destructive: hsl(0, 62.8%, 30.6%);
+$destructive-foreground: hsl(210, 40%, 98%);
+$border: hsl(217.2, 32.6%, 17.5%);
+$input: hsl(217.2, 32.6%, 17.5%);
+$ring: hsl(195, 100%, 70%);
+
+// Spacing Scale
+$spacing: (
+  0: 0,
+  px: 1px,
+  0-5: 0.125rem,
+  1: 0.25rem,
+  1-5: 0.375rem,
+  2: 0.5rem,
+  2-5: 0.625rem,
+  3: 0.75rem,
+  3-5: 0.875rem,
+  4: 1rem,
+  5: 1.25rem,
+  6: 1.5rem,
+  7: 1.75rem,
+  8: 2rem,
+  9: 2.25rem,
+  10: 2.5rem,
+  11: 2.75rem,
+  12: 3rem,
+  14: 3.5rem,
+  16: 4rem,
+  20: 5rem,
+  24: 6rem,
+  28: 7rem,
+  32: 8rem,
+  36: 9rem,
+  40: 10rem,
+  48: 12rem,
+  56: 14rem,
+  64: 16rem,
+  72: 18rem,
+  80: 20rem,
+  96: 24rem,
+);
+
+// Border Radius
+$radius: (
+  none: 0,
+  sm: 0.125rem,
+  base: 0.25rem,
+  md: 0.375rem,
+  lg: 0.5rem,
+  xl: 0.75rem,
+  2xl: 1rem,
+  3xl: 1.5rem,
+  full: 9999px,
+);
+
+// Font Sizes
+$font-sizes: (
+  xs: 0.75rem,
+  sm: 0.875rem,
+  base: 1rem,
+  lg: 1.125rem,
+  xl: 1.25rem,
+  2xl: 1.5rem,
+  3xl: 1.875rem,
+  4xl: 2.25rem,
+  5xl: 3rem,
+  6xl: 3.75rem,
+  7xl: 4.5rem,
+  8xl: 6rem,
+  9xl: 8rem,
+);
+
+// Font Weights
+$font-weights: (
+  thin: 100,
+  extralight: 200,
+  light: 300,
+  normal: 400,
+  medium: 500,
+  semibold: 600,
+  bold: 700,
+  extrabold: 800,
+  black: 900,
+);
+
+// Breakpoints
+$breakpoints: (
+  sm: 640px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1280px,
+  2xl: 1536px,
+);
+
+// Z-index scale
+$z-index: (
+  0: 0,
+  10: 10,
+  20: 20,
+  30: 30,
+  40: 40,
+  50: 50,
+  auto: auto,
+);

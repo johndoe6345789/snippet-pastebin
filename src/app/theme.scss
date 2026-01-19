@@ -1,0 +1,75 @@
+// Radix UI Colors imports (keeping the color system)
+@import '@radix-ui/colors/sage-dark.css';
+@import '@radix-ui/colors/slate.css';
+@import '@radix-ui/colors/slate-dark.css';
+@import '@radix-ui/colors/blue.css';
+@import '@radix-ui/colors/blue-dark.css';
+@import '@radix-ui/colors/violet.css';
+@import '@radix-ui/colors/violet-dark.css';
+
+// Spacing scale variables
+$size-scale: 1;
+$size-0: 0px;
+$size-px: 1px;
+$size-0-5: calc(0.125rem * $size-scale);
+$size-1: calc(0.25rem * $size-scale);
+$size-2: calc(0.5rem * $size-scale);
+$size-3: calc(0.75rem * $size-scale);
+$size-4: calc(1rem * $size-scale);
+$size-5: calc(1.25rem * $size-scale);
+$size-6: calc(1.5rem * $size-scale);
+$size-8: calc(2rem * $size-scale);
+$size-10: calc(2.5rem * $size-scale);
+$size-12: calc(3rem * $size-scale);
+$size-16: calc(4rem * $size-scale);
+$size-20: calc(5rem * $size-scale);
+$size-24: calc(6rem * $size-scale);
+
+// Border radii
+$radius-factor: 1;
+$radius-sm: calc(2px * $radius-factor * $size-scale);
+$radius-md: calc(6px * $radius-factor * $size-scale);
+$radius-lg: calc(8px * $radius-factor * $size-scale);
+$radius-xl: calc(12px * $radius-factor * $size-scale);
+$radius-full: 9999px;
+
+// App-level CSS variables
+#spark-app {
+  --size-scale: #{$size-scale};
+  --radius-factor: #{$radius-factor};
+  
+  // Neutral colors (using slate from Radix)
+  --color-neutral-1: var(--slate-1);
+  --color-neutral-2: var(--slate-2);
+  --color-neutral-3: var(--slate-3);
+  --color-neutral-11: var(--slate-11);
+  --color-neutral-12: var(--slate-12);
+  
+  // Accent colors (using blue from Radix)
+  --color-accent-9: var(--blue-9);
+  --color-accent-11: var(--blue-11);
+  
+  // Foreground colors
+  --color-fg: var(--color-neutral-12);
+  --color-fg-secondary: var(--color-neutral-11);
+  
+  // Background colors
+  --color-bg: #ffffff;
+  --color-bg-inset: var(--color-neutral-2);
+  --color-bg-overlay: #ffffff;
+  
+  // Focus ring
+  --color-focus-ring: var(--color-accent-9);
+  
+  // Fonts
+  --font-sans-serif: ui-sans-serif, system-ui, sans-serif;
+  --font-serif: ui-serif, Georgia, serif;
+  --font-monospace: ui-monospace, 'SF Mono', Monaco, Consolas, monospace;
+  --font-family: var(--font-sans-serif);
+}
+
+#spark-app.dark-theme {
+  --color-bg: var(--color-neutral-1);
+  --color-bg-inset: #000000;
+  --color-bg-overlay: var(--color-neutral-3);
+}

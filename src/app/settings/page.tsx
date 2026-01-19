@@ -8,6 +8,7 @@ import { StorageBackendCard } from '@/components/settings/StorageBackendCard';
 import { DatabaseStatsCard } from '@/components/settings/DatabaseStatsCard';
 import { StorageInfoCard } from '@/components/settings/StorageInfoCard';
 import { DatabaseActionsCard } from '@/components/settings/DatabaseActionsCard';
+import { OpenAISettingsCard } from '@/components/settings/OpenAISettingsCard';
 import { useSettingsState } from '@/hooks/useSettingsState';
 import { PageLayout } from '../PageLayout';
 
@@ -50,6 +51,8 @@ export default function SettingsPage() {
         </div>
 
         <div className="grid gap-6 max-w-3xl">
+          <OpenAISettingsCard />
+          
           <PersistenceSettings />
 
           <SchemaHealthCard 
