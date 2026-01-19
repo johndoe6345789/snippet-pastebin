@@ -1,23 +1,23 @@
-// Color Variables
+// Color Variables - Material Design 3 (Material You) inspired
 $background: hsl(222.2, 84%, 4.9%);
-$foreground: hsl(210, 40%, 98%);
-$card: hsl(222.2, 84%, 4.9%);
-$card-foreground: hsl(210, 40%, 98%);
-$popover: hsl(222.2, 84%, 4.9%);
-$popover-foreground: hsl(210, 40%, 98%);
-$primary: hsl(263, 70%, 50%);
-$primary-foreground: hsl(210, 40%, 98%);
-$secondary: hsl(217.2, 32.6%, 17.5%);
-$secondary-foreground: hsl(210, 40%, 98%);
-$muted: hsl(217.2, 32.6%, 17.5%);
-$muted-foreground: hsl(215, 20.2%, 65.1%);
-$accent: hsl(195, 100%, 70%);
+$foreground: hsl(210, 15%, 88%); // MD3 on-surface
+$card: hsl(222.2, 40%, 8%); // MD3 surface-container
+$card-foreground: hsl(210, 15%, 88%);
+$popover: hsl(222.2, 40%, 10%); // MD3 surface-container-high
+$popover-foreground: hsl(210, 15%, 88%);
+$primary: hsl(260, 45%, 55%); // MD3 primary - softer purple
+$primary-foreground: hsl(210, 15%, 95%);
+$secondary: hsl(217.2, 25%, 20%); // MD3 secondary-container
+$secondary-foreground: hsl(210, 15%, 88%);
+$muted: hsl(217.2, 25%, 22%);
+$muted-foreground: hsl(215, 12%, 60%); // MD3 on-surface-variant
+$accent: hsl(195, 50%, 50%); // MD3 tertiary - balanced cyan
 $accent-foreground: hsl(222.2, 84%, 4.9%);
-$destructive: hsl(0, 62.8%, 30.6%);
-$destructive-foreground: hsl(210, 40%, 98%);
-$border: hsl(217.2, 32.6%, 17.5%);
-$input: hsl(217.2, 32.6%, 17.5%);
-$ring: hsl(195, 100%, 70%);
+$destructive: hsl(0, 50%, 50%); // MD3 error
+$destructive-foreground: hsl(210, 15%, 95%);
+$border: hsl(217.2, 20%, 25%); // MD3 outline
+$input: hsl(217.2, 25%, 18%);
+$ring: hsl(195, 50%, 50%); // Match accent
 
 // Size scale variables (for direct use in component styles)
 $size-scale: 1;
@@ -144,10 +144,10 @@ $z-index: (
   auto: auto,
 );
 
-// Shadow values
-$shadow-accent: rgba(99, 242, 255, 0.1);
-$shadow-accent-md: rgba(99, 242, 255, 0.15);
-$shadow-focus: rgba(99, 242, 255, 0.1);
+// Shadow values - Material Design 3 elevation system
+$shadow-accent: rgba(99, 150, 180, 0.08); // MD3 elevation tint
+$shadow-accent-md: rgba(99, 150, 180, 0.12);
+$shadow-focus: rgba(99, 150, 180, 0.10);
 
-// Hover colors
-$accent-hover: hsl(195, 100%, 75%);
+// Hover colors - MD3 state layers
+$accent-hover: hsl(195, 50%, 55%);

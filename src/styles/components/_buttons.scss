@@ -29,18 +29,20 @@
     cursor: not-allowed;
   }
 
-  // Primary variant
+  // Primary variant - MD3 filled button
   &-primary {
-    background: linear-gradient(135deg, hsl(263, 70%, 50%) 0%, hsl(263, 70%, 45%) 100%);
+    background: $primary;
     color: $primary-foreground;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12); // MD3 elevation-1
 
     &:hover:not(:disabled) {
-      filter: brightness(1.1);
-      box-shadow: 0 8px 16px rgba(147, 51, 234, 0.4);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.14); // MD3 elevation-2
+      background: hsl(260, 45%, 58%); // Slightly lighter on hover
     }
 
     &:active:not(:disabled) {
       transform: translateY(0);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
     }
   }
 
