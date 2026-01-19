@@ -59,7 +59,13 @@ export function NamespaceSelector({ selectedNamespaceId, onNamespaceChange }: Na
 
     setLoading(true)
     try {
-      const newNamespace = await createNamespace(newNamespaceName.trim())
+      const newNamespace: Namespace = {
+        id: Date.now().toString(),
+        name: newNamespaceName.trim(),
+        createdAt: Date.now(),
+        isDefault: false,
+      }
+      await createNamespace(newNamespace)
       setNamespaces(prev => [...prev, newNamespace])
       setNewNamespaceName('')
       setCreateDialogOpen(false)

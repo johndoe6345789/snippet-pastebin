@@ -5,8 +5,8 @@ import { motion } from 'framer-motion';
 import { SplitScreenEditor } from '@/components/features/snippet-editor/SplitScreenEditor';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Sparkle } from '@phosphor-icons/react';
-import { DEMO_CODE } from '@/pages/demo-constants';
-import { DemoFeatureCards } from '@/pages/DemoFeatureCards';
+import { DEMO_CODE } from '@/components/demo/demo-constants';
+import { DemoFeatureCards } from '@/components/demo/DemoFeatureCards';
 import { PageLayout } from '../PageLayout';
 
 export default function DemoPage() {

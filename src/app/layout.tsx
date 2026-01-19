@@ -1,22 +1,6 @@
 import type { Metadata } from 'next';
-import { Inter, JetBrains_Mono, Bricolage_Grotesque } from 'next/font/google';
 import './globals.css';
 import { Providers } from './providers';
-
-const inter = Inter({ 
-  subsets: ['latin'],
-  variable: '--font-inter',
-});
-
-const jetbrainsMono = JetBrains_Mono({ 
-  subsets: ['latin'],
-  variable: '--font-jetbrains-mono',
-});
-
-const bricolageGrotesque = Bricolage_Grotesque({ 
-  subsets: ['latin'],
-  variable: '--font-bricolage-grotesque',
-});
 
 export const metadata: Metadata = {
   title: 'CodeSnippet - Share & Run Code (Python, React & More)',
@@ -30,7 +14,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} ${jetbrainsMono.variable} ${bricolageGrotesque.variable}`}>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+      </head>
+      <body>
         <Providers>
           {children}
         </Providers>

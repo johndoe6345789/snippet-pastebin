@@ -16,6 +16,7 @@ export interface Snippet {
   category: string
   namespaceId?: string
   hasPreview?: boolean
+  isTemplate?: boolean
   functionName?: string
   inputParameters?: InputParameter[]
   createdAt: number

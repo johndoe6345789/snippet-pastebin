@@ -51,6 +51,10 @@ export function useSettingsState() {
     await migrateToFlask(flaskUrl, loadStats)
   }
 
+  const handleMigrateToIndexedDBWrapper = async () => {
+    await handleMigrateToIndexedDB(flaskUrl)
+  }
+
   return {
     stats,
     loading,
@@ -72,7 +76,7 @@ export function useSettingsState() {
     handleTestConnection,
     handleSaveStorageConfig,
     handleMigrateToFlask,
-    handleMigrateToIndexedDB,
+    handleMigrateToIndexedDB: handleMigrateToIndexedDBWrapper,
     checkSchemaHealth,
   }
 }
