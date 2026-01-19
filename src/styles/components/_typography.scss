@@ -82,7 +82,7 @@ a {
   transition: color 0.2s ease;
 
   &:hover {
-    color: hsl(195, 100%, 75%);
+    color: $accent-hover;
     text-decoration: underline;
   }
 

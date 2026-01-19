@@ -32,7 +32,7 @@
     &:focus {
       outline: none;
       border-color: $ring;
-      box-shadow: 0 0 0 3px rgba(99, 242, 255, 0.1);
+      box-shadow: 0 0 0 3px $shadow-focus;
     }
 
     &::placeholder {

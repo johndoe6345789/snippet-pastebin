@@ -143,3 +143,11 @@ $z-index: (
   50: 50,
   auto: auto,
 );
+
+// Shadow values
+$shadow-accent: rgba(99, 242, 255, 0.1);
+$shadow-accent-md: rgba(99, 242, 255, 0.15);
+$shadow-focus: rgba(99, 242, 255, 0.1);
+
+// Hover colors
+$accent-hover: hsl(195, 100%, 75%);
