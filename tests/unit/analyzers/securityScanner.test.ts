@@ -5,7 +5,7 @@
 
 import { SecurityScanner } from '../../../src/lib/quality-validator/analyzers/securityScanner.js';
 import { logger } from '../../../src/lib/quality-validator/utils/logger.js';
-import { createTempDir, cleanupTempDir, createTestFile } from '../../test-utils.js';
+import { createTempDir, cleanupTempDir, createTestFile } from '../../test-utils';
 
 describe('SecurityScanner', () => {
   let scanner: SecurityScanner;

@@ -352,3 +352,230 @@ export function shouldExcludeFile(filePath: string, excludePatterns: string[]): 
   }
   return false;
 }
+
+// ============================================================================
+// SCORE RANGE VALIDATORS
+// ============================================================================
+
+/**
+ * Validate score is within acceptable range
+ *
+ * @param {number} score - Score value to validate (0-100)
+ * @param {number} min - Minimum acceptable score
+ * @param {number} max - Maximum acceptable score
+ * @returns {boolean} True if score is within range
+ *
+ * @example
+ * validateScoreRange(85, 0, 100) // Returns: true
+ * validateScoreRange(150, 0, 100) // Returns: false
+ */
+export function validateScoreRange(score: number, min: number = 0, max: number = 100): boolean {
+  return typeof score === 'number' && score >= min && score <= max;
+}
+
+/**
+ * Validate complexity threshold
+ *
+ * @param {number} complexity - Complexity value
+ * @param {number} max - Maximum acceptable complexity
+ * @param {number} warning - Warning threshold
+ * @returns {boolean} True if complexity is acceptable
+ *
+ * @example
+ * validateComplexity(15, 20, 10) // Returns: true
+ * validateComplexity(25, 20, 10) // Returns: false
+ */
+export function validateComplexity(complexity: number, max: number, warning: number): boolean {
+  return typeof complexity === 'number' && complexity <= max && warning < max;
+}
+
+/**
+ * Validate coverage percentage
+ *
+ * @param {number} coverage - Coverage percentage (0-100)
+ * @param {number} minimum - Minimum required coverage
+ * @returns {boolean} True if coverage meets minimum
+ *
+ * @example
+ * validateCoveragePercentage(85, 80) // Returns: true
+ * validateCoveragePercentage(75, 80) // Returns: false
+ */
+export function validateCoveragePercentage(coverage: number, minimum: number): boolean {
+  return typeof coverage === 'number' && coverage >= minimum && coverage <= 100;
+}
+
+/**
+ * Validate security severity level
+ *
+ * @param {string} severity - Severity level
+ * @returns {boolean} True if severity is valid
+ *
+ * @example
+ * validateSecuritySeverity('high') // Returns: true
+ * validateSecuritySeverity('invalid') // Returns: false
+ */
+export function validateSecuritySeverity(severity: string): boolean {
+  const validSeverities = ['critical', 'high', 'medium', 'low', 'info'];
+  return typeof severity === 'string' && validSeverities.includes(severity.toLowerCase());
+}
+
+/**
+ * Validate grade letter
+ *
+ * @param {string} grade - Grade letter (A-F)
+ * @returns {boolean} True if grade is valid
+ *
+ * @example
+ * validateGrade('A') // Returns: true
+ * validateGrade('G') // Returns: false
+ */
+export function validateGrade(grade: string): boolean {
+  return typeof grade === 'string' && ['A', 'B', 'C', 'D', 'F'].includes(grade);
+}
+
+/**
+ * Validate status value
+ *
+ * @param {string} status - Status value
+ * @returns {boolean} True if status is valid
+ *
+ * @example
+ * validateStatus('pass') // Returns: true
+ * validateStatus('maybe') // Returns: false
+ */
+export function validateStatus(status: string): boolean {
+  const validStatuses = ['pass', 'fail', 'warning'];
+  return typeof status === 'string' && validStatuses.includes(status.toLowerCase());
+}
+
+/**
+ * Validate priority level
+ *
+ * @param {string} priority - Priority level
+ * @returns {boolean} True if priority is valid
+ *
+ * @example
+ * validatePriority('high') // Returns: true
+ * validatePriority('urgent') // Returns: false
+ */
+export function validatePriority(priority: string): boolean {
+  const validPriorities = ['critical', 'high', 'medium', 'low'];
+  return typeof priority === 'string' && validPriorities.includes(priority.toLowerCase());
+}
+
+/**
+ * Validate effort level
+ *
+ * @param {string} effort - Effort level
+ * @returns {boolean} True if effort is valid
+ *
+ * @example
+ * validateEffort('high') // Returns: true
+ * validateEffort('maximum') // Returns: false
+ */
+export function validateEffort(effort: string): boolean {
+  const validEfforts = ['high', 'medium', 'low'];
+  return typeof effort === 'string' && validEfforts.includes(effort.toLowerCase());
+}
+
+/**
+ * Validate number is within percentage range (0-100)
+ *
+ * @param {number} value - Value to validate
+ * @returns {boolean} True if value is valid percentage
+ *
+ * @example
+ * validatePercentage(75) // Returns: true
+ * validatePercentage(150) // Returns: false
+ */
+export function validatePercentage(value: number): boolean {
+  return typeof value === 'number' && value >= 0 && value <= 100;
+}
+
+/**
+ * Validate duplication percentage
+ *
+ * @param {number} duplication - Duplication percentage (0-100)
+ * @param {number} maxAllowed - Maximum allowed duplication
+ * @returns {boolean} True if duplication is acceptable
+ *
+ * @example
+ * validateDuplication(5, 10) // Returns: true
+ * validateDuplication(15, 10) // Returns: false
+ */
+export function validateDuplication(duplication: number, maxAllowed: number): boolean {
+  return (
+    typeof duplication === 'number' &&
+    typeof maxAllowed === 'number' &&
+    duplication >= 0 &&
+    duplication <= 100 &&
+    maxAllowed >= 0 &&
+    maxAllowed <= 100
+  );
+}
+
+/**
+ * Validate weight value is between 0 and 1
+ *
+ * @param {number} weight - Weight value
+ * @returns {boolean} True if weight is valid
+ *
+ * @example
+ * validateWeight(0.25) // Returns: true
+ * validateWeight(1.5) // Returns: false
+ */
+export function validateWeight(weight: number): boolean {
+  return typeof weight === 'number' && weight >= 0 && weight <= 1;
+}
+
+/**
+ * Validate weights sum to 1.0 (or close, with tolerance)
+ *
+ * @param {number[]} weights - Array of weight values
+ * @param {number} tolerance - Tolerance for floating point comparison (default 0.01)
+ * @returns {boolean} True if weights sum to 1.0 within tolerance
+ *
+ * @example
+ * validateWeightSum([0.25, 0.25, 0.25, 0.25]) // Returns: true
+ * validateWeightSum([0.25, 0.25, 0.25]) // Returns: false
+ */
+export function validateWeightSum(weights: number[], tolerance: number = 0.01): boolean {
+  if (!Array.isArray(weights)) return false;
+  const sum = weights.reduce((a, b) => a + b, 0);
+  return Math.abs(sum - 1.0) <= tolerance;
+}
+
+/**
+ * Validate version string format
+ *
+ * @param {string} version - Version string (e.g., "1.2.3")
+ * @returns {boolean} True if version format is valid
+ *
+ * @example
+ * validateVersion('1.2.3') // Returns: true
+ * validateVersion('invalid') // Returns: false
+ */
+export function validateVersion(version: string): boolean {
+  if (typeof version !== 'string') return false;
+  return /^\d+\.\d+\.\d+/.test(version);
+}
+
+/**
+ * Validate URL format
+ *
+ * @param {string} url - URL to validate
+ * @returns {boolean} True if URL format is valid
+ *
+ * @example
+ * validateUrl('https://example.com') // Returns: true
+ * validateUrl('not-a-url') // Returns: false
+ */
+export function validateUrl(url: string): boolean {
+  if (typeof url !== 'string') return false;
+  try {
+    new URL(url);
+    return true;
+  } catch {
+    return false;
+  }
+}

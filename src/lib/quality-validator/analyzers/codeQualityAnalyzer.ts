@@ -16,19 +16,87 @@ import {
 } from '../types/index.js';
 import { getSourceFiles, readFile, normalizeFilePath } from '../utils/fileSystem.js';
 import { logger } from '../utils/logger.js';
+import { BaseAnalyzer, AnalyzerConfig } from './BaseAnalyzer.js';
 
 /**
  * Code Quality Analyzer
+ * Extends BaseAnalyzer to implement SOLID principles
  */
-export class CodeQualityAnalyzer {
-  /**
-   * Analyze code quality across all dimensions
-   */
-  async analyze(filePaths: string[]): Promise<AnalysisResult> {
-    const startTime = performance.now();
+export class CodeQualityAnalyzer extends BaseAnalyzer {
+  constructor(config?: AnalyzerConfig) {
+    super(
+      config || {
+        name: 'CodeQualityAnalyzer',
+        enabled: true,
+        timeout: 60000,
+        retryAttempts: 1,
+      }
+    );
+  }
 
-    try {
-      logger.debug('Starting code quality analysis...');
+  /**
+   * Analyze code quality across complexity, duplication, and linting dimensions.
+   *
+   * This is the primary public method that orchestrates a comprehensive code quality analysis.
+   * It processes TypeScript/TSX files to detect:
+   * - Cyclomatic complexity violations (functions with complexity > 20 are critical)
+   * - Code duplication patterns (targets < 3% duplication)
+   * - Linting violations (console statements, var usage, etc.)
+   *
+   * The analysis produces metrics, findings with remediation guidance, and an overall quality score.
+   * Score calculation: 40% complexity + 35% duplication + 25% linting
+   *
+   * Performance target: < 5 seconds for 100+ files
+   *
+   * Extends BaseAnalyzer with:
+   * - Automatic timing and error handling
+   * - Configuration validation
+   * - Standardized finding management
+   * - Retry logic with configurable attempts
+   *
+   * @param {string[]} filePaths - Array of file paths to analyze. Only .ts and .tsx files are processed. Defaults to empty array.
+   *
+   * @returns {Promise<AnalysisResult>} Analysis result containing:
+   *   - category: 'codeQuality'
+   *   - score: Overall quality score (0-100)
+   *   - status: 'pass' (>= 80), 'warning' (70-80), or 'fail' (< 70)
+   *   - findings: Array of code quality issues with severity levels and remediation guidance
+   *   - metrics: Detailed metrics object containing complexity, duplication, and linting data
+   *   - executionTime: Analysis execution time in milliseconds
+   *
+   * @throws {Error} If file reading fails, if analysis encounters unexpected file format errors, or if analyzer validation fails
+   *
+   * @example
+   * ```typescript
+   * const analyzer = new CodeQualityAnalyzer({
+   *   name: 'CodeQualityAnalyzer',
+   *   enabled: true,
+   *   timeout: 60000,
+   *   retryAttempts: 1
+   * });
+   *
+   * const result = await analyzer.analyze([
+   *   'src/components/Button.tsx',
+   *   'src/utils/helpers.ts'
+   * ]);
+   *
+   * if (result.status === 'fail') {
+   *   console.log(`Code quality score: ${result.score}`);
+   *   result.findings.forEach(finding => {
+   *     console.log(`[${finding.severity}] ${finding.title}`);
+   *     console.log(`  ${finding.description}`);
+   *     console.log(`  Fix: ${finding.remediation}`);
+   *   });
+   * }
+   * ```
+   */
+  async analyze(filePaths: string[] = []): Promise<AnalysisResult> {
+    return this.executeWithTiming(async () => {
+      if (!this.validate()) {
+        throw new Error('CodeQualityAnalyzer validation failed');
+      }
+
+      this.startTiming();
 
       // Analyze each dimension
       const complexity = this.analyzeComplexity(filePaths);
@@ -42,30 +110,43 @@ export class CodeQualityAnalyzer {
       };
 
       // Generate findings
-      const findings = this.generateFindings(metrics);
+      this.generateFindings(metrics);
 
       // Calculate score
       const score = this.calculateScore(metrics);
 
-      const executionTime = performance.now() - startTime;
+      const executionTime = this.getExecutionTime();
 
-      logger.debug(`Code quality analysis complete (${executionTime.toFixed(2)}ms)`, {
-        complexityScore: score,
-        findings: findings.length,
+      this.logProgress('Code quality analysis complete', {
+        score: score.toFixed(2),
+        findingsCount: this.findings.length,
       });
 
       return {
         category: 'codeQuality' as const,
         score,
-        status: (score >= 80 ? 'pass' : score >= 70 ? 'warning' : 'fail') as Status,
-        findings,
+        status: this.getStatus(score),
+        findings: this.getFindings(),
         metrics: metrics as unknown as Record<string, unknown>,
         executionTime,
       };
-    } catch (error) {
-      logger.error('Code quality analysis failed', { error: (error as Error).message });
-      throw error;
+    }, 'code quality analysis');
+  }
+
+  /**
+   * Validate analyzer configuration and preconditions
+   */
+  validate(): boolean {
+    if (!this.validateConfig()) {
+      return false;
     }
+
+    if (!this.config.enabled) {
+      logger.debug(`${this.config.name} is disabled`);
+      return false;
+    }
+
+    return true;
   }
 
   /**
@@ -79,15 +160,17 @@ export class CodeQualityAnalyzer {
     for (const filePath of filePaths) {
       if (!filePath.endsWith('.ts') && !filePath.endsWith('.tsx')) continue;
 
+      const content = this.safeReadFile(filePath, () => readFile(filePath));
+      if (!content) continue;
+
       try {
-        const content = readFile(filePath);
         const parsed = this.extractComplexityFromFile(filePath, content);
 
         functions.push(...parsed.functions);
         totalComplexity += parsed.totalComplexity;
         maxComplexity = Math.max(maxComplexity, parsed.maxComplexity);
       } catch (error) {
-        logger.debug(`Failed to analyze complexity in ${filePath}`, {
+        this.logProgress(`Failed to analyze complexity in ${filePath}`, {
           error: (error as Error).message,
         });
       }
@@ -199,16 +282,14 @@ export class CodeQualityAnalyzer {
     for (const filePath of filePaths) {
       if (!filePath.endsWith('.ts') && !filePath.endsWith('.tsx')) continue;
 
-      try {
-        const content = readFile(filePath);
-        const imports = content.match(/^import .* from ['"]/gm);
-        if (imports) {
-          for (const imp of imports) {
-            importCounts.set(imp, (importCounts.get(imp) || 0) + 1);
-          }
+      const content = this.safeReadFile(filePath, () => readFile(filePath));
+      if (!content) continue;
+
+      const imports = content.match(/^import .* from ['"]/gm);
+      if (imports) {
+        for (const imp of imports) {
+          importCounts.set(imp, (importCounts.get(imp) || 0) + 1);
         }
-      } catch (error) {
-        logger.debug(`Failed to analyze duplication in ${filePath}`);
       }
     }
 
@@ -221,12 +302,8 @@ export class CodeQualityAnalyzer {
     }
 
     const totalLines = filePaths.reduce((sum, f) => {
-      try {
-        const content = readFile(f);
-        return sum + content.split('\n').length;
-      } catch {
-        return sum;
-      }
+      const content = this.safeReadFile(f, () => readFile(f));
+      return sum + (content ? content.split('\n').length : 0);
     }, 0);
 
     const duplicationPercent = totalLines > 0 ? (duplicateCount / (totalLines / 10)) * 100 : 0;
@@ -251,40 +328,38 @@ export class CodeQualityAnalyzer {
     for (const filePath of filePaths) {
       if (!filePath.endsWith('.ts') && !filePath.endsWith('.tsx')) continue;
 
-      try {
-        const content = readFile(filePath);
-        const lines = content.split('\n');
+      const content = this.safeReadFile(filePath, () => readFile(filePath));
+      if (!content) continue;
 
-        for (let i = 0; i < lines.length; i++) {
-          const line = lines[i];
+      const lines = content.split('\n');
 
-          // Check for common linting issues
-          if (line.includes('console.log') && !filePath.includes('.spec.') && !filePath.includes('.test.')) {
-            violations.push({
-              file: normalizeFilePath(filePath),
-              line: i + 1,
-              column: line.indexOf('console.log') + 1,
-              severity: 'warning',
-              rule: 'no-console',
-              message: 'Unexpected console statement',
-              fixable: true,
-            });
-          }
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
 
-          if (line.includes('var ')) {
-            violations.push({
-              file: normalizeFilePath(filePath),
-              line: i + 1,
-              column: line.indexOf('var ') + 1,
-              severity: 'warning',
-              rule: 'no-var',
-              message: 'Unexpected var, use let or const instead',
-              fixable: true,
-            });
-          }
+        // Check for common linting issues
+        if (line.includes('console.log') && !filePath.includes('.spec.') && !filePath.includes('.test.')) {
+          violations.push({
+            file: normalizeFilePath(filePath),
+            line: i + 1,
+            column: line.indexOf('console.log') + 1,
+            severity: 'warning',
+            rule: 'no-console',
+            message: 'Unexpected console statement',
+            fixable: true,
+          });
         }
-      } catch (error) {
-        logger.debug(`Failed to lint ${filePath}`);
+
+        if (line.includes('var ')) {
+          violations.push({
+            file: normalizeFilePath(filePath),
+            line: i + 1,
+            column: line.indexOf('var ') + 1,
+            severity: 'warning',
+            rule: 'no-var',
+            message: 'Unexpected var, use let or const instead',
+            fixable: true,
+          });
+        }
       }
     }
 
@@ -314,13 +389,11 @@ export class CodeQualityAnalyzer {
   /**
    * Generate findings from metrics
    */
-  private generateFindings(metrics: CodeQualityMetrics): Finding[] {
-    const findings: Finding[] = [];
-
+  private generateFindings(metrics: CodeQualityMetrics): void {
     // Complexity findings
     for (const func of metrics.complexity.functions.slice(0, 5)) {
       if (func.status === 'critical') {
-        findings.push({
+        this.addFinding({
           id: `cc-${func.file}-${func.line}`,
           severity: 'high',
           category: 'codeQuality',
@@ -338,7 +411,7 @@ export class CodeQualityAnalyzer {
 
     // Duplication findings
     if (metrics.duplication.percent > 5) {
-      findings.push({
+      this.addFinding({
         id: 'dup-high',
         severity: 'medium',
         category: 'codeQuality',
@@ -351,7 +424,7 @@ export class CodeQualityAnalyzer {
 
     // Linting findings
     if (metrics.linting.errors > 0) {
-      findings.push({
+      this.addFinding({
         id: 'lint-errors',
         severity: 'high',
         category: 'codeQuality',
@@ -361,8 +434,6 @@ export class CodeQualityAnalyzer {
         evidence: `Errors: ${metrics.linting.errors}`,
       });
     }
-
-    return findings;
   }
 
   /**

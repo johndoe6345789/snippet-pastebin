@@ -16,19 +16,34 @@ import {
 } from '../types/index.js';
 import { readFile, getSourceFiles, normalizeFilePath } from '../utils/fileSystem.js';
 import { logger } from '../utils/logger.js';
+import { BaseAnalyzer, AnalyzerConfig } from './BaseAnalyzer.js';
 
 /**
  * Security Scanner
+ * Extends BaseAnalyzer to implement SOLID principles
  */
-export class SecurityScanner {
+export class SecurityScanner extends BaseAnalyzer {
+  constructor(config?: AnalyzerConfig) {
+    super(
+      config || {
+        name: 'SecurityScanner',
+        enabled: true,
+        timeout: 60000,
+        retryAttempts: 1,
+      }
+    );
+  }
+
   /**
    * Scan for security issues
    */
-  async analyze(filePaths: string[]): Promise<AnalysisResult> {
-    const startTime = performance.now();
+  async analyze(filePaths: string[] = []): Promise<AnalysisResult> {
+    return this.executeWithTiming(async () => {
+      if (!this.validate()) {
+        throw new Error('SecurityScanner validation failed');
+      }
 
-    try {
-      logger.debug('Starting security analysis...');
+      this.startTiming();
 
       const vulnerabilities = this.scanVulnerabilities();
       const codePatterns = this.detectSecurityPatterns(filePaths);
@@ -40,12 +55,12 @@ export class SecurityScanner {
         performanceIssues,
       };
 
-      const findings = this.generateFindings(metrics);
+      this.generateFindings(metrics);
       const score = this.calculateScore(metrics);
 
-      const executionTime = performance.now() - startTime;
+      const executionTime = this.getExecutionTime();
 
-      logger.debug(`Security analysis complete (${executionTime.toFixed(2)}ms)`, {
+      this.logProgress('Security analysis complete', {
         vulnerabilities: vulnerabilities.length,
         patterns: codePatterns.length,
       });
@@ -53,15 +68,28 @@ export class SecurityScanner {
       return {
         category: 'security' as const,
         score,
-        status: (score >= 80 ? 'pass' : score >= 60 ? 'warning' : 'fail') as Status,
-        findings,
+        status: this.getStatus(score),
+        findings: this.getFindings(),
         metrics: metrics as unknown as Record<string, unknown>,
         executionTime,
       };
-    } catch (error) {
-      logger.error('Security analysis failed', { error: (error as Error).message });
-      throw error;
+    }, 'security analysis');
+  }
+
+  /**
+   * Validate analyzer configuration and preconditions
+   */
+  validate(): boolean {
+    if (!this.validateConfig()) {
+      return false;
     }
+
+    if (!this.config.enabled) {
+      logger.debug(`${this.config.name} is disabled`);
+      return false;
+    }
+
+    return true;
   }
 
   /**
@@ -289,12 +317,10 @@ export class SecurityScanner {
   /**
    * Generate findings from metrics
    */
-  private generateFindings(metrics: SecurityMetrics): Finding[] {
-    const findings: Finding[] = [];
-
+  private generateFindings(metrics: SecurityMetrics): void {
     // Vulnerability findings
     for (const vuln of metrics.vulnerabilities.slice(0, 5)) {
-      findings.push({
+      this.addFinding({
         id: `vuln-${vuln.package}`,
         severity: vuln.severity === 'critical' ? 'critical' : 'high',
         category: 'security',
@@ -307,7 +333,7 @@ export class SecurityScanner {
 
     // Code pattern findings
     for (const pattern of metrics.codePatterns.slice(0, 5)) {
-      findings.push({
+      this.addFinding({
         id: `pattern-${pattern.file}-${pattern.line}`,
         severity: pattern.severity,
         category: 'security',
@@ -321,8 +347,6 @@ export class SecurityScanner {
         evidence: pattern.evidence,
       });
     }
-
-    return findings;
   }
 
   /**

@@ -174,8 +174,8 @@ export class ConfigLoader {
   async loadConfiguration(configPath?: string): Promise<Configuration> {
     let config: Partial<Configuration> = {};
 
-    // 1. Start with defaults
-    const finalConfig = { ...DEFAULT_CONFIG };
+    // 1. Start with defaults (deep copy to avoid mutating DEFAULT_CONFIG)
+    const finalConfig = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
 
     // 2. Load from config file if exists
     if (configPath) {
@@ -370,7 +370,14 @@ export class ConfigLoader {
    * Apply CLI options to configuration
    */
   applyCliOptions(config: Configuration, options: CommandLineOptions): Configuration {
-    const result = { ...config };
+    if (options.skipCoverage) {
+      // This should never mutate the original config
+      const result = JSON.parse(JSON.stringify(config));
+      if (result.testCoverage === config.testCoverage) {
+        throw new Error('DEEP COPY FAILED: testCoverage objects are the same!');
+      }
+    }
+    const result = JSON.parse(JSON.stringify(config));
 
     // Toggle analyses based on CLI options
     if (options.skipCoverage) {

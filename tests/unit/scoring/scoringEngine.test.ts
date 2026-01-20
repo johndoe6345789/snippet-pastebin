@@ -10,7 +10,7 @@ import {
   createMockArchitectureMetrics,
   createMockSecurityMetrics,
   createDefaultConfig,
-} from '../../test-utils.js';
+} from '../../test-utils';
 
 describe('ScoringEngine', () => {
   let engine: ScoringEngine;

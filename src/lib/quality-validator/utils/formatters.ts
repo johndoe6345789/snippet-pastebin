@@ -305,3 +305,311 @@ export function createSvgDataUrl(svgContent: string): string {
   const encoded = Buffer.from(svgContent).toString('base64');
   return `data:image/svg+xml;base64,${encoded}`;
 }
+
+// ============================================================================
+// GRADE FORMATTING
+// ============================================================================
+
+/**
+ * Format grade letter with visual representation
+ *
+ * @param {string} grade - Grade letter (A-F)
+ * @returns {string} Formatted grade string
+ *
+ * @example
+ * formatGrade('A') // Returns: "A"
+ * formatGrade('F') // Returns: "F"
+ */
+export function formatGrade(grade: string): string {
+  return String(grade).toUpperCase();
+}
+
+/**
+ * Get grade description text
+ *
+ * @param {string} grade - Grade letter
+ * @returns {string} Human-readable grade description
+ *
+ * @example
+ * getGradeDescription('A') // Returns: "Excellent"
+ * getGradeDescription('C') // Returns: "Acceptable"
+ */
+export function getGradeDescription(grade: string): string {
+  const descriptions: Record<string, string> = {
+    A: 'Excellent',
+    B: 'Good',
+    C: 'Acceptable',
+    D: 'Poor',
+    F: 'Failing',
+  };
+  return descriptions[grade.toUpperCase()] || 'Unknown';
+}
+
+/**
+ * Format number with thousand separators
+ *
+ * @param {number} value - Number to format
+ * @param {number} precision - Decimal places
+ * @returns {string} Formatted number string
+ *
+ * @example
+ * formatNumber(1234567.89, 2) // Returns: "1,234,567.89"
+ * formatNumber(42) // Returns: "42"
+ */
+export function formatNumber(value: number, precision?: number): string {
+  const formatted = precision !== undefined ? value.toFixed(precision) : value.toString();
+  return parseFloat(formatted).toLocaleString('en-US', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: precision,
+  });
+}
+
+/**
+ * Format percentage with consistent styling and precision
+ *
+ * @param {number} value - Percentage value (0-100)
+ * @param {number} precision - Decimal places
+ * @returns {string} Formatted percentage string
+ *
+ * @example
+ * formatPercentage(85.567, 1) // Returns: "85.6%"
+ * formatPercentage(100) // Returns: "100%"
+ */
+export function formatPercentage(value: number, precision: number = 1): string {
+  return `${value.toFixed(precision)}%`;
+}
+
+/**
+ * Format percentage with change indicator
+ *
+ * @param {number} current - Current percentage
+ * @param {number} previous - Previous percentage
+ * @param {number} precision - Decimal places
+ * @returns {string} Formatted percentage with change
+ *
+ * @example
+ * formatPercentageChange(90, 85, 1) // Returns: "+5.0%"
+ * formatPercentageChange(80, 85, 1) // Returns: "-5.0%"
+ */
+export function formatPercentageChange(current: number, previous: number, precision: number = 1): string {
+  const change = current - previous;
+  const sign = change > 0 ? '+' : '';
+  return `${sign}${change.toFixed(precision)}%`;
+}
+
+/**
+ * Format large number in short form (K, M, B)
+ *
+ * @param {number} value - Number to format
+ * @returns {string} Formatted short number
+ *
+ * @example
+ * formatLargeNumber(1234) // Returns: "1.2K"
+ * formatLargeNumber(1234567) // Returns: "1.2M"
+ */
+export function formatLargeNumber(value: number): string {
+  const units = ['', 'K', 'M', 'B', 'T'];
+  let unitIndex = 0;
+  let num = Math.abs(value);
+
+  while (num >= 1000 && unitIndex < units.length - 1) {
+    num /= 1000;
+    unitIndex++;
+  }
+
+  const sign = value < 0 ? '-' : '';
+  return `${sign}${num.toFixed(1)}${units[unitIndex]}`;
+}
+
+/**
+ * Format ratio as a visual bar chart
+ *
+ * @param {number} value - Value (0-100)
+ * @param {number} width - Width of bar in characters
+ * @param {string} filledChar - Character for filled portion
+ * @param {string} emptyChar - Character for empty portion
+ * @returns {string} Visual bar representation
+ *
+ * @example
+ * formatBar(75, 20) // Returns: "███████████████░░░░"
+ */
+export function formatBar(
+  value: number,
+  width: number = 20,
+  filledChar: string = '█',
+  emptyChar: string = '░'
+): string {
+  const filled = Math.round((value / 100) * width);
+  const empty = width - filled;
+  return `[${filledChar.repeat(filled)}${emptyChar.repeat(empty)}]`;
+}
+
+/**
+ * Format sparkline from data points
+ *
+ * @param {number[]} values - Data points
+ * @param {number} width - Width of sparkline (max points)
+ * @returns {string} ASCII sparkline representation
+ *
+ * @example
+ * formatSparkline([1, 3, 5, 4, 6, 8, 7, 9, 8, 10])
+ * // Returns: "▁▃▅▄▆█▇█▇█"
+ */
+export function formatSparkline(values: number[], width: number = 10): string {
+  if (values.length === 0) return '';
+
+  const chars = ['▁', '▂', '▃', '▄', '▅', '▆', '▇', '█'];
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const range = max - min || 1;
+
+  return values
+    .slice(Math.max(0, values.length - width))
+    .map((v) => {
+      const index = Math.round(((v - min) / range) * (chars.length - 1));
+      return chars[index];
+    })
+    .join('');
+}
+
+/**
+ * Format trend indicator (arrow or symbol)
+ *
+ * @param {number} current - Current value
+ * @param {number} previous - Previous value
+ * @returns {string} Trend indicator symbol
+ *
+ * @example
+ * formatTrend(90, 85) // Returns: "↑"
+ * formatTrend(80, 85) // Returns: "↓"
+ * formatTrend(85, 85) // Returns: "→"
+ */
+export function formatTrend(current: number, previous: number): string {
+  if (current > previous) return '↑';
+  if (current < previous) return '↓';
+  return '→';
+}
+
+/**
+ * Format status with icon
+ *
+ * @param {string} status - Status value
+ * @returns {object} Formatted status with icon and color
+ *
+ * @example
+ * formatStatusWithIcon('pass')
+ * // Returns: { icon: '✓', color: 'green' }
+ */
+export function formatStatusWithIcon(
+  status: string
+): {
+  icon: string;
+  color: string;
+  text: string;
+} {
+  const statusMap: Record<string, { icon: string; color: string; text: string }> = {
+    pass: { icon: '✓', color: 'green', text: 'PASS' },
+    fail: { icon: '✗', color: 'red', text: 'FAIL' },
+    warning: { icon: '⚠', color: 'yellow', text: 'WARNING' },
+    critical: { icon: '✗', color: 'red', text: 'CRITICAL' },
+    high: { icon: '!', color: 'red', text: 'HIGH' },
+    medium: { icon: '⚠', color: 'yellow', text: 'MEDIUM' },
+    low: { icon: '•', color: 'blue', text: 'LOW' },
+    info: { icon: 'ℹ', color: 'cyan', text: 'INFO' },
+  };
+  return statusMap[status.toLowerCase()] || { icon: '?', color: 'gray', text: 'UNKNOWN' };
+}
+
+/**
+ * Format metric name for display
+ *
+ * @param {string} name - Metric name in camelCase or snake_case
+ * @returns {string} Formatted metric name for display
+ *
+ * @example
+ * formatMetricDisplayName('cyclomaticComplexity')
+ * // Returns: "Cyclomatic Complexity"
+ */
+export function formatMetricDisplayName(name: string): string {
+  return name
+    .replace(/([A-Z])/g, ' $1') // Insert space before capitals
+    .replace(/_/g, ' ') // Replace underscores with spaces
+    .replace(/\s+/g, ' ') // Collapse multiple spaces
+    .trim()
+    .split(' ')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ');
+}
+
+/**
+ * Format time duration with appropriate units
+ *
+ * @param {number} ms - Duration in milliseconds
+ * @returns {string} Human-readable duration
+ *
+ * @example
+ * formatTime(3661000) // Returns: "1h 1m 1s"
+ * formatTime(65000) // Returns: "1m 5s"
+ */
+export function formatTime(ms: number): string {
+  const seconds = Math.floor((ms / 1000) % 60);
+  const minutes = Math.floor((ms / (1000 * 60)) % 60);
+  const hours = Math.floor((ms / (1000 * 60 * 60)) % 24);
+  const days = Math.floor(ms / (1000 * 60 * 60 * 24));
+
+  const parts: string[] = [];
+  if (days > 0) parts.push(`${days}d`);
+  if (hours > 0) parts.push(`${hours}h`);
+  if (minutes > 0) parts.push(`${minutes}m`);
+  if (seconds > 0 || parts.length === 0) parts.push(`${seconds}s`);
+
+  return parts.join(' ');
+}
+
+/**
+ * Pad text to fixed width
+ *
+ * @param {string} text - Text to pad
+ * @param {number} width - Target width
+ * @param {string} padChar - Character to pad with
+ * @param {boolean} padLeft - Pad on left (true) or right (false)
+ * @returns {string} Padded text
+ *
+ * @example
+ * padText('test', 8, ' ', false) // Returns: "test    "
+ * padText('42', 5, '0', true) // Returns: "00042"
+ */
+export function padText(
+  text: string,
+  width: number,
+  padChar: string = ' ',
+  padLeft: boolean = false
+): string {
+  const padding = Math.max(0, width - text.length);
+  const padString = padChar.repeat(padding);
+  return padLeft ? padString + text : text + padString;
+}
+
+/**
+ * Format list of items as human-readable string
+ *
+ * @param {string[]} items - Items to format
+ * @param {string} separator - Item separator
+ * @param {string} finalSeparator - Separator before last item
+ * @returns {string} Formatted list
+ *
+ * @example
+ * formatList(['apple', 'banana', 'cherry'])
+ * // Returns: "apple, banana, and cherry"
+ */
+export function formatList(
+  items: string[],
+  separator: string = ', ',
+  finalSeparator: string = ', and '
+): string {
+  if (items.length === 0) return '';
+  if (items.length === 1) return items[0];
+  if (items.length === 2) return `${items[0]}${finalSeparator}${items[1]}`;
+
+  return items.slice(0, -1).join(separator) + finalSeparator + items[items.length - 1];
+}

@@ -281,12 +281,34 @@ Configuration:
 export * from './types/index.js';
 export { configLoader } from './config/ConfigLoader.js';
 export { logger } from './utils/logger.js';
-export { codeQualityAnalyzer } from './analyzers/codeQualityAnalyzer.js';
-export { coverageAnalyzer } from './analyzers/coverageAnalyzer.js';
-export { architectureChecker } from './analyzers/architectureChecker.js';
-export { securityScanner } from './analyzers/securityScanner.js';
+
+// Export SOLID design pattern implementations
+export { BaseAnalyzer, type AnalyzerConfig } from './analyzers/BaseAnalyzer.js';
+export { AnalyzerFactory, type AnalyzerType } from './analyzers/AnalyzerFactory.js';
+export { DependencyContainer, getGlobalContainer, resetGlobalContainer } from './utils/DependencyContainer.js';
+export { AnalysisRegistry, getGlobalRegistry, resetGlobalRegistry } from './core/AnalysisRegistry.js';
+
+// Export analyzers
+export { CodeQualityAnalyzer, codeQualityAnalyzer } from './analyzers/codeQualityAnalyzer.js';
+export { CoverageAnalyzer, coverageAnalyzer } from './analyzers/coverageAnalyzer.js';
+export { ArchitectureChecker, architectureChecker } from './analyzers/architectureChecker.js';
+export { SecurityScanner, securityScanner } from './analyzers/securityScanner.js';
+
+// Export scoring engine
 export { scoringEngine } from './scoring/scoringEngine.js';
+
+// Export reporters
+export { ReporterBase } from './reporters/ReporterBase.js';
 export { consoleReporter } from './reporters/ConsoleReporter.js';
 export { jsonReporter } from './reporters/JsonReporter.js';
 export { htmlReporter } from './reporters/HtmlReporter.js';
 export { csvReporter } from './reporters/CsvReporter.js';
+
+// Export utility validators
+export * from './utils/validators.js';
+
+// Export utility formatters
+export * from './utils/formatters.js';
+
+// Export result processor utilities
+export * from './utils/resultProcessor.js';

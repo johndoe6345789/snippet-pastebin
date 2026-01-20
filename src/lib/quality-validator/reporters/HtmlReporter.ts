@@ -1,10 +1,11 @@
 /**
  * HTML Reporter - Orchestrator
  * Coordinates sub-reporters to generate complete HTML reports
- * This is the main entry point that delegates to specialized modules
+ * Refactored to use ReporterBase for shared functionality
  */
 
 import { ScoringResult } from '../types/index.js';
+import { ReporterBase } from './ReporterBase.js';
 import { generateOpeningTags, generateClosingTags } from './html/HtmlHeader.js';
 import { generateOverallSection, generateComponentScoresSection, generateSummaryStatistics } from './html/HtmlScoreSection.js';
 import { generateFindingsSection, generateRecommendationsSection, generateFindingsSummaryTable } from './html/HtmlDetailsSection.js';
@@ -15,15 +16,17 @@ import { generateFooter, generateMetadataSection, generateScript, generateResour
  * HTML Reporter - Orchestrates all HTML generation modules
  *
  * @description
- * Coordinates specialized modules to generate complete HTML reports:
+ * Extends ReporterBase and coordinates specialized modules to generate complete HTML reports:
  * - HtmlHeader: Document structure and meta tags
  * - HtmlScoreSection: Overall score and component visualization
  * - HtmlDetailsSection: Findings and recommendations
  * - HtmlMetricsSection: Detailed metrics display
  * - HtmlFooter: Metadata and resources
  * - HtmlStyleSheet: Embedded CSS
+ *
+ * Leverages ReporterBase shared utilities for metadata handling, formatting, and aggregation
  */
-export class HtmlReporter {
+export class HtmlReporter extends ReporterBase {
   /**
    * Generate complete HTML report from scoring result
    *

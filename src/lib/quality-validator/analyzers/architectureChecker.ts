@@ -17,19 +17,34 @@ import {
 } from '../types/index.js';
 import { getSourceFiles, readFile, getLineCount, normalizeFilePath } from '../utils/fileSystem.js';
 import { logger } from '../utils/logger.js';
+import { BaseAnalyzer, AnalyzerConfig } from './BaseAnalyzer.js';
 
 /**
  * Architecture Checker
+ * Extends BaseAnalyzer to implement SOLID principles
  */
-export class ArchitectureChecker {
+export class ArchitectureChecker extends BaseAnalyzer {
+  constructor(config?: AnalyzerConfig) {
+    super(
+      config || {
+        name: 'ArchitectureChecker',
+        enabled: true,
+        timeout: 45000,
+        retryAttempts: 1,
+      }
+    );
+  }
+
   /**
    * Check architecture compliance
    */
-  async analyze(filePaths: string[]): Promise<AnalysisResult> {
-    const startTime = performance.now();
+  async analyze(filePaths: string[] = []): Promise<AnalysisResult> {
+    return this.executeWithTiming(async () => {
+      if (!this.validate()) {
+        throw new Error('ArchitectureChecker validation failed');
+      }
 
-    try {
-      logger.debug('Starting architecture analysis...');
+      this.startTiming();
 
       const components = this.analyzeComponents(filePaths);
       const dependencies = this.analyzeDependencies(filePaths);
@@ -41,12 +56,12 @@ export class ArchitectureChecker {
         patterns,
       };
 
-      const findings = this.generateFindings(metrics);
+      this.generateFindings(metrics);
       const score = this.calculateScore(metrics);
 
-      const executionTime = performance.now() - startTime;
+      const executionTime = this.getExecutionTime();
 
-      logger.debug(`Architecture analysis complete (${executionTime.toFixed(2)}ms)`, {
+      this.logProgress('Architecture analysis complete', {
         components: components.totalCount,
         circularDeps: dependencies.circularDependencies.length,
       });
@@ -54,15 +69,28 @@ export class ArchitectureChecker {
       return {
         category: 'architecture' as const,
         score,
-        status: (score >= 80 ? 'pass' : score >= 70 ? 'warning' : 'fail') as Status,
-        findings,
+        status: this.getStatus(score),
+        findings: this.getFindings(),
         metrics: metrics as unknown as Record<string, unknown>,
         executionTime,
       };
-    } catch (error) {
-      logger.error('Architecture analysis failed', { error: (error as Error).message });
-      throw error;
+    }, 'architecture analysis');
+  }
+
+  /**
+   * Validate analyzer configuration and preconditions
+   */
+  validate(): boolean {
+    if (!this.validateConfig()) {
+      return false;
     }
+
+    if (!this.config.enabled) {
+      logger.debug(`${this.config.name} is disabled`);
+      return false;
+    }
+
+    return true;
   }
 
   /**
@@ -297,12 +325,10 @@ export class ArchitectureChecker {
   /**
    * Generate findings from metrics
    */
-  private generateFindings(metrics: ArchitectureMetrics): Finding[] {
-    const findings: Finding[] = [];
-
+  private generateFindings(metrics: ArchitectureMetrics): void {
     // Component size findings
     for (const component of metrics.components.oversized.slice(0, 3)) {
-      findings.push({
+      this.addFinding({
         id: `oversized-${component.file}`,
         severity: 'medium',
         category: 'architecture',
@@ -318,7 +344,7 @@ export class ArchitectureChecker {
 
     // Circular dependency findings
     for (const cycle of metrics.dependencies.circularDependencies) {
-      findings.push({
+      this.addFinding({
         id: `circular-${cycle.files[0]}`,
         severity: 'high',
         category: 'architecture',
@@ -331,7 +357,7 @@ export class ArchitectureChecker {
 
     // Pattern violations
     for (const issue of metrics.patterns.reduxCompliance.issues.slice(0, 2)) {
-      findings.push({
+      this.addFinding({
         id: `redux-${issue.file}`,
         severity: issue.severity,
         category: 'architecture',
@@ -344,8 +370,6 @@ export class ArchitectureChecker {
         remediation: issue.suggestion,
       });
     }
-
-    return findings;
   }
 
   /**

@@ -7,7 +7,7 @@ import { CoverageAnalyzer } from '../../../src/lib/quality-validator/analyzers/c
 import { logger } from '../../../src/lib/quality-validator/utils/logger.js';
 import * as fs from 'fs';
 import * as path from 'path';
-import { createTempDir, cleanupTempDir, createTestFile } from '../../test-utils.js';
+import { createTempDir, cleanupTempDir, createTestFile } from '../../test-utils';
 
 describe('CoverageAnalyzer', () => {
   let analyzer: CoverageAnalyzer;

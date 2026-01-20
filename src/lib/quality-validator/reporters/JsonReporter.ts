@@ -1,14 +1,17 @@
 /**
  * JSON Reporter
  * Generates machine-readable JSON reports
+ * Refactored to use ReporterBase for shared functionality
  */
 
 import { ScoringResult, JsonReport } from '../types/index.js';
+import { ReporterBase } from './ReporterBase.js';
 
 /**
  * JSON Reporter
+ * Extends ReporterBase to leverage shared metadata handling and utilities
  */
-export class JsonReporter {
+export class JsonReporter extends ReporterBase {
   /**
    * Generate JSON report
    */

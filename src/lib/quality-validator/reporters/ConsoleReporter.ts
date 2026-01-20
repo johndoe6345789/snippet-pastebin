@@ -1,15 +1,19 @@
 /**
  * Console Reporter
  * Generates formatted console output with colors
+ * Refactored to use ReporterBase for shared functionality
  */
 
-import { ScoringResult, Finding, Recommendation } from '../types/index.js';
+import { ScoringResult } from '../types/index.js';
+import { ReporterBase } from './ReporterBase.js';
 import { logger } from '../utils/logger.js';
+import { formatSparkline, formatBar } from '../utils/formatters.js';
 
 /**
  * Console Reporter
+ * Extends ReporterBase to leverage shared formatting and processing utilities
  */
-export class ConsoleReporter {
+export class ConsoleReporter extends ReporterBase {
   /**
    * Generate console report
    */
@@ -52,10 +56,11 @@ export class ConsoleReporter {
   private generateHeader(result: ScoringResult, useColors: boolean): string {
     const color = this.getColorizer(useColors);
     const lines: string[] = [];
+    const projectName = result.metadata.configUsed.projectName || 'snippet-pastebin';
 
     lines.push('');
     lines.push(color('╔════════════════════════════════════════════════════════╗', 'cyan'));
-    lines.push(color('║   QUALITY VALIDATION REPORT - snippet-pastebin         ║', 'cyan'));
+    lines.push(color(`║   QUALITY VALIDATION REPORT - ${projectName.padEnd(24)}║`, 'cyan'));
     lines.push(
       color(
         `║   ${result.metadata.timestamp.substring(0, 19).padEnd(49)}║`,
@@ -74,13 +79,7 @@ export class ConsoleReporter {
   private generateOverallSection(result: ScoringResult, useColors: boolean): string {
     const color = this.getColorizer(useColors);
     const { overall } = result;
-
-    const gradeColor =
-      overall.grade === 'A' || overall.grade === 'B'
-        ? 'green'
-        : overall.grade === 'C' || overall.grade === 'D'
-          ? 'yellow'
-          : 'red';
+    const gradeColor = this.getGradeColor(overall.grade);
 
     const lines: string[] = [];
 
@@ -133,8 +132,8 @@ export class ConsoleReporter {
     ];
 
     for (const score of scores) {
-      const scoreColor = score.score >= 80 ? 'green' : score.score >= 60 ? 'yellow' : 'red';
-      const bar = this.generateScoreBar(score.score);
+      const scoreColor = this.getColorForValue(score.score);
+      const bar = formatBar(score.score);
       lines.push(
         `│ ${score.name.padEnd(18)} ${bar} ${color(score.score.toFixed(1).padStart(5), scoreColor)}% (${score.weight})`
       );
@@ -149,49 +148,39 @@ export class ConsoleReporter {
   /**
    * Generate findings section
    */
-  private generateFindingsSection(findings: Finding[], useColors: boolean): string {
+  private generateFindingsSection(findings: any, useColors: boolean): string {
     const color = this.getColorizer(useColors);
     const lines: string[] = [];
 
-    // Group by severity
-    const bySeverity = new Map<string, Finding[]>();
-    for (const finding of findings) {
-      if (!bySeverity.has(finding.severity)) {
-        bySeverity.set(finding.severity, []);
-      }
-      bySeverity.get(finding.severity)!.push(finding);
-    }
+    // Use shared utility to group by severity
+    const grouped = this.formatFindingsForDisplay(findings, 3);
+    const stats = this.findingStatistics(findings);
+
+    lines.push(color('┌─ FINDINGS ───────────────────────────────────────────────┐', 'cyan'));
+    lines.push(`│ Total: ${stats.total} findings`);
+    lines.push(color('├─────────────────────────────────────────────────────────┤', 'cyan'));
 
     const severityOrder = ['critical', 'high', 'medium', 'low', 'info'];
 
-    lines.push(color('┌─ FINDINGS ───────────────────────────────────────────────┐', 'cyan'));
-    lines.push(`│ Total: ${findings.length} findings`);
-    lines.push(color('├─────────────────────────────────────────────────────────┤', 'cyan'));
-
     for (const severity of severityOrder) {
-      const severityFindings = bySeverity.get(severity) || [];
-      if (severityFindings.length === 0) continue;
+      const finding = grouped[severity];
+      if (!finding) continue;
 
-      const severityColor =
-        severity === 'critical' || severity === 'high'
-          ? 'red'
-          : severity === 'medium'
-            ? 'yellow'
-            : 'blue';
+      const severityColor = this.getColorForSeverity(severity);
 
       lines.push(
-        color(`│ ${severity.toUpperCase().padEnd(15)} (${severityFindings.length})`, severityColor)
+        color(`│ ${severity.toUpperCase().padEnd(15)} (${finding.count})`, severityColor)
       );
 
-      for (const finding of severityFindings.slice(0, 3)) {
-        lines.push(`│   • ${finding.title}`);
-        if (finding.location?.file) {
-          lines.push(`│     Location: ${finding.location.file}${finding.location.line ? `:${finding.location.line}` : ''}`);
+      for (const item of finding.displayed) {
+        lines.push(`│   • ${item.title}`);
+        if (item.location?.file) {
+          lines.push(`│     Location: ${item.location.file}${item.location.line ? `:${item.location.line}` : ''}`);
         }
       }
 
-      if (severityFindings.length > 3) {
-        lines.push(`│   ... and ${severityFindings.length - 3} more`);
+      if (finding.remaining > 0) {
+        lines.push(`│   ... and ${finding.remaining} more`);
       }
     }
 
@@ -204,20 +193,18 @@ export class ConsoleReporter {
   /**
    * Generate recommendations section
    */
-  private generateRecommendationsSection(recommendations: Recommendation[], useColors: boolean): string {
+  private generateRecommendationsSection(recommendations: any, useColors: boolean): string {
     const color = this.getColorizer(useColors);
     const lines: string[] = [];
 
+    // Use shared utility to get top recommendations
+    const topRecs = this.getTopRecommendations(recommendations, 5);
+
     lines.push(color('┌─ TOP RECOMMENDATIONS ────────────────────────────────────┐', 'cyan'));
 
-    for (let i = 0; i < Math.min(5, recommendations.length); i++) {
-      const rec = recommendations[i];
-      const priorityColor =
-        rec.priority === 'critical' || rec.priority === 'high'
-          ? 'red'
-          : rec.priority === 'medium'
-            ? 'yellow'
-            : 'green';
+    for (let i = 0; i < topRecs.length; i++) {
+      const rec = topRecs[i];
+      const priorityColor = this.getColorForSeverity(rec.priority);
 
       lines.push(
         `│ ${(i + 1).toString().padEnd(2)} ${color(rec.priority.toUpperCase().padEnd(8), priorityColor)} ${rec.issue}`
@@ -256,7 +243,7 @@ export class ConsoleReporter {
     }
 
     if (trend.lastFiveScores && trend.lastFiveScores.length > 0) {
-      const sparkline = this.generateSparkline(trend.lastFiveScores);
+      const sparkline = formatSparkline(trend.lastFiveScores);
       lines.push(`│ Recent: ${sparkline}`);
     }
 
@@ -275,7 +262,7 @@ export class ConsoleReporter {
 
     lines.push(color('╔════════════════════════════════════════════════════════╗', 'cyan'));
     lines.push(
-      `║ Analysis completed in ${result.metadata.analysisTime.toFixed(2)}ms${' '.repeat(28)}║`
+      `║ Analysis completed in ${this.formatDuration(result.metadata.analysisTime)}${' '.repeat(32 - this.formatDuration(result.metadata.analysisTime).length)}║`
     );
     lines.push(
       `║ Tool: ${result.metadata.toolVersion}${' '.repeat(48)}║`
@@ -284,34 +271,6 @@ export class ConsoleReporter {
     lines.push('');
 
     return lines.join('\n');
-  }
-
-  /**
-   * Generate a visual score bar
-   */
-  private generateScoreBar(score: number, width: number = 30): string {
-    const filled = Math.round((score / 100) * width);
-    const empty = width - filled;
-    const bar = '█'.repeat(filled) + '░'.repeat(empty);
-    return `[${bar}]`;
-  }
-
-  /**
-   * Generate a sparkline from data points
-   */
-  private generateSparkline(values: number[], width: number = 10): string {
-    const chars = ['▁', '▂', '▃', '▄', '▅', '▆', '▇', '█'];
-    const min = Math.min(...values);
-    const max = Math.max(...values);
-    const range = max - min || 1;
-
-    return values
-      .slice(Math.max(0, values.length - width))
-      .map((v) => {
-        const index = Math.round(((v - min) / range) * (chars.length - 1));
-        return chars[index];
-      })
-      .join('');
   }
 
   /**

@@ -17,19 +17,34 @@ import {
 } from '../types/index.js';
 import { pathExists, readJsonFile, normalizeFilePath } from '../utils/fileSystem.js';
 import { logger } from '../utils/logger.js';
+import { BaseAnalyzer, AnalyzerConfig } from './BaseAnalyzer.js';
 
 /**
  * Test Coverage Analyzer
+ * Extends BaseAnalyzer to implement SOLID principles
  */
-export class CoverageAnalyzer {
+export class CoverageAnalyzer extends BaseAnalyzer {
+  constructor(config?: AnalyzerConfig) {
+    super(
+      config || {
+        name: 'CoverageAnalyzer',
+        enabled: true,
+        timeout: 30000,
+        retryAttempts: 1,
+      }
+    );
+  }
+
   /**
    * Analyze test coverage
    */
   async analyze(): Promise<AnalysisResult> {
-    const startTime = performance.now();
+    return this.executeWithTiming(async () => {
+      if (!this.validate()) {
+        throw new Error('CoverageAnalyzer validation failed');
+      }
 
-    try {
-      logger.debug('Starting test coverage analysis...');
+      this.startTiming();
 
       // Try to find coverage data
       const coveragePath = this.findCoveragePath();
@@ -38,7 +53,7 @@ export class CoverageAnalyzer {
       if (coveragePath) {
         metrics = this.analyzeCoverageData(coveragePath);
       } else {
-        logger.warn('No coverage data found, using defaults');
+        this.logProgress('No coverage data found, using defaults');
         metrics = this.getDefaultMetrics();
       }
 
@@ -49,30 +64,43 @@ export class CoverageAnalyzer {
       metrics.gaps = this.identifyCoverageGaps(metrics);
 
       // Generate findings
-      const findings = this.generateFindings(metrics);
+      this.generateFindings(metrics);
 
       // Calculate score
       const score = this.calculateScore(metrics);
 
-      const executionTime = performance.now() - startTime;
+      const executionTime = this.getExecutionTime();
 
-      logger.debug(`Coverage analysis complete (${executionTime.toFixed(2)}ms)`, {
-        score,
-        findings: findings.length,
+      this.logProgress('Coverage analysis complete', {
+        score: score.toFixed(2),
+        findingsCount: this.findings.length,
       });
 
       return {
         category: 'testCoverage' as const,
         score,
-        status: (score >= 80 ? 'pass' : score >= 60 ? 'warning' : 'fail') as Status,
-        findings,
+        status: this.getStatus(score),
+        findings: this.getFindings(),
         metrics: metrics as unknown as Record<string, unknown>,
         executionTime,
       };
-    } catch (error) {
-      logger.error('Coverage analysis failed', { error: (error as Error).message });
-      throw error;
+    }, 'test coverage analysis');
+  }
+
+  /**
+   * Validate analyzer configuration and preconditions
+   */
+  validate(): boolean {
+    if (!this.validateConfig()) {
+      return false;
     }
+
+    if (!this.config.enabled) {
+      logger.debug(`${this.config.name} is disabled`);
+      return false;
+    }
+
+    return true;
   }
 
   /**
@@ -281,12 +309,10 @@ export class CoverageAnalyzer {
   /**
    * Generate findings from metrics
    */
-  private generateFindings(metrics: TestCoverageMetrics): Finding[] {
-    const findings: Finding[] = [];
-
+  private generateFindings(metrics: TestCoverageMetrics): void {
     // Overall coverage findings
     if (metrics.overall.lines.percentage < 80) {
-      findings.push({
+      this.addFinding({
         id: 'coverage-low',
         severity: 'high',
         category: 'testCoverage',
@@ -298,7 +324,7 @@ export class CoverageAnalyzer {
     }
 
     if (metrics.overall.branches.percentage < 75) {
-      findings.push({
+      this.addFinding({
         id: 'coverage-branch-low',
         severity: 'medium',
         category: 'testCoverage',
@@ -311,7 +337,7 @@ export class CoverageAnalyzer {
 
     // Coverage gaps findings
     for (const gap of metrics.gaps.slice(0, 3)) {
-      findings.push({
+      this.addFinding({
         id: `gap-${gap.file}`,
         severity: gap.criticality === 'critical' ? 'high' : 'medium',
         category: 'testCoverage',
@@ -324,8 +350,6 @@ export class CoverageAnalyzer {
         evidence: `Coverage: ${gap.coverage.toFixed(1)}%, Uncovered: ${gap.uncoveredLines}`,
       });
     }
-
-    return findings;
   }
 
   /**

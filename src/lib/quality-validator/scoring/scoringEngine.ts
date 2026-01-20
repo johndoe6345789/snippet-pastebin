@@ -22,7 +22,57 @@ import {
  */
 export class ScoringEngine {
   /**
-   * Calculate overall score from analysis results
+   * Calculate overall quality score from all analysis results using weighted scoring algorithm.
+   *
+   * This method orchestrates the entire scoring process by:
+   * 1. Computing individual category scores (codeQuality, testCoverage, architecture, security)
+   * 2. Applying weights to each category score
+   * 3. Calculating an overall weighted score
+   * 4. Assigning a letter grade (A-F) based on the score
+   * 5. Determining pass/fail status (80+ is pass)
+   * 6. Generating prioritized remediation recommendations
+   *
+   * The scoring algorithm uses the following weights (customizable):
+   * - Code Quality: 0.25 (complexity, duplication, linting)
+   * - Test Coverage: 0.25 (coverage percentage, effectiveness)
+   * - Architecture: 0.25 (components, dependencies, patterns)
+   * - Security: 0.25 (vulnerabilities, anti-patterns, performance)
+   *
+   * @param {CodeQualityMetrics | null} codeQuality - Code quality metrics including complexity, duplication, and linting violations. Defaults to 50 if null.
+   * @param {TestCoverageMetrics | null} testCoverage - Test coverage metrics including line/branch/function coverage and effectiveness scores. Defaults to 30 if null.
+   * @param {ArchitectureMetrics | null} architecture - Architecture metrics including component organization, dependency analysis, and pattern compliance. Defaults to 50 if null.
+   * @param {SecurityMetrics | null} security - Security metrics including vulnerabilities, code patterns, and performance issues. Defaults to 50 if null.
+   * @param {ScoringWeights} weights - Custom weight configuration for each category (must sum to 1.0)
+   * @param {Finding[]} findings - Array of all findings discovered during analysis
+   * @param {ResultMetadata} metadata - Metadata about the analysis execution (timestamp, analyzer versions, etc.)
+   *
+   * @returns {ScoringResult} Complete scoring result containing:
+   *   - overall: Overall score (0-100), grade (A-F), pass/fail status, and summary
+   *   - componentScores: Individual weighted scores for each category
+   *   - findings: Original findings array
+   *   - recommendations: Prioritized list of top 5 actionable recommendations
+   *   - metadata: Analysis metadata
+   *
+   * @throws {Error} If weights don't sum to approximately 1.0 (with tolerance) or if invalid metric types are provided
+   *
+   * @example
+   * ```typescript
+   * const result = scoringEngine.calculateScore(
+   *   codeQualityMetrics,
+   *   testCoverageMetrics,
+   *   architectureMetrics,
+   *   securityMetrics,
+   *   { codeQuality: 0.25, testCoverage: 0.25, architecture: 0.25, security: 0.25 },
+   *   findings,
+   *   metadata
+   * );
+   *
+   * console.log(`Overall Score: ${result.overall.score} (Grade: ${result.overall.grade})`);
+   * console.log(`Status: ${result.overall.status}`);
+   * result.recommendations.forEach(rec => {
+   *   console.log(`[${rec.priority}] ${rec.issue}: ${rec.remediation}`);
+   * });
+   * ```
    */
   calculateScore(
     codeQuality: CodeQualityMetrics | null,
