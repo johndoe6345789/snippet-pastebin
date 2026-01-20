@@ -45,7 +45,7 @@ export function SnippetManagerRedux() {
 
   if (loading) {
     return (
-      <div className="text-center py-20">
+      <div className="text-center py-20" data-testid="snippet-manager-loading">
         <p className="text-muted-foreground">Loading snippets...</p>
       </div>
     )
@@ -75,7 +75,7 @@ export function SnippetManagerRedux() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" data-testid="snippet-manager">
       <NamespaceSelector
         selectedNamespaceId={selectedNamespaceId}
         onNamespaceChange={handleNamespaceChange}

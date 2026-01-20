@@ -38,13 +38,15 @@ export function DeleteNamespaceDialog({
           variant="outline"
           size="icon"
           onClick={onOpenDialog}
+          data-testid="delete-namespace-trigger"
+          aria-label="Delete namespace"
         >
-          <Trash weight="bold" />
+          <Trash weight="bold" aria-hidden="true" />
         </Button>
       )}
 
       <AlertDialog open={open} onOpenChange={onOpenChange}>
-        <AlertDialogContent>
+        <AlertDialogContent data-testid="delete-namespace-dialog">
           <AlertDialogHeader>
             <AlertDialogTitle>Delete Namespace</AlertDialogTitle>
             <AlertDialogDescription>
@@ -52,8 +54,14 @@ export function DeleteNamespaceDialog({
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={onDeleteNamespace} disabled={loading}>
+            <AlertDialogCancel data-testid="delete-namespace-cancel-btn">
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={onDeleteNamespace}
+              disabled={loading}
+              data-testid="delete-namespace-confirm-btn"
+            >
               Delete
             </AlertDialogAction>
           </AlertDialogFooter>

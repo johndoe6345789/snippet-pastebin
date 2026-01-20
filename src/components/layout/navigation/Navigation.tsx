@@ -10,8 +10,11 @@ export function Navigation() {
       className="nav-burger-btn"
       onClick={() => setMenuOpen(!menuOpen)}
       aria-label="Toggle navigation menu"
+      aria-expanded={menuOpen}
+      aria-controls="navigation-sidebar"
+      data-testid="navigation-toggle-btn"
     >
-      <List weight="bold" />
+      <List weight="bold" aria-hidden="true" />
     </button>
   )
 }

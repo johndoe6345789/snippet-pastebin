@@ -33,8 +33,10 @@ export function InputParameterList({
             size="sm"
             onClick={onAddParameter}
             className="gap-2"
+            data-testid="add-parameter-btn"
+            aria-label="Add new parameter"
           >
-            <Plus className="h-3 w-3" />
+            <Plus className="h-3 w-3" aria-hidden="true" />
             Add Parameter
           </Button>
         </CardTitle>
@@ -50,8 +52,11 @@ export function InputParameterList({
             value={functionName}
             onChange={(e) => onFunctionNameChange(e.target.value)}
             className="bg-background"
+            data-testid="function-name-input"
+            aria-label="Function or component name"
+            aria-describedby="function-name-help"
           />
-          <p className="text-xs text-muted-foreground">
+          <p className="text-xs text-muted-foreground" id="function-name-help">
             The name of the function or component to render. Leave empty to use the default export.
           </p>
         </div>

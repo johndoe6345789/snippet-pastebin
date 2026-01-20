@@ -85,8 +85,11 @@ export function SnippetCardActions({
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
             <DropdownMenuSub>
-              <DropdownMenuSubTrigger disabled={isMoving || availableNamespaces.length === 0}>
-                <FolderOpen className="h-4 w-4 mr-2" />
+              <DropdownMenuSubTrigger
+                disabled={isMoving || availableNamespaces.length === 0}
+                data-testid="snippet-card-move-submenu"
+              >
+                <FolderOpen className="h-4 w-4 mr-2" aria-hidden="true" />
                 <span>Move to...</span>
               </DropdownMenuSubTrigger>
               <DropdownMenuSubContent>
@@ -99,6 +102,7 @@ export function SnippetCardActions({
                     <DropdownMenuItem
                       key={namespace.id}
                       onClick={() => onMoveToNamespace(namespace.id)}
+                      data-testid={`move-to-namespace-${namespace.id}`}
                     >
                       {namespace.name}
                       {namespace.isDefault && (
@@ -113,8 +117,9 @@ export function SnippetCardActions({
             <DropdownMenuItem
               onClick={onDelete}
               className="text-destructive focus:text-destructive"
+              data-testid="snippet-card-delete-btn"
             >
-              <Trash className="h-4 w-4 mr-2" />
+              <Trash className="h-4 w-4 mr-2" aria-hidden="true" />
               Delete
             </DropdownMenuItem>
           </DropdownMenuContent>

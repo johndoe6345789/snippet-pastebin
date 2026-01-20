@@ -52,6 +52,8 @@ export function InputParameterItem({ param, index, onUpdate, onRemove }: InputPa
                 value={param.name}
                 onChange={(e) => onUpdate(index, 'name', e.target.value)}
                 className="h-8 text-sm"
+                data-testid={`param-name-input-${index}`}
+                aria-label="Parameter name"
               />
             </div>
             <div className="space-y-1.5">
@@ -62,15 +64,20 @@ export function InputParameterItem({ param, index, onUpdate, onRemove }: InputPa
                 value={param.type}
                 onValueChange={(value) => onUpdate(index, 'type', value)}
               >
-                <SelectTrigger id={`param-type-${index}`} className="h-8 text-sm">
+                <SelectTrigger
+                  id={`param-type-${index}`}
+                  className="h-8 text-sm"
+                  data-testid={`param-type-select-${index}`}
+                  aria-label="Parameter type"
+                >
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="string">string</SelectItem>
-                  <SelectItem value="number">number</SelectItem>
-                  <SelectItem value="boolean">boolean</SelectItem>
-                  <SelectItem value="array">array</SelectItem>
-                  <SelectItem value="object">object</SelectItem>
+                <SelectContent data-testid={`param-type-options-${index}`}>
+                  <SelectItem value="string" data-testid="type-string">string</SelectItem>
+                  <SelectItem value="number" data-testid="type-number">number</SelectItem>
+                  <SelectItem value="boolean" data-testid="type-boolean">boolean</SelectItem>
+                  <SelectItem value="array" data-testid="type-array">array</SelectItem>
+                  <SelectItem value="object" data-testid="type-object">object</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -80,8 +87,10 @@ export function InputParameterItem({ param, index, onUpdate, onRemove }: InputPa
             size="sm"
             onClick={() => onRemove(index)}
             className="h-8 w-8 p-0 mt-6 text-destructive hover:text-destructive"
+            data-testid={`remove-parameter-btn-${index}`}
+            aria-label={`Remove parameter ${index + 1}`}
           >
-            <Trash className="h-4 w-4" />
+            <Trash className="h-4 w-4" aria-hidden="true" />
           </Button>
         </div>
         <div className="space-y-1.5">
@@ -94,6 +103,8 @@ export function InputParameterItem({ param, index, onUpdate, onRemove }: InputPa
             value={param.defaultValue}
             onChange={(e) => onUpdate(index, 'defaultValue', e.target.value)}
             className="h-8 text-sm font-mono"
+            data-testid={`param-default-input-${index}`}
+            aria-label="Default parameter value"
           />
         </div>
         <div className="space-y-1.5">
@@ -106,6 +117,8 @@ export function InputParameterItem({ param, index, onUpdate, onRemove }: InputPa
             value={param.description || ''}
             onChange={(e) => onUpdate(index, 'description', e.target.value)}
             className="h-8 text-sm"
+            data-testid={`param-description-input-${index}`}
+            aria-label="Parameter description"
           />
         </div>
       </CardContent>

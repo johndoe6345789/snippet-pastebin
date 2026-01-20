@@ -55,6 +55,9 @@ export function NavigationSidebar() {
               "shadow-xl"
             )}
             data-testid="navigation-sidebar"
+            id="navigation-sidebar"
+            role="navigation"
+            aria-label="Main navigation menu"
           >
             {/* Header */}
             <div className="flex items-center justify-between h-16 px-4 border-b border-border/50">

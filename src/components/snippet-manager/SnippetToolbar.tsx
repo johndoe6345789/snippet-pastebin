@@ -94,6 +94,7 @@ export function SnippetToolbar({
               <DropdownMenuItem
                 key={template.id}
                 onClick={() => onCreateFromTemplate(template.id)}
+                data-testid={`snippet-template-react-${template.id}`}
               >
                 <div className="flex flex-col gap-1 py-1">
                   <span className="font-medium">{template.title}</span>

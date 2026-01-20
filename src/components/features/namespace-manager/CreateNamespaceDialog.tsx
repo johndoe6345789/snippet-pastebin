@@ -33,11 +33,16 @@ export function CreateNamespaceDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="icon">
-          <Plus weight="bold" />
+        <Button
+          variant="outline"
+          size="icon"
+          data-testid="create-namespace-trigger"
+          aria-label="Create new namespace"
+        >
+          <Plus weight="bold" aria-hidden="true" />
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent data-testid="create-namespace-dialog">
         <DialogHeader>
           <DialogTitle>Create Namespace</DialogTitle>
           <DialogDescription>
@@ -50,13 +55,23 @@ export function CreateNamespaceDialog({
             value={namespaceName}
             onChange={(e) => onNamespaceNameChange(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && onCreateNamespace()}
+            data-testid="namespace-name-input"
+            aria-label="Namespace name"
           />
         </div>
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)}>
+          <Button
+            variant="outline"
+            onClick={() => onOpenChange(false)}
+            data-testid="create-namespace-cancel-btn"
+          >
             Cancel
           </Button>
-          <Button onClick={onCreateNamespace} disabled={loading}>
+          <Button
+            onClick={onCreateNamespace}
+            disabled={loading}
+            data-testid="create-namespace-save-btn"
+          >
             Create
           </Button>
         </DialogFooter>

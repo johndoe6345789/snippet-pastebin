@@ -18,8 +18,8 @@ export function PageLayout({ children }: { children: ReactNode }) {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="grid-pattern" />
+    <div className="min-h-screen bg-background" data-testid="page-layout">
+      <div className="grid-pattern" aria-hidden="true" />
 
       <NavigationSidebar />
 
@@ -29,7 +29,7 @@ export function PageLayout({ children }: { children: ReactNode }) {
         transition={{ type: 'spring', damping: 30, stiffness: 300 }}
         className="relative z-10 flex flex-col min-h-screen"
       >
-        <header className="border-b border-border bg-background/95 backdrop-blur-md sticky top-0 z-20 overflow-hidden">
+        <header className="border-b border-border bg-background/95 backdrop-blur-md sticky top-0 z-20 overflow-hidden" data-testid="page-header">
           <div
             className="container mx-auto px-2 py-3 sm:px-6 sm:py-6 w-full min-w-0"
             style={{
@@ -48,7 +48,7 @@ export function PageLayout({ children }: { children: ReactNode }) {
                 <div className="logo-icon-box">
                   <Code weight="bold" />
                 </div>
-                <span className="logo-text" aria-label="CodeSnippet">
+                <span className="logo-text" aria-label="CodeSnippet" data-testid="logo-text">
                   CodeSnippet
                 </span>
               </motion.div>
@@ -66,6 +66,7 @@ export function PageLayout({ children }: { children: ReactNode }) {
         <main
           className="container mx-auto px-3 py-4 sm:px-6 sm:py-8 flex-1"
           style={safeAreaPadding}
+          data-testid="main-content"
         >
           <div className="mb-4">
             <AppStatusAlerts />

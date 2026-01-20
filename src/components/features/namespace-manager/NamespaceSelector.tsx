@@ -109,22 +109,30 @@ export function NamespaceSelector({ selectedNamespaceId, onNamespaceChange }: Na
   return (
     <div className="flex items-center gap-2">
       <div className="flex items-center gap-2 text-muted-foreground">
-        <Folder weight="fill" className="h-4 w-4" />
+        <Folder weight="fill" className="h-4 w-4" aria-hidden="true" />
         <span className="text-sm font-medium">Namespace:</span>
       </div>
-      
+
       <Select
         value={selectedNamespaceId || undefined}
         onValueChange={onNamespaceChange}
       >
-        <SelectTrigger className="w-[200px]">
+        <SelectTrigger
+          className="w-[200px]"
+          data-testid="namespace-selector-trigger"
+          aria-label="Select namespace"
+        >
           <SelectValue placeholder="Select namespace">
             {selectedNamespace?.name || 'Select namespace'}
           </SelectValue>
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent data-testid="namespace-selector-content">
           {namespaces.map(namespace => (
-            <SelectItem key={namespace.id} value={namespace.id}>
+            <SelectItem
+              key={namespace.id}
+              value={namespace.id}
+              data-testid={`namespace-option-${namespace.id}`}
+            >
               <div className="flex items-center gap-2">
                 <span>{namespace.name}</span>
                 {namespace.isDefault && (

@@ -39,19 +39,30 @@ export function SnippetFormFields({
           value={title}
           onChange={(e) => onTitleChange(e.target.value)}
           className={errors.title ? 'border-destructive ring-destructive' : ''}
+          data-testid="snippet-title-input"
+          aria-invalid={!!errors.title}
+          aria-describedby={errors.title ? "title-error" : undefined}
         />
-        {errors.title && <p className="text-sm text-destructive">{errors.title}</p>}
+        {errors.title && (
+          <p className="text-sm text-destructive" id="title-error">
+            {errors.title}
+          </p>
+        )}
       </div>
 
       <div className="space-y-2">
         <Label htmlFor="language">Language</Label>
         <Select value={language} onValueChange={onLanguageChange}>
-          <SelectTrigger id="language">
+          <SelectTrigger
+            id="language"
+            data-testid="snippet-language-select"
+            aria-label="Select programming language"
+          >
             <SelectValue />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent data-testid="snippet-language-options">
             {LANGUAGES.map((lang) => (
-              <SelectItem key={lang} value={lang}>
+              <SelectItem key={lang} value={lang} data-testid={`language-option-${lang}`}>
                 {lang}
               </SelectItem>
             ))}
@@ -67,6 +78,8 @@ export function SnippetFormFields({
           value={description}
           onChange={(e) => onDescriptionChange(e.target.value)}
           rows={2}
+          data-testid="snippet-description-textarea"
+          aria-label="Snippet description"
         />
       </div>
     </>
