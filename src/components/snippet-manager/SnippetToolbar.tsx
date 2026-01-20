@@ -49,7 +49,7 @@ export function SnippetToolbar({
       </div>
       <div className="flex gap-2 w-full sm:w-auto">
         <Button
-          variant={selectionMode ? "default" : "outline"}
+          variant={selectionMode ? "filled" : "outline"}
           onClick={onToggleSelectionMode}
           className="gap-2"
           data-testid="snippet-selection-mode-btn"

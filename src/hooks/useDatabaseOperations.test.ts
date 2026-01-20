@@ -27,6 +27,7 @@ describe('useDatabaseOperations Hook', () => {
       const mockStats = {
         snippetCount: 10,
         templateCount: 5,
+        namespaceCount: 2,
         storageType: 'indexeddb' as const,
         databaseSize: 1024,
       }

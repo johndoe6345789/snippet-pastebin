@@ -59,10 +59,9 @@ export function StorageBackendCard({
           </Alert>
         )}
         
-        <RadioGroup 
-          value={storageBackend} 
+        <RadioGroup
+          value={storageBackend}
           onValueChange={(value) => onStorageBackendChange(value as StorageBackend)}
-          disabled={envVarSet}
         >
           <div className="flex items-start space-x-3 space-y-0">
             <RadioGroupItem value="indexeddb" id="storage-indexeddb" disabled={envVarSet} />
