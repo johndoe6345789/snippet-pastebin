@@ -5,9 +5,9 @@
   background-color: $card;
   border: 1px solid $border;
   border-radius: $radius-lg;
+  color: $card-foreground;
   padding: $size-6;
   transition: all 0.2s ease;
-  color: $card-foreground;
 
   &:hover {
     border-color: $accent;
@@ -15,24 +15,24 @@
   }
 
   &__header {
+    border-bottom: 1px solid $border;
     margin-bottom: $size-4;
     padding-bottom: $size-4;
-    border-bottom: 1px solid $border;
   }
 
   &__title {
-    margin: 0;
+    color: $foreground;
     font-size: 1.25rem;
     font-weight: 600;
-    color: $foreground;
     line-height: 1.2;
+    margin: 0;
   }
 
   &__description {
-    margin-top: $size-2;
-    font-size: 0.875rem;
     color: $muted-foreground;
+    font-size: 0.875rem;
     line-height: 1.5;
+    margin-top: $size-2;
   }
 
   &__body {
@@ -42,19 +42,19 @@
   }
 
   &__footer {
+    border-top: 1px solid $border;
     display: flex;
-    justify-content: flex-end;
     gap: $size-2;
+    justify-content: flex-end;
     margin-top: $size-4;
     padding-top: $size-4;
-    border-top: 1px solid $border;
   }
 
   // Card variants
   &--hover-lift {
     &:hover {
-      transform: translateY(-4px);
       box-shadow: 0 12px 24px $shadow-accent-md;
+      transform: translateY(-4px);
     }
   }
 

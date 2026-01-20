@@ -4,11 +4,12 @@
 @use './theme';
 
 // Global resets
+/* stylelint-disable selector-max-universal */
 * {
+  border-color: $border;
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-  border-color: $border;
 }
 
 *,
@@ -18,6 +19,7 @@
 ::file-selector-button {
   border-color: var(--md3-outline-variant);
 }
+/* stylelint-enable selector-max-universal */
 
 // Body and base styles - Android Material You feel
 body {
@@ -25,13 +27,13 @@ body {
   color: $foreground;
   font-family: var(--font-inter), Inter, Roboto, system-ui, sans-serif;
   font-size: $font-body-medium;
-  line-height: $line-height-body-medium;
-  letter-spacing: $letter-spacing-body;
-  transition: background-color $duration-medium-2 $easing-standard,
-              color $duration-medium-2 $easing-standard;
-  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  letter-spacing: $letter-spacing-body;
+  line-height: $line-height-body-medium;
+  overflow-x: hidden;
+  transition: background-color $duration-medium-2 $easing-standard,
+              color $duration-medium-2 $easing-standard;
 }
 
 // ============================================
@@ -41,111 +43,111 @@ body {
 // Display styles
 .md3-display-large {
   font-size: $font-display-large;
-  line-height: $line-height-display-large;
-  letter-spacing: $letter-spacing-display;
   font-weight: 400;
+  letter-spacing: $letter-spacing-display;
+  line-height: $line-height-display-large;
 }
 
 .md3-display-medium {
   font-size: $font-display-medium;
-  line-height: $line-height-display-medium;
-  letter-spacing: $letter-spacing-display;
   font-weight: 400;
+  letter-spacing: $letter-spacing-display;
+  line-height: $line-height-display-medium;
 }
 
 .md3-display-small {
   font-size: $font-display-small;
-  line-height: $line-height-display-small;
-  letter-spacing: $letter-spacing-display;
   font-weight: 400;
+  letter-spacing: $letter-spacing-display;
+  line-height: $line-height-display-small;
 }
 
 // Headline styles
 .md3-headline-large {
   font-size: $font-headline-large;
-  line-height: $line-height-headline-large;
-  letter-spacing: $letter-spacing-headline;
   font-weight: 400;
+  letter-spacing: $letter-spacing-headline;
+  line-height: $line-height-headline-large;
 }
 
 .md3-headline-medium {
   font-size: $font-headline-medium;
-  line-height: $line-height-headline-medium;
-  letter-spacing: $letter-spacing-headline;
   font-weight: 400;
+  letter-spacing: $letter-spacing-headline;
+  line-height: $line-height-headline-medium;
 }
 
 .md3-headline-small {
   font-size: $font-headline-small;
-  line-height: $line-height-headline-small;
-  letter-spacing: $letter-spacing-headline;
   font-weight: 400;
+  letter-spacing: $letter-spacing-headline;
+  line-height: $line-height-headline-small;
 }
 
 // Title styles
 .md3-title-large {
   font-size: $font-title-large;
-  line-height: $line-height-title-large;
-  letter-spacing: $letter-spacing-title;
   font-weight: 400;
+  letter-spacing: $letter-spacing-title;
+  line-height: $line-height-title-large;
 }
 
 .md3-title-medium {
   font-size: $font-title-medium;
-  line-height: $line-height-title-medium;
-  letter-spacing: $letter-spacing-title;
   font-weight: 500;
+  letter-spacing: $letter-spacing-title;
+  line-height: $line-height-title-medium;
 }
 
 .md3-title-small {
   font-size: $font-title-small;
-  line-height: $line-height-title-small;
-  letter-spacing: $letter-spacing-title;
   font-weight: 500;
+  letter-spacing: $letter-spacing-title;
+  line-height: $line-height-title-small;
 }
 
 // Body styles
 .md3-body-large {
   font-size: $font-body-large;
-  line-height: $line-height-body-large;
-  letter-spacing: $letter-spacing-body;
   font-weight: 400;
+  letter-spacing: $letter-spacing-body;
+  line-height: $line-height-body-large;
 }
 
 .md3-body-medium {
   font-size: $font-body-medium;
-  line-height: $line-height-body-medium;
-  letter-spacing: $letter-spacing-body;
   font-weight: 400;
+  letter-spacing: $letter-spacing-body;
+  line-height: $line-height-body-medium;
 }
 
 .md3-body-small {
   font-size: $font-body-small;
-  line-height: $line-height-body-small;
-  letter-spacing: $letter-spacing-body;
   font-weight: 400;
+  letter-spacing: $letter-spacing-body;
+  line-height: $line-height-body-small;
 }
 
 // Label styles
 .md3-label-large {
   font-size: $font-label-large;
-  line-height: $line-height-label-large;
-  letter-spacing: $letter-spacing-label;
   font-weight: 500;
+  letter-spacing: $letter-spacing-label;
+  line-height: $line-height-label-large;
 }
 
 .md3-label-medium {
   font-size: $font-label-medium;
-  line-height: $line-height-label-medium;
-  letter-spacing: $letter-spacing-label;
   font-weight: 500;
+  letter-spacing: $letter-spacing-label;
+  line-height: $line-height-label-medium;
 }
 
 .md3-label-small {
   font-size: $font-label-small;
-  line-height: $line-height-label-small;
-  letter-spacing: $letter-spacing-label;
   font-weight: 500;
+  letter-spacing: $letter-spacing-label;
+  line-height: $line-height-label-small;
 }
 
 // Typography base for headings
@@ -177,14 +179,14 @@ h4 {
 
 h5 {
   font-size: $font-title-medium;
-  line-height: $line-height-title-medium;
   font-weight: 500;
+  line-height: $line-height-title-medium;
 }
 
 h6 {
   font-size: $font-title-small;
-  line-height: $line-height-title-small;
   font-weight: 500;
+  line-height: $line-height-title-small;
 }
 
 code, pre {
@@ -402,18 +404,18 @@ code, pre {
 // ============================================
 
 .md3-state-layer {
-  position: relative;
   overflow: hidden;
+  position: relative;
 
   &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
     background-color: currentcolor;
-    opacity: 0;
-    transition: opacity $duration-short-4 $easing-standard;
-    pointer-events: none;
     border-radius: inherit;
+    content: '';
+    inset: 0;
+    opacity: 0%;
+    pointer-events: none;
+    position: absolute;
+    transition: opacity $duration-short-4 $easing-standard;
   }
 
   &:hover::before {
@@ -435,32 +437,32 @@ code, pre {
 
 @keyframes md3-ripple {
   from {
+    opacity: 12%;
     transform: scale(0);
-    opacity: 0.12;
   }
 
   to {
+    opacity: 0%;
     transform: scale(4);
-    opacity: 0;
   }
 }
 
 .md3-ripple {
-  position: relative;
   overflow: hidden;
+  position: relative;
 
   &::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0);
     background: radial-gradient(circle, currentcolor 10%, transparent 10.01%);
-    opacity: 0;
-    pointer-events: none;
     border-radius: 50%;
+    content: '';
+    height: 100%;
+    left: 50%;
+    opacity: 0%;
+    pointer-events: none;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 100%;
   }
 
   &:active::after {
@@ -475,79 +477,79 @@ code, pre {
 @keyframes accordion-down {
   from {
     height: 0;
-    opacity: 0;
+    opacity: 0%;
   }
 
   to {
     height: var(--radix-accordion-content-height);
-    opacity: 1;
+    opacity: 100%;
   }
 }
 
 @keyframes accordion-up {
   from {
     height: var(--radix-accordion-content-height);
-    opacity: 1;
+    opacity: 100%;
   }
 
   to {
     height: 0;
-    opacity: 0;
+    opacity: 0%;
   }
 }
 
 @keyframes md3-fade-in {
   from {
-    opacity: 0;
+    opacity: 0%;
   }
 
   to {
-    opacity: 1;
+    opacity: 100%;
   }
 }
 
 @keyframes md3-fade-out {
   from {
-    opacity: 1;
+    opacity: 100%;
   }
 
   to {
-    opacity: 0;
+    opacity: 0%;
   }
 }
 
 @keyframes md3-scale-in {
   from {
-    opacity: 0;
+    opacity: 0%;
     transform: scale(0.8);
   }
 
   to {
-    opacity: 1;
+    opacity: 100%;
     transform: scale(1);
   }
 }
 
 @keyframes md3-slide-in-bottom {
   from {
-    opacity: 0;
+    opacity: 0%;
     transform: translateY(100%);
   }
 
   to {
-    opacity: 1;
+    opacity: 100%;
     transform: translateY(0);
   }
 }
 
 @keyframes md3-slide-in-right {
   from {
-    opacity: 0;
+    opacity: 0%;
     transform: translateX(100%);
   }
 
   to {
-    opacity: 1;
+    opacity: 100%;
     transform: translateX(0);
   }
 }
@@ -558,32 +560,32 @@ code, pre {
 
 // Status bar simulation (optional)
 .android-status-bar {
-  height: 24px;
-  background: var(--md3-surface-container-lowest);
-  display: flex;
   align-items: center;
+  background: var(--md3-surface-container-lowest);
+  color: var(--md3-on-surface);
+  display: flex;
+  font-size: $font-label-small;
+  height: 24px;
   justify-content: flex-end;
   padding: 0 $size-4;
-  font-size: $font-label-small;
-  color: var(--md3-on-surface);
 }
 
 // Navigation bar simulation (bottom gesture bar)
 .android-nav-bar {
-  height: 20px;
+  align-items: center;
   background: transparent;
   display: flex;
-  align-items: center;
+  height: 20px;
   justify-content: center;
   padding-bottom: $size-2;
 
   &::after {
-    content: '';
-    width: 134px;
-    height: 5px;
     background: var(--md3-on-surface-variant);
     border-radius: $radius-full;
-    opacity: 0.4;
+    content: '';
+    height: 5px;
+    opacity: 40%;
+    width: 134px;
   }
 }
 
@@ -595,8 +597,8 @@ code, pre {
 
 // Scrollbar styling (Android-like thin scrollbar)
 ::-webkit-scrollbar {
-  width: 4px;
   height: 4px;
+  width: 4px;
 }
 
 ::-webkit-scrollbar-track {

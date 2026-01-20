@@ -4,6 +4,7 @@
 @import '@radix-ui/colors/violet-dark.css';
 
 // App-level CSS variables
+/* stylelint-disable selector-max-id */
 #spark-app {
   --size-scale: 1;
   --radius-factor: 1;
@@ -25,9 +26,9 @@
   --color-fg-secondary: var(--color-neutral-11);
   
   // Background colors
-  --color-bg: #fff;
+  --color-bg: rgb(255 255 255);
   --color-bg-inset: var(--color-neutral-2);
-  --color-bg-overlay: #fff;
+  --color-bg-overlay: rgb(255 255 255);
   
   // Focus ring
   --color-focus-ring: var(--color-accent-9);
@@ -41,6 +42,7 @@
 
 #spark-app.dark-theme {
   --color-bg: var(--color-neutral-1);
-  --color-bg-inset: #000;
+  --color-bg-inset: rgb(0 0 0);
   --color-bg-overlay: var(--color-neutral-3);
 }
+/* stylelint-enable selector-max-id */

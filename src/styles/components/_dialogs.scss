@@ -7,31 +7,31 @@
 // Scrim/Overlay
 [data-slot="dialog-overlay"],
 .dialog-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 50;
-  background-color: rgba($scrim, 0.32); // MD3 scrim opacity
   animation: md3-fade-in $duration-medium-2 $easing-emphasized-decelerate;
+  background-color: rgba($scrim, 0.32); // MD3 scrim opacity
+  inset: 0;
+  position: fixed;
+  z-index: 50;
 }
 
 // Dialog Content (MD3 Basic Dialog)
 [data-slot="dialog"],
 .dialog-content {
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  z-index: 50;
-  transform: translate(-50%, -50%);
-  width: calc(100% - 48px);
-  max-width: 560px;
-  max-height: calc(100vh - 96px);
-  overflow-y: auto;
+  animation: md3-dialog-enter $duration-medium-2 $easing-emphasized-decelerate;
   background: $surface-container-high;
   border: none;
   border-radius: $radius-extra-large;
   box-shadow: $elevation-3;
+  left: 50%;
+  max-height: calc(100vh - 96px);
+  max-width: 560px;
+  overflow-y: auto;
   padding: $size-6;
-  animation: md3-dialog-enter $duration-medium-2 $easing-emphasized-decelerate;
+  position: fixed;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(100% - 48px);
+  z-index: 50;
 
   &:focus {
     outline: none;
@@ -50,19 +50,19 @@
 // Dialog Title (MD3 Headline Small)
 [data-slot="dialog-title"],
 .dialog-title {
-  font-size: $font-headline-small;
-  line-height: $line-height-headline-small;
-  font-weight: 400;
   color: $on-surface;
+  font-size: $font-headline-small;
+  font-weight: 400;
+  line-height: $line-height-headline-small;
   margin: 0;
 }
 
 // Dialog Description (MD3 Body Medium)
 [data-slot="dialog-description"],
 .dialog-description {
+  color: $on-surface-variant;
   font-size: $font-body-medium;
   line-height: $line-height-body-medium;
-  color: $on-surface-variant;
   margin: 0;
 }
 
@@ -70,28 +70,28 @@
 [data-slot="dialog-footer"],
 .dialog-footer {
   display: flex;
-  justify-content: flex-end;
   gap: $size-2;
+  justify-content: flex-end;
   margin-top: $size-6;
 }
 
 // Dialog Close Button
 [data-slot="dialog-close"],
 .dialog-close {
-  position: absolute;
-  top: $size-4;
-  right: $size-4;
-  width: 40px;
-  height: 40px;
-  display: flex;
   align-items: center;
-  justify-content: center;
-  border-radius: $radius-full;
-  border: none;
   background: transparent;
+  border: none;
+  border-radius: $radius-full;
   color: $on-surface-variant;
   cursor: pointer;
+  display: flex;
+  height: 40px;
+  justify-content: center;
+  position: absolute;
+  right: $size-4;
+  top: $size-4;
   transition: background-color $duration-short-4 $easing-standard;
+  width: 40px;
 
   &:hover {
     background-color: rgba($on-surface, $state-hover-opacity);
@@ -108,16 +108,16 @@
 // ============================================
 [data-slot="dropdown-menu-content"],
 .dropdown-content {
-  z-index: 50;
-  min-width: 112px;
-  max-width: 280px;
-  overflow: hidden;
-  border-radius: $radius-extra-small;
-  border: none;
-  background: $surface-container;
-  box-shadow: $elevation-2;
-  padding: $size-2 0;
   animation: md3-menu-enter $duration-short-4 $easing-emphasized-decelerate;
+  background: $surface-container;
+  border: none;
+  border-radius: $radius-extra-small;
+  box-shadow: $elevation-2;
+  max-width: 280px;
+  min-width: 112px;
+  overflow: hidden;
+  padding: $size-2 0;
+  z-index: 50;
 
   &:focus {
     outline: none;
@@ -127,19 +127,19 @@
 // Dropdown Menu Item
 [data-slot="dropdown-menu-item"],
 .dropdown-item {
-  position: relative;
-  display: flex;
   align-items: center;
-  gap: $size-3;
-  min-height: 48px;
-  padding: 0 $size-3;
-  font-size: $font-body-large;
-  line-height: $line-height-body-large;
   color: $on-surface;
   cursor: pointer;
+  display: flex;
+  font-size: $font-body-large;
+  gap: $size-3;
+  line-height: $line-height-body-large;
+  min-height: 48px;
+  outline: none;
+  padding: 0 $size-3;
+  position: relative;
   transition: background-color $duration-short-4 $easing-standard;
   user-select: none;
-  outline: none;
 
   &:hover {
     background-color: rgba($on-surface, $state-hover-opacity);
@@ -154,32 +154,32 @@
   }
 
   &[data-disabled] {
-    pointer-events: none;
     opacity: $state-disabled-opacity;
+    pointer-events: none;
   }
 
   svg {
-    width: 24px;
-    height: 24px;
     color: $on-surface-variant;
+    height: 24px;
+    width: 24px;
   }
 }
 
 // Dropdown Menu Separator
 [data-slot="dropdown-menu-separator"],
 .dropdown-separator {
-  height: 1px;
   background: $outline-variant;
+  height: 1px;
   margin: $size-2 0;
 }
 
 // Dropdown Menu Label
 [data-slot="dropdown-menu-label"],
 .dropdown-label {
-  padding: $size-2 $size-3;
+  color: $on-surface-variant;
   font-size: $font-label-large;
   font-weight: 500;
-  color: $on-surface-variant;
+  padding: $size-2 $size-3;
 }
 
 // ============================================
@@ -187,15 +187,15 @@
 // ============================================
 [data-slot="popover-content"],
 .popover-content {
-  z-index: 50;
-  width: auto;
-  min-width: 112px;
-  border-radius: $radius-medium;
-  border: none;
-  background: $surface-container;
-  box-shadow: $elevation-2;
-  padding: $size-4;
   animation: md3-menu-enter $duration-short-4 $easing-emphasized-decelerate;
+  background: $surface-container;
+  border: none;
+  border-radius: $radius-medium;
+  box-shadow: $elevation-2;
+  min-width: 112px;
+  padding: $size-4;
+  width: auto;
+  z-index: 50;
 
   &:focus {
     outline: none;
@@ -207,68 +207,68 @@
 // ============================================
 [data-slot="select-trigger"],
 .select-trigger {
-  display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  min-height: 56px;
-  padding: $size-4;
-  font-size: $font-body-large;
-  border-radius: $radius-extra-small;
-  border: 1px solid $outline;
   background: transparent;
+  border: 1px solid $outline;
+  border-radius: $radius-extra-small;
   color: $on-surface;
   cursor: pointer;
+  display: flex;
+  font-size: $font-body-large;
+  justify-content: space-between;
+  min-height: 56px;
+  padding: $size-4;
   transition: border-color $duration-short-4 $easing-standard;
+  width: 100%;
 
   &:hover {
     border-color: $on-surface;
   }
 
   &:focus {
-    outline: none;
     border-color: $primary;
     border-width: 2px;
+    outline: none;
     padding: calc(#{$size-4} - 1px);
   }
 
   &[data-disabled] {
-    pointer-events: none;
     opacity: $state-disabled-opacity;
+    pointer-events: none;
   }
 
   svg {
-    width: 24px;
-    height: 24px;
     color: $on-surface-variant;
+    height: 24px;
+    width: 24px;
   }
 }
 
 [data-slot="select-content"],
 .select-content {
-  z-index: 50;
+  animation: md3-menu-enter $duration-short-4 $easing-emphasized-decelerate;
+  background: $surface-container;
+  border: none;
+  border-radius: $radius-extra-small;
+  box-shadow: $elevation-2;
   min-width: 112px;
   overflow: hidden;
-  border-radius: $radius-extra-small;
-  border: none;
-  background: $surface-container;
-  box-shadow: $elevation-2;
   padding: $size-2 0;
-  animation: md3-menu-enter $duration-short-4 $easing-emphasized-decelerate;
+  z-index: 50;
 }
 
 [data-slot="select-item"],
 .select-item {
-  position: relative;
-  display: flex;
   align-items: center;
-  min-height: 48px;
-  padding: 0 $size-3;
-  font-size: $font-body-large;
   color: $on-surface;
   cursor: pointer;
-  transition: background-color $duration-short-4 $easing-standard;
+  display: flex;
+  font-size: $font-body-large;
+  min-height: 48px;
   outline: none;
+  padding: 0 $size-3;
+  position: relative;
+  transition: background-color $duration-short-4 $easing-standard;
   user-select: none;
 
   &:hover {
@@ -283,19 +283,19 @@
     background-color: rgba($primary, 0.12);
 
     &::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 3px;
       background: $primary;
+      bottom: 0;
+      content: '';
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 3px;
     }
   }
 
   &[data-disabled] {
-    pointer-events: none;
     opacity: $state-disabled-opacity;
+    pointer-events: none;
   }
 }
 
@@ -304,19 +304,19 @@
 // ============================================
 [data-slot="alert-dialog-content"],
 .alert-dialog-content {
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  z-index: 50;
-  transform: translate(-50%, -50%);
-  width: calc(100% - 48px);
-  max-width: 560px;
+  animation: md3-dialog-enter $duration-medium-2 $easing-emphasized-decelerate;
   background: $surface-container-high;
   border: none;
   border-radius: $radius-extra-large;
   box-shadow: $elevation-3;
+  left: 50%;
+  max-width: 560px;
   padding: $size-6;
-  animation: md3-dialog-enter $duration-medium-2 $easing-emphasized-decelerate;
+  position: fixed;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(100% - 48px);
+  z-index: 50;
 
   &:focus {
     outline: none;
@@ -330,9 +330,9 @@
   margin-bottom: $size-4;
 
   svg {
-    width: 24px;
-    height: 24px;
     color: $on-surface-variant;
+    height: 24px;
+    width: 24px;
   }
 
   &--error svg {
@@ -345,32 +345,32 @@
 // ============================================
 .snackbar,
 [data-slot="toast"] {
-  display: flex;
   align-items: center;
+  animation: md3-snackbar-enter $duration-medium-1 $easing-emphasized-decelerate;
+  background: $inverse-surface;
+  border-radius: $radius-extra-small;
+  box-shadow: $elevation-3;
+  color: $inverse-on-surface;
+  display: flex;
+  font-size: $font-body-medium;
   gap: $size-2;
   min-height: 48px;
   padding: $size-3-5 $size-4;
-  background: $inverse-surface;
-  color: $inverse-on-surface;
-  border-radius: $radius-extra-small;
-  box-shadow: $elevation-3;
-  font-size: $font-body-medium;
-  animation: md3-snackbar-enter $duration-medium-1 $easing-emphasized-decelerate;
 }
 
 .snackbar-action {
-  margin-left: auto;
-  padding: 0 $size-2;
-  font-size: $font-label-large;
-  font-weight: 500;
-  color: $inverse-primary;
   background: transparent;
   border: none;
+  color: $inverse-primary;
   cursor: pointer;
+  font-size: $font-label-large;
+  font-weight: 500;
+  margin-left: auto;
+  padding: 0 $size-2;
   transition: opacity $duration-short-4 $easing-standard;
 
   &:hover {
-    opacity: 0.8;
+    opacity: 80%;
   }
 }
 
@@ -378,24 +378,24 @@
 // Namespace Selector (MD3 styled)
 // ============================================
 .namespace-select {
-  display: inline-flex;
   align-items: center;
-  gap: $size-2;
-  padding: $size-2 $size-4;
-  font-size: $font-label-large;
-  font-weight: 500;
-  border-radius: $radius-small;
-  border: 1px solid $outline-variant;
   background: $surface-container;
+  border: 1px solid $outline-variant;
+  border-radius: $radius-small;
   color: $on-surface;
   cursor: pointer;
+  display: inline-flex;
+  font-size: $font-label-large;
+  font-weight: 500;
+  gap: $size-2;
+  padding: $size-2 $size-4;
   transition: all $duration-short-4 $easing-standard;
 
   svg {
-    width: 18px;
-    height: 18px;
     color: $on-surface-variant;
+    height: 18px;
     transition: color $duration-short-4 $easing-standard;
+    width: 18px;
   }
 
   &:hover {
@@ -408,9 +408,9 @@
   }
 
   &:focus {
-    outline: none;
     border-color: $primary;
     box-shadow: 0 0 0 2px rgba($primary, 0.2);
+    outline: none;
   }
 }
 
@@ -419,46 +419,46 @@
 // ============================================
 @keyframes md3-fade-in {
   from {
-    opacity: 0;
+    opacity: 0%;
   }
 
   to {
-    opacity: 1;
+    opacity: 100%;
   }
 }
 
 @keyframes md3-dialog-enter {
   from {
-    opacity: 0;
+    opacity: 0%;
     transform: translate(-50%, -48%) scale(0.95);
   }
 
   to {
-    opacity: 1;
+    opacity: 100%;
     transform: translate(-50%, -50%) scale(1);
   }
 }
 
 @keyframes md3-menu-enter {
   from {
-    opacity: 0;
+    opacity: 0%;
     transform: scale(0.95);
   }
 
   to {
-    opacity: 1;
+    opacity: 100%;
     transform: scale(1);
   }
 }
 
 @keyframes md3-snackbar-enter {
   from {
-    opacity: 0;
+    opacity: 0%;
     transform: translateY(100%);
   }
 
   to {
-    opacity: 1;
+    opacity: 100%;
     transform: translateY(0);
   }
 }

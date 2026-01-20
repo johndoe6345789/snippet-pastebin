@@ -3,10 +3,10 @@
 
 // Flexbox mixins
 @mixin flex($direction: row, $justify: flex-start, $align: stretch, $wrap: nowrap) {
+  align-items: $align;
   display: flex;
   flex-flow: $direction $wrap;
   justify-content: $justify;
-  align-items: $align;
 }
 
 @mixin flex-center {
@@ -24,8 +24,8 @@
 // Grid mixin
 @mixin grid($columns: 1, $gap: fn.spacing(4)) {
   display: grid;
-  grid-template-columns: repeat($columns, 1fr);
   gap: $gap;
+  grid-template-columns: repeat($columns, 1fr);
 }
 
 // Spacing mixins
@@ -39,8 +39,8 @@
 }
 
 @mixin py($value) {
-  padding-top: fn.spacing($value);
   padding-bottom: fn.spacing($value);
+  padding-top: fn.spacing($value);
 }
 
 @mixin pt($value) {
@@ -69,8 +69,8 @@
 }
 
 @mixin my($value) {
-  margin-top: fn.spacing($value);
   margin-bottom: fn.spacing($value);
+  margin-top: fn.spacing($value);
 }
 
 @mixin mt($value) {
@@ -125,26 +125,26 @@
   @include font(medium);
   @include text(sm);
 
-  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: fn.spacing(2);
-  cursor: pointer;
-  transition: all 0.2s ease;
   border: none;
+  cursor: pointer;
+  display: inline-flex;
+  gap: fn.spacing(2);
+  justify-content: center;
   outline: none;
+  transition: all 0.2s ease;
   
   &:disabled {
-    opacity: 0.5;
     cursor: not-allowed;
+    opacity: 50%;
   }
 }
 
 // Card mixin
 @mixin card {
   background: vars.$card;
-  color: vars.$card-foreground;
   border: 1px solid vars.$border;
+  color: vars.$card-foreground;
 
   @include rounded(lg);
   @include p(6);
@@ -181,28 +181,28 @@
 
 // Visually hidden (for accessibility)
 @mixin sr-only {
-  position: absolute;
-  width: 1px;
+  border-width: 0;
+  clip-path: inset(50%);
   height: 1px;
-  padding: 0;
   margin: -1px;
   overflow: hidden;
-  clip-path: inset(50%);
+  padding: 0;
+  position: absolute;
   white-space: nowrap;
-  border-width: 0;
+  width: 1px;
 }
 
 // Absolute positioning shortcuts
 @mixin absolute-center {
+  left: 50%;
   position: absolute;
   top: 50%;
-  left: 50%;
   transform: translate(-50%, -50%);
 }
 
 @mixin absolute-fill {
-  position: absolute;
   inset: 0;
+  position: absolute;
 }
 
 // Focus ring

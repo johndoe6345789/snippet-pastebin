@@ -6,41 +6,41 @@
 
 // Base button styles (MD3)
 .btn {
-  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: $size-2;
-  padding: $size-2-5 $size-6;
-  min-width: 64px;
-  min-height: 40px;
   border: none;
   border-radius: $radius-full;
-  font-family: inherit;
-  font-weight: 500;
-  font-size: $font-label-large;
-  line-height: $line-height-label-large;
-  letter-spacing: $letter-spacing-label;
   cursor: pointer;
-  user-select: none;
-  text-decoration: none;
-  position: relative;
+  display: inline-flex;
+  font-family: inherit;
+  font-size: $font-label-large;
+  font-weight: 500;
+  gap: $size-2;
+  justify-content: center;
+  letter-spacing: $letter-spacing-label;
+  line-height: $line-height-label-large;
+  min-height: 40px;
+  min-width: 64px;
+  outline: none;
   overflow: hidden;
+  padding: $size-2-5 $size-6;
+  position: relative;
+  text-decoration: none;
   transition:
     background-color $duration-short-4 $easing-standard,
     box-shadow $duration-short-4 $easing-standard,
     color $duration-short-4 $easing-standard;
-  outline: none;
+  user-select: none;
 
   // State layer
   &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
     background-color: currentcolor;
-    opacity: 0;
-    transition: opacity $duration-short-4 $easing-standard;
+    border-radius: inherit;
+    content: '';
+    inset: 0;
+    opacity: 0%;
     pointer-events: none;
+    position: absolute;
+    transition: opacity $duration-short-4 $easing-standard;
   }
 
   &:hover::before {
@@ -61,15 +61,15 @@
   }
 
   &:disabled {
-    opacity: $state-disabled-opacity;
     cursor: not-allowed;
+    opacity: $state-disabled-opacity;
     pointer-events: none;
   }
 
   svg {
-    width: 18px;
-    height: 18px;
     flex-shrink: 0;
+    height: 18px;
+    width: 18px;
   }
 
   // ============================================
@@ -78,8 +78,8 @@
   &-primary,
   &-filled {
     background-color: $primary;
-    color: $on-primary;
     box-shadow: $elevation-1;
+    color: $on-primary;
 
     &:hover:not(:disabled) {
       box-shadow: $elevation-2;
@@ -107,8 +107,8 @@
   // ============================================
   &-elevated {
     background-color: $surface-container-low;
-    color: $primary;
     box-shadow: $elevation-1;
+    color: $primary;
 
     &:hover:not(:disabled) {
       box-shadow: $elevation-2;
@@ -125,8 +125,8 @@
   &-outline,
   &-outlined {
     background-color: transparent;
-    color: $primary;
     border: 1px solid $outline;
+    color: $primary;
 
     &:hover:not(:disabled) {
       background-color: rgba($primary, $state-hover-opacity);
@@ -154,8 +154,8 @@
   &-destructive,
   &-error {
     background-color: $destructive;
-    color: $on-error;
     box-shadow: $elevation-1;
+    color: $on-error;
 
     &:hover:not(:disabled) {
       box-shadow: $elevation-2;
@@ -182,25 +182,25 @@
   // Size Variants
   // ============================================
   &-sm {
-    padding: $size-1-5 $size-4;
-    min-height: 32px;
     font-size: $font-label-medium;
     gap: $size-1-5;
+    min-height: 32px;
+    padding: $size-1-5 $size-4;
 
     svg {
-      width: 16px;
       height: 16px;
+      width: 16px;
     }
   }
 
   &-lg {
-    padding: $size-3 $size-8;
-    min-height: 48px;
     font-size: $font-label-large;
+    min-height: 48px;
+    padding: $size-3 $size-8;
 
     svg {
-      width: 20px;
       height: 20px;
+      width: 20px;
     }
   }
 
@@ -208,22 +208,22 @@
   // Icon Button
   // ============================================
   &-icon {
-    padding: 0;
-    min-width: 40px;
-    width: 40px;
-    height: 40px;
     border-radius: $radius-full;
+    height: 40px;
+    min-width: 40px;
+    padding: 0;
+    width: 40px;
 
     &.btn-sm {
+      height: 32px;
       min-width: 32px;
       width: 32px;
-      height: 32px;
     }
 
     &.btn-lg {
+      height: 48px;
       min-width: 48px;
       width: 48px;
-      height: 48px;
     }
   }
 }
@@ -232,31 +232,31 @@
 // MD3 Icon Button (standalone)
 // ============================================
 .icon-btn {
-  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  padding: 0;
+  background-color: transparent;
   border: none;
   border-radius: $radius-full;
-  background-color: transparent;
   color: $on-surface-variant;
   cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  transition: color $duration-short-4 $easing-standard;
+  display: inline-flex;
+  height: 40px;
+  justify-content: center;
   outline: none;
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+  transition: color $duration-short-4 $easing-standard;
+  width: 40px;
 
   &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
     background-color: currentcolor;
-    opacity: 0;
-    transition: opacity $duration-short-4 $easing-standard;
+    border-radius: inherit;
+    content: '';
+    inset: 0;
+    opacity: 0%;
     pointer-events: none;
+    position: absolute;
+    transition: opacity $duration-short-4 $easing-standard;
   }
 
   &:hover::before {
@@ -277,13 +277,13 @@
   }
 
   &:disabled {
-    opacity: $state-disabled-opacity;
     cursor: not-allowed;
+    opacity: $state-disabled-opacity;
   }
 
   svg {
-    width: 24px;
     height: 24px;
+    width: 24px;
   }
 
   // Filled variant
@@ -309,31 +309,31 @@
 // Navigation Button (burger menu)
 // ============================================
 .nav-burger-btn {
-  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px;
-  padding: 0;
+  background-color: transparent;
   border: none;
   border-radius: $radius-full;
-  background-color: transparent;
   color: $on-surface;
   cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  transition: color $duration-short-4 $easing-standard;
+  display: inline-flex;
+  height: 48px;
+  justify-content: center;
   outline: none;
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+  transition: color $duration-short-4 $easing-standard;
+  width: 48px;
 
   &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
     background-color: currentcolor;
-    opacity: 0;
-    transition: opacity $duration-short-4 $easing-standard;
+    border-radius: inherit;
+    content: '';
+    inset: 0;
+    opacity: 0%;
     pointer-events: none;
+    position: absolute;
+    transition: opacity $duration-short-4 $easing-standard;
   }
 
   &:hover::before {
@@ -354,7 +354,7 @@
   }
 
   svg {
-    width: 24px;
     height: 24px;
+    width: 24px;
   }
 }

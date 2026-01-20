@@ -1,14 +1,15 @@
+@use "sass:color";
 @use '../abstracts' as *;
 
 // Header and navigation - Material Design 3 style
 header {
-  border-bottom: 1px solid rgba($border, 0.4);
-  background-color: rgba($card, 0.85); // MD3 surface
   backdrop-filter: blur(12px) saturate(120%); // Less intense
+  background-color: rgba($card, 0.85); // MD3 surface
+  border-bottom: 1px solid rgba($border, 0.4);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 8%); // MD3 elevation-1
   position: sticky;
   top: 0;
   z-index: 20;
-  box-shadow: 0 1px 2px rgb(0 0 0 / 8%); // MD3 elevation-1
 
   .container {
     padding: 1rem 1.5rem;
@@ -17,24 +18,24 @@ header {
 
 // Burger menu - Material Design 3 icon button style
 .nav-burger-btn {
-  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  padding: 0.5rem;
-  border-radius: $radius-lg; // MD3 uses larger radius
   background-color: transparent;
   border: 1px solid transparent;
-  transition: all 0.2s cubic-bezier(0.2, 0, 0, 1); // MD3 standard easing
+  border-radius: $radius-lg; // MD3 uses larger radius
   cursor: pointer;
+  display: inline-flex;
+  height: 2.5rem;
+  justify-content: center;
+  padding: 0.5rem;
   position: relative;
+  transition: all 0.2s cubic-bezier(0.2, 0, 0, 1); // MD3 standard easing
+  width: 2.5rem;
 
   svg {
-    width: 1.25rem;
-    height: 1.25rem;
     color: $foreground;
+    height: 1.25rem;
     transition: all 0.2s ease;
+    width: 1.25rem;
   }
 
   &:hover {
@@ -57,28 +58,28 @@ header {
 
 // Logo styling - Material Design 3 inspired
 .logo-container {
-  display: flex;
   align-items: center;
+  display: flex;
   gap: 0.75rem;
 }
 
 .logo-icon-box {
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: $radius-xl; // MD3 large shape
-  background: linear-gradient(135deg, $primary 0%, hsl(260deg 45% 50%) 100%);
-  display: flex;
   align-items: center;
-  justify-content: center;
+  background: linear-gradient(135deg, $primary 0%, hsl(260deg 45% 50%) 100%);
+  border-radius: $radius-xl; // MD3 large shape
   box-shadow: 
     0 1px 2px rgb(0 0 0 / 12%), // MD3 elevation-1
     0 1px 3px rgb(0 0 0 / 8%);
+  display: flex;
+  height: 2.5rem;
+  justify-content: center;
   transition: all 0.3s cubic-bezier(0.2, 0, 0, 1); // MD3 emphasized easing
+  width: 2.5rem;
 
   svg {
-    width: 1.25rem;
-    height: 1.25rem;
     color: $primary-foreground;
+    height: 1.25rem;
+    width: 1.25rem;
   }
 
   &:hover {
@@ -90,23 +91,21 @@ header {
 }
 
 .logo-text {
+  // Subtle gradient instead of animated
+  background: linear-gradient(
+    135deg,
+    $foreground 0%,
+    color.scale($accent, $alpha: -20%) 100%
+  );
+  background-clip: text;
+  color: transparent;
   font-size: 1.25rem;
   font-weight: 600; // MD3 label-large weight
   letter-spacing: 0.01em; // MD3 tracking
-  
-  // Subtle gradient instead of animated
-  background: linear-gradient(135deg, $foreground 0%, rgb($accent / 80%) 100%);
-  background-clip: text;
-  color: transparent;
 }
 
 // Grid pattern - MD3 style (much more subtle)
 .grid-pattern {
-  position: fixed;
-  inset: 0;
-  opacity: 0.008; // Even more subtle for MD3
-  pointer-events: none;
-  z-index: 0; // Ensure it's behind everything
   background-image: 
     repeating-linear-gradient(
       0deg,
@@ -123,17 +122,22 @@ header {
       rgba($accent, 0.08) 65px
     );
   background-size: 64px 64px;
+  inset: 0;
+  opacity: 0.8%; // Even more subtle for MD3
+  pointer-events: none;
+  position: fixed;
+  z-index: 0; // Ensure it's behind everything
 }
 
 // Header animations - MD3 style (subtle)
 @keyframes fade-in-down {
   from {
-    opacity: 0;
+    opacity: 0%;
     transform: translateY(-4px); // Less dramatic
   }
 
   to {
-    opacity: 1;
+    opacity: 100%;
     transform: translateY(0);
   }
 }
