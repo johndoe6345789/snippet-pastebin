@@ -1,8 +1,10 @@
 import { defineConfig, devices } from "@playwright/test"
 
 export default defineConfig({
-  testDir: "./tests/e2e",
+  // Run both general e2e and MD3 conformance suites
+  testDir: "./tests",
   timeout: 60_000,
+  globalSetup: "./tests/e2e/setup/global-setup.ts",
   expect: {
     timeout: 10_000,
   },
@@ -30,7 +32,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: "PORT=3002 npm run dev -- --hostname 0.0.0.0",
+    command: "npm run dev -- -p 3002 -H 0.0.0.0",
     port: 3002,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,

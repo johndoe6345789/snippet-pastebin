@@ -19,7 +19,7 @@ export default function HomePage() {
         transition={{ duration: 0.4 }}
       >
         <div className="mb-8">
-          <h2 className="text-3xl font-bold tracking-tight mb-2">My Snippets</h2>
+          <h1 className="text-3xl font-bold tracking-tight mb-2">My Snippets</h1>
           <p className="text-muted-foreground">Save, organize, and share your code snippets</p>
         </div>
         <SnippetManagerRedux />

@@ -25,7 +25,7 @@ export function EmptyState({ onCreateClick, onCreateFromTemplate }: EmptyStatePr
       <div className="rounded-full bg-accent/10 p-6 mb-6">
         <Code className="h-16 w-16 text-accent" weight="duotone" />
       </div>
-      <h3 className="text-2xl font-semibold mb-2">{strings.emptyState.title}</h3>
+      <h2 className="text-2xl font-semibold mb-2">{strings.emptyState.title}</h2>
       <p className="text-muted-foreground mb-8 max-w-sm">
         {strings.emptyState.description}
       </p>

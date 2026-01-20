@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test"
+import { expect, test } from "./fixtures"
 
 /**
  * Cross-Platform Consistency Tests
@@ -75,12 +75,12 @@ test.describe("Cross-Platform UI Consistency", () => {
         await expect(main).toBeVisible()
 
         // No console errors
-        const errors: string[] = []
-        page.on("console", (msg) => {
-          if (msg.type() === "error") {
-            errors.push(msg.text())
-          }
-        })
+      const errors: string[] = []
+      page.on("console", (msg) => {
+        if (msg.type() === "error") {
+          errors.push(msg.text())
+        }
+      })
 
         expect(errors.length).toBeLessThan(2)
       }
@@ -235,9 +235,8 @@ test.describe("Cross-Platform UI Consistency", () => {
 
       const desktopButton = desktopPage.locator("button").first()
       if (await desktopButton.count() > 0) {
-        const desktopInitialUrl = desktopPage.url()
-        await desktopButton.click()
-        await desktopPage.waitForTimeout(100)
+      await desktopButton.click()
+      await desktopPage.waitForTimeout(100)
         const desktopAfterClick = desktopPage.url()
         expect(typeof desktopAfterClick).toBe("string")
       }
@@ -253,7 +252,6 @@ test.describe("Cross-Platform UI Consistency", () => {
 
       const mobileButton = mobilePage.locator("button").first()
       if (await mobileButton.count() > 0) {
-        const mobileInitialUrl = mobilePage.url()
         await mobileButton.click()
         await mobilePage.waitForTimeout(100)
         const mobileAfterClick = mobilePage.url()

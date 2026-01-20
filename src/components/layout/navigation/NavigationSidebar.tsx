@@ -77,7 +77,7 @@ export function NavigationSidebar() {
             </div>
 
             {/* Navigation Items */}
-            <nav className="flex-1 overflow-y-auto py-2 px-3">
+            <nav role="navigation" className="flex-1 overflow-y-auto py-2 px-3">
               <ul className="space-y-0.5">
                 {navigationItems.map((item) => {
                   const Icon = item.icon;

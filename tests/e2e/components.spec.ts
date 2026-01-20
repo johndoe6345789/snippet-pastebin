@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test"
+import { expect, test } from "./fixtures"
 
 test.describe("Component-Specific Tests", () => {
   test.describe("Snippet Manager Component", () => {
@@ -52,10 +52,8 @@ test.describe("Component-Specific Tests", () => {
         // Each button should be clickable
         if (count > 0) {
           const firstButton = buttons.first()
-          const initialState = await firstButton.getAttribute("aria-pressed")
-
-          await firstButton.click()
-          await page.waitForTimeout(100)
+      await firstButton.click()
+      await page.waitForTimeout(100)
 
           // Should be responsive to clicks
           expect(true).toBe(true)
@@ -77,8 +75,6 @@ test.describe("Component-Specific Tests", () => {
         const selectAllButton = selectionControls.locator("button, input[type='checkbox']")
 
         if (await selectAllButton.count() > 0) {
-          const initialChecked = await selectAllButton.first().isChecked()
-
           await selectAllButton.first().click()
           await page.waitForTimeout(100)
 
@@ -94,6 +90,13 @@ test.describe("Component-Specific Tests", () => {
   test.describe("Navigation Component", () => {
     test("navigation menu has all required links", async ({ page }) => {
       await page.goto("/")
+
+      // Open the navigation sidebar by clicking the hamburger menu
+      const navToggle = page.locator('button[aria-label*="navigation" i], button[aria-label*="menu" i]').first()
+      if (await navToggle.count() > 0) {
+        await navToggle.click()
+        await page.waitForTimeout(300) // Wait for animation
+      }
 
       const navLinks = page.locator("nav a, [role='navigation'] a")
       const linkCount = await navLinks.count()

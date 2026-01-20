@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test"
+import { expect, test } from "./fixtures"
 
 test.describe("Mobile and Responsive Tests", () => {
   test.describe("Mobile Touch Interactions", () => {
@@ -274,8 +274,6 @@ test.describe("Mobile and Responsive Tests", () => {
 
       const button = page.locator("button").first()
       if (await button.count() > 0) {
-        let clickCount = 0
-
         await page.evaluate(() => {
           document.addEventListener("click", () => {
             ;(window as any).clickCounter = ((window as any).clickCounter || 0) + 1

@@ -6,7 +6,7 @@ import globals from 'globals'
 
 export default [
   {
-    ignores: ['node_modules', '.next', 'dist', 'coverage'],
+    ignores: ['node_modules', '.next', 'dist', 'coverage', 'src/styles/m3-scss/**'],
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,
