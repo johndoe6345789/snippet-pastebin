@@ -33,9 +33,14 @@ export function ReactPreview({ code, language, functionName, inputParameters }: 
 
   if (!['JSX', 'TSX', 'JavaScript', 'TypeScript'].includes(language)) {
     return (
-      <div className="h-full flex items-center justify-center p-6 bg-muted/30">
+      <div
+        className="h-full flex items-center justify-center p-6 bg-muted/30"
+        data-testid="preview-unsupported"
+        role="status"
+        aria-label="Preview not available"
+      >
         <div className="text-center text-muted-foreground">
-          <WarningCircle className="h-12 w-12 mx-auto mb-3 opacity-50" />
+          <WarningCircle className="h-12 w-12 mx-auto mb-3 opacity-50" aria-hidden="true" />
           <p className="text-sm">Preview not available for {language}</p>
           <p className="text-xs mt-1">Use JSX, TSX, JavaScript, or TypeScript</p>
         </div>
@@ -45,15 +50,19 @@ export function ReactPreview({ code, language, functionName, inputParameters }: 
 
   if (error) {
     return (
-      <div className="h-full overflow-auto p-6 bg-destructive/5">
-        <Alert variant="destructive" className="mb-4">
-          <WarningCircle className="h-4 w-4" />
-          <AlertDescription className="font-mono text-xs whitespace-pre-wrap">
+      <div
+        className="h-full overflow-auto p-6 bg-destructive/5"
+        data-testid="preview-error"
+        role="alert"
+      >
+        <Alert variant="destructive" className="mb-4" data-testid="preview-error-alert">
+          <WarningCircle className="h-4 w-4" aria-hidden="true" />
+          <AlertDescription className="font-mono text-xs whitespace-pre-wrap" data-testid="preview-error-message">
             {error}
           </AlertDescription>
         </Alert>
-        <AIErrorHelper 
-          error={error} 
+        <AIErrorHelper
+          error={error}
           context={`React component preview rendering (Language: ${language})`}
         />
       </div>
@@ -62,7 +71,12 @@ export function ReactPreview({ code, language, functionName, inputParameters }: 
 
   if (!Component) {
     return (
-      <div className="h-full flex items-center justify-center p-6 bg-muted/30">
+      <div
+        className="h-full flex items-center justify-center p-6 bg-muted/30"
+        data-testid="preview-loading"
+        role="status"
+        aria-label="Loading preview"
+      >
         <div className="text-center text-muted-foreground">
           <p className="text-sm">Loading preview...</p>
         </div>

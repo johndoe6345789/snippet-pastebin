@@ -4,6 +4,19 @@ import React from 'react'
 // Make React globally available for components that may reference it
 global.React = React
 
+// Mock import.meta for Vite compatibility
+Object.defineProperty(globalThis, 'import', {
+  value: {
+    meta: {
+      env: {
+        DEV: false,
+        PROD: true,
+        SSR: false,
+      },
+    },
+  },
+})
+
 // Mock Next.js router
 jest.mock('next/router', () => ({
   useRouter: () => ({

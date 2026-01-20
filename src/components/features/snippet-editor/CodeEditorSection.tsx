@@ -36,8 +36,14 @@ export function CodeEditorSection({
             id="hasPreview"
             checked={hasPreview}
             onCheckedChange={(checked) => onPreviewChange(checked as boolean)}
+            data-testid="enable-preview-checkbox"
+            aria-label="Enable live preview"
           />
-          <Label htmlFor="hasPreview" className="text-sm font-normal cursor-pointer">
+          <Label
+            htmlFor="hasPreview"
+            className="text-sm font-normal cursor-pointer"
+            data-testid="enable-preview-label"
+          >
             Enable live preview
           </Label>
         </div>
@@ -46,7 +52,10 @@ export function CodeEditorSection({
       <div className="space-y-2">
         <Label htmlFor="code">Code *</Label>
         {hasPreview && isPreviewSupported ? (
-          <div className={errors.code ? 'ring-2 ring-destructive/20 rounded-md' : ''}>
+          <div
+            className={errors.code ? 'ring-2 ring-destructive/20 rounded-md' : ''}
+            data-testid="split-screen-editor-container"
+          >
             <SplitScreenEditor
               value={code}
               onChange={onCodeChange}
@@ -61,11 +70,16 @@ export function CodeEditorSection({
             className={`rounded-md border overflow-hidden ${
               errors.code ? 'border-destructive ring-2 ring-destructive/20' : 'border-border'
             }`}
+            data-testid="code-editor-container"
           >
             <MonacoEditor value={code} onChange={onCodeChange} language={language} height="400px" />
           </div>
         )}
-        {errors.code && <p className="text-sm text-destructive">{errors.code}</p>}
+        {errors.code && (
+          <p className="text-sm text-destructive" id="code-error" data-testid="code-error-message">
+            {errors.code}
+          </p>
+        )}
       </div>
     </>
   )

@@ -4,8 +4,13 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 export const DemoFeatureCards = () => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <Card className="border-primary/20">
+    <div
+      className="grid grid-cols-1 md:grid-cols-3 gap-6"
+      data-testid="demo-feature-cards"
+      role="region"
+      aria-label="Feature cards"
+    >
+      <Card className="border-primary/20" data-testid="feature-card-realtime">
         <CardHeader>
           <CardTitle className="text-lg">Real-Time Updates</CardTitle>
         </CardHeader>
@@ -14,7 +19,7 @@ export const DemoFeatureCards = () => {
         </CardContent>
       </Card>
 
-      <Card className="border-accent/20">
+      <Card className="border-accent/20" data-testid="feature-card-resizable">
         <CardHeader>
           <CardTitle className="text-lg">Resizable Panels</CardTitle>
         </CardHeader>
@@ -23,7 +28,7 @@ export const DemoFeatureCards = () => {
         </CardContent>
       </Card>
 
-      <Card className="border-primary/20">
+      <Card className="border-primary/20" data-testid="feature-card-viewmodes">
         <CardHeader>
           <CardTitle className="text-lg">Multiple View Modes</CardTitle>
         </CardHeader>
