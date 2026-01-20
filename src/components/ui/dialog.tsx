@@ -1,5 +1,6 @@
 "use client"
 
+import * as React from "react"
 import { ComponentProps, useEffect, useRef } from "react"
 import { createPortal } from "react-dom"
 import { cn } from "@/lib/utils"
@@ -14,18 +15,24 @@ function Dialog({ open, onOpenChange, children }: DialogProps) {
   return <>{children}</>
 }
 
-function DialogTrigger({ children, onClick, ...props }: ComponentProps<"button">) {
+function DialogTrigger({ children, onClick, asChild = false, ...props }: ComponentProps<"button"> & { asChild?: boolean }) {
+  const Comp = asChild ? "div" : "button"
+
   return (
-    <button type="button" onClick={onClick} {...props}>
+    <Comp
+      {...(asChild ? {} : { type: "button" })}
+      onClick={asChild ? undefined : onClick}
+      {...props}
+    >
       {children}
-    </button>
+    </Comp>
   )
 }
 
 function DialogPortal({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = React.useState(false)
 
-  useEffect(() => {
+  React.useEffect(() => {
     setMounted(true)
     return () => setMounted(false)
   }, [])

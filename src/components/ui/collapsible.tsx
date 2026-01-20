@@ -41,10 +41,13 @@ function CollapsibleTrigger({
   onClick,
   children,
   className,
+  asChild = false,
   ...props
-}: ComponentProps<"button"> & { children?: ReactNode }) {
+}: ComponentProps<"button"> & { children?: ReactNode; asChild?: boolean }) {
+  const Comp = asChild ? "div" : "button"
+
   return (
-    <button
+    <Comp
       data-slot="collapsible-trigger"
       className={cn(
         "mat-mdc-button",
@@ -53,13 +56,14 @@ function CollapsibleTrigger({
         "hover:bg-gray-200 dark:hover:bg-gray-700",
         "focus-visible:ring-2 focus-visible:ring-offset-2",
         "transition-colors",
+        asChild && "cursor-pointer",
         className
       )}
-      onClick={onClick}
+      onClick={asChild ? undefined : onClick}
       {...props}
     >
       {children}
-    </button>
+    </Comp>
   )
 }
 

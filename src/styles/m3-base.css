@@ -1,0 +1,129 @@
+/* Material Design 3 Base Styles */
+
+/* Button base styles */
+.mat-mdc-button,
+.mat-mdc-unelevated-button,
+.mat-mdc-raised-button,
+.mat-mdc-outlined-button,
+.mat-mdc-icon-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-width: 64px;
+  margin: 0;
+  padding: 0 12px;
+  border-radius: var(--mat-sys-corner-small, 8px);
+  border: none;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 200ms ease;
+}
+
+.mat-mdc-button {
+  background-color: transparent;
+  color: var(--mat-sys-primary);
+}
+
+.mat-mdc-button:hover {
+  background-color: rgba(103, 80, 164, 0.08);
+}
+
+.mat-mdc-unelevated-button {
+  height: 40px;
+  background-color: var(--mat-sys-primary);
+  color: var(--mat-sys-on-primary);
+}
+
+.mat-mdc-unelevated-button:hover {
+  background-color: color-mix(in srgb, var(--mat-sys-primary) 92%, black);
+}
+
+.mat-mdc-outlined-button {
+  height: 40px;
+  border: 1px solid var(--mat-sys-outline);
+  color: var(--mat-sys-primary);
+  background-color: transparent;
+}
+
+.mat-mdc-outlined-button:hover {
+  background-color: rgba(103, 80, 164, 0.08);
+  border-color: var(--mat-sys-outline);
+}
+
+.mat-mdc-raised-button {
+  height: 40px;
+  background-color: var(--mat-sys-primary);
+  color: var(--mat-sys-on-primary);
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 2px 2px 0 rgba(0, 0, 0, 0.14);
+}
+
+.mat-tonal-button {
+  height: 40px;
+  background-color: var(--mat-sys-secondary-container);
+  color: var(--mat-sys-on-secondary-container);
+}
+
+.mat-mdc-icon-button {
+  width: 48px;
+  height: 48px;
+  min-width: auto;
+  padding: 0;
+  color: var(--mat-sys-primary);
+}
+
+.mat-mdc-icon-button:hover {
+  background-color: rgba(103, 80, 164, 0.08);
+}
+
+/* List items */
+.mat-mdc-list-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  color: var(--mat-sys-on-surface);
+  transition: background-color 200ms ease;
+}
+
+.mat-mdc-list-item:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+/* Disabled state */
+.mat-mdc-button:disabled,
+.mat-mdc-unelevated-button:disabled,
+.mat-mdc-raised-button:disabled,
+.mat-mdc-outlined-button:disabled,
+.mat-mdc-icon-button:disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
+}
+
+/* Ripple effect */
+.mat-mdc-button-persistent-ripple,
+.mat-mdc-focus-indicator {
+  pointer-events: none;
+}
+
+/* Button persistent ripple */
+.mdc-button {
+  position: relative;
+}
+
+.mdc-button__label {
+  z-index: 1;
+  position: relative;
+}
+
+/* Focus visible */
+.mat-mdc-button:focus-visible,
+.mat-mdc-unelevated-button:focus-visible,
+.mat-mdc-raised-button:focus-visible,
+.mat-mdc-outlined-button:focus-visible,
+.mat-mdc-icon-button:focus-visible {
+  outline: 2px solid var(--mat-sys-primary);
+  outline-offset: 2px;
+}
