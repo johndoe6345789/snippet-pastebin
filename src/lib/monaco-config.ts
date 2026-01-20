@@ -5,8 +5,8 @@ const shadcnTypes = `
       children: React.ReactNode;
       className?: string;
       onClick?: () => void;
-      variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
-      size?: 'default' | 'sm' | 'lg' | 'icon';
+      variant?: string;
+      size?: string;
     }
     export function Button(props: ButtonProps): JSX.Element;
   }
