@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>57/57</span>
+                <span class='fraction'>0/57</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>3/3</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>57/57</span>
+                <span class='fraction'>0/57</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -120,120 +120,120 @@
 <a name='L55'></a><a href='#L55'>55</a>
 <a name='L56'></a><a href='#L56'>56</a>
 <a name='L57'></a><a href='#L57'>57</a>
-<a name='L58'></a><a href='#L58'>58</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use client'
-&nbsp;
-import { useRef, useEffect } from 'react'
-import { usePythonTerminal } from '@/hooks/usePythonTerminal'
-import { TerminalHeader } from '@/components/features/python-runner/TerminalHeader'
-import { TerminalOutput } from '@/components/features/python-runner/TerminalOutput'
-import { TerminalInput } from '@/components/features/python-runner/TerminalInput'
-&nbsp;
-interface PythonTerminalProps {
-  code: string
-}
-&nbsp;
-export function PythonTerminal({ code }: PythonTerminalProps) {
-  const {
-    lines,
-    isRunning,
-    isInitializing,
-    inputValue,
-    waitingForInput,
-    setInputValue,
-    handleInputSubmit,
-    handleRun,
-  } = usePythonTerminal()
-&nbsp;
-  const terminalEndRef = useRef&lt;HTMLDivElement&gt;(null)
-&nbsp;
-  useEffect(() =&gt; {
-    terminalEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [lines])
-&nbsp;
-  return (
-    &lt;div className="flex flex-col h-full bg-card" data-testid="python-terminal"&gt;
-      &lt;TerminalHeader
-        onRun={() =&gt; handleRun(code)}
-        isRunning={isRunning}
-        isInitializing={isInitializing}
-        waitingForInput={waitingForInput}
-      /&gt;
-&nbsp;
-      &lt;div
-        className="flex-1 overflow-auto p-4 font-mono text-sm bg-background/50"
-        data-testid="terminal-output-area"
-        role="region"
-        aria-label="Terminal output"
-      &gt;
-        &lt;TerminalOutput lines={lines} isRunning={isRunning} /&gt;
-        &lt;TerminalInput
-          waitingForInput={waitingForInput}
-          inputValue={inputValue}
-          onInputChange={setInputValue}
-          onSubmit={handleInputSubmit}
-        /&gt;
-        &lt;div ref={terminalEndRef} /&gt;
-      &lt;/div&gt;
-    &lt;/div&gt;
-  )
-}
+<a name='L58'></a><a href='#L58'>58</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >'use client'</span></span></span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >import { useRef, useEffect } from 'react'</span>
+<span class="cstat-no" title="statement not covered" >import { usePythonTerminal } from '@/hooks/usePythonTerminal'</span>
+<span class="cstat-no" title="statement not covered" >import { TerminalHeader } from '@/components/features/python-runner/TerminalHeader'</span>
+<span class="cstat-no" title="statement not covered" >import { TerminalOutput } from '@/components/features/python-runner/TerminalOutput'</span>
+<span class="cstat-no" title="statement not covered" >import { TerminalInput } from '@/components/features/python-runner/TerminalInput'</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >interface PythonTerminalProps {</span>
+<span class="cstat-no" title="statement not covered" >  code: string</span>
+<span class="cstat-no" title="statement not covered" >}</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >export function PythonTerminal({ code }: PythonTerminalProps) {</span>
+<span class="cstat-no" title="statement not covered" >  const {</span>
+<span class="cstat-no" title="statement not covered" >    lines,</span>
+<span class="cstat-no" title="statement not covered" >    isRunning,</span>
+<span class="cstat-no" title="statement not covered" >    isInitializing,</span>
+<span class="cstat-no" title="statement not covered" >    inputValue,</span>
+<span class="cstat-no" title="statement not covered" >    waitingForInput,</span>
+<span class="cstat-no" title="statement not covered" >    setInputValue,</span>
+<span class="cstat-no" title="statement not covered" >    handleInputSubmit,</span>
+<span class="cstat-no" title="statement not covered" >    handleRun,</span>
+<span class="cstat-no" title="statement not covered" >  } = usePythonTerminal()</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >  const terminalEndRef = useRef&lt;HTMLDivElement&gt;(null)</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >  useEffect(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    terminalEndRef.current?.scrollIntoView({ behavior: 'smooth' })</span>
+<span class="cstat-no" title="statement not covered" >  }, [lines])</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >  return (</span>
+<span class="cstat-no" title="statement not covered" >    &lt;div className="flex flex-col h-full bg-card" data-testid="python-terminal"&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;TerminalHeader</span>
+<span class="cstat-no" title="statement not covered" >        onRun={() =&gt; handleRun(code)}</span>
+<span class="cstat-no" title="statement not covered" >        isRunning={isRunning}</span>
+<span class="cstat-no" title="statement not covered" >        isInitializing={isInitializing}</span>
+<span class="cstat-no" title="statement not covered" >        waitingForInput={waitingForInput}</span>
+<span class="cstat-no" title="statement not covered" >      /&gt;</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >      &lt;div</span>
+<span class="cstat-no" title="statement not covered" >        className="flex-1 overflow-auto p-4 font-mono text-sm bg-background/50"</span>
+<span class="cstat-no" title="statement not covered" >        data-testid="terminal-output-area"</span>
+<span class="cstat-no" title="statement not covered" >        role="region"</span>
+<span class="cstat-no" title="statement not covered" >        aria-label="Terminal output"</span>
+<span class="cstat-no" title="statement not covered" >      &gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;TerminalOutput lines={lines} isRunning={isRunning} /&gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;TerminalInput</span>
+<span class="cstat-no" title="statement not covered" >          waitingForInput={waitingForInput}</span>
+<span class="cstat-no" title="statement not covered" >          inputValue={inputValue}</span>
+<span class="cstat-no" title="statement not covered" >          onInputChange={setInputValue}</span>
+<span class="cstat-no" title="statement not covered" >          onSubmit={handleInputSubmit}</span>
+<span class="cstat-no" title="statement not covered" >        /&gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;div ref={terminalEndRef} /&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  )</span>
+<span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -241,7 +241,7 @@ export function PythonTerminal({ code }: PythonTerminalProps) {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-20T21:13:32.545Z
+                at 2026-01-20T23:21:59.834Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>52/52</span>
+                <span class='fraction'>0/52</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>7/7</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>52/52</span>
+                <span class='fraction'>0/52</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -115,110 +115,110 @@
 <a name='L50'></a><a href='#L50'>50</a>
 <a name='L51'></a><a href='#L51'>51</a>
 <a name='L52'></a><a href='#L52'>52</a>
-<a name='L53'></a><a href='#L53'>53</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">177x</span>
-<span class="cline-any cline-yes">177x</span>
-<span class="cline-any cline-yes">177x</span>
-<span class="cline-any cline-yes">177x</span>
-<span class="cline-any cline-yes">177x</span>
-<span class="cline-any cline-yes">177x</span>
-<span class="cline-any cline-yes">177x</span>
-<span class="cline-any cline-yes">177x</span>
-<span class="cline-any cline-yes">73x</span>
-<span class="cline-any cline-yes">42x</span>
-<span class="cline-any cline-yes">42x</span>
-<span class="cline-any cline-yes">177x</span>
-<span class="cline-any cline-yes">177x</span>
-<span class="cline-any cline-yes">177x</span>
-<span class="cline-any cline-yes">33x</span>
-<span class="cline-any cline-yes">33x</span>
-<span class="cline-any cline-yes">144x</span>
-<span class="cline-any cline-yes">144x</span>
-<span class="cline-any cline-yes">144x</span>
-<span class="cline-any cline-yes">144x</span>
-<span class="cline-any cline-yes">144x</span>
-<span class="cline-any cline-yes">144x</span>
-<span class="cline-any cline-yes">144x</span>
-<span class="cline-any cline-yes">144x</span>
-<span class="cline-any cline-yes">144x</span>
-<span class="cline-any cline-yes">144x</span>
-<span class="cline-any cline-yes">144x</span>
-<span class="cline-any cline-yes">144x</span>
-<span class="cline-any cline-yes">144x</span>
-<span class="cline-any cline-yes">144x</span>
-<span class="cline-any cline-yes">144x</span>
-<span class="cline-any cline-yes">144x</span>
-<span class="cline-any cline-yes">144x</span>
-<span class="cline-any cline-yes">144x</span>
-<span class="cline-any cline-yes">144x</span>
-<span class="cline-any cline-yes">144x</span>
-<span class="cline-any cline-yes">144x</span>
-<span class="cline-any cline-yes">144x</span>
-<span class="cline-any cline-yes">144x</span>
-<span class="cline-any cline-yes">144x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useEffect, useRef } from 'react'
-import { motion } from 'framer-motion'
-import { Input } from '@/components/ui/input'
-&nbsp;
-interface TerminalInputProps {
-  waitingForInput: boolean
-  inputValue: string
-  onInputChange: (value: string) =&gt; void
-  onSubmit: (e: React.FormEvent) =&gt; void
-}
-&nbsp;
-export function TerminalInput({ 
-  waitingForInput, 
-  inputValue, 
-  onInputChange, 
-  onSubmit 
-}: TerminalInputProps) {
-  const inputRef = useRef&lt;HTMLInputElement&gt;(null)
-&nbsp;
-  useEffect(() =&gt; {
-    if (waitingForInput &amp;&amp; inputRef.current) {
-      inputRef.current.focus()
-    }
-  }, [waitingForInput])
-&nbsp;
-  if (!waitingForInput) {
-    return null
-  }
-&nbsp;
-  return (
-    &lt;motion.form
-      onSubmit={onSubmit}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      className="flex items-center gap-2 mt-2"
-      data-testid="terminal-input-form"
-    &gt;
-      &lt;span className="text-primary font-bold" aria-hidden="true"&gt;{'&gt;'}&lt;/span&gt;
-      &lt;Input
-        ref={inputRef}
-        type="text"
-        value={inputValue}
-        onChange={(e) =&gt; onInputChange(e.target.value)}
-        className="flex-1 font-mono bg-background border-accent/50 focus:border-accent"
-        placeholder="Enter input..."
-        disabled={!waitingForInput}
-        data-testid="terminal-input"
-        aria-label="Terminal input"
-      /&gt;
-    &lt;/motion.form&gt;
-  )
-}
+<a name='L53'></a><a href='#L53'>53</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >import { useEffect, useRef } from 'react'</span></span></span>
+<span class="cstat-no" title="statement not covered" >import { motion } from 'framer-motion'</span>
+<span class="cstat-no" title="statement not covered" >import { Input } from '@/components/ui/input'</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >interface TerminalInputProps {</span>
+<span class="cstat-no" title="statement not covered" >  waitingForInput: boolean</span>
+<span class="cstat-no" title="statement not covered" >  inputValue: string</span>
+<span class="cstat-no" title="statement not covered" >  onInputChange: (value: string) =&gt; void</span>
+<span class="cstat-no" title="statement not covered" >  onSubmit: (e: React.FormEvent) =&gt; void</span>
+<span class="cstat-no" title="statement not covered" >}</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >export function TerminalInput({ </span>
+<span class="cstat-no" title="statement not covered" >  waitingForInput, </span>
+<span class="cstat-no" title="statement not covered" >  inputValue, </span>
+<span class="cstat-no" title="statement not covered" >  onInputChange, </span>
+<span class="cstat-no" title="statement not covered" >  onSubmit </span>
+<span class="cstat-no" title="statement not covered" >}: TerminalInputProps) {</span>
+<span class="cstat-no" title="statement not covered" >  const inputRef = useRef&lt;HTMLInputElement&gt;(null)</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >  useEffect(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    if (waitingForInput &amp;&amp; inputRef.current) {</span>
+<span class="cstat-no" title="statement not covered" >      inputRef.current.focus()</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" >  }, [waitingForInput])</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >  if (!waitingForInput) {</span>
+<span class="cstat-no" title="statement not covered" >    return null</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >  return (</span>
+<span class="cstat-no" title="statement not covered" >    &lt;motion.form</span>
+<span class="cstat-no" title="statement not covered" >      onSubmit={onSubmit}</span>
+<span class="cstat-no" title="statement not covered" >      initial={{ opacity: 0 }}</span>
+<span class="cstat-no" title="statement not covered" >      animate={{ opacity: 1 }}</span>
+<span class="cstat-no" title="statement not covered" >      className="flex items-center gap-2 mt-2"</span>
+<span class="cstat-no" title="statement not covered" >      data-testid="terminal-input-form"</span>
+<span class="cstat-no" title="statement not covered" >    &gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;span className="text-primary font-bold" aria-hidden="true"&gt;{'&gt;'}&lt;/span&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;Input</span>
+<span class="cstat-no" title="statement not covered" >        ref={inputRef}</span>
+<span class="cstat-no" title="statement not covered" >        type="text"</span>
+<span class="cstat-no" title="statement not covered" >        value={inputValue}</span>
+<span class="cstat-no" title="statement not covered" >        onChange={(e) =&gt; onInputChange(e.target.value)}</span>
+<span class="cstat-no" title="statement not covered" >        className="flex-1 font-mono bg-background border-accent/50 focus:border-accent"</span>
+<span class="cstat-no" title="statement not covered" >        placeholder="Enter input..."</span>
+<span class="cstat-no" title="statement not covered" >        disabled={!waitingForInput}</span>
+<span class="cstat-no" title="statement not covered" >        data-testid="terminal-input"</span>
+<span class="cstat-no" title="statement not covered" >        aria-label="Terminal input"</span>
+<span class="cstat-no" title="statement not covered" >      /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/motion.form&gt;</span>
+<span class="cstat-no" title="statement not covered" >  )</span>
+<span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -226,7 +226,7 @@ export function TerminalInput({
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-20T21:13:32.545Z
+                at 2026-01-20T23:21:59.834Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

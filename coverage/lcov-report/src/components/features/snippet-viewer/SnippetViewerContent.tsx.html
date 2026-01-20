@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>58/58</span>
+                <span class='fraction'>0/58</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>5/5</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/3</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>58/58</span>
+                <span class='fraction'>0/58</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -121,122 +121,122 @@
 <a name='L56'></a><a href='#L56'>56</a>
 <a name='L57'></a><a href='#L57'>57</a>
 <a name='L58'></a><a href='#L58'>58</a>
-<a name='L59'></a><a href='#L59'>59</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">45x</span>
-<span class="cline-any cline-yes">45x</span>
-<span class="cline-any cline-yes">45x</span>
-<span class="cline-any cline-yes">45x</span>
-<span class="cline-any cline-yes">45x</span>
-<span class="cline-any cline-yes">45x</span>
-<span class="cline-any cline-yes">23x</span>
-<span class="cline-any cline-yes">23x</span>
-<span class="cline-any cline-yes">23x</span>
-<span class="cline-any cline-yes">23x</span>
-<span class="cline-any cline-yes">23x</span>
-<span class="cline-any cline-yes">23x</span>
-<span class="cline-any cline-yes">23x</span>
-<span class="cline-any cline-yes">23x</span>
-<span class="cline-any cline-yes">23x</span>
-<span class="cline-any cline-yes">23x</span>
-<span class="cline-any cline-yes">23x</span>
-<span class="cline-any cline-yes">23x</span>
-<span class="cline-any cline-yes">23x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">23x</span>
-<span class="cline-any cline-yes">23x</span>
-<span class="cline-any cline-yes">23x</span>
-<span class="cline-any cline-yes">23x</span>
-<span class="cline-any cline-yes">23x</span>
-<span class="cline-any cline-yes">23x</span>
-<span class="cline-any cline-yes">23x</span>
-<span class="cline-any cline-yes">23x</span>
-<span class="cline-any cline-yes">23x</span>
-<span class="cline-any cline-yes">23x</span>
-<span class="cline-any cline-yes">23x</span>
-<span class="cline-any cline-yes">22x</span>
-<span class="cline-any cline-yes">22x</span>
-<span class="cline-any cline-yes">22x</span>
-<span class="cline-any cline-yes">22x</span>
-<span class="cline-any cline-yes">22x</span>
-<span class="cline-any cline-yes">22x</span>
-<span class="cline-any cline-yes">22x</span>
-<span class="cline-any cline-yes">22x</span>
-<span class="cline-any cline-yes">22x</span>
-<span class="cline-any cline-yes">22x</span>
-<span class="cline-any cline-yes">22x</span>
-<span class="cline-any cline-yes">22x</span>
-<span class="cline-any cline-yes">22x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Snippet } from '@/lib/types'
-import { MonacoEditor } from '@/components/features/snippet-editor/MonacoEditor'
-import { ReactPreview } from '@/components/features/snippet-editor/ReactPreview'
-import { PythonOutput } from '@/components/features/python-runner/PythonOutput'
-&nbsp;
-interface SnippetViewerContentProps {
-  snippet: Snippet
-  canPreview: boolean
-  showPreview: boolean
-  isPython: boolean
-}
-&nbsp;
-export function SnippetViewerContent({
-  snippet,
-  canPreview,
-  showPreview,
-  isPython,
-}: SnippetViewerContentProps) {
-  if (canPreview &amp;&amp; showPreview) {
-    return (
-      &lt;&gt;
-        &lt;div className="flex-1 overflow-hidden border-r border-border"&gt;
-          &lt;MonacoEditor
-            value={snippet.code}
-            onChange={<span class="fstat-no" title="function not covered" >() =&gt; {}}</span>
-            language={snippet.language}
-            height="100%"
-            readOnly={true}
-          /&gt;
-        &lt;/div&gt;
-        &lt;div className="flex-1 overflow-hidden"&gt;
-          {isPython ? (
-            &lt;PythonOutput code={snippet.code} /&gt;
-          ) : (
-            &lt;ReactPreview 
-              code={snippet.code} 
-              language={snippet.language}
-              functionName={snippet.functionName}
-              inputParameters={snippet.inputParameters}
-            /&gt;
-          )}
-        &lt;/div&gt;
-      &lt;/&gt;
-    )
-  }
-&nbsp;
-  return (
-    &lt;div className="flex-1 overflow-hidden"&gt;
-      &lt;MonacoEditor
-        value={snippet.code}
-        onChange={<span class="fstat-no" title="function not covered" >() =&gt; {}}</span>
-        language={snippet.language}
-        height="100%"
-        readOnly={true}
-      /&gt;
-    &lt;/div&gt;
-  )
-}
+<a name='L59'></a><a href='#L59'>59</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >import { Snippet } from '@/lib/types'</span></span></span>
+<span class="cstat-no" title="statement not covered" >import { MonacoEditor } from '@/components/features/snippet-editor/MonacoEditor'</span>
+<span class="cstat-no" title="statement not covered" >import { ReactPreview } from '@/components/features/snippet-editor/ReactPreview'</span>
+<span class="cstat-no" title="statement not covered" >import { PythonOutput } from '@/components/features/python-runner/PythonOutput'</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >interface SnippetViewerContentProps {</span>
+<span class="cstat-no" title="statement not covered" >  snippet: Snippet</span>
+<span class="cstat-no" title="statement not covered" >  canPreview: boolean</span>
+<span class="cstat-no" title="statement not covered" >  showPreview: boolean</span>
+<span class="cstat-no" title="statement not covered" >  isPython: boolean</span>
+<span class="cstat-no" title="statement not covered" >}</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >export function SnippetViewerContent({</span>
+<span class="cstat-no" title="statement not covered" >  snippet,</span>
+<span class="cstat-no" title="statement not covered" >  canPreview,</span>
+<span class="cstat-no" title="statement not covered" >  showPreview,</span>
+<span class="cstat-no" title="statement not covered" >  isPython,</span>
+<span class="cstat-no" title="statement not covered" >}: SnippetViewerContentProps) {</span>
+<span class="cstat-no" title="statement not covered" >  if (canPreview &amp;&amp; showPreview) {</span>
+<span class="cstat-no" title="statement not covered" >    return (</span>
+<span class="cstat-no" title="statement not covered" >      &lt;&gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;div className="flex-1 overflow-hidden border-r border-border"&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;MonacoEditor</span>
+<span class="cstat-no" title="statement not covered" >            value={snippet.code}</span>
+<span class="cstat-no" title="statement not covered" >            onChange={() =&gt; {}}</span>
+<span class="cstat-no" title="statement not covered" >            language={snippet.language}</span>
+<span class="cstat-no" title="statement not covered" >            height="100%"</span>
+<span class="cstat-no" title="statement not covered" >            readOnly={true}</span>
+<span class="cstat-no" title="statement not covered" >          /&gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;div className="flex-1 overflow-hidden"&gt;</span>
+<span class="cstat-no" title="statement not covered" >          {isPython ? (</span>
+<span class="cstat-no" title="statement not covered" >            &lt;PythonOutput code={snippet.code} /&gt;</span>
+<span class="cstat-no" title="statement not covered" >          ) : (</span>
+<span class="cstat-no" title="statement not covered" >            &lt;ReactPreview </span>
+<span class="cstat-no" title="statement not covered" >              code={snippet.code} </span>
+<span class="cstat-no" title="statement not covered" >              language={snippet.language}</span>
+<span class="cstat-no" title="statement not covered" >              functionName={snippet.functionName}</span>
+<span class="cstat-no" title="statement not covered" >              inputParameters={snippet.inputParameters}</span>
+<span class="cstat-no" title="statement not covered" >            /&gt;</span>
+<span class="cstat-no" title="statement not covered" >          )}</span>
+<span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;/&gt;</span>
+<span class="cstat-no" title="statement not covered" >    )</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >  return (</span>
+<span class="cstat-no" title="statement not covered" >    &lt;div className="flex-1 overflow-hidden"&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;MonacoEditor</span>
+<span class="cstat-no" title="statement not covered" >        value={snippet.code}</span>
+<span class="cstat-no" title="statement not covered" >        onChange={() =&gt; {}}</span>
+<span class="cstat-no" title="statement not covered" >        language={snippet.language}</span>
+<span class="cstat-no" title="statement not covered" >        height="100%"</span>
+<span class="cstat-no" title="statement not covered" >        readOnly={true}</span>
+<span class="cstat-no" title="statement not covered" >      /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  )</span>
+<span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -244,7 +244,7 @@ export function SnippetViewerContent({
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-20T21:13:32.545Z
+                at 2026-01-20T23:21:59.834Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>
