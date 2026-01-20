@@ -1,4 +1,4 @@
-type PyodideInterface = any // Avoid importing pyodide at type-check time
+type PyodideInterface = Record<string, unknown> // Avoid importing pyodide at type-check time
 
 let pyodideInstance: PyodideInterface | null = null
 let pyodideLoading: Promise<PyodideInterface> | null = null

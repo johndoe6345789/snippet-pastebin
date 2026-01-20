@@ -159,7 +159,12 @@ describe('useDatabaseOperations Hook', () => {
 
       const { result } = renderHook(() => useDatabaseOperations())
 
-      const mockFile = new File(['{"data": "test"}'], 'backup.json')
+      const jsonData = JSON.stringify({ data: 'test' })
+      const mockFile = new File([jsonData], 'backup.json', { type: 'application/json' })
+
+      // Mock the File.text() method which returns a Promise
+      mockFile.text = jest.fn().mockResolvedValueOnce(jsonData)
+
       const mockEvent = {
         target: {
           files: [mockFile],

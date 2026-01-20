@@ -67,10 +67,10 @@ const namespacesSlice = createSlice({
       })
       .addCase(fetchNamespaces.fulfilled, (state, action) => {
         state.loading = false
-        state.items = action.payload
-        if (!state.selectedId && action.payload.length > 0) {
-          const defaultNamespace = action.payload.find(n => n.isDefault)
-          state.selectedId = defaultNamespace?.id || action.payload[0].id
+        state.items = action.payload || []
+        if (!state.selectedId && state.items.length > 0) {
+          const defaultNamespace = state.items.find(n => n.isDefault)
+          state.selectedId = defaultNamespace?.id || state.items[0].id
         }
       })
       .addCase(fetchNamespaces.rejected, (state, action) => {

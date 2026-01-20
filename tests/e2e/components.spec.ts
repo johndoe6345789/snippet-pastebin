@@ -436,7 +436,7 @@ test.describe("Component-Specific Tests", () => {
     test("animations don't cause excessive repaints", async ({ page }) => {
       await page.goto("/")
 
-      const initialMetrics = await (page as any).metrics()
+      const initialMetrics = await (page as Record<string, unknown>).metrics() as Record<string, number>
 
       // Trigger animation (e.g., hover over element)
       const button = page.locator("button").first()
@@ -445,7 +445,7 @@ test.describe("Component-Specific Tests", () => {
         await page.waitForTimeout(500)
       }
 
-      const finalMetrics = await (page as any).metrics()
+      const finalMetrics = await (page as Record<string, unknown>).metrics() as Record<string, number>
 
       // Metrics should not spike excessively
       expect(finalMetrics.JSHeapUsedSize).toBeLessThan(initialMetrics.JSHeapUsedSize * 2)
