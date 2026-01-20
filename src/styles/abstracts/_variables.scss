@@ -4,58 +4,58 @@
 // ============================================
 
 // === MD3 Primary Tonal Palette ===
-// Purple/Violet primary color with full tonal range
-$md3-primary-0: hsl(260deg 50% 0%);
-$md3-primary-10: hsl(260deg 50% 10%);
-$md3-primary-20: hsl(260deg 50% 20%);
-$md3-primary-25: hsl(260deg 50% 25%);
-$md3-primary-30: hsl(260deg 50% 30%);
-$md3-primary-35: hsl(260deg 50% 35%);
-$md3-primary-40: hsl(260deg 50% 40%);
-$md3-primary-50: hsl(260deg 50% 50%);
-$md3-primary-60: hsl(260deg 50% 60%);
-$md3-primary-70: hsl(260deg 50% 70%);
-$md3-primary-80: hsl(260deg 50% 80%);
-$md3-primary-90: hsl(260deg 50% 90%);
-$md3-primary-95: hsl(260deg 50% 95%);
-$md3-primary-99: hsl(260deg 50% 99%);
-$md3-primary-100: hsl(260deg 50% 100%);
+// Deep teal primary color for calmer emphasis
+$md3-primary-0: hsl(195deg 60% 4%);
+$md3-primary-10: hsl(195deg 62% 10%);
+$md3-primary-20: hsl(195deg 64% 18%);
+$md3-primary-25: hsl(195deg 66% 22%);
+$md3-primary-30: hsl(195deg 68% 26%);
+$md3-primary-35: hsl(195deg 70% 30%);
+$md3-primary-40: hsl(195deg 72% 35%);
+$md3-primary-50: hsl(195deg 74% 42%);
+$md3-primary-60: hsl(195deg 76% 50%);
+$md3-primary-70: hsl(195deg 78% 58%);
+$md3-primary-80: hsl(195deg 80% 66%);
+$md3-primary-90: hsl(195deg 82% 78%);
+$md3-primary-95: hsl(195deg 88% 88%);
+$md3-primary-99: hsl(195deg 94% 96%);
+$md3-primary-100: hsl(195deg 100% 99%);
 
 // === MD3 Secondary Tonal Palette ===
-// Desaturated purple for secondary elements
-$md3-secondary-0: hsl(260deg 15% 0%);
-$md3-secondary-10: hsl(260deg 15% 10%);
-$md3-secondary-20: hsl(260deg 15% 20%);
-$md3-secondary-25: hsl(260deg 15% 25%);
-$md3-secondary-30: hsl(260deg 15% 30%);
-$md3-secondary-35: hsl(260deg 15% 35%);
-$md3-secondary-40: hsl(260deg 15% 40%);
-$md3-secondary-50: hsl(260deg 15% 50%);
-$md3-secondary-60: hsl(260deg 15% 60%);
-$md3-secondary-70: hsl(260deg 15% 70%);
-$md3-secondary-80: hsl(260deg 15% 80%);
-$md3-secondary-90: hsl(260deg 15% 90%);
-$md3-secondary-95: hsl(260deg 15% 95%);
-$md3-secondary-99: hsl(260deg 15% 99%);
-$md3-secondary-100: hsl(260deg 15% 100%);
+// Warm sand secondary for soft contrast
+$md3-secondary-0: hsl(40deg 18% 4%);
+$md3-secondary-10: hsl(40deg 20% 12%);
+$md3-secondary-20: hsl(40deg 22% 20%);
+$md3-secondary-25: hsl(40deg 23% 24%);
+$md3-secondary-30: hsl(40deg 24% 28%);
+$md3-secondary-35: hsl(40deg 26% 33%);
+$md3-secondary-40: hsl(40deg 28% 38%);
+$md3-secondary-50: hsl(40deg 30% 45%);
+$md3-secondary-60: hsl(40deg 32% 52%);
+$md3-secondary-70: hsl(40deg 34% 60%);
+$md3-secondary-80: hsl(40deg 36% 70%);
+$md3-secondary-90: hsl(40deg 38% 82%);
+$md3-secondary-95: hsl(40deg 38% 90%);
+$md3-secondary-99: hsl(40deg 34% 96%);
+$md3-secondary-100: hsl(40deg 32% 99%);
 
 // === MD3 Tertiary Tonal Palette ===
-// Cyan/Teal for tertiary accents
-$md3-tertiary-0: hsl(180deg 50% 0%);
-$md3-tertiary-10: hsl(180deg 50% 10%);
-$md3-tertiary-20: hsl(180deg 50% 20%);
-$md3-tertiary-25: hsl(180deg 50% 25%);
-$md3-tertiary-30: hsl(180deg 50% 30%);
-$md3-tertiary-35: hsl(180deg 50% 35%);
-$md3-tertiary-40: hsl(180deg 50% 40%);
-$md3-tertiary-50: hsl(180deg 50% 50%);
-$md3-tertiary-60: hsl(180deg 50% 60%);
-$md3-tertiary-70: hsl(180deg 50% 70%);
-$md3-tertiary-80: hsl(180deg 50% 80%);
-$md3-tertiary-90: hsl(180deg 50% 90%);
-$md3-tertiary-95: hsl(180deg 50% 95%);
-$md3-tertiary-99: hsl(180deg 50% 99%);
-$md3-tertiary-100: hsl(180deg 50% 100%);
+// Sage green tertiary accent
+$md3-tertiary-0: hsl(155deg 24% 6%);
+$md3-tertiary-10: hsl(155deg 26% 12%);
+$md3-tertiary-20: hsl(155deg 28% 20%);
+$md3-tertiary-25: hsl(155deg 30% 24%);
+$md3-tertiary-30: hsl(155deg 32% 29%);
+$md3-tertiary-35: hsl(155deg 34% 34%);
+$md3-tertiary-40: hsl(155deg 36% 39%);
+$md3-tertiary-50: hsl(155deg 38% 47%);
+$md3-tertiary-60: hsl(155deg 40% 55%);
+$md3-tertiary-70: hsl(155deg 42% 63%);
+$md3-tertiary-80: hsl(155deg 44% 72%);
+$md3-tertiary-90: hsl(155deg 46% 84%);
+$md3-tertiary-95: hsl(155deg 48% 92%);
+$md3-tertiary-99: hsl(155deg 50% 97%);
+$md3-tertiary-100: hsl(155deg 50% 99%);
 
 // === MD3 Error Tonal Palette ===
 $md3-error-0: hsl(0deg 75% 0%);
@@ -72,51 +72,51 @@ $md3-error-95: hsl(0deg 75% 95%);
 $md3-error-100: hsl(0deg 75% 100%);
 
 // === MD3 Neutral Tonal Palette ===
-// For surfaces and backgrounds
-$md3-neutral-0: hsl(260deg 10% 0%);
-$md3-neutral-4: hsl(260deg 10% 4%);
-$md3-neutral-6: hsl(260deg 10% 6%);
-$md3-neutral-10: hsl(260deg 10% 10%);
-$md3-neutral-12: hsl(260deg 10% 12%);
-$md3-neutral-17: hsl(260deg 10% 17%);
-$md3-neutral-20: hsl(260deg 10% 20%);
-$md3-neutral-22: hsl(260deg 10% 22%);
-$md3-neutral-24: hsl(260deg 10% 24%);
-$md3-neutral-25: hsl(260deg 10% 25%);
-$md3-neutral-30: hsl(260deg 10% 30%);
-$md3-neutral-35: hsl(260deg 10% 35%);
-$md3-neutral-40: hsl(260deg 10% 40%);
-$md3-neutral-50: hsl(260deg 10% 50%);
-$md3-neutral-60: hsl(260deg 10% 60%);
-$md3-neutral-70: hsl(260deg 10% 70%);
-$md3-neutral-80: hsl(260deg 10% 80%);
-$md3-neutral-87: hsl(260deg 10% 87%);
-$md3-neutral-90: hsl(260deg 10% 90%);
-$md3-neutral-92: hsl(260deg 10% 92%);
-$md3-neutral-94: hsl(260deg 10% 94%);
-$md3-neutral-95: hsl(260deg 10% 95%);
-$md3-neutral-96: hsl(260deg 10% 96%);
-$md3-neutral-98: hsl(260deg 10% 98%);
-$md3-neutral-99: hsl(260deg 10% 99%);
-$md3-neutral-100: hsl(260deg 10% 100%);
+// For surfaces and backgrounds (ink/charcoal)
+$md3-neutral-0: hsl(215deg 8% 3%);
+$md3-neutral-4: hsl(215deg 8% 6%);
+$md3-neutral-6: hsl(215deg 8% 8%);
+$md3-neutral-10: hsl(215deg 8% 12%);
+$md3-neutral-12: hsl(215deg 8% 14%);
+$md3-neutral-17: hsl(215deg 8% 19%);
+$md3-neutral-20: hsl(215deg 8% 22%);
+$md3-neutral-22: hsl(215deg 8% 24%);
+$md3-neutral-24: hsl(215deg 8% 26%);
+$md3-neutral-25: hsl(215deg 8% 27%);
+$md3-neutral-30: hsl(215deg 8% 32%);
+$md3-neutral-35: hsl(215deg 8% 37%);
+$md3-neutral-40: hsl(215deg 8% 42%);
+$md3-neutral-50: hsl(215deg 8% 52%);
+$md3-neutral-60: hsl(215deg 8% 62%);
+$md3-neutral-70: hsl(215deg 10% 72%);
+$md3-neutral-80: hsl(215deg 10% 82%);
+$md3-neutral-87: hsl(215deg 12% 88%);
+$md3-neutral-90: hsl(215deg 12% 91%);
+$md3-neutral-92: hsl(215deg 12% 93%);
+$md3-neutral-94: hsl(215deg 12% 95%);
+$md3-neutral-95: hsl(215deg 12% 96%);
+$md3-neutral-96: hsl(215deg 12% 97%);
+$md3-neutral-98: hsl(215deg 12% 98%);
+$md3-neutral-99: hsl(215deg 12% 99%);
+$md3-neutral-100: hsl(215deg 12% 100%);
 
 // === MD3 Neutral Variant Tonal Palette ===
 // For outline and surface variants
-$md3-neutral-variant-0: hsl(260deg 15% 0%);
-$md3-neutral-variant-10: hsl(260deg 15% 10%);
-$md3-neutral-variant-20: hsl(260deg 15% 20%);
-$md3-neutral-variant-25: hsl(260deg 15% 25%);
-$md3-neutral-variant-30: hsl(260deg 15% 30%);
-$md3-neutral-variant-35: hsl(260deg 15% 35%);
-$md3-neutral-variant-40: hsl(260deg 15% 40%);
-$md3-neutral-variant-50: hsl(260deg 15% 50%);
-$md3-neutral-variant-60: hsl(260deg 15% 60%);
-$md3-neutral-variant-70: hsl(260deg 15% 70%);
-$md3-neutral-variant-80: hsl(260deg 15% 80%);
-$md3-neutral-variant-90: hsl(260deg 15% 90%);
-$md3-neutral-variant-95: hsl(260deg 15% 95%);
-$md3-neutral-variant-99: hsl(260deg 15% 99%);
-$md3-neutral-variant-100: hsl(260deg 15% 100%);
+$md3-neutral-variant-0: hsl(210deg 14% 4%);
+$md3-neutral-variant-10: hsl(210deg 14% 12%);
+$md3-neutral-variant-20: hsl(210deg 14% 20%);
+$md3-neutral-variant-25: hsl(210deg 14% 24%);
+$md3-neutral-variant-30: hsl(210deg 14% 28%);
+$md3-neutral-variant-35: hsl(210deg 14% 33%);
+$md3-neutral-variant-40: hsl(210deg 14% 38%);
+$md3-neutral-variant-50: hsl(210deg 14% 48%);
+$md3-neutral-variant-60: hsl(210deg 14% 58%);
+$md3-neutral-variant-70: hsl(210deg 14% 68%);
+$md3-neutral-variant-80: hsl(210deg 14% 78%);
+$md3-neutral-variant-90: hsl(210deg 14% 88%);
+$md3-neutral-variant-95: hsl(210deg 14% 93%);
+$md3-neutral-variant-99: hsl(210deg 14% 97%);
+$md3-neutral-variant-100: hsl(210deg 14% 99%);
 
 // === MD3 Semantic Colors (Success, Warning, Info) ===
 $md3-success-40: hsl(145deg 60% 35%);

@@ -42,7 +42,7 @@ function PopoverContent({
           // MD3 surface container high
           "bg-[hsl(var(--popover))] text-[hsl(var(--popover-foreground))]",
           // Shape and shadow
-          "z-50 w-72 rounded-xl border-0 p-4",
+          "z-50 w-[min(90vw,18rem)] max-h-[70vh] overflow-auto rounded-xl border-0 p-3 md:p-4",
           "shadow-lg",
           // Animations
           "data-[state=open]:animate-in data-[state=closed]:animate-out",
