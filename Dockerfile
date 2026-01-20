@@ -1,5 +1,5 @@
-# Build stage
-FROM node:20-alpine AS builder
+# Build stage (use build platform to keep multi-arch builds off QEMU)
+FROM --platform=$BUILDPLATFORM node:20-alpine AS builder
 
 WORKDIR /app
 
