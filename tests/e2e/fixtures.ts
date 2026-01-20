@@ -43,7 +43,6 @@ const patchPagePrototype = (page: unknown) => {
   }
 }
 
-// eslint-disable-next-line react-hooks/rules-of-hooks
 const test = base.extend({
   page: async ({ page }, use) => {
     patchPagePrototype(page)
@@ -51,6 +50,7 @@ const test = base.extend({
     // Add M3 helpers to page object
     ;(page as unknown as Record<string, unknown>).m3 = M3Helpers
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks -- "use" is a Playwright fixture callback, not a React hook
     await use(page)
   },
 })

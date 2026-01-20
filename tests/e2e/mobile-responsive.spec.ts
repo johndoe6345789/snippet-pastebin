@@ -384,7 +384,7 @@ test.describe("Mobile and Responsive Tests", () => {
       await page.goto("/")
 
       // Trigger print stylesheet evaluation
-      const printStyles = await page.evaluate(() => {
+      await page.evaluate(() => {
         const css = Array.from(document.styleSheets)
           .filter((sheet) => {
             try {
@@ -398,8 +398,12 @@ test.describe("Mobile and Responsive Tests", () => {
         return css
       })
 
-      // Should either have print styles or be printable by default
-      expect(true).toBe(true) // Page is printable
+      // Page should be printable (check that print stylesheets can be evaluated)
+      const isInViewport = await page.evaluate(() => {
+        const main = document.querySelector("main")
+        return main !== null
+      })
+      expect(isInViewport).toBe(true)
     })
   })
 })

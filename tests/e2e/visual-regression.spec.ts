@@ -308,7 +308,6 @@ test.describe("Visual Regression Tests", () => {
 
         for (const el of elements) {
           const style = window.getComputedStyle(el as HTMLElement)
-          const rect = (el as HTMLElement).getBoundingClientRect()
 
           // Check for visibility: hidden or display: none
           if (

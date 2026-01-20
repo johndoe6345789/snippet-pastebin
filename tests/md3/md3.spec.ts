@@ -8,7 +8,6 @@ import {
   expectMd3Accessible,
   expectMinTouchTarget,
   testMd3Keyboard,
-  waitForRipple,
   getBreakpoint,
   md3Schema,
 } from "./md3"

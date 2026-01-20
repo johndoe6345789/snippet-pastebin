@@ -10,7 +10,7 @@ export function md3(page: Page, component: ComponentName, options?: { label?: st
 
   // Prefer role + label for accessibility
   if ("role" in def && def.role && options?.label) {
-    return page.getByRole(def.role as any, { name: options.label })
+    return page.getByRole(def.role as unknown as string, { name: options.label })
   }
 
   // Fall back to selectors
@@ -54,7 +54,7 @@ export async function expectMd3Accessible(page: Page, component: ComponentName, 
   const el = md3(page, component, options).first()
 
   if ("a11y" in def && def.a11y) {
-    const a11y = def.a11y as Record<string, any>
+    const a11y = def.a11y as Record<string, unknown>
 
     if (a11y.requiresAriaLabel) {
       const label = await el.getAttribute("aria-label") || await el.getAttribute("aria-labelledby")
