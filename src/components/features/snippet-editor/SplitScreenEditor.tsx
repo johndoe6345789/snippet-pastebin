@@ -5,7 +5,7 @@ import { PythonOutput } from '@/components/features/python-runner/PythonOutput'
 import { Button } from '@/components/ui/button'
 import { Code, Eye, SplitHorizontal } from '@phosphor-icons/react'
 import { InputParameter } from '@/lib/types'
-import styles from './split-screen-editor.module.scss'
+import { cn } from '@/lib/utils'
 
 interface SplitScreenEditorProps {
   value: string
@@ -43,40 +43,47 @@ export function SplitScreenEditor({
   }
 
   return (
-    <div className={styles.container}>
-      <div className={styles.toolbar}>
-        <div className={styles.buttonGroup}>
+    <div className="flex flex-col gap-3">
+      <div className="flex items-center justify-end">
+        <div className="flex items-center gap-1 p-1 rounded-md" style={{ backgroundColor: 'var(--mat-sys-surface-variant)' }}>
           <Button
-            variant={viewMode === 'code' ? 'secondary' : 'ghost'}
+            variant={viewMode === 'code' ? 'filled' : 'text'}
             size="sm"
             onClick={() => setViewMode('code')}
-            className={styles.button}
+            className="flex items-center gap-2 h-8"
           >
-            <Code className={styles.buttonIcon} />
-            <span className={styles.buttonLabel}>Code</span>
+            <Code className="w-4 h-4" />
+            <span className="hidden sm:inline">Code</span>
           </Button>
           <Button
-            variant={viewMode === 'split' ? 'secondary' : 'ghost'}
+            variant={viewMode === 'split' ? 'filled' : 'text'}
             size="sm"
             onClick={() => setViewMode('split')}
-            className={styles.button}
+            className="flex items-center gap-2 h-8"
           >
-            <SplitHorizontal className={styles.buttonIcon} />
-            <span className={styles.buttonLabel}>Split</span>
+            <SplitHorizontal className="w-4 h-4" />
+            <span className="hidden sm:inline">Split</span>
           </Button>
           <Button
-            variant={viewMode === 'preview' ? 'secondary' : 'ghost'}
+            variant={viewMode === 'preview' ? 'filled' : 'text'}
             size="sm"
             onClick={() => setViewMode('preview')}
-            className={styles.button}
+            className="flex items-center gap-2 h-8"
           >
-            <Eye className={styles.buttonIcon} />
-            <span className={styles.buttonLabel}>{isPython ? 'Output' : 'Preview'}</span>
+            <Eye className="w-4 h-4" />
+            <span className="hidden sm:inline">{isPython ? 'Output' : 'Preview'}</span>
           </Button>
         </div>
       </div>
 
-      <div className={styles.viewport} style={{ height }}>
+      <div
+        className="rounded-md overflow-hidden border"
+        style={{
+          height,
+          borderColor: 'var(--mat-sys-outline-variant)',
+          backgroundColor: 'var(--mat-sys-surface)'
+        }}
+      >
         {viewMode === 'code' && (
           <MonacoEditor
             value={value}
@@ -90,8 +97,8 @@ export function SplitScreenEditor({
           isPython ? (
             <PythonOutput code={value} />
           ) : (
-            <ReactPreview 
-              code={value} 
+            <ReactPreview
+              code={value}
               language={language}
               functionName={functionName}
               inputParameters={inputParameters}
@@ -100,8 +107,8 @@ export function SplitScreenEditor({
         )}
 
         {viewMode === 'split' && (
-          <div className={styles.splitView}>
-            <div className={styles.editorPanel}>
+          <div className="grid grid-cols-2 h-full" style={{ gap: '1px', backgroundColor: 'var(--mat-sys-outline-variant)' }}>
+            <div className="overflow-auto" style={{ backgroundColor: 'var(--mat-sys-surface)' }}>
               <MonacoEditor
                 value={value}
                 onChange={onChange}
@@ -109,12 +116,12 @@ export function SplitScreenEditor({
                 height="100%"
               />
             </div>
-            <div className={styles.previewPanel}>
+            <div className="overflow-auto" style={{ backgroundColor: 'var(--mat-sys-surface)' }}>
               {isPython ? (
                 <PythonOutput code={value} />
               ) : (
-                <ReactPreview 
-                  code={value} 
+                <ReactPreview
+                  code={value}
                   language={language}
                   functionName={functionName}
                   inputParameters={inputParameters}

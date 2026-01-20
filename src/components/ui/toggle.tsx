@@ -1,45 +1,78 @@
-import { ComponentProps } from "react"
-import * as TogglePrimitive from "@radix-ui/react-toggle"
-import { cva, type VariantProps } from "class-variance-authority"
-
+import { ComponentProps, forwardRef, useState } from "react"
 import { cn } from "@/lib/utils"
 
-const toggleVariants = cva(
-  "inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium hover:bg-muted hover:text-muted-foreground disabled:pointer-events-none disabled:opacity-50 data-[state=on]:bg-accent data-[state=on]:text-accent-foreground [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] outline-none transition-[color,box-shadow] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive whitespace-nowrap",
-  {
-    variants: {
-      variant: {
-        default: "bg-transparent",
-        outline:
-          "border border-input bg-transparent shadow-xs hover:bg-accent hover:text-accent-foreground",
-      },
-      size: {
-        default: "h-9 px-2 min-w-9",
-        sm: "h-8 px-1.5 min-w-8",
-        lg: "h-10 px-2.5 min-w-10",
-      },
+interface ToggleProps extends ComponentProps<"button"> {
+  variant?: "default" | "outline"
+  size?: "default" | "sm" | "lg"
+  pressed?: boolean
+  onPressedChange?: (pressed: boolean) => void
+  defaultPressed?: boolean
+}
+
+const Toggle = forwardRef<HTMLButtonElement, ToggleProps>(
+  (
+    {
+      className,
+      variant = "default",
+      size = "default",
+      pressed: controlledPressed,
+      onPressedChange,
+      defaultPressed = false,
+      onClick,
+      ...props
     },
-    defaultVariants: {
-      variant: "default",
-      size: "default",
-    },
+    ref
+  ) => {
+    const [uncontrolledPressed, setUncontrolledPressed] = useState(defaultPressed)
+    const isPressed =
+      controlledPressed !== undefined ? controlledPressed : uncontrolledPressed
+
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+      const newPressed = !isPressed
+      setUncontrolledPressed(newPressed)
+      onPressedChange?.(newPressed)
+      onClick?.(e)
+    }
+
+    const sizeClasses = {
+      default: "h-9 px-2 min-w-9",
+      sm: "h-8 px-1.5 min-w-8",
+      lg: "h-10 px-2.5 min-w-10",
+    }[size]
+
+    const variantClasses = {
+      default: "bg-transparent hover:bg-gray-200 dark:hover:bg-gray-700",
+      outline:
+        "border border-gray-300 dark:border-gray-600 bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800",
+    }[variant]
+
+    return (
+      <button
+        ref={ref}
+        data-slot="toggle"
+        data-state={isPressed ? "on" : "off"}
+        className={cn(
+          "inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium",
+          "disabled:pointer-events-none disabled:opacity-50",
+          "focus-visible:ring-2 focus-visible:ring-offset-2",
+          "transition-colors",
+          "[&_svg]:pointer-events-none [&_svg:not([class*='w-'])]:w-4 [&_svg]:shrink-0",
+          variantClasses,
+          isPressed && "bg-blue-600 dark:bg-blue-500 text-white",
+          sizeClasses,
+          className
+        )}
+        onClick={handleClick}
+        aria-pressed={isPressed}
+        {...props}
+      />
+    )
   }
 )
+Toggle.displayName = "Toggle"
 
-function Toggle({
-  className,
-  variant,
-  size,
-  ...props
-}: ComponentProps<typeof TogglePrimitive.Root> &
-  VariantProps<typeof toggleVariants>) {
-  return (
-    <TogglePrimitive.Root
-      data-slot="toggle"
-      className={cn(toggleVariants({ variant, size, className }))}
-      {...props}
-    />
-  )
+function toggleVariants() {
+  return ""
 }
 
 export { Toggle, toggleVariants }

@@ -1,7 +1,6 @@
 "use client"
 
 import { ComponentProps } from "react"
-import { Slot } from "@radix-ui/react-slot"
 import { cn } from "@/lib/utils"
 
 export function SidebarGroupAction({
@@ -9,16 +8,22 @@ export function SidebarGroupAction({
   asChild = false,
   ...props
 }: ComponentProps<"button"> & { asChild?: boolean }) {
-  const Comp = asChild ? Slot : "button"
+  const Comp = asChild ? "div" : "button"
 
   return (
     <Comp
       data-slot="sidebar-group-action"
       data-sidebar="group-action"
       className={cn(
-        "text-sidebar-foreground ring-sidebar-ring hover:bg-sidebar-accent hover:text-sidebar-accent-foreground absolute top-3.5 right-3 flex aspect-square w-5 items-center justify-center rounded-md p-0 outline-hidden transition-transform focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
-        // Increases the hit area of the button on mobile.
-        "after:absolute after:-inset-2 md:after:hidden",
+        "mat-mdc-button mat-icon-button",
+        "absolute top-3.5 right-3",
+        "flex items-center justify-center",
+        "w-5 h-5 p-0",
+        "rounded-md",
+        "transition-transform",
+        "focus-visible:ring-2 focus-visible:ring-offset-2",
+        "hover:bg-gray-200 dark:hover:bg-gray-700",
+        "[&>svg]:w-4 [&>svg]:h-4 [&>svg]:shrink-0",
         "group-data-[collapsible=icon]:hidden",
         className
       )}

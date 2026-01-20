@@ -40,3 +40,4 @@ pids
 .devcontainer/
 
 .spark-workbench-id
+.aider*

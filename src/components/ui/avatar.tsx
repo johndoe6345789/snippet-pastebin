@@ -1,34 +1,44 @@
 "use client"
 
-import { ComponentProps } from "react"
-import * as AvatarPrimitive from "@radix-ui/react-avatar"
-
+import { ComponentProps, useState } from "react"
 import { cn } from "@/lib/utils"
 
 function Avatar({
   className,
+  children,
   ...props
-}: ComponentProps<typeof AvatarPrimitive.Root>) {
+}: ComponentProps<"div">) {
   return (
-    <AvatarPrimitive.Root
+    <div
       data-slot="avatar"
       className={cn(
         "relative flex size-8 shrink-0 overflow-hidden rounded-full",
         className
       )}
       {...props}
-    />
+    >
+      {children}
+    </div>
   )
 }
 
 function AvatarImage({
   className,
+  onError,
   ...props
-}: ComponentProps<typeof AvatarPrimitive.Image>) {
+}: ComponentProps<"img"> & { onError?: () => void }) {
+  const [hasError, setHasError] = useState(false)
+
+  if (hasError) return null
+
   return (
-    <AvatarPrimitive.Image
+    <img
       data-slot="avatar-image"
-      className={cn("aspect-square size-full", className)}
+      className={cn("aspect-square size-full object-cover", className)}
+      onError={(e) => {
+        setHasError(true)
+        onError?.()
+      }}
       {...props}
     />
   )
@@ -37,12 +47,14 @@ function AvatarImage({
 function AvatarFallback({
   className,
   ...props
-}: ComponentProps<typeof AvatarPrimitive.Fallback>) {
+}: ComponentProps<"div">) {
   return (
-    <AvatarPrimitive.Fallback
+    <div
       data-slot="avatar-fallback"
       className={cn(
-        "bg-muted flex size-full items-center justify-center rounded-full",
+        "flex size-full items-center justify-center rounded-full",
+        "bg-gray-300 dark:bg-gray-600",
+        "text-sm font-medium text-gray-900 dark:text-gray-100",
         className
       )}
       {...props}

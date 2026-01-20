@@ -1,72 +1,141 @@
 "use client"
 
-import { ComponentProps, createContext, useContext } from "react"
-import * as ToggleGroupPrimitive from "@radix-ui/react-toggle-group"
-import { type VariantProps } from "class-variance-authority"
-
+import { ComponentProps, createContext, useContext, useState } from "react"
 import { cn } from "@/lib/utils"
-import { toggleVariants } from "@/components/ui/toggle"
 
-const ToggleGroupContext = createContext<
-  VariantProps<typeof toggleVariants>
->({
+interface ToggleGroupContextType {
+  size?: "default" | "sm" | "lg"
+  variant?: "default" | "outline"
+  value?: string | string[]
+  onValueChange?: (value: string | string[]) => void
+  type?: "single" | "multiple"
+}
+
+const ToggleGroupContext = createContext<ToggleGroupContextType>({
   size: "default",
   variant: "default",
+  type: "single",
 })
+
+interface ToggleGroupProps extends ComponentProps<"div"> {
+  variant?: "default" | "outline"
+  size?: "default" | "sm" | "lg"
+  value?: string | string[]
+  onValueChange?: (value: string | string[]) => void
+  type?: "single" | "multiple"
+}
 
 function ToggleGroup({
   className,
-  variant,
-  size,
+  variant = "default",
+  size = "default",
+  value: controlledValue,
+  onValueChange,
+  type = "single",
   children,
   ...props
-}: ComponentProps<typeof ToggleGroupPrimitive.Root> &
-  VariantProps<typeof toggleVariants>) {
+}: ToggleGroupProps) {
+  const [uncontrolledValue, setUncontrolledValue] = useState<string | string[]>(
+    type === "single" ? "" : []
+  )
+  const actualValue = controlledValue !== undefined ? controlledValue : uncontrolledValue
+
+  const handleValueChange = (newValue: string | string[]) => {
+    setUncontrolledValue(newValue)
+    onValueChange?.(newValue)
+  }
+
   return (
-    <ToggleGroupPrimitive.Root
+    <div
       data-slot="toggle-group"
       data-variant={variant}
       data-size={size}
       className={cn(
-        "group/toggle-group flex w-fit items-center rounded-md data-[variant=outline]:shadow-xs",
+        "group/toggle-group inline-flex items-center rounded-md",
+        variant === "outline" && "shadow-sm",
         className
       )}
       {...props}
     >
-      <ToggleGroupContext.Provider value={{ variant, size }}>
+      <ToggleGroupContext.Provider
+        value={{
+          variant,
+          size,
+          value: actualValue,
+          onValueChange: handleValueChange,
+          type,
+        }}
+      >
         {children}
       </ToggleGroupContext.Provider>
-    </ToggleGroupPrimitive.Root>
+    </div>
   )
+}
+
+interface ToggleGroupItemProps extends ComponentProps<"button"> {
+  value: string
 }
 
 function ToggleGroupItem({
   className,
-  children,
-  variant,
-  size,
+  value,
+  onClick,
   ...props
-}: ComponentProps<typeof ToggleGroupPrimitive.Item> &
-  VariantProps<typeof toggleVariants>) {
+}: ToggleGroupItemProps) {
   const context = useContext(ToggleGroupContext)
+  const isPressed =
+    context.type === "single"
+      ? context.value === value
+      : Array.isArray(context.value) && context.value.includes(value)
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (context.type === "single") {
+      context.onValueChange?.(value)
+    } else {
+      const newValue = Array.isArray(context.value) ? [...context.value] : []
+      if (newValue.includes(value)) {
+        newValue.splice(newValue.indexOf(value), 1)
+      } else {
+        newValue.push(value)
+      }
+      context.onValueChange?.(newValue)
+    }
+    onClick?.(e)
+  }
+
+  const sizeClasses = {
+    default: "h-9 px-2 min-w-9",
+    sm: "h-8 px-1.5 min-w-8",
+    lg: "h-10 px-2.5 min-w-10",
+  }[context.size || "default"]
+
+  const variantClasses = {
+    default: "bg-transparent hover:bg-gray-200 dark:hover:bg-gray-700",
+    outline:
+      "border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800",
+  }[context.variant || "default"]
 
   return (
-    <ToggleGroupPrimitive.Item
+    <button
       data-slot="toggle-group-item"
-      data-variant={context.variant || variant}
-      data-size={context.size || size}
+      data-variant={context.variant}
+      data-size={context.size}
       className={cn(
-        toggleVariants({
-          variant: context.variant || variant,
-          size: context.size || size,
-        }),
-        "min-w-0 flex-1 shrink-0 rounded-none shadow-none first:rounded-l-md last:rounded-r-md focus:z-10 focus-visible:z-10 data-[variant=outline]:border-l-0 data-[variant=outline]:first:border-l",
+        "inline-flex items-center justify-center rounded-none text-sm font-medium",
+        "disabled:pointer-events-none disabled:opacity-50",
+        "focus-visible:ring-2 focus-visible:ring-offset-2 focus:z-10 focus-visible:z-10",
+        "transition-colors",
+        "first:rounded-l-md last:rounded-r-md",
+        context.variant === "outline" && "border-l-0 first:border-l",
+        variantClasses,
+        isPressed && "bg-blue-600 dark:bg-blue-500 text-white",
+        sizeClasses,
         className
       )}
+      onClick={handleClick}
+      aria-pressed={isPressed}
       {...props}
-    >
-      {children}
-    </ToggleGroupPrimitive.Item>
+    />
   )
 }
 

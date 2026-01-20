@@ -1,9 +1,4 @@
-// Radix UI Colors imports (dark mode only - simplified)
-@import '@radix-ui/colors/slate-dark.css';
-@import '@radix-ui/colors/blue-dark.css';
-@import '@radix-ui/colors/violet-dark.css';
-
-// App-level CSS variables
+// App-level CSS variables (M3-based theming)
 /* stylelint-disable selector-max-id */
 #spark-app {
   --size-scale: 1;

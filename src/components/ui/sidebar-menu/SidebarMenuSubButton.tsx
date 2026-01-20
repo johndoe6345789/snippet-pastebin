@@ -1,7 +1,6 @@
 "use client"
 
 import { ComponentProps } from "react"
-import { Slot } from "@radix-ui/react-slot"
 import { cn } from "@/lib/utils"
 
 export function SidebarMenuSubButton({
@@ -15,7 +14,7 @@ export function SidebarMenuSubButton({
   size?: "sm" | "md"
   isActive?: boolean
 }) {
-  const Comp = asChild ? Slot : "a"
+  const Comp = asChild ? "div" : "a"
 
   return (
     <Comp
@@ -24,8 +23,17 @@ export function SidebarMenuSubButton({
       data-size={size}
       data-active={isActive}
       className={cn(
-        "text-sidebar-foreground ring-sidebar-ring hover:bg-sidebar-accent hover:text-sidebar-accent-foreground active:bg-sidebar-accent active:text-sidebar-accent-foreground [&>svg]:text-sidebar-accent-foreground flex h-7 min-w-0 -translate-x-px items-center gap-2 overflow-hidden rounded-md px-2 outline-hidden focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
-        "data-[active=true]:bg-sidebar-accent data-[active=true]:text-sidebar-accent-foreground",
+        "mat-mdc-list-item",
+        "flex h-7 min-w-0 items-center gap-2",
+        "overflow-hidden rounded-md px-2",
+        "hover:bg-gray-200 dark:hover:bg-gray-700",
+        "active:bg-gray-300 dark:active:bg-gray-600",
+        "focus-visible:ring-2 focus-visible:ring-offset-2",
+        "disabled:pointer-events-none disabled:opacity-50",
+        "aria-disabled:pointer-events-none aria-disabled:opacity-50",
+        "[&>span:last-child]:truncate",
+        "[&>svg]:w-4 [&>svg]:h-4 [&>svg]:shrink-0",
+        isActive && "bg-gray-300 dark:bg-gray-600",
         size === "sm" && "text-xs",
         size === "md" && "text-sm",
         "group-data-[collapsible=icon]:hidden",
