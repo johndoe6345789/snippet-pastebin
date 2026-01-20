@@ -1,0 +1,191 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e6]:
+        - generic [ref=e7]:
+          - button "Toggle navigation menu" [ref=e8]:
+            - img [ref=e9]
+          - img [ref=e12]
+          - text: CodeSnippet
+        - generic [ref=e15]:
+          - img [ref=e16]
+          - generic [ref=e18]: Local
+    - main [ref=e19]:
+      - generic [ref=e21]:
+        - alert [ref=e22]:
+          - img [ref=e23]
+          - heading "Workspace ready" [level=5] [ref=e25]
+          - generic [ref=e26]: Running in local-first mode so you can work offline without a backend.
+        - alert [ref=e27]:
+          - img [ref=e28]
+          - heading "Cloud backend unavailable" [level=5] [ref=e30]
+          - generic [ref=e31]: No Flask backend detected. Saving and loading will stay on this device until a server URL is configured.
+      - generic [ref=e32]:
+        - generic [ref=e33]:
+          - heading "Settings" [level=2] [ref=e34]
+          - paragraph [ref=e35]: Manage your database and application settings
+        - generic [ref=e36]:
+          - generic [ref=e37]:
+            - generic [ref=e38]:
+              - generic [ref=e39]:
+                - img [ref=e40]
+                - heading "OpenAI API Settings" [level=3] [ref=e43]
+              - paragraph [ref=e44]: Configure your OpenAI API key for AI-powered error analysis. Your key is stored locally in your browser.
+            - generic [ref=e45]:
+              - generic [ref=e46]:
+                - text: OpenAI API Key
+                - generic [ref=e48]:
+                  - textbox "OpenAI API key" [ref=e49]:
+                    - /placeholder: sk-...
+                  - button "Show API key" [ref=e50]:
+                    - img [ref=e51]
+                - paragraph [ref=e53]:
+                  - text: Get your API key from
+                  - link "OpenAI Platform" [ref=e54] [cursor=pointer]:
+                    - /url: https://platform.openai.com/api-keys
+              - button "Save API Key" [disabled] [ref=e56]
+          - generic [ref=e57]:
+            - generic [ref=e59]:
+              - img [ref=e61]
+              - generic [ref=e64]:
+                - heading "Redux Persistence" [level=3] [ref=e65]
+                - paragraph [ref=e66]: Automatic database synchronization for Redux state
+            - generic [ref=e67]:
+              - generic [ref=e68]:
+                - generic [ref=e69]:
+                  - text: Auto-Save Enabled
+                  - paragraph [ref=e70]: Automatically sync Redux state changes to database
+                - switch "Auto-Save Enabled" [checked] [ref=e72]:
+                  - switch "Auto-Save Enabled" [checked] [ref=e73]
+              - generic [ref=e74]:
+                - generic [ref=e75]:
+                  - generic [ref=e76]:
+                    - text: Debug Logging
+                    - img [ref=e77]
+                  - paragraph [ref=e79]: Log persistence operations to console
+                - switch "Debug Logging" [checked] [ref=e81]:
+                  - switch "Debug Logging" [checked] [ref=e82]
+              - generic [ref=e83]:
+                - generic [ref=e84]:
+                  - generic [ref=e85]:
+                    - text: Save Delay
+                    - img [ref=e86]
+                  - generic [ref=e88]: 100ms
+                - generic [ref=e89]:
+                  - slider "Save Delay" [ref=e91]: "100"
+                  - paragraph [ref=e92]: Delay between rapid actions and database save (0-1000ms)
+              - generic [ref=e93]:
+                - generic [ref=e94]:
+                  - generic [ref=e95]: Monitored Actions
+                  - generic [ref=e96]: "6"
+                - generic [ref=e97]:
+                  - generic [ref=e98]: fulfilled
+                  - generic [ref=e99]: fulfilled
+                  - generic [ref=e100]: fulfilled
+                  - generic [ref=e101]: fulfilled
+                  - generic [ref=e102]: fulfilled
+                  - generic [ref=e103]: fulfilled
+              - generic [ref=e104]:
+                - generic [ref=e105]: Retry Settings
+                - generic [ref=e106]:
+                  - generic [ref=e107]:
+                    - generic [ref=e108]: Retry on Failure
+                    - generic [ref=e109]: "Yes"
+                  - generic [ref=e110]:
+                    - generic [ref=e111]: Max Retries
+                    - generic [ref=e112]: "3"
+                  - generic [ref=e113]:
+                    - generic [ref=e114]: Retry Delay
+                    - generic [ref=e115]: 1000ms
+          - generic [ref=e117]:
+            - heading "Schema Healthy" [level=3] [ref=e118]:
+              - img [ref=e119]
+              - text: Schema Healthy
+            - paragraph [ref=e121]: Your database schema is up to date and functioning correctly
+          - generic [ref=e122]:
+            - generic [ref=e123]:
+              - heading "Storage Backend" [level=3] [ref=e124]:
+                - img [ref=e125]
+                - text: Storage Backend
+              - paragraph [ref=e128]: Choose where your snippets are stored
+            - generic [ref=e129]:
+              - radiogroup [ref=e130]:
+                - generic [ref=e131]:
+                  - radio "IndexedDB (Local Browser Storage)" [checked] [ref=e134]
+                  - generic [ref=e135]:
+                    - text: IndexedDB (Local Browser Storage)
+                    - paragraph [ref=e136]: Store snippets locally in your browser. Data persists on this device only.
+                - generic [ref=e137]:
+                  - radio "Flask Backend (Remote Server)" [ref=e140]
+                  - generic [ref=e141]:
+                    - text: Flask Backend (Remote Server)
+                    - paragraph [ref=e142]: Store snippets on a Flask backend server. Data is accessible from any device.
+              - button "Save Storage Settings" [ref=e144] [cursor=pointer]:
+                - img [ref=e145]
+                - text: Save Storage Settings
+          - generic [ref=e147]:
+            - generic [ref=e148]:
+              - heading "Database Statistics" [level=3] [ref=e149]:
+                - img [ref=e150]
+                - text: Database Statistics
+              - paragraph [ref=e153]: Information about your local database storage
+            - generic [ref=e155]:
+              - generic [ref=e156]:
+                - generic [ref=e157]: Snippets
+                - generic [ref=e158]: "0"
+              - generic [ref=e159]:
+                - generic [ref=e160]: Templates
+                - generic [ref=e161]: "0"
+              - generic [ref=e162]:
+                - generic [ref=e163]: Storage Type
+                - generic [ref=e164]: indexeddb
+              - generic [ref=e165]:
+                - generic [ref=e166]: Database Size
+                - generic [ref=e167]: 0 Bytes
+          - generic [ref=e168]:
+            - generic [ref=e169]:
+              - heading "Storage Information" [level=3] [ref=e170]
+              - paragraph [ref=e171]: How your data is stored
+            - alert [ref=e173]:
+              - generic [ref=e174]:
+                - strong [ref=e175]: IndexedDB
+                - text: is being used for storage. This provides better performance and larger storage capacity compared to localStorage. Your data persists locally in your browser.
+          - generic [ref=e176]:
+            - generic [ref=e177]:
+              - heading "Database Actions" [level=3] [ref=e178]
+              - paragraph [ref=e179]: Backup, restore, or reset your database
+            - generic [ref=e180]:
+              - generic [ref=e181]:
+                - heading "Export Database" [level=3] [ref=e182]
+                - paragraph [ref=e183]: Download your database as a file for backup or transfer to another device
+                - button "Export Database" [ref=e184] [cursor=pointer]:
+                  - img [ref=e185]
+                  - text: Export Database
+              - generic [ref=e187]:
+                - heading "Import Database" [level=3] [ref=e188]
+                - paragraph [ref=e189]: Restore a previously exported database file
+                - generic [ref=e192] [cursor=pointer]:
+                  - img [ref=e193]
+                  - text: Import Database
+              - generic [ref=e195]:
+                - heading "Sample Data" [level=3] [ref=e196]
+                - paragraph [ref=e197]: Add sample code snippets to get started (only if database is empty)
+                - button "Add Sample Data" [ref=e198] [cursor=pointer]:
+                  - img [ref=e199]
+                  - text: Add Sample Data
+              - generic [ref=e201]:
+                - heading "Clear All Data" [level=3] [ref=e202]
+                - paragraph [ref=e203]: Permanently delete all snippets and templates. This cannot be undone.
+                - button "Clear Database" [ref=e204] [cursor=pointer]:
+                  - img [ref=e205]
+                  - text: Clear Database
+    - contentinfo [ref=e207]:
+      - generic [ref=e209]:
+        - paragraph [ref=e210]: Save, organize, and share your code snippets with beautiful syntax highlighting and live execution
+        - paragraph [ref=e211]: Supports React preview and Python execution via Pyodide
+  - region "Notifications alt+T"
+  - alert [ref=e212]
+```
