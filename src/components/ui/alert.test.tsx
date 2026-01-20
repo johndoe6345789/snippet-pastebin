@@ -4,7 +4,7 @@ import { render, screen } from '@/test-utils'
 // Since this is a utility component, we test the role and basic structure
 describe('Alert Component', () => {
   it('renders with alert role', () => {
-    const { container } = render(
+    render(
       <div role="alert" data-slot="alert" className="relative w-full rounded-lg border p-4">
         Alert content
       </div>
@@ -13,7 +13,7 @@ describe('Alert Component', () => {
   })
 
   it('applies default variant classes', () => {
-    const { container } = render(
+    render(
       <div role="alert" className="bg-background text-foreground">
         Default alert
       </div>
@@ -22,7 +22,7 @@ describe('Alert Component', () => {
   })
 
   it('applies destructive variant classes', () => {
-    const { container } = render(
+    render(
       <div role="alert" className="border-destructive/50 text-destructive">
         Error alert
       </div>
@@ -31,7 +31,7 @@ describe('Alert Component', () => {
   })
 
   it('supports custom className prop', () => {
-    const { container } = render(
+    render(
       <div role="alert" className="custom-class">
         Custom alert
       </div>

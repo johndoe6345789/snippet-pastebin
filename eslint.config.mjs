@@ -10,7 +10,15 @@ export default [
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,
-  nextPlugin.configs['core-web-vitals'],
+  {
+    name: 'next/core-web-vitals',
+    plugins: {
+      '@next/next': nextPlugin,
+    },
+    rules: {
+      ...nextPlugin.configs['core-web-vitals'].rules,
+    },
+  },
   {
     name: 'react-hooks/custom',
     plugins: {

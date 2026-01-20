@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { ComponentProps, ReactNode, useState, useRef, useEffect } from "react"
+import { ComponentProps, ReactNode, useState } from "react"
 import { X } from "@phosphor-icons/react"
 import { cn } from "@/lib/utils"
 

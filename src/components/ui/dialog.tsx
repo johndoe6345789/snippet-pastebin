@@ -6,16 +6,18 @@ import { createPortal } from "react-dom"
 import { cn } from "@/lib/utils"
 
 interface DialogProps {
-  open?: boolean
-  onOpenChange?: (open: boolean) => void
   children: React.ReactNode
 }
 
-function Dialog({ open, onOpenChange, children }: DialogProps) {
+function Dialog({ children }: DialogProps) {
   return <>{children}</>
 }
 
-function DialogTrigger({ children, onClick, asChild = false, ...props }: ComponentProps<"button"> & { asChild?: boolean }) {
+interface DialogTriggerProps extends Omit<ComponentProps<"button">, "asChild"> {
+  asChild?: boolean
+}
+
+function DialogTrigger({ children, onClick, asChild = false, ...props }: DialogTriggerProps) {
   const Comp = asChild ? "div" : "button"
 
   return (

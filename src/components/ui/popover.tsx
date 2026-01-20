@@ -43,8 +43,6 @@ function PopoverTrigger({ children, asChild, ...props }: ComponentProps<"button"
 
 function PopoverContent({
   className,
-  align = "center",
-  sideOffset = 8,
   children,
   ...props
 }: ComponentProps<"div"> & {

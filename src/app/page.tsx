@@ -10,8 +10,6 @@ const SnippetManagerRedux = dynamic(
   { ssr: false }
 );
 
-export const dynamic = 'force-dynamic'
-
 export default function HomePage() {
   return (
     <PageLayout>

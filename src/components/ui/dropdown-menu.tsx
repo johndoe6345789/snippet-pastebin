@@ -1,6 +1,6 @@
 "use client"
 
-import { ComponentProps, createContext, useContext, useState, useRef, useEffect } from "react"
+import React, { ComponentProps, createContext, useContext, useState, useRef, useEffect } from "react"
 import { createPortal } from "react-dom"
 import { cn } from "@/lib/utils"
 
@@ -54,8 +54,6 @@ function DropdownMenuTrigger({ children, asChild, className, ...props }: Compone
 
 function DropdownMenuContent({
   className,
-  align = "center",
-  sideOffset = 8,
   children,
   ...props
 }: ComponentProps<"div"> & { align?: "start" | "center" | "end"; sideOffset?: number }) {
@@ -114,7 +112,6 @@ function DropdownMenuGroup({ children }: { children: React.ReactNode }) {
 
 function DropdownMenuItem({
   className,
-  inset,
   variant = "default",
   onClick,
   children,
@@ -195,7 +192,7 @@ function DropdownMenuRadioItem({
   )
 }
 
-function DropdownMenuLabel({ className, inset, ...props }: ComponentProps<"div"> & { inset?: boolean }) {
+function DropdownMenuLabel({ className, ...props }: ComponentProps<"div"> & { inset?: boolean }) {
   return (
     <div
       className={cn("mat-mdc-optgroup-label", className)}
@@ -230,7 +227,6 @@ function DropdownMenuSub({ children }: { children: React.ReactNode }) {
 
 function DropdownMenuSubTrigger({
   className,
-  inset,
   children,
   ...props
 }: ComponentProps<"button"> & { inset?: boolean }) {

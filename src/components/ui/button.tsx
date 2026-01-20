@@ -8,7 +8,7 @@ interface ButtonProps extends ComponentProps<"button"> {
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant = "filled", size = "default", children, asChild, ...props }, ref) => {
+  ({ className, variant = "filled", children, asChild, ...props }, ref) => {
     const Comp = asChild ? "span" : "button"
 
     const variantClass = {
@@ -36,5 +36,3 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   }
 )
 Button.displayName = "Button"
-
-export const buttonVariants = () => "" // Stub for compatibility

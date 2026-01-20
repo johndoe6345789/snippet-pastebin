@@ -1,49 +1,252 @@
 # Page snapshot
 
 ```yaml
-- dialog "Unhandled Runtime Error" [ref=e3]:
-  - generic [ref=e4]:
-    - generic [ref=e5]:
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - banner [ref=e4]:
       - generic [ref=e6]:
-        - navigation [ref=e7]:
-          - button "previous" [disabled] [ref=e8]:
-            - img "previous" [ref=e9]
-          - button "next" [ref=e11] [cursor=pointer]:
-            - img "next" [ref=e12]
-          - generic [ref=e14]: 1 of 2 errors
-          - generic [ref=e15]:
-            - text: Next.js (15.1.3) is outdated
-            - link "(learn more)" [ref=e17] [cursor=pointer]:
-              - /url: https://nextjs.org/docs/messages/version-staleness
-        - button "Close" [ref=e18] [cursor=pointer]:
-          - img [ref=e20]
-      - generic [ref=e23]:
-        - heading "Unhandled Runtime Error" [level=1] [ref=e24]
-        - generic [ref=e25]:
-          - button "Copy error stack" [ref=e26] [cursor=pointer]:
-            - img [ref=e27]
-          - link "Learn more about enabling Node.js inspector for server code with Chrome DevTools" [ref=e30] [cursor=pointer]:
-            - /url: https://nextjs.org/docs/app/building-your-application/configuring/debugging#server-side-code
-            - img [ref=e31]
-      - paragraph [ref=e34]: "ReferenceError: Cannot access 'dynamic' before initialization"
-    - generic [ref=e35]:
-      - heading "Source" [level=2] [ref=e36]
-      - generic [ref=e37]:
-        - link "src/app/page.tsx (8:29) @ dynamic" [ref=e39] [cursor=pointer]:
-          - generic [ref=e40]: src/app/page.tsx (8:29) @ dynamic
-          - img [ref=e41]
-        - generic [ref=e45]: "6 | 7 | // Dynamically import SnippetManagerRedux to avoid SSR issues with Pyodide > 8 | const SnippetManagerRedux = dynamic( | ^ 9 | () => import('@/components/SnippetManagerRedux').then(mod => ({ default: mod.SnippetManagerRedux })), 10 | { ssr: false } 11 | );"
-      - generic [ref=e46]:
-        - heading "./src/app/page.tsx" [level=3] [ref=e47]
-        - generic [ref=e49]: file:///Users/rmac/Documents/GitHub/snippet-pastebin/.next/static/chunks/app/page.js (127:1)
-      - generic [ref=e50]:
-        - heading "options.factory" [level=3] [ref=e51]
-        - generic [ref=e53]: file:///Users/rmac/Documents/GitHub/snippet-pastebin/.next/static/chunks/webpack.js (712:31)
-      - generic [ref=e54]:
-        - heading "__webpack_require__" [level=3] [ref=e55]
-        - generic [ref=e57]: file:///Users/rmac/Documents/GitHub/snippet-pastebin/.next/static/chunks/webpack.js (37:33)
-      - generic [ref=e58]:
-        - heading "fn" [level=3] [ref=e59]
-        - generic [ref=e61]: file:///Users/rmac/Documents/GitHub/snippet-pastebin/.next/static/chunks/webpack.js (369:21)
-      - button "Show ignored frames" [ref=e62] [cursor=pointer]
+        - generic [ref=e7]:
+          - button "Toggle navigation menu" [ref=e8]:
+            - img [ref=e9]
+          - img [ref=e12]
+          - text: CodeSnippet
+        - generic [ref=e15]:
+          - img [ref=e16]
+          - generic [ref=e18]: Local
+    - main [ref=e19]:
+      - generic [ref=e21]:
+        - alert [ref=e22]:
+          - img [ref=e23]
+          - heading "Workspace ready" [level=5] [ref=e25]
+          - generic [ref=e26]: Running in local-first mode so you can work offline without a backend.
+        - alert [ref=e27]:
+          - img [ref=e28]
+          - heading "Cloud backend unavailable" [level=5] [ref=e30]
+          - generic [ref=e31]: No Flask backend detected. Saving and loading will stay on this device until a server URL is configured.
+      - generic [ref=e32]:
+        - generic [ref=e33]:
+          - heading "Templates" [level=2] [ref=e34]
+          - paragraph [ref=e35]: Page-level layouts that combine organisms into complete interfaces
+        - generic [ref=e36]:
+          - generic [ref=e37]:
+            - generic [ref=e38]:
+              - heading "Dashboard Layout" [level=2] [ref=e39]
+              - paragraph [ref=e40]: Complete dashboard with sidebar, stats, and content areas
+            - generic [ref=e41]:
+              - button "Save as Snippet" [ref=e43] [cursor=pointer]:
+                - img [ref=e44]
+                - text: Save as Snippet
+              - generic [ref=e46]:
+                - generic [ref=e48]:
+                  - heading "Dashboard" [level=3] [ref=e50]
+                  - generic [ref=e51]:
+                    - button [ref=e52] [cursor=pointer]:
+                      - img [ref=e53]
+                    - button [ref=e55] [cursor=pointer]:
+                      - img [ref=e56]
+                    - generic [ref=e58]:
+                      - img [ref=e59]
+                      - generic [ref=e60]: U
+                - main [ref=e62]:
+                  - generic [ref=e63]:
+                    - generic [ref=e64]:
+                      - generic [ref=e65]:
+                        - heading "Overview" [level=1] [ref=e66]
+                        - paragraph [ref=e67]: Welcome back, here's what's happening
+                      - button "New Project" [ref=e68] [cursor=pointer]:
+                        - img [ref=e69]
+                        - text: New Project
+                    - generic [ref=e71]:
+                      - generic [ref=e74]:
+                        - paragraph [ref=e75]: Total Revenue
+                        - paragraph [ref=e76]: $45,231
+                        - paragraph [ref=e77]:
+                          - img [ref=e78]
+                          - text: +20.1% from last month
+                      - generic [ref=e82]:
+                        - paragraph [ref=e83]: Active Users
+                        - paragraph [ref=e84]: 2,350
+                        - paragraph [ref=e85]:
+                          - img [ref=e86]
+                          - text: +12.5% from last month
+                      - generic [ref=e90]:
+                        - paragraph [ref=e91]: Total Orders
+                        - paragraph [ref=e92]: 1,234
+                        - paragraph [ref=e93]:
+                          - img [ref=e94]
+                          - text: +8.2% from last month
+                    - generic [ref=e96]:
+                      - generic [ref=e97]:
+                        - heading "Recent Activity" [level=3] [ref=e99]
+                        - generic [ref=e100]:
+                          - generic [ref=e101]:
+                            - generic [ref=e102]:
+                              - img [ref=e103]
+                              - generic [ref=e104]: U
+                            - generic [ref=e105]:
+                              - paragraph [ref=e106]:
+                                - generic [ref=e107]: User 1
+                                - text: completed a task
+                              - paragraph [ref=e108]: 2 hours ago
+                          - generic [ref=e109]:
+                            - generic [ref=e110]:
+                              - img [ref=e111]
+                              - generic [ref=e112]: U
+                            - generic [ref=e113]:
+                              - paragraph [ref=e114]:
+                                - generic [ref=e115]: User 2
+                                - text: completed a task
+                              - paragraph [ref=e116]: 2 hours ago
+                          - generic [ref=e117]:
+                            - generic [ref=e118]:
+                              - img [ref=e119]
+                              - generic [ref=e120]: U
+                            - generic [ref=e121]:
+                              - paragraph [ref=e122]:
+                                - generic [ref=e123]: User 3
+                                - text: completed a task
+                              - paragraph [ref=e124]: 2 hours ago
+                      - generic [ref=e125]:
+                        - heading "Quick Actions" [level=3] [ref=e127]
+                        - generic [ref=e128]:
+                          - button "Create New Project" [ref=e129] [cursor=pointer]:
+                            - img [ref=e130]
+                            - text: Create New Project
+                          - button "Invite Team Members" [ref=e132] [cursor=pointer]:
+                            - img [ref=e133]
+                            - text: Invite Team Members
+                          - button "Browse Templates" [ref=e135] [cursor=pointer]:
+                            - img [ref=e136]
+                            - text: Browse Templates
+          - generic [ref=e138]:
+            - generic [ref=e139]:
+              - heading "Landing Page" [level=2] [ref=e140]
+              - paragraph [ref=e141]: Marketing page with hero, features, and CTA sections
+            - generic [ref=e142]:
+              - button "Save as Snippet" [ref=e144] [cursor=pointer]:
+                - img [ref=e145]
+                - text: Save as Snippet
+              - generic [ref=e147]:
+                - generic [ref=e149]:
+                  - heading "ProductName" [level=3] [ref=e152]
+                  - generic [ref=e153]:
+                    - button "Features" [ref=e154] [cursor=pointer]
+                    - button "Pricing" [ref=e155] [cursor=pointer]
+                    - button "About" [ref=e156] [cursor=pointer]
+                    - button "Sign Up" [ref=e157] [cursor=pointer]
+                - generic [ref=e158]:
+                  - generic [ref=e159]: New Release
+                  - heading "Build Amazing Products Faster" [level=1] [ref=e160]
+                  - paragraph [ref=e161]: The complete toolkit for modern product development. Ship faster with our component library and design system.
+                  - generic [ref=e162]:
+                    - button "Get Started" [ref=e163] [cursor=pointer]:
+                      - text: Get Started
+                      - img [ref=e164]
+                    - button "View Demo" [ref=e166] [cursor=pointer]
+                - generic [ref=e167]:
+                  - generic [ref=e168]:
+                    - heading "Features" [level=2] [ref=e169]
+                    - paragraph [ref=e170]: Everything you need to build production-ready applications
+                  - generic [ref=e171]:
+                    - generic [ref=e172]:
+                      - img [ref=e174]
+                      - heading "Analytics" [level=3] [ref=e176]
+                      - paragraph [ref=e177]: Track and analyze your product metrics in real-time
+                    - generic [ref=e178]:
+                      - img [ref=e180]
+                      - heading "Collaboration" [level=3] [ref=e182]
+                      - paragraph [ref=e183]: Work together with your team seamlessly
+                    - generic [ref=e184]:
+                      - img [ref=e186]
+                      - heading "Customizable" [level=3] [ref=e188]
+                      - paragraph [ref=e189]: Adapt the platform to your specific needs
+                - generic [ref=e190]:
+                  - heading "Ready to get started?" [level=2] [ref=e191]
+                  - paragraph [ref=e192]: Join thousands of teams already building with our platform
+                  - button "Start Free Trial" [ref=e193] [cursor=pointer]:
+                    - text: Start Free Trial
+                    - img [ref=e194]
+          - generic [ref=e196]:
+            - generic [ref=e197]:
+              - heading "E-commerce Product Page" [level=2] [ref=e198]
+              - paragraph [ref=e199]: Product detail page with images, info, and purchase options
+            - generic [ref=e200]:
+              - button "Save as Snippet" [ref=e202] [cursor=pointer]:
+                - img [ref=e203]
+                - text: Save as Snippet
+              - generic [ref=e205]:
+                - generic [ref=e207]:
+                  - heading "Store" [level=3] [ref=e209]
+                  - generic [ref=e210]:
+                    - button [ref=e211] [cursor=pointer]:
+                      - img [ref=e212]
+                    - generic [ref=e215]: U
+                - generic [ref=e225]:
+                  - generic [ref=e226]:
+                    - generic [ref=e227]: New Arrival
+                    - heading "Premium Product Name" [level=1] [ref=e228]
+                    - generic [ref=e229]:
+                      - generic [ref=e230]: $299.00
+                      - generic [ref=e231]: $399.00
+                  - generic [ref=e232]:
+                    - heading "Description" [level=3] [ref=e233]
+                    - paragraph [ref=e234]: Experience premium quality with this exceptional product. Crafted with attention to detail and designed for those who demand excellence.
+                  - generic [ref=e235]:
+                    - heading "Features" [level=3] [ref=e236]
+                    - list [ref=e237]:
+                      - listitem [ref=e238]: • Premium materials and construction
+                      - listitem [ref=e239]: • Industry-leading performance
+                      - listitem [ref=e240]: • 2-year warranty included
+                      - listitem [ref=e241]: • Free shipping on orders over $50
+                  - generic [ref=e242]:
+                    - button "Add to Cart" [ref=e243] [cursor=pointer]:
+                      - img [ref=e244]
+                      - text: Add to Cart
+                    - button "Add to Wishlist" [ref=e246] [cursor=pointer]
+          - generic [ref=e247]:
+            - generic [ref=e248]:
+              - heading "Blog Article" [level=2] [ref=e249]
+              - paragraph [ref=e250]: Article layout with header, content, and sidebar
+            - generic [ref=e251]:
+              - button "Save as Snippet" [ref=e253] [cursor=pointer]:
+                - img [ref=e254]
+                - text: Save as Snippet
+              - generic [ref=e256]:
+                - generic [ref=e258]:
+                  - heading "Blog" [level=3] [ref=e259]
+                  - generic [ref=e260]:
+                    - button "Articles" [ref=e261] [cursor=pointer]
+                    - button "Tutorials" [ref=e262] [cursor=pointer]
+                    - button "About" [ref=e263] [cursor=pointer]
+                - generic [ref=e265]:
+                  - generic [ref=e266]:
+                    - generic [ref=e267]:
+                      - generic [ref=e268]: Design
+                      - generic [ref=e269]: Tutorial
+                    - heading "Building a Comprehensive Component Library" [level=1] [ref=e270]
+                    - generic [ref=e271]:
+                      - generic [ref=e272]:
+                        - img [ref=e273]
+                        - generic [ref=e274]: AW
+                      - generic [ref=e275]:
+                        - paragraph [ref=e276]: Alex Writer
+                        - paragraph [ref=e277]: March 15, 2024 · 10 min read
+                  - generic [ref=e278]:
+                    - paragraph [ref=e280]: Design systems have become an essential part of modern product development. They provide consistency, improve efficiency, and create a shared language between designers and developers.
+                    - heading "Understanding Atomic Design" [level=2] [ref=e281]
+                    - paragraph [ref=e282]: "The atomic design methodology consists of five distinct stages: atoms, molecules, organisms, templates, and pages. Each stage builds upon the previous, creating a comprehensive system that scales with your needs."
+                    - paragraph [ref=e284]: "\"A design system is never complete. It's a living, breathing ecosystem that evolves with your product and team.\""
+                    - heading "Getting Started" [level=2] [ref=e285]
+                    - paragraph [ref=e286]: Begin by identifying the core components your product needs. Start small with basic atoms like buttons and inputs, then gradually build up to more complex organisms and templates.
+                  - generic [ref=e287]:
+                    - button "Previous Article" [ref=e288] [cursor=pointer]
+                    - button "Next Article" [ref=e289] [cursor=pointer]:
+                      - text: Next Article
+                      - img [ref=e290]
+    - contentinfo [ref=e292]:
+      - generic [ref=e294]:
+        - paragraph [ref=e295]: Save, organize, and share your code snippets with beautiful syntax highlighting and live execution
+        - paragraph [ref=e296]: Supports React preview and Python execution via Pyodide
+  - region "Notifications alt+T"
+  - alert [ref=e297]
 ```

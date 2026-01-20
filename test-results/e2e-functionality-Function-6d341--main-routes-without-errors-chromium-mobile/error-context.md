@@ -25,228 +25,167 @@
           - generic [ref=e31]: No Flask backend detected. Saving and loading will stay on this device until a server URL is configured.
       - generic [ref=e32]:
         - generic [ref=e33]:
-          - heading "Templates" [level=2] [ref=e34]
-          - paragraph [ref=e35]: Page-level layouts that combine organisms into complete interfaces
+          - heading "Settings" [level=2] [ref=e34]
+          - paragraph [ref=e35]: Manage your database and application settings
         - generic [ref=e36]:
           - generic [ref=e37]:
             - generic [ref=e38]:
-              - heading "Dashboard Layout" [level=2] [ref=e39]
-              - paragraph [ref=e40]: Complete dashboard with sidebar, stats, and content areas
-            - generic [ref=e41]:
-              - button "Save as Snippet" [ref=e43] [cursor=pointer]:
-                - img [ref=e44]
-                - text: Save as Snippet
+              - generic [ref=e39]:
+                - img [ref=e40]
+                - heading "OpenAI API Settings" [level=3] [ref=e43]
+              - paragraph [ref=e44]: Configure your OpenAI API key for AI-powered error analysis. Your key is stored locally in your browser.
+            - generic [ref=e45]:
               - generic [ref=e46]:
+                - text: OpenAI API Key
                 - generic [ref=e48]:
-                  - heading "Dashboard" [level=3] [ref=e50]
-                  - generic [ref=e51]:
-                    - button [ref=e52] [cursor=pointer]:
-                      - img [ref=e53]
-                    - button [ref=e55] [cursor=pointer]:
-                      - img [ref=e56]
-                    - generic [ref=e58]:
-                      - img [ref=e59]
-                      - generic [ref=e60]: U
-                - main [ref=e62]:
-                  - generic [ref=e63]:
-                    - generic [ref=e64]:
-                      - generic [ref=e65]:
-                        - heading "Overview" [level=1] [ref=e66]
-                        - paragraph [ref=e67]: Welcome back, here's what's happening
-                      - button "New Project" [ref=e68] [cursor=pointer]:
-                        - img [ref=e69]
-                        - text: New Project
-                    - generic [ref=e71]:
-                      - generic [ref=e74]:
-                        - paragraph [ref=e75]: Total Revenue
-                        - paragraph [ref=e76]: $45,231
-                        - paragraph [ref=e77]:
-                          - img [ref=e78]
-                          - text: +20.1% from last month
-                      - generic [ref=e82]:
-                        - paragraph [ref=e83]: Active Users
-                        - paragraph [ref=e84]: 2,350
-                        - paragraph [ref=e85]:
-                          - img [ref=e86]
-                          - text: +12.5% from last month
-                      - generic [ref=e90]:
-                        - paragraph [ref=e91]: Total Orders
-                        - paragraph [ref=e92]: 1,234
-                        - paragraph [ref=e93]:
-                          - img [ref=e94]
-                          - text: +8.2% from last month
-                    - generic [ref=e96]:
-                      - generic [ref=e97]:
-                        - heading "Recent Activity" [level=3] [ref=e99]
-                        - generic [ref=e100]:
-                          - generic [ref=e101]:
-                            - generic [ref=e102]:
-                              - img [ref=e103]
-                              - generic [ref=e104]: U
-                            - generic [ref=e105]:
-                              - paragraph [ref=e106]:
-                                - generic [ref=e107]: User 1
-                                - text: completed a task
-                              - paragraph [ref=e108]: 2 hours ago
-                          - generic [ref=e109]:
-                            - generic [ref=e110]:
-                              - img [ref=e111]
-                              - generic [ref=e112]: U
-                            - generic [ref=e113]:
-                              - paragraph [ref=e114]:
-                                - generic [ref=e115]: User 2
-                                - text: completed a task
-                              - paragraph [ref=e116]: 2 hours ago
-                          - generic [ref=e117]:
-                            - generic [ref=e118]:
-                              - img [ref=e119]
-                              - generic [ref=e120]: U
-                            - generic [ref=e121]:
-                              - paragraph [ref=e122]:
-                                - generic [ref=e123]: User 3
-                                - text: completed a task
-                              - paragraph [ref=e124]: 2 hours ago
-                      - generic [ref=e125]:
-                        - heading "Quick Actions" [level=3] [ref=e127]
-                        - generic [ref=e128]:
-                          - button "Create New Project" [ref=e129] [cursor=pointer]:
-                            - img [ref=e130]
-                            - text: Create New Project
-                          - button "Invite Team Members" [ref=e132] [cursor=pointer]:
-                            - img [ref=e133]
-                            - text: Invite Team Members
-                          - button "Browse Templates" [ref=e135] [cursor=pointer]:
-                            - img [ref=e136]
-                            - text: Browse Templates
-          - generic [ref=e138]:
-            - generic [ref=e139]:
-              - heading "Landing Page" [level=2] [ref=e140]
-              - paragraph [ref=e141]: Marketing page with hero, features, and CTA sections
-            - generic [ref=e142]:
-              - button "Save as Snippet" [ref=e144] [cursor=pointer]:
+                  - textbox "OpenAI API key" [ref=e49]:
+                    - /placeholder: sk-...
+                  - button "Show API key" [ref=e50]:
+                    - img [ref=e51]
+                - paragraph [ref=e53]:
+                  - text: Get your API key from
+                  - link "OpenAI Platform" [ref=e54] [cursor=pointer]:
+                    - /url: https://platform.openai.com/api-keys
+              - button "Save API Key" [disabled] [ref=e56]
+          - generic [ref=e57]:
+            - generic [ref=e59]:
+              - img [ref=e61]
+              - generic [ref=e64]:
+                - heading "Redux Persistence" [level=3] [ref=e65]
+                - paragraph [ref=e66]: Automatic database synchronization for Redux state
+            - generic [ref=e67]:
+              - generic [ref=e68]:
+                - generic [ref=e69]:
+                  - text: Auto-Save Enabled
+                  - paragraph [ref=e70]: Automatically sync Redux state changes to database
+                - switch "Auto-Save Enabled" [checked] [ref=e72]:
+                  - switch "Auto-Save Enabled" [checked] [ref=e73]
+              - generic [ref=e74]:
+                - generic [ref=e75]:
+                  - generic [ref=e76]:
+                    - text: Debug Logging
+                    - img [ref=e77]
+                  - paragraph [ref=e79]: Log persistence operations to console
+                - switch "Debug Logging" [checked] [ref=e81]:
+                  - switch "Debug Logging" [checked] [ref=e82]
+              - generic [ref=e83]:
+                - generic [ref=e84]:
+                  - generic [ref=e85]:
+                    - text: Save Delay
+                    - img [ref=e86]
+                  - generic [ref=e88]: 100ms
+                - generic [ref=e89]:
+                  - slider "Save Delay" [ref=e91]: "100"
+                  - paragraph [ref=e92]: Delay between rapid actions and database save (0-1000ms)
+              - generic [ref=e93]:
+                - generic [ref=e94]:
+                  - generic [ref=e95]: Monitored Actions
+                  - generic [ref=e96]: "6"
+                - generic [ref=e97]:
+                  - generic [ref=e98]: fulfilled
+                  - generic [ref=e99]: fulfilled
+                  - generic [ref=e100]: fulfilled
+                  - generic [ref=e101]: fulfilled
+                  - generic [ref=e102]: fulfilled
+                  - generic [ref=e103]: fulfilled
+              - generic [ref=e104]:
+                - generic [ref=e105]: Retry Settings
+                - generic [ref=e106]:
+                  - generic [ref=e107]:
+                    - generic [ref=e108]: Retry on Failure
+                    - generic [ref=e109]: "Yes"
+                  - generic [ref=e110]:
+                    - generic [ref=e111]: Max Retries
+                    - generic [ref=e112]: "3"
+                  - generic [ref=e113]:
+                    - generic [ref=e114]: Retry Delay
+                    - generic [ref=e115]: 1000ms
+          - generic [ref=e117]:
+            - heading "Schema Healthy" [level=3] [ref=e118]:
+              - img [ref=e119]
+              - text: Schema Healthy
+            - paragraph [ref=e121]: Your database schema is up to date and functioning correctly
+          - generic [ref=e122]:
+            - generic [ref=e123]:
+              - heading "Storage Backend" [level=3] [ref=e124]:
+                - img [ref=e125]
+                - text: Storage Backend
+              - paragraph [ref=e128]: Choose where your snippets are stored
+            - generic [ref=e129]:
+              - radiogroup [ref=e130]:
+                - generic [ref=e131]:
+                  - radio "IndexedDB (Local Browser Storage)" [checked] [ref=e134]
+                  - generic [ref=e135]:
+                    - text: IndexedDB (Local Browser Storage)
+                    - paragraph [ref=e136]: Store snippets locally in your browser. Data persists on this device only.
+                - generic [ref=e137]:
+                  - radio "Flask Backend (Remote Server)" [ref=e140]
+                  - generic [ref=e141]:
+                    - text: Flask Backend (Remote Server)
+                    - paragraph [ref=e142]: Store snippets on a Flask backend server. Data is accessible from any device.
+              - button "Save Storage Settings" [ref=e144] [cursor=pointer]:
                 - img [ref=e145]
-                - text: Save as Snippet
-              - generic [ref=e147]:
-                - generic [ref=e149]:
-                  - heading "ProductName" [level=3] [ref=e152]
-                  - generic [ref=e153]:
-                    - button "Features" [ref=e154] [cursor=pointer]
-                    - button "Pricing" [ref=e155] [cursor=pointer]
-                    - button "About" [ref=e156] [cursor=pointer]
-                    - button "Sign Up" [ref=e157] [cursor=pointer]
-                - generic [ref=e158]:
-                  - generic [ref=e159]: New Release
-                  - heading "Build Amazing Products Faster" [level=1] [ref=e160]
-                  - paragraph [ref=e161]: The complete toolkit for modern product development. Ship faster with our component library and design system.
-                  - generic [ref=e162]:
-                    - button "Get Started" [ref=e163] [cursor=pointer]:
-                      - text: Get Started
-                      - img [ref=e164]
-                    - button "View Demo" [ref=e166] [cursor=pointer]
-                - generic [ref=e167]:
-                  - generic [ref=e168]:
-                    - heading "Features" [level=2] [ref=e169]
-                    - paragraph [ref=e170]: Everything you need to build production-ready applications
-                  - generic [ref=e171]:
-                    - generic [ref=e172]:
-                      - img [ref=e174]
-                      - heading "Analytics" [level=3] [ref=e176]
-                      - paragraph [ref=e177]: Track and analyze your product metrics in real-time
-                    - generic [ref=e178]:
-                      - img [ref=e180]
-                      - heading "Collaboration" [level=3] [ref=e182]
-                      - paragraph [ref=e183]: Work together with your team seamlessly
-                    - generic [ref=e184]:
-                      - img [ref=e186]
-                      - heading "Customizable" [level=3] [ref=e188]
-                      - paragraph [ref=e189]: Adapt the platform to your specific needs
-                - generic [ref=e190]:
-                  - heading "Ready to get started?" [level=2] [ref=e191]
-                  - paragraph [ref=e192]: Join thousands of teams already building with our platform
-                  - button "Start Free Trial" [ref=e193] [cursor=pointer]:
-                    - text: Start Free Trial
-                    - img [ref=e194]
-          - generic [ref=e196]:
-            - generic [ref=e197]:
-              - heading "E-commerce Product Page" [level=2] [ref=e198]
-              - paragraph [ref=e199]: Product detail page with images, info, and purchase options
-            - generic [ref=e200]:
-              - button "Save as Snippet" [ref=e202] [cursor=pointer]:
-                - img [ref=e203]
-                - text: Save as Snippet
-              - generic [ref=e205]:
-                - generic [ref=e207]:
-                  - heading "Store" [level=3] [ref=e209]
-                  - generic [ref=e210]:
-                    - button [ref=e211] [cursor=pointer]:
-                      - img [ref=e212]
-                    - generic [ref=e215]: U
-                - generic [ref=e225]:
-                  - generic [ref=e226]:
-                    - generic [ref=e227]: New Arrival
-                    - heading "Premium Product Name" [level=1] [ref=e228]
-                    - generic [ref=e229]:
-                      - generic [ref=e230]: $299.00
-                      - generic [ref=e231]: $399.00
-                  - generic [ref=e232]:
-                    - heading "Description" [level=3] [ref=e233]
-                    - paragraph [ref=e234]: Experience premium quality with this exceptional product. Crafted with attention to detail and designed for those who demand excellence.
-                  - generic [ref=e235]:
-                    - heading "Features" [level=3] [ref=e236]
-                    - list [ref=e237]:
-                      - listitem [ref=e238]: • Premium materials and construction
-                      - listitem [ref=e239]: • Industry-leading performance
-                      - listitem [ref=e240]: • 2-year warranty included
-                      - listitem [ref=e241]: • Free shipping on orders over $50
-                  - generic [ref=e242]:
-                    - button "Add to Cart" [ref=e243] [cursor=pointer]:
-                      - img [ref=e244]
-                      - text: Add to Cart
-                    - button "Add to Wishlist" [ref=e246] [cursor=pointer]
-          - generic [ref=e247]:
-            - generic [ref=e248]:
-              - heading "Blog Article" [level=2] [ref=e249]
-              - paragraph [ref=e250]: Article layout with header, content, and sidebar
-            - generic [ref=e251]:
-              - button "Save as Snippet" [ref=e253] [cursor=pointer]:
-                - img [ref=e254]
-                - text: Save as Snippet
-              - generic [ref=e256]:
-                - generic [ref=e258]:
-                  - heading "Blog" [level=3] [ref=e259]
-                  - generic [ref=e260]:
-                    - button "Articles" [ref=e261] [cursor=pointer]
-                    - button "Tutorials" [ref=e262] [cursor=pointer]
-                    - button "About" [ref=e263] [cursor=pointer]
-                - generic [ref=e265]:
-                  - generic [ref=e266]:
-                    - generic [ref=e267]:
-                      - generic [ref=e268]: Design
-                      - generic [ref=e269]: Tutorial
-                    - heading "Building a Comprehensive Component Library" [level=1] [ref=e270]
-                    - generic [ref=e271]:
-                      - generic [ref=e272]:
-                        - img [ref=e273]
-                        - generic [ref=e274]: AW
-                      - generic [ref=e275]:
-                        - paragraph [ref=e276]: Alex Writer
-                        - paragraph [ref=e277]: March 15, 2024 · 10 min read
-                  - generic [ref=e278]:
-                    - paragraph [ref=e280]: Design systems have become an essential part of modern product development. They provide consistency, improve efficiency, and create a shared language between designers and developers.
-                    - heading "Understanding Atomic Design" [level=2] [ref=e281]
-                    - paragraph [ref=e282]: "The atomic design methodology consists of five distinct stages: atoms, molecules, organisms, templates, and pages. Each stage builds upon the previous, creating a comprehensive system that scales with your needs."
-                    - paragraph [ref=e284]: "\"A design system is never complete. It's a living, breathing ecosystem that evolves with your product and team.\""
-                    - heading "Getting Started" [level=2] [ref=e285]
-                    - paragraph [ref=e286]: Begin by identifying the core components your product needs. Start small with basic atoms like buttons and inputs, then gradually build up to more complex organisms and templates.
-                  - generic [ref=e287]:
-                    - button "Previous Article" [ref=e288] [cursor=pointer]
-                    - button "Next Article" [ref=e289] [cursor=pointer]:
-                      - text: Next Article
-                      - img [ref=e290]
-    - contentinfo [ref=e292]:
-      - generic [ref=e294]:
-        - paragraph [ref=e295]: Save, organize, and share your code snippets with beautiful syntax highlighting and live execution
-        - paragraph [ref=e296]: Supports React preview and Python execution via Pyodide
+                - text: Save Storage Settings
+          - generic [ref=e147]:
+            - generic [ref=e148]:
+              - heading "Database Statistics" [level=3] [ref=e149]:
+                - img [ref=e150]
+                - text: Database Statistics
+              - paragraph [ref=e153]: Information about your local database storage
+            - generic [ref=e155]:
+              - generic [ref=e156]:
+                - generic [ref=e157]: Snippets
+                - generic [ref=e158]: "0"
+              - generic [ref=e159]:
+                - generic [ref=e160]: Templates
+                - generic [ref=e161]: "0"
+              - generic [ref=e162]:
+                - generic [ref=e163]: Storage Type
+                - generic [ref=e164]: indexeddb
+              - generic [ref=e165]:
+                - generic [ref=e166]: Database Size
+                - generic [ref=e167]: 0 Bytes
+          - generic [ref=e168]:
+            - generic [ref=e169]:
+              - heading "Storage Information" [level=3] [ref=e170]
+              - paragraph [ref=e171]: How your data is stored
+            - alert [ref=e173]:
+              - generic [ref=e174]:
+                - strong [ref=e175]: IndexedDB
+                - text: is being used for storage. This provides better performance and larger storage capacity compared to localStorage. Your data persists locally in your browser.
+          - generic [ref=e176]:
+            - generic [ref=e177]:
+              - heading "Database Actions" [level=3] [ref=e178]
+              - paragraph [ref=e179]: Backup, restore, or reset your database
+            - generic [ref=e180]:
+              - generic [ref=e181]:
+                - heading "Export Database" [level=3] [ref=e182]
+                - paragraph [ref=e183]: Download your database as a file for backup or transfer to another device
+                - button "Export Database" [ref=e184] [cursor=pointer]:
+                  - img [ref=e185]
+                  - text: Export Database
+              - generic [ref=e187]:
+                - heading "Import Database" [level=3] [ref=e188]
+                - paragraph [ref=e189]: Restore a previously exported database file
+                - generic [ref=e192] [cursor=pointer]:
+                  - img [ref=e193]
+                  - text: Import Database
+              - generic [ref=e195]:
+                - heading "Sample Data" [level=3] [ref=e196]
+                - paragraph [ref=e197]: Add sample code snippets to get started (only if database is empty)
+                - button "Add Sample Data" [ref=e198] [cursor=pointer]:
+                  - img [ref=e199]
+                  - text: Add Sample Data
+              - generic [ref=e201]:
+                - heading "Clear All Data" [level=3] [ref=e202]
+                - paragraph [ref=e203]: Permanently delete all snippets and templates. This cannot be undone.
+                - button "Clear Database" [ref=e204] [cursor=pointer]:
+                  - img [ref=e205]
+                  - text: Clear Database
+    - contentinfo [ref=e207]:
+      - generic [ref=e209]:
+        - paragraph [ref=e210]: Save, organize, and share your code snippets with beautiful syntax highlighting and live execution
+        - paragraph [ref=e211]: Supports React preview and Python execution via Pyodide
   - region "Notifications alt+T"
-  - alert [ref=e297]
+  - alert [ref=e212]
 ```

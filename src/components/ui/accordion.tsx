@@ -1,4 +1,4 @@
-import { ComponentProps, forwardRef, useState, createContext, useContext } from "react"
+import React, { ComponentProps, forwardRef, useState, createContext, useContext } from "react"
 import { cn } from "@/lib/utils"
 import { CaretDown } from "@phosphor-icons/react"
 
@@ -77,13 +77,18 @@ AccordionItem.displayName = "AccordionItem"
 export const AccordionTrigger = forwardRef<HTMLButtonElement, ComponentProps<"button">>(
   ({ className, children, ...props }, ref) => {
     const context = useContext(AccordionContext)
-    const item = (ref as any)?.current?.closest("[data-value]")
-    const value = item?.getAttribute("data-value") || ""
-    
+    const [value, setValue] = React.useState("")
+
+    React.useEffect(() => {
+      if (!ref || typeof ref === "function") return
+      const item = ref.current?.closest("[data-value]")
+      setValue(item?.getAttribute("data-value") || "")
+    }, [ref])
+
     return (
-      <button 
-        ref={ref} 
-        className={cn("mat-expansion-panel-header", className)} 
+      <button
+        ref={ref}
+        className={cn("mat-expansion-panel-header", className)}
         onClick={() => context?.toggleItem(value)}
         {...props}
       >
@@ -102,17 +107,22 @@ AccordionTrigger.displayName = "AccordionTrigger"
 export const AccordionContent = forwardRef<HTMLDivElement, ComponentProps<"div">>(
   ({ className, children, ...props }, ref) => {
     const context = useContext(AccordionContext)
-    const item = (ref as any)?.current?.closest("[data-value]")
-    const value = item?.getAttribute("data-value") || ""
+    const [value, setValue] = React.useState("")
     const isExpanded = context?.openItems.has(value)
-    
+
+    React.useEffect(() => {
+      if (!ref || typeof ref === "function") return
+      const item = ref.current?.closest("[data-value]")
+      setValue(item?.getAttribute("data-value") || "")
+    }, [ref])
+
     if (!isExpanded) return null
-    
+
     return (
       <div className="mat-expansion-panel-content">
-        <div 
-          ref={ref} 
-          className={cn("mat-expansion-panel-body", className)} 
+        <div
+          ref={ref}
+          className={cn("mat-expansion-panel-body", className)}
           {...props}
         >
           {children}

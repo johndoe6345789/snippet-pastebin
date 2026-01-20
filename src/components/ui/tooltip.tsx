@@ -11,7 +11,7 @@ interface TooltipContextValue {
 
 const TooltipContext = React.createContext<TooltipContextValue | null>(null)
 
-function TooltipProvider({ children, delayDuration = 700 }: { children: React.ReactNode; delayDuration?: number }) {
+function TooltipProvider({ children }: { children: React.ReactNode; delayDuration?: number }) {
   return <>{children}</>
 }
 
@@ -63,7 +63,6 @@ function TooltipTrigger({ children, asChild, ...props }: ComponentProps<"button"
 
 function TooltipContent({
   className,
-  sideOffset = 4,
   children,
   ...props
 }: ComponentProps<"div"> & { sideOffset?: number }) {

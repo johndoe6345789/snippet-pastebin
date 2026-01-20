@@ -35,7 +35,7 @@ function AvatarImage({
     <img
       data-slot="avatar-image"
       className={cn("aspect-square size-full object-cover", className)}
-      onError={(e) => {
+      onError={() => {
         setHasError(true)
         onError?.()
       }}

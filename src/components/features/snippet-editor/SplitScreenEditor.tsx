@@ -5,7 +5,6 @@ import { PythonOutput } from '@/components/features/python-runner/PythonOutput'
 import { Button } from '@/components/ui/button'
 import { Code, Eye, SplitHorizontal } from '@phosphor-icons/react'
 import { InputParameter } from '@/lib/types'
-import { cn } from '@/lib/utils'
 
 interface SplitScreenEditorProps {
   value: string

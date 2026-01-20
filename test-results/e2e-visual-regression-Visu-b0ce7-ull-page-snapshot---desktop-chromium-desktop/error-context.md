@@ -1,49 +1,35 @@
 # Page snapshot
 
 ```yaml
-- dialog "Unhandled Runtime Error" [ref=e3]:
-  - generic [ref=e4]:
-    - generic [ref=e5]:
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - banner [ref=e4]:
       - generic [ref=e6]:
-        - navigation [ref=e7]:
-          - button "previous" [disabled] [ref=e8]:
-            - img "previous" [ref=e9]
-          - button "next" [ref=e11] [cursor=pointer]:
-            - img "next" [ref=e12]
-          - generic [ref=e14]: 1 of 2 errors
-          - generic [ref=e15]:
-            - text: Next.js (15.1.3) is outdated
-            - link "(learn more)" [ref=e17] [cursor=pointer]:
-              - /url: https://nextjs.org/docs/messages/version-staleness
-        - button "Close" [ref=e18] [cursor=pointer]:
-          - img [ref=e20]
-      - generic [ref=e23]:
-        - heading "Unhandled Runtime Error" [level=1] [ref=e24]
-        - generic [ref=e25]:
-          - button "Copy error stack" [ref=e26] [cursor=pointer]:
-            - img [ref=e27]
-          - link "Learn more about enabling Node.js inspector for server code with Chrome DevTools" [ref=e30] [cursor=pointer]:
-            - /url: https://nextjs.org/docs/app/building-your-application/configuring/debugging#server-side-code
-            - img [ref=e31]
-      - paragraph [ref=e34]: "ReferenceError: Cannot access 'dynamic' before initialization"
-    - generic [ref=e35]:
-      - heading "Source" [level=2] [ref=e36]
-      - generic [ref=e37]:
-        - link "src/app/page.tsx (8:29) @ dynamic" [ref=e39] [cursor=pointer]:
-          - generic [ref=e40]: src/app/page.tsx (8:29) @ dynamic
-          - img [ref=e41]
-        - generic [ref=e45]: "6 | 7 | // Dynamically import SnippetManagerRedux to avoid SSR issues with Pyodide > 8 | const SnippetManagerRedux = dynamic( | ^ 9 | () => import('@/components/SnippetManagerRedux').then(mod => ({ default: mod.SnippetManagerRedux })), 10 | { ssr: false } 11 | );"
-      - generic [ref=e46]:
-        - heading "./src/app/page.tsx" [level=3] [ref=e47]
-        - generic [ref=e49]: file:///Users/rmac/Documents/GitHub/snippet-pastebin/.next/static/chunks/app/page.js (127:1)
-      - generic [ref=e50]:
-        - heading "options.factory" [level=3] [ref=e51]
-        - generic [ref=e53]: file:///Users/rmac/Documents/GitHub/snippet-pastebin/.next/static/chunks/webpack.js (712:31)
-      - generic [ref=e54]:
-        - heading "__webpack_require__" [level=3] [ref=e55]
-        - generic [ref=e57]: file:///Users/rmac/Documents/GitHub/snippet-pastebin/.next/static/chunks/webpack.js (37:33)
-      - generic [ref=e58]:
-        - heading "fn" [level=3] [ref=e59]
-        - generic [ref=e61]: file:///Users/rmac/Documents/GitHub/snippet-pastebin/.next/static/chunks/webpack.js (369:21)
-      - button "Show ignored frames" [ref=e62] [cursor=pointer]
+        - generic [ref=e7]:
+          - button "Toggle navigation menu" [ref=e8]:
+            - img [ref=e9]
+          - img [ref=e12]
+          - text: CodeSnippet
+        - generic [ref=e15]:
+          - img [ref=e16]
+          - generic [ref=e18]: Local
+    - main [ref=e19]:
+      - generic [ref=e21]:
+        - alert [ref=e22]:
+          - img [ref=e23]
+          - heading "Workspace ready" [level=5] [ref=e25]
+          - generic [ref=e26]: Running in local-first mode so you can work offline without a backend.
+        - alert [ref=e27]:
+          - img [ref=e28]
+          - heading "Cloud backend unavailable" [level=5] [ref=e30]
+          - generic [ref=e31]: No Flask backend detected. Saving and loading will stay on this device until a server URL is configured.
+      - generic [ref=e33]:
+        - heading "My Snippets" [level=1] [ref=e34]
+        - paragraph [ref=e35]: Save, organize, and share your code snippets
+    - contentinfo [ref=e36]:
+      - generic [ref=e38]:
+        - paragraph [ref=e39]: Save, organize, and share your code snippets with beautiful syntax highlighting and live execution
+        - paragraph [ref=e40]: Supports React preview and Python execution via Pyodide
+  - region "Notifications alt+T"
+  - alert [ref=e41]
 ```
