@@ -7,10 +7,10 @@ const nextConfig = {
     optimizePackageImports: ['@phosphor-icons/react'],
   },
   eslint: {
-    ignoreDuringBuilds: true,
+    dirs: ['src', 'app', 'pages'],
   },
   typescript: {
-    ignoreBuildErrors: true,
+    tsconfigPath: './tsconfig.json',
   },
 }
 

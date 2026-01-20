@@ -1,6 +1,6 @@
 import { createContext } from 'react'
 
-type NavigationContextType = {
+interface NavigationContextType {
   menuOpen: boolean
   setMenuOpen: (open: boolean) => void
 }

@@ -20,7 +20,7 @@ export function formatBytes(bytes: number): string {
 /**
  * Debounce function
  */
-export function debounce<T extends (...args: Array<unknown>) => unknown>(
+export function debounce<T extends (...args: unknown[]) => unknown>(
   func: T,
   wait: number
 ): (...args: Parameters<T>) => void {
