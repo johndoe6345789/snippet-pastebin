@@ -35,8 +35,10 @@ jobs:
         run: npm run build
         env:
           BUILD_STATIC: 'true'
+          CI: 'true'
+          GITHUB_PAGES: 'true'
           NEXT_PUBLIC_FLASK_BACKEND_URL: ${{ vars.NEXT_PUBLIC_FLASK_BACKEND_URL || '' }}
-          NEXT_PUBLIC_BASE_PATH: ${{ vars.NEXT_PUBLIC_BASE_PATH || '' }}
+          NEXT_PUBLIC_BASE_PATH: ${{ vars.NEXT_PUBLIC_BASE_PATH || format('/{0}', github.event.repository.name) }}
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -47,6 +49,8 @@ jobs:
           path: './out'
 
   deploy:
+    outputs:
+      page_url: ${{ steps.deployment.outputs.page_url }}
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -56,3 +60,6 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Publish deployment URL
+        run: echo "GitHub Pages deployed to: ${{ steps.deployment.outputs.page_url }}" >> "$GITHUB_STEP_SUMMARY"
