@@ -304,7 +304,7 @@ test.describe("Visual Regression Tests", () => {
 
       const hiddenElements = await page.evaluate(() => {
         const elements = Array.from(document.querySelectorAll("*"))
-        const hidden = []
+        const hidden: { tag: string; text: string | null }[] = []
 
         for (const el of elements) {
           const style = window.getComputedStyle(el as HTMLElement)
@@ -317,7 +317,7 @@ test.describe("Visual Regression Tests", () => {
           ) {
             hidden.push({
               tag: el.tagName,
-              text: (el as HTMLElement).textContent?.slice(0, 50),
+              text: (el as HTMLElement).textContent?.slice(0, 50) || null,
             })
           }
         }

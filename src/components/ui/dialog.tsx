@@ -7,10 +7,11 @@ import { cn } from "@/lib/utils"
 
 interface DialogProps {
   open?: boolean
+  onOpenChange?: (open: boolean) => void
   children: React.ReactNode
 }
 
-function Dialog({ open, children }: DialogProps) {
+function Dialog({ open, onOpenChange, children }: DialogProps) {
   // If open is explicitly false, don't render
   if (open === false) return null
   return <>{children}</>

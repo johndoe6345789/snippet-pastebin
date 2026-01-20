@@ -122,9 +122,7 @@ export function NamespaceSelector({ selectedNamespaceId, onNamespaceChange }: Na
           data-testid="namespace-selector-trigger"
           aria-label="Select namespace"
         >
-          <SelectValue placeholder="Select namespace">
-            {selectedNamespace?.name || 'Select namespace'}
-          </SelectValue>
+          <SelectValue placeholder={selectedNamespace?.name || 'Select namespace'} />
         </SelectTrigger>
         <SelectContent data-testid="namespace-selector-content">
           {namespaces.map(namespace => (

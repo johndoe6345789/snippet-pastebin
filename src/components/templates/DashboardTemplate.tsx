@@ -38,7 +38,7 @@ export function DashboardTemplate() {
       <div className="flex">
         <aside className="w-64 border-r border-border bg-card/30 p-4 hidden lg:block">
           <nav className="space-y-1">
-            <Button variant="default" className="w-full justify-start">
+            <Button variant="filled" className="w-full justify-start">
               <House className="mr-2" />
               Overview
             </Button>

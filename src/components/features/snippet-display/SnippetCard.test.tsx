@@ -10,6 +10,7 @@ const mockSnippet: Snippet = {
   description: 'A test snippet',
   code: 'console.log("hello")',
   language: 'JavaScript',
+  category: 'Test',
   hasPreview: false,
   createdAt: Date.now(),
   updatedAt: Date.now(),

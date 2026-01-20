@@ -9,6 +9,7 @@
     "jsx": "preserve",
     "module": "ESNext",
     "moduleResolution": "bundler",
+    "baseUrl": ".",
     "resolveJsonModule": true,
     "allowJs": true,
     "skipLibCheck": true,
@@ -31,7 +32,7 @@
         "./src/*"
       ],
       "@styles/*": [
-        "src/styles/*"
+        "./src/styles/*"
       ]
     }
   },

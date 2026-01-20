@@ -34,7 +34,7 @@ export function SidebarNavigationShowcase() {
                   <House className="mr-2" />
                   Home
                 </Button>
-                <Button variant="default" className="w-full justify-start">
+                <Button variant="filled" className="w-full justify-start">
                   <ChartBar className="mr-2" />
                   Analytics
                 </Button>

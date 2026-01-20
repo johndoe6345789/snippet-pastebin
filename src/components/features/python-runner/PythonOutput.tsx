@@ -156,7 +156,7 @@ export function PythonOutput({ code }: PythonOutputProps) {
 
       <div className="flex-1 overflow-auto p-4 space-y-4">
         {isInitializing && (
-          <Card variant="filled" className="p-4 border border-border/60">
+          <Card className="p-4 border border-border/60">
             <div className="flex items-start gap-3 text-sm text-foreground">
               <div className="mt-1 rounded-full bg-primary/10 p-2 text-primary">
                 <CircleNotch className="animate-spin" size={18} />
@@ -173,7 +173,6 @@ export function PythonOutput({ code }: PythonOutputProps) {
 
         {initError && (
           <Card
-            variant="outlined"
             className="p-4 border-destructive/40 bg-destructive/5"
           >
             <div className="flex items-start gap-3">

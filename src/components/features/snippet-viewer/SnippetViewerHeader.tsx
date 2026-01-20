@@ -56,7 +56,7 @@ export function SnippetViewerHeader({
       <div className="flex gap-2 shrink-0">
         {canPreview && (
           <Button
-            variant={showPreview ? "default" : "outline"}
+            variant={showPreview ? "filled" : "outline"}
             size="sm"
             onClick={onTogglePreview}
             className="gap-2"

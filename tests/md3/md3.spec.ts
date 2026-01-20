@@ -198,7 +198,7 @@ test.describe("MD3 Framework Tests", () => {
       }, colorVars)
 
       if (missing.length === total) {
-        test.skip("No MD3 CSS variables found on :root; implement theme tokens to enforce this check.")
+        test.skip()
       }
 
       expect(missing, "Missing MD3 color CSS variables").toEqual([])

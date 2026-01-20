@@ -306,14 +306,14 @@ test.describe("Mobile and Responsive Tests", () => {
         const touchInit = {
           bubbles: true,
           cancelable: true,
-          touches: [new Touch({ target: document.body, clientX: 300, clientY: 400 })] as TouchList | unknown,
+          touches: [new Touch({ identifier: 1, target: document.body, clientX: 300, clientY: 400 })] as TouchList | unknown,
         }
         const start = new TouchEvent("touchstart", touchInit as unknown as TouchEventInit)
         const touchEnd = {
           bubbles: true,
           cancelable: true,
           touches: [] as TouchList | unknown,
-          changedTouches: [new Touch({ target: document.body, clientX: 100, clientY: 400 })] as TouchList | unknown,
+          changedTouches: [new Touch({ identifier: 1, target: document.body, clientX: 100, clientY: 400 })] as TouchList | unknown,
         }
         const end = new TouchEvent("touchend", touchEnd as unknown as TouchEventInit)
 

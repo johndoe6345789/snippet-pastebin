@@ -10,7 +10,7 @@ export function md3(page: Page, component: ComponentName, options?: { label?: st
 
   // Prefer role + label for accessibility
   if ("role" in def && def.role && options?.label) {
-    return page.getByRole(def.role as unknown as string, { name: options.label })
+    return page.getByRole(def.role as "code" | "button" | "textbox" | "checkbox" | "radio" | "switch" | "dialog" | "status" | "menu" | "navigation" | "tablist" | "list" | "separator" | "progressbar" | "combobox" | "listbox" | "option" | "group" | "img" | "banner" | "contentinfo" | "complementary" | "region" | "log" | "marquee" | "alert" | "alertdialog" | "application" | "article" | "document" | "feed" | "main" | "heading" | "tooltip" | "link" | "searchbox" | "slider" | "spinbutton" | "scrollbar" | "table" | "rowgroup" | "row" | "columnheader" | "rowheader" | "cell" | "gridcell" | "form" | "presentation" | "none" | "tree" | "treegrid" | "treeitem" | "math" | "menuitem" | "menuitemcheckbox" | "menuitemradio" | "tab" | "tabpanel" | "definition" | "directory" | "subscript" | "superscript", { name: options.label })
   }
 
   // Fall back to selectors

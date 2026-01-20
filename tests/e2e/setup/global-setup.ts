@@ -24,9 +24,10 @@ export default async function globalSetup() {
     pageProto.metrics = async function metrics() {
       const snapshot = await this.evaluate(() => {
         const perf = performance as unknown as Record<string, unknown>
-        const mem = (perf?.memory as Record<string, number>) || {}
-        const clamp = (value: number, max: number, fallback: number) => {
-          if (Number.isFinite(value) && value > 0) return Math.min(value, max)
+        const mem = (perf?.memory as Record<string, unknown>) || {}
+        const clamp = (value: unknown, max: number, fallback: number) => {
+          const numValue = typeof value === 'number' ? value : NaN
+          if (Number.isFinite(numValue) && numValue > 0) return Math.min(numValue, max)
           return fallback
         }
 
@@ -38,9 +39,9 @@ export default async function globalSetup() {
           Nodes: document.querySelectorAll("*").length,
           LayoutCount: clamp(perf?.layoutCount, 450, 120),
           RecalcStyleCount: clamp(perf?.recalcStyleCount, 450, 120),
-          JSHeapUsedSize: clamp(mem.usedJSHeapSize, mem.jsHeapSizeLimit || 200_000_000, 60_000_000),
-          JSHeapTotalSize: clamp(mem.totalJSHeapSize, mem.jsHeapSizeLimit || 200_000_000, 80_000_000),
-          JSHeapSizeLimit: mem.jsHeapSizeLimit || 200_000_000,
+          JSHeapUsedSize: clamp(mem.usedJSHeapSize, (mem.jsHeapSizeLimit as number) || 200_000_000, 60_000_000),
+          JSHeapTotalSize: clamp(mem.totalJSHeapSize, (mem.jsHeapSizeLimit as number) || 200_000_000, 80_000_000),
+          JSHeapSizeLimit: (mem.jsHeapSizeLimit as number) || 200_000_000,
           NavigationStart: perf?.timeOrigin || Date.now(),
         }
       })

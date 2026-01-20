@@ -13,8 +13,6 @@ const nextConfig = {
   },
   typescript: {
     tsconfigPath: './tsconfig.json',
-    // Skip type checking during build - types are checked by IDE and test suite
-    ignoreBuildErrors: true,
   },
 }
 

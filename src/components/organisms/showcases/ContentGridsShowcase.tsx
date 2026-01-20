@@ -25,14 +25,14 @@ export function ContentGridsShowcase() {
             <h3 className="font-semibold text-lg">Projects</h3>
             <div className="flex items-center gap-2">
               <Button
-                variant={viewMode === 'grid' ? 'default' : 'outline'}
+                variant={viewMode === 'grid' ? 'filled' : 'outline'}
                 size="icon"
                 onClick={() => setViewMode('grid')}
               >
                 <GridFour />
               </Button>
               <Button
-                variant={viewMode === 'list' ? 'default' : 'outline'}
+                variant={viewMode === 'list' ? 'filled' : 'outline'}
                 size="icon"
                 onClick={() => setViewMode('list')}
               >
