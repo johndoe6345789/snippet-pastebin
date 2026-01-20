@@ -1,8 +1,15 @@
 /* eslint-env node */
 /** @type {import('next').NextConfig} */
+const isGithubPages = process.env.GITHUB_PAGES === 'true' || process.env.GITHUB_ACTIONS === 'true'
+const repoBasePath = process.env.NEXT_PUBLIC_BASE_PATH
+  || (isGithubPages && process.env.GITHUB_REPOSITORY
+    ? `/${process.env.GITHUB_REPOSITORY.split('/')[1]}`
+    : '')
+
 const nextConfig = {
-  output: process.env.BUILD_STATIC ? 'export' : 'standalone',
-  basePath: process.env.NEXT_PUBLIC_BASE_PATH || '',
+  output: process.env.BUILD_STATIC || isGithubPages ? 'export' : 'standalone',
+  basePath: repoBasePath,
+  assetPrefix: repoBasePath || undefined,
   images: {
     unoptimized: true,
   },
