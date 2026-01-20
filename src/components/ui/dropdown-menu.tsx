@@ -1,132 +1,150 @@
 "use client"
 
-import { ComponentProps } from "react"
-import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu"
-import CheckIcon from "lucide-react/dist/esm/icons/check"
-import ChevronRightIcon from "lucide-react/dist/esm/icons/chevron-right"
-import CircleIcon from "lucide-react/dist/esm/icons/circle"
-
+import { ComponentProps, createContext, useContext, useState, useRef, useEffect } from "react"
+import { createPortal } from "react-dom"
 import { cn } from "@/lib/utils"
 
-/**
- * Material Design 3 Dropdown Menu
- *
- * Android-style menu with:
- * - 48dp minimum touch targets
- * - Proper state layers
- * - Clear focus indicators
- */
-
-function DropdownMenu({
-  ...props
-}: ComponentProps<typeof DropdownMenuPrimitive.Root>) {
-  return <DropdownMenuPrimitive.Root data-slot="dropdown-menu" {...props} />
+interface DropdownMenuContextValue {
+  open: boolean
+  setOpen: (open: boolean) => void
 }
 
-function DropdownMenuPortal({
-  ...props
-}: ComponentProps<typeof DropdownMenuPrimitive.Portal>) {
+const DropdownMenuContext = createContext<DropdownMenuContextValue | null>(null)
+
+function DropdownMenu({ children }: { children: React.ReactNode }) {
+  const [open, setOpen] = useState(false)
   return (
-    <DropdownMenuPrimitive.Portal data-slot="dropdown-menu-portal" {...props} />
+    <DropdownMenuContext.Provider value={{ open, setOpen }}>
+      {children}
+    </DropdownMenuContext.Provider>
   )
 }
 
-function DropdownMenuTrigger({
-  ...props
-}: ComponentProps<typeof DropdownMenuPrimitive.Trigger>) {
+function DropdownMenuPortal({ children }: { children: React.ReactNode }) {
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) return null
+  return createPortal(children, document.body)
+}
+
+function DropdownMenuTrigger({ children, asChild, className, ...props }: ComponentProps<"button"> & { asChild?: boolean }) {
+  const context = useContext(DropdownMenuContext)
+
+  const handleClick = () => {
+    context?.setOpen(!context.open)
+  }
+
+  if (asChild && React.isValidElement(children)) {
+    return React.cloneElement(children as React.ReactElement, {
+      onClick: handleClick,
+      ...props,
+    })
+  }
+
   return (
-    <DropdownMenuPrimitive.Trigger
-      data-slot="dropdown-menu-trigger"
-      {...props}
-    />
+    <button type="button" onClick={handleClick} className={className} {...props}>
+      {children}
+    </button>
   )
 }
 
 function DropdownMenuContent({
   className,
+  align = "center",
   sideOffset = 8,
+  children,
   ...props
-}: ComponentProps<typeof DropdownMenuPrimitive.Content>) {
+}: ComponentProps<"div"> & { align?: "start" | "center" | "end"; sideOffset?: number }) {
+  const context = useContext(DropdownMenuContext)
+  const contentRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!context?.open) return
+
+    const handleClickOutside = (e: MouseEvent) => {
+      if (contentRef.current && !contentRef.current.contains(e.target as Node)) {
+        context.setOpen(false)
+      }
+    }
+
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        context.setOpen(false)
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside)
+    document.addEventListener("keydown", handleEscape)
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+      document.removeEventListener("keydown", handleEscape)
+    }
+  }, [context])
+
+  if (!context?.open) return null
+
   return (
-    <DropdownMenuPrimitive.Portal>
-      <DropdownMenuPrimitive.Content
-        data-slot="dropdown-menu-content"
-        sideOffset={sideOffset}
-        className={cn(
-          // MD3 surface container
-          "bg-[hsl(var(--popover))] text-[hsl(var(--popover-foreground))]",
-          // Shape and shadow
-          "z-50 min-w-[180px] overflow-hidden rounded-lg border-0 p-1",
-          "shadow-lg",
-          // Constrain height and enable scrolling
-          "max-h-[min(var(--radix-dropdown-menu-content-available-height),400px)]",
-          "overflow-y-auto",
-          // Animations
-          "data-[state=open]:animate-in data-[state=closed]:animate-out",
-          "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
-          "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
-          "data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2",
-          "data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
-          // Transform origin
-          "origin-[var(--radix-dropdown-menu-content-transform-origin)]",
-          className
-        )}
-        {...props}
-      />
-    </DropdownMenuPrimitive.Portal>
+    <DropdownMenuPortal>
+      <div className="cdk-overlay-container">
+        <div className="cdk-overlay-pane">
+          <div
+            ref={contentRef}
+            className={cn("mat-mdc-menu-panel mat-menu-panel-animations-enabled", className)}
+            role="menu"
+            {...props}
+          >
+            <div className="mat-mdc-menu-content">
+              {children}
+            </div>
+          </div>
+        </div>
+      </div>
+    </DropdownMenuPortal>
   )
 }
 
-function DropdownMenuGroup({
-  ...props
-}: ComponentProps<typeof DropdownMenuPrimitive.Group>) {
-  return (
-    <DropdownMenuPrimitive.Group data-slot="dropdown-menu-group" {...props} />
-  )
+function DropdownMenuGroup({ children }: { children: React.ReactNode }) {
+  return <div role="group">{children}</div>
 }
 
 function DropdownMenuItem({
   className,
   inset,
   variant = "default",
+  onClick,
+  children,
   ...props
-}: ComponentProps<typeof DropdownMenuPrimitive.Item> & {
+}: ComponentProps<"button"> & {
   inset?: boolean
   variant?: "default" | "destructive"
 }) {
+  const context = useContext(DropdownMenuContext)
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    onClick?.(e)
+    context?.setOpen(false)
+  }
+
   return (
-    <DropdownMenuPrimitive.Item
-      data-slot="dropdown-menu-item"
-      data-inset={inset}
-      data-variant={variant}
+    <button
+      type="button"
+      role="menuitem"
       className={cn(
-        // MD3 menu item - minimum 48dp height for touch
-        "relative flex items-center gap-3",
-        "min-h-[48px] px-3 py-2",
-        "text-sm font-normal",
-        "rounded-md cursor-pointer select-none outline-none",
-        // State layer
-        "transition-colors duration-150",
-        // Default colors
-        "text-[hsl(var(--popover-foreground))]",
-        // Hover/focus state
-        "hover:bg-[hsl(var(--muted))]",
-        "focus:bg-[hsl(var(--muted))]",
-        // Destructive variant
-        "data-[variant=destructive]:text-destructive",
-        "data-[variant=destructive]:hover:bg-destructive/10",
-        "data-[variant=destructive]:focus:bg-destructive/10",
-        // Disabled state
-        "data-[disabled]:pointer-events-none data-[disabled]:opacity-[0.38]",
-        // Inset for items without icons
-        "data-[inset]:pl-10",
-        // Icon styling
-        "[&_svg]:size-5 [&_svg]:shrink-0 [&_svg]:text-[hsl(var(--muted-foreground))]",
-        "[&_svg]:pointer-events-none",
+        "mat-mdc-menu-item mdc-list-item",
+        variant === "destructive" && "mat-warn",
         className
       )}
+      onClick={handleClick}
       {...props}
-    />
+    >
+      <span className="mdc-list-item__primary-text">{children}</span>
+      <div className="mat-mdc-menu-ripple mat-ripple" />
+    </button>
   )
 }
 
@@ -135,136 +153,79 @@ function DropdownMenuCheckboxItem({
   children,
   checked,
   ...props
-}: ComponentProps<typeof DropdownMenuPrimitive.CheckboxItem>) {
+}: ComponentProps<"button"> & { checked?: boolean }) {
   return (
-    <DropdownMenuPrimitive.CheckboxItem
-      data-slot="dropdown-menu-checkbox-item"
-      className={cn(
-        // MD3 checkbox item
-        "relative flex items-center gap-3",
-        "min-h-[48px] pl-10 pr-3 py-2",
-        "text-sm font-normal",
-        "rounded-md cursor-pointer select-none outline-none",
-        "transition-colors duration-150",
-        "hover:bg-[hsl(var(--muted))]",
-        "focus:bg-[hsl(var(--muted))]",
-        "data-[disabled]:pointer-events-none data-[disabled]:opacity-[0.38]",
-        "[&_svg]:size-5 [&_svg]:shrink-0",
-        className
-      )}
-      checked={checked}
+    <button
+      type="button"
+      role="menuitemcheckbox"
+      aria-checked={checked}
+      className={cn("mat-mdc-menu-item mdc-list-item", className)}
       {...props}
     >
-      <span className="absolute left-3 flex size-5 items-center justify-center">
-        <DropdownMenuPrimitive.ItemIndicator>
-          <CheckIcon className="size-5 text-primary" />
-        </DropdownMenuPrimitive.ItemIndicator>
-      </span>
-      {children}
-    </DropdownMenuPrimitive.CheckboxItem>
+      <span className="mdc-list-item__primary-text">{children}</span>
+      {checked && (
+        <span className="mdc-list-item__end">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+          </svg>
+        </span>
+      )}
+    </button>
   )
 }
 
-function DropdownMenuRadioGroup({
-  ...props
-}: ComponentProps<typeof DropdownMenuPrimitive.RadioGroup>) {
-  return (
-    <DropdownMenuPrimitive.RadioGroup
-      data-slot="dropdown-menu-radio-group"
-      {...props}
-    />
-  )
+function DropdownMenuRadioGroup({ children }: { children: React.ReactNode }) {
+  return <div role="radiogroup">{children}</div>
 }
 
 function DropdownMenuRadioItem({
   className,
   children,
   ...props
-}: ComponentProps<typeof DropdownMenuPrimitive.RadioItem>) {
+}: ComponentProps<"button">) {
   return (
-    <DropdownMenuPrimitive.RadioItem
-      data-slot="dropdown-menu-radio-item"
-      className={cn(
-        // MD3 radio item
-        "relative flex items-center gap-3",
-        "min-h-[48px] pl-10 pr-3 py-2",
-        "text-sm font-normal",
-        "rounded-md cursor-pointer select-none outline-none",
-        "transition-colors duration-150",
-        "hover:bg-[hsl(var(--muted))]",
-        "focus:bg-[hsl(var(--muted))]",
-        "data-[disabled]:pointer-events-none data-[disabled]:opacity-[0.38]",
-        "[&_svg]:size-5 [&_svg]:shrink-0",
-        className
-      )}
+    <button
+      type="button"
+      role="menuitemradio"
+      className={cn("mat-mdc-menu-item mdc-list-item", className)}
       {...props}
     >
-      <span className="absolute left-3 flex size-5 items-center justify-center">
-        <DropdownMenuPrimitive.ItemIndicator>
-          <CircleIcon className="size-2 fill-primary text-primary" />
-        </DropdownMenuPrimitive.ItemIndicator>
-      </span>
-      {children}
-    </DropdownMenuPrimitive.RadioItem>
+      <span className="mdc-list-item__primary-text">{children}</span>
+    </button>
   )
 }
 
-function DropdownMenuLabel({
-  className,
-  inset,
-  ...props
-}: ComponentProps<typeof DropdownMenuPrimitive.Label> & {
-  inset?: boolean
-}) {
+function DropdownMenuLabel({ className, inset, ...props }: ComponentProps<"div"> & { inset?: boolean }) {
   return (
-    <DropdownMenuPrimitive.Label
-      data-slot="dropdown-menu-label"
-      data-inset={inset}
-      className={cn(
-        // MD3 label style
-        "px-3 py-2 text-xs font-medium uppercase tracking-wider",
-        "text-[hsl(var(--muted-foreground))]",
-        "data-[inset]:pl-10",
-        className
-      )}
+    <div
+      className={cn("mat-mdc-optgroup-label", className)}
       {...props}
     />
   )
 }
 
-function DropdownMenuSeparator({
-  className,
-  ...props
-}: ComponentProps<typeof DropdownMenuPrimitive.Separator>) {
+function DropdownMenuSeparator({ className, ...props }: ComponentProps<"hr">) {
   return (
-    <DropdownMenuPrimitive.Separator
-      data-slot="dropdown-menu-separator"
-      className={cn("my-1 h-px bg-[hsl(var(--border))]", className)}
+    <hr
+      className={cn("mat-divider", className)}
+      role="separator"
       {...props}
     />
   )
 }
 
-function DropdownMenuShortcut({
-  className,
-  ...props
-}: ComponentProps<"span">) {
+function DropdownMenuShortcut({ className, ...props }: ComponentProps<"span">) {
   return (
     <span
-      data-slot="dropdown-menu-shortcut"
-      className={cn(
-        "ml-auto text-xs text-[hsl(var(--muted-foreground))] tracking-widest",
-        className
-      )}
+      className={className}
+      style={{ marginLeft: "auto", fontSize: "0.75rem", opacity: 0.6 }}
       {...props}
     />
   )
 }
 
-function DropdownMenuSub({
-  ...props
-}: ComponentProps<typeof DropdownMenuPrimitive.Sub>) {
-  return <DropdownMenuPrimitive.Sub data-slot="dropdown-menu-sub" {...props} />
+function DropdownMenuSub({ children }: { children: React.ReactNode }) {
+  return <>{children}</>
 }
 
 function DropdownMenuSubTrigger({
@@ -272,57 +233,34 @@ function DropdownMenuSubTrigger({
   inset,
   children,
   ...props
-}: ComponentProps<typeof DropdownMenuPrimitive.SubTrigger> & {
-  inset?: boolean
-}) {
+}: ComponentProps<"button"> & { inset?: boolean }) {
   return (
-    <DropdownMenuPrimitive.SubTrigger
-      data-slot="dropdown-menu-sub-trigger"
-      data-inset={inset}
-      className={cn(
-        // MD3 sub-menu trigger
-        "relative flex items-center gap-3",
-        "min-h-[48px] px-3 py-2",
-        "text-sm font-normal",
-        "rounded-md cursor-pointer select-none outline-none",
-        "transition-colors duration-150",
-        "hover:bg-[hsl(var(--muted))]",
-        "focus:bg-[hsl(var(--muted))]",
-        "data-[state=open]:bg-[hsl(var(--muted))]",
-        "data-[inset]:pl-10",
-        className
-      )}
+    <button
+      type="button"
+      className={cn("mat-mdc-menu-item mdc-list-item", className)}
       {...props}
     >
-      {children}
-      <ChevronRightIcon className="ml-auto size-5 text-[hsl(var(--muted-foreground))]" />
-    </DropdownMenuPrimitive.SubTrigger>
+      <span className="mdc-list-item__primary-text">{children}</span>
+      <span className="mat-mdc-menu-submenu-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
+        </svg>
+      </span>
+    </button>
   )
 }
 
-function DropdownMenuSubContent({
-  className,
-  ...props
-}: ComponentProps<typeof DropdownMenuPrimitive.SubContent>) {
+function DropdownMenuSubContent({ className, children, ...props }: ComponentProps<"div">) {
   return (
-    <DropdownMenuPrimitive.SubContent
-      data-slot="dropdown-menu-sub-content"
-      className={cn(
-        // MD3 sub-menu surface
-        "bg-[hsl(var(--popover))] text-[hsl(var(--popover-foreground))]",
-        "z-50 min-w-[180px] overflow-hidden rounded-lg border-0 p-1",
-        "shadow-lg",
-        // Animations
-        "data-[state=open]:animate-in data-[state=closed]:animate-out",
-        "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
-        "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
-        "data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2",
-        "data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
-        "origin-[var(--radix-dropdown-menu-content-transform-origin)]",
-        className
-      )}
+    <div
+      className={cn("mat-mdc-menu-panel", className)}
+      role="menu"
       {...props}
-    />
+    >
+      <div className="mat-mdc-menu-content">
+        {children}
+      </div>
+    </div>
   )
 }
 

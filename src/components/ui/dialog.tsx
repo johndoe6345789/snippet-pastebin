@@ -1,112 +1,149 @@
 "use client"
 
-import * as React from "react"
-import * as DialogPrimitive from "@radix-ui/react-dialog"
-import Close from "lucide-react/dist/esm/icons/x"
-
+import { ComponentProps, useEffect, useRef } from "react"
+import { createPortal } from "react-dom"
 import { cn } from "@/lib/utils"
 
-const Dialog = DialogPrimitive.Root
+interface DialogProps {
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
+  children: React.ReactNode
+}
 
-const DialogTrigger = DialogPrimitive.Trigger
+function Dialog({ open, onOpenChange, children }: DialogProps) {
+  return <>{children}</>
+}
 
-const DialogPortal = DialogPrimitive.Portal
-
-const DialogClose = DialogPrimitive.Close
-
-const DialogOverlay = React.forwardRef<
-  React.ElementRef<typeof DialogPrimitive.Overlay>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
->(({ className, ...props }, ref) => (
-  <DialogPrimitive.Overlay
-    ref={ref}
-    className={cn(
-      "fixed inset-0 z-50 bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
-      className
-    )}
-    {...props}
-  />
-))
-DialogOverlay.displayName = DialogPrimitive.Overlay.displayName
-
-const DialogContent = React.forwardRef<
-  React.ElementRef<typeof DialogPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
->(({ className, children, ...props }, ref) => (
-  <DialogPortal>
-    <DialogOverlay />
-    <DialogPrimitive.Content
-      ref={ref}
-      className={cn(
-        "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg",
-        className
-      )}
-      {...props}
-    >
+function DialogTrigger({ children, onClick, ...props }: ComponentProps<"button">) {
+  return (
+    <button type="button" onClick={onClick} {...props}>
       {children}
-      <DialogPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
-        <Close className="h-4 w-4" />
-        <span className="sr-only">Close</span>
-      </DialogPrimitive.Close>
-    </DialogPrimitive.Content>
-  </DialogPortal>
-))
-DialogContent.displayName = DialogPrimitive.Content.displayName
+    </button>
+  )
+}
 
-const DialogHeader = ({
+function DialogPortal({ children }: { children: React.ReactNode }) {
+  const [mounted, setMounted] = React.useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+    return () => setMounted(false)
+  }, [])
+
+  if (!mounted) return null
+  return createPortal(children, document.body)
+}
+
+function DialogOverlay({ className, onClick, ...props }: ComponentProps<"div">) {
+  return (
+    <div
+      className={cn("cdk-overlay-backdrop cdk-overlay-dark-backdrop cdk-overlay-backdrop-showing", className)}
+      onClick={onClick}
+      {...props}
+    />
+  )
+}
+
+function DialogContent({
   className,
+  children,
+  onClose,
   ...props
-}: React.HTMLAttributes<HTMLDivElement>) => (
-  <div
-    className={cn(
-      "flex flex-col space-y-1.5 text-center sm:text-left",
-      className
-    )}
-    {...props}
-  />
-)
-DialogHeader.displayName = "DialogHeader"
+}: ComponentProps<"div"> & { onClose?: () => void }) {
+  const dialogRef = useRef<HTMLDivElement>(null)
 
-const DialogFooter = ({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) => (
-  <div
-    className={cn(
-      "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2",
-      className
-    )}
-    {...props}
-  />
-)
-DialogFooter.displayName = "DialogFooter"
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && onClose) {
+        onClose()
+      }
+    }
 
-const DialogTitle = React.forwardRef<
-  React.ElementRef<typeof DialogPrimitive.Title>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
->(({ className, ...props }, ref) => (
-  <DialogPrimitive.Title
-    ref={ref}
-    className={cn(
-      "text-lg font-semibold leading-none tracking-tight",
-      className
-    )}
-    {...props}
-  />
-))
-DialogTitle.displayName = DialogPrimitive.Title.displayName
+    document.addEventListener("keydown", handleEscape)
+    return () => document.removeEventListener("keydown", handleEscape)
+  }, [onClose])
 
-const DialogDescription = React.forwardRef<
-  React.ElementRef<typeof DialogPrimitive.Description>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
->(({ className, ...props }, ref) => (
-  <DialogPrimitive.Description
-    ref={ref}
-    className={cn("text-muted-foreground text-sm", className)}
-    {...props}
-  />
-))
-DialogDescription.displayName = DialogPrimitive.Description.displayName
+  return (
+    <DialogPortal>
+      <div className="cdk-overlay-container">
+        <div className="cdk-global-overlay-wrapper">
+          <div className="cdk-overlay-pane">
+            <DialogOverlay onClick={onClose} />
+            <div className="mat-mdc-dialog-container mdc-dialog mdc-dialog--open">
+              <div className="mat-mdc-dialog-inner-container">
+                <div
+                  ref={dialogRef}
+                  className={cn("mat-mdc-dialog-surface mdc-dialog__surface", className)}
+                  role="dialog"
+                  aria-modal="true"
+                  {...props}
+                >
+                  {children}
+                  <button
+                    type="button"
+                    className="mat-mdc-icon-button mdc-icon-button"
+                    onClick={onClose}
+                    style={{ position: "absolute", right: "16px", top: "16px" }}
+                    aria-label="Close"
+                  >
+                    <span className="mdc-icon-button__ripple" />
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </DialogPortal>
+  )
+}
+
+function DialogHeader({ className, ...props }: ComponentProps<"div">) {
+  return (
+    <div
+      className={cn("mat-mdc-dialog-title", className)}
+      {...props}
+    />
+  )
+}
+
+function DialogFooter({ className, ...props }: ComponentProps<"div">) {
+  return (
+    <div
+      className={cn("mat-mdc-dialog-actions", className)}
+      {...props}
+    />
+  )
+}
+
+function DialogTitle({ className, ...props }: ComponentProps<"h2">) {
+  return (
+    <h2
+      className={cn("mat-mdc-dialog-title", className)}
+      {...props}
+    />
+  )
+}
+
+function DialogDescription({ className, ...props }: ComponentProps<"p">) {
+  return (
+    <p
+      className={cn("mat-mdc-dialog-content", className)}
+      {...props}
+    />
+  )
+}
+
+function DialogClose({ children, onClick }: ComponentProps<"button">) {
+  return (
+    <button type="button" onClick={onClick}>
+      {children}
+    </button>
+  )
+}
 
 export {
   Dialog,

@@ -1,6 +1,4 @@
 import { ComponentProps, createContext, useContext, useId } from "react"
-import * as LabelPrimitive from "@radix-ui/react-label"
-import { Slot } from "@radix-ui/react-slot"
 import {
   Controller,
   FormProvider,
@@ -10,7 +8,6 @@ import {
   type FieldPath,
   type FieldValues,
 } from "react-hook-form"
-
 import { cn } from "@/lib/utils"
 import { Label } from "@/components/ui/label"
 
@@ -76,38 +73,28 @@ function FormItem({ className, ...props }: ComponentProps<"div">) {
 
   return (
     <FormItemContext.Provider value={{ id }}>
-      <div
-        data-slot="form-item"
-        className={cn("grid gap-2", className)}
-        {...props}
-      />
+      <div className={cn("mat-mdc-form-field", className)} {...props} />
     </FormItemContext.Provider>
   )
 }
 
-function FormLabel({
-  className,
-  ...props
-}: ComponentProps<typeof LabelPrimitive.Root>) {
+function FormLabel({ className, ...props }: ComponentProps<typeof Label>) {
   const { error, formItemId } = useFormField()
 
   return (
     <Label
-      data-slot="form-label"
-      data-error={!!error}
-      className={cn("data-[error=true]:text-destructive", className)}
+      className={cn(error && "mat-error", className)}
       htmlFor={formItemId}
       {...props}
     />
   )
 }
 
-function FormControl({ ...props }: ComponentProps<typeof Slot>) {
+function FormControl({ className, ...props }: ComponentProps<"div">) {
   const { error, formItemId, formDescriptionId, formMessageId } = useFormField()
 
   return (
-    <Slot
-      data-slot="form-control"
+    <div
       id={formItemId}
       aria-describedby={
         !error
@@ -115,6 +102,7 @@ function FormControl({ ...props }: ComponentProps<typeof Slot>) {
           : `${formDescriptionId} ${formMessageId}`
       }
       aria-invalid={!!error}
+      className={className}
       {...props}
     />
   )
@@ -125,9 +113,8 @@ function FormDescription({ className, ...props }: ComponentProps<"p">) {
 
   return (
     <p
-      data-slot="form-description"
       id={formDescriptionId}
-      className={cn("text-muted-foreground text-sm", className)}
+      className={cn("mat-mdc-form-field-hint", className)}
       {...props}
     />
   )
@@ -143,9 +130,8 @@ function FormMessage({ className, ...props }: ComponentProps<"p">) {
 
   return (
     <p
-      data-slot="form-message"
       id={formMessageId}
-      className={cn("text-destructive text-sm", className)}
+      className={cn("mat-mdc-form-field-error", className)}
       {...props}
     >
       {body}
