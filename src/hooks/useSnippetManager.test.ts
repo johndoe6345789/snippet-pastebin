@@ -271,8 +271,6 @@ describe('useSnippetManager Hook', () => {
         expect(mockDb.seedDatabase).toHaveBeenCalled()
       }, { timeout: 2000 })
 
-      const initialCount = result.current.selectedIds.length
-
       await act(async () => {
         result.current.handleToggleSnippetSelection('snippet-1')
       })

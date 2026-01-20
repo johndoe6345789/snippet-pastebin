@@ -11,7 +11,7 @@ interface DialogProps {
   children: React.ReactNode
 }
 
-function Dialog({ open, onOpenChange, children }: DialogProps) {
+function Dialog({ open, children }: DialogProps) {
   // If open is explicitly false, don't render
   if (open === false) return null
   return <>{children}</>
@@ -24,11 +24,15 @@ interface DialogTriggerProps extends Omit<ComponentProps<"button">, "asChild"> {
 function DialogTrigger({ children, onClick, asChild = false, ...props }: DialogTriggerProps) {
   const Comp = asChild ? "div" : "button"
 
+  const buttonProps = asChild ? {} : { type: "button" as const }
+  const clickHandler = asChild ? undefined : onClick
+  const spreadProps = asChild ? {} : props
+
   return (
     <Comp
-      {...(asChild ? {} : { type: "button" })}
-      onClick={asChild ? undefined : (onClick as any)}
-      {...(asChild ? {} : props)}
+      {...buttonProps}
+      onClick={clickHandler}
+      {...spreadProps}
     >
       {children}
     </Comp>

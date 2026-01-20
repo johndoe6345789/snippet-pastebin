@@ -200,7 +200,7 @@ test.describe("Advanced Styling and CSS Tests", () => {
       // Some elements might have shadows
       expect(shadowElements).toBeTruthy()
 
-      const metrics = await page.metrics()
+      const metrics = await (page as any).metrics()
       // Rendering should not be excessively slow
       expect(metrics.LayoutCount).toBeLessThan(500)
     })

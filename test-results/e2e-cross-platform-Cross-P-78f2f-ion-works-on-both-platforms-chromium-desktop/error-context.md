@@ -1,0 +1,209 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e6]:
+        - generic [ref=e7]:
+          - button "Toggle navigation menu" [ref=e8]:
+            - img [ref=e9]
+          - img [ref=e12]
+          - text: CodeSnippet
+        - generic [ref=e15]:
+          - img [ref=e16]
+          - generic [ref=e18]: Local
+    - main [ref=e19]:
+      - generic [ref=e21]:
+        - alert [ref=e22]:
+          - img [ref=e23]
+          - heading "Workspace ready" [level=5] [ref=e25]
+          - generic [ref=e26]: Running in local-first mode so you can work offline without a backend.
+        - alert [ref=e27]:
+          - img [ref=e28]
+          - heading "Cloud backend unavailable" [level=5] [ref=e30]
+          - generic [ref=e31]: No Flask backend detected. Saving and loading will stay on this device until a server URL is configured.
+      - generic [ref=e32]:
+        - generic [ref=e33]:
+          - heading "Atoms" [level=2] [ref=e34]
+          - paragraph [ref=e35]: Fundamental building blocks - basic HTML elements styled as reusable components
+        - generic [ref=e36]:
+          - generic [ref=e37]:
+            - generic [ref=e38]:
+              - heading "Buttons" [level=2] [ref=e39]
+              - paragraph [ref=e40]: Interactive controls with multiple variants and states
+            - generic [ref=e41]:
+              - button "Save as Snippet" [ref=e43] [cursor=pointer]:
+                - img [ref=e44]
+                - text: Save as Snippet
+              - generic [ref=e47]:
+                - generic [ref=e48]:
+                  - heading "Variants" [level=3] [ref=e49]
+                  - generic [ref=e50]:
+                    - button "Default" [ref=e51] [cursor=pointer]
+                    - button "Secondary" [ref=e52] [cursor=pointer]
+                    - button "Destructive" [ref=e53] [cursor=pointer]
+                    - button "Outline" [ref=e54] [cursor=pointer]
+                    - button "Ghost" [ref=e55] [cursor=pointer]
+                    - button "Link" [ref=e56] [cursor=pointer]
+                - generic [ref=e57]:
+                  - heading "Sizes" [level=3] [ref=e58]
+                  - generic [ref=e59]:
+                    - button "Small" [ref=e60] [cursor=pointer]
+                    - button "Default" [ref=e61] [cursor=pointer]
+                    - button "Large" [ref=e62] [cursor=pointer]
+                    - button [ref=e63] [cursor=pointer]:
+                      - img [ref=e64]
+                - generic [ref=e66]:
+                  - heading "With Icons" [level=3] [ref=e67]
+                  - generic [ref=e68]:
+                    - button "Favorite" [ref=e69] [cursor=pointer]:
+                      - img [ref=e70]
+                      - text: Favorite
+                    - button "Add Item" [ref=e72] [cursor=pointer]:
+                      - img [ref=e73]
+                      - text: Add Item
+                    - button "Quick Action" [ref=e75] [cursor=pointer]:
+                      - img [ref=e76]
+                      - text: Quick Action
+                - generic [ref=e78]:
+                  - heading "States" [level=3] [ref=e79]
+                  - generic [ref=e80]:
+                    - button "Disabled" [disabled] [ref=e81]
+                    - button "Disabled Outline" [disabled] [ref=e82]
+          - generic [ref=e83]:
+            - generic [ref=e84]:
+              - heading "Badges" [level=2] [ref=e85]
+              - paragraph [ref=e86]: Small status indicators and labels
+            - generic [ref=e87]:
+              - button "Save as Snippet" [ref=e89] [cursor=pointer]:
+                - img [ref=e90]
+                - text: Save as Snippet
+              - generic [ref=e93]:
+                - generic [ref=e94]:
+                  - heading "Variants" [level=3] [ref=e95]
+                  - generic [ref=e96]:
+                    - generic [ref=e97]: Default
+                    - generic [ref=e98]: Secondary
+                    - generic [ref=e99]: Destructive
+                    - generic [ref=e100]: Outline
+                - generic [ref=e101]:
+                  - heading "With Icons" [level=3] [ref=e102]
+                  - generic [ref=e103]:
+                    - generic [ref=e104]:
+                      - img [ref=e105]
+                      - text: Completed
+                    - generic [ref=e107]:
+                      - img [ref=e108]
+                      - text: Failed
+                    - generic [ref=e110]:
+                      - img [ref=e111]
+                      - text: Featured
+          - generic [ref=e113]:
+            - generic [ref=e114]:
+              - heading "Inputs" [level=2] [ref=e115]
+              - paragraph [ref=e116]: Form input fields for user data entry
+            - generic [ref=e117]:
+              - button "Save as Snippet" [ref=e119] [cursor=pointer]:
+                - img [ref=e120]
+                - text: Save as Snippet
+              - generic [ref=e123]:
+                - generic [ref=e124]:
+                  - heading "States" [level=3] [ref=e125]
+                  - generic [ref=e126]:
+                    - textbox "Default input" [ref=e127]
+                    - textbox "Disabled input" [disabled] [ref=e128]
+                    - generic [ref=e129]:
+                      - img [ref=e130]
+                      - textbox "Search..." [ref=e132]
+                - generic [ref=e133]:
+                  - heading "Types" [level=3] [ref=e134]
+                  - generic [ref=e135]:
+                    - textbox "Text input" [ref=e136]
+                    - textbox "email@example.com" [ref=e137]
+                    - textbox "Password" [ref=e138]
+                    - spinbutton [ref=e139]
+          - generic [ref=e140]:
+            - generic [ref=e141]:
+              - heading "Typography" [level=2] [ref=e142]
+              - paragraph [ref=e143]: Text styles and hierarchical type scale
+            - generic [ref=e145]:
+              - generic [ref=e146]:
+                - heading "Heading 1" [level=1] [ref=e147]
+                - paragraph [ref=e148]: Bricolage Grotesque Bold / 48px
+              - generic [ref=e149]:
+                - heading "Heading 2" [level=2] [ref=e150]
+                - paragraph [ref=e151]: Bricolage Grotesque Semibold / 36px
+              - generic [ref=e152]:
+                - heading "Heading 3" [level=3] [ref=e153]
+                - paragraph [ref=e154]: Bricolage Grotesque Semibold / 30px
+              - generic [ref=e155]:
+                - heading "Heading 4" [level=4] [ref=e156]
+                - paragraph [ref=e157]: Bricolage Grotesque Medium / 24px
+              - generic [ref=e158]:
+                - paragraph [ref=e159]: Body text - The quick brown fox jumps over the lazy dog. This is regular body text used for paragraphs and general content.
+                - paragraph [ref=e160]: Inter Regular / 16px
+              - generic [ref=e161]:
+                - paragraph [ref=e162]: Small text - Additional information, captions, and secondary content.
+                - paragraph [ref=e163]: Inter Regular / 14px
+              - generic [ref=e164]:
+                - code [ref=e165]: const example = "code text";
+                - paragraph [ref=e166]: JetBrains Mono Regular / 14px
+          - generic [ref=e167]:
+            - generic [ref=e168]:
+              - heading "Icons" [level=2] [ref=e169]
+              - paragraph [ref=e170]: Phosphor icon set with multiple weights
+            - generic [ref=e172]:
+              - generic [ref=e173]:
+                - img [ref=e174]
+                - generic [ref=e176]: Heart
+              - generic [ref=e177]:
+                - img [ref=e178]
+                - generic [ref=e180]: Star
+              - generic [ref=e181]:
+                - img [ref=e182]
+                - generic [ref=e184]: Lightning
+              - generic [ref=e185]:
+                - img [ref=e186]
+                - generic [ref=e188]: Check
+              - generic [ref=e189]:
+                - img [ref=e190]
+                - generic [ref=e192]: X
+              - generic [ref=e193]:
+                - img [ref=e194]
+                - generic [ref=e196]: Plus
+              - generic [ref=e197]:
+                - img [ref=e198]
+                - generic [ref=e200]: Minus
+              - generic [ref=e201]:
+                - img [ref=e202]
+                - generic [ref=e204]: Search
+          - generic [ref=e205]:
+            - generic [ref=e206]:
+              - heading "Colors" [level=2] [ref=e207]
+              - paragraph [ref=e208]: Semantic color palette with accessibility in mind
+            - generic [ref=e210]:
+              - generic [ref=e212]:
+                - paragraph [ref=e213]: Primary
+                - code [ref=e214]: oklch(0.50 0.18 310)
+              - generic [ref=e216]:
+                - paragraph [ref=e217]: Secondary
+                - code [ref=e218]: oklch(0.30 0.08 310)
+              - generic [ref=e220]:
+                - paragraph [ref=e221]: Accent
+                - code [ref=e222]: oklch(0.72 0.20 25)
+              - generic [ref=e224]:
+                - paragraph [ref=e225]: Destructive
+                - code [ref=e226]: oklch(0.577 0.245 27.325)
+              - generic [ref=e228]:
+                - paragraph [ref=e229]: Muted
+                - code [ref=e230]: oklch(0.25 0.06 310)
+              - generic [ref=e233]:
+                - paragraph [ref=e234]: Card
+                - code [ref=e235]: oklch(0.20 0.12 310)
+    - contentinfo [ref=e236]:
+      - generic [ref=e238]:
+        - paragraph [ref=e239]: Save, organize, and share your code snippets with beautiful syntax highlighting and live execution
+        - paragraph [ref=e240]: Supports React preview and Python execution via Pyodide
+  - region "Notifications alt+T"
+```

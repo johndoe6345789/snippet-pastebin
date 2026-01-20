@@ -1,4 +1,4 @@
-import { renderHook, act, waitFor } from '@testing-library/react'
+import { renderHook, act } from '@testing-library/react'
 import { useDatabaseOperations } from './useDatabaseOperations'
 import * as dbModule from '@/lib/db'
 import * as sonerModule from 'sonner'
@@ -111,7 +111,6 @@ describe('useDatabaseOperations Hook', () => {
       mockDb.exportDatabase.mockResolvedValueOnce(mockJsonData)
 
       // Mock DOM methods
-      const mockBlob = new Blob()
       const mockUrl = 'blob:http://test'
       const mockLink = document.createElement('a')
 
