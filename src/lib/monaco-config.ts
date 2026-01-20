@@ -3,7 +3,7 @@
  * These definitions are loaded into Monaco to provide IntelliSense for React and shadcn components
  */
 
-import type { Monaco } from '@monaco-editor/react'
+import type { Monaco } from '@monaco-editor/react';
 
 /**
  * TypeScript compiler options for both TypeScript and JavaScript files
@@ -13,7 +13,7 @@ import type { Monaco } from '@monaco-editor/react'
  * - module: 99 = ModuleKind.ESNext
  * - jsx: 2 = JsxEmit.React
  */
-export const compilerOptions: Monaco['languages']['typescript']['CompilerOptions'] = {
+const compilerOptions: Monaco['languages']['typescript']['CompilerOptions'] = {
   target: 2, // ScriptTarget.Latest
   allowNonTsExtensions: true,
   moduleResolution: 2, // ModuleResolutionKind.NodeJs
@@ -24,20 +24,20 @@ export const compilerOptions: Monaco['languages']['typescript']['CompilerOptions
   reactNamespace: 'React',
   allowJs: true,
   typeRoots: ['node_modules/@types'],
-}
+};
 
 /**
  * Diagnostics options for TypeScript/JavaScript validation
  */
-export const diagnosticsOptions: Monaco['languages']['typescript']['DiagnosticsOptions'] = {
+const diagnosticsOptions: Monaco['languages']['typescript']['DiagnosticsOptions'] = {
   noSemanticValidation: false,
   noSyntaxValidation: false,
-}
+};
 
 /**
  * React type definitions for Monaco IntelliSense
  */
-export const reactTypes = `
+const reactTypes = `
   declare module 'react' {
     export function useState<T>(initialState: T | (() => T)): [T, (newState: T | ((prevState: T) => T)) => void];
     export function useEffect(effect: () => void | (() => void), deps?: any[]): void;
@@ -59,12 +59,12 @@ export const reactTypes = `
       [elemName: string]: any;
     }
   }
-`
+`;
 
 /**
  * shadcn/ui component type definitions for Monaco IntelliSense
  */
-export const shadcnTypes = `
+const shadcnTypes = `
   declare module '@/components/ui/button' {
     export interface ButtonProps {
       variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
@@ -153,37 +153,37 @@ export const shadcnTypes = `
     export function ShoppingCart(props: IconProps): JSX.Element;
     [key: string]: (props: IconProps) => JSX.Element;
   }
-`
+`;
 
 /**
  * Configures Monaco editor with TypeScript/React support
  */
-export function configureMonacoTypeScript(monaco: Monaco) {
+function configureMonacoTypeScript(monaco: Monaco) {
   // Set compiler options for TypeScript
-  monaco.languages.typescript.typescriptDefaults.setCompilerOptions(compilerOptions)
+  monaco.languages.typescript.typescriptDefaults.setCompilerOptions(compilerOptions);
   
   // Set compiler options for JavaScript
-  monaco.languages.typescript.javascriptDefaults.setCompilerOptions(compilerOptions)
+  monaco.languages.typescript.javascriptDefaults.setCompilerOptions(compilerOptions);
 
   // Set diagnostics options for TypeScript
-  monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions(diagnosticsOptions)
+  monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions(diagnosticsOptions);
   
   // Set diagnostics options for JavaScript
-  monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions(diagnosticsOptions)
+  monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions(diagnosticsOptions);
 
   // Add React type definitions
-  monaco.languages.typescript.typescriptDefaults.addExtraLib(reactTypes, 'file:///node_modules/@types/react/index.d.ts')
-  monaco.languages.typescript.javascriptDefaults.addExtraLib(reactTypes, 'file:///node_modules/@types/react/index.d.ts')
+  monaco.languages.typescript.typescriptDefaults.addExtraLib(reactTypes, 'file:///node_modules/@types/react/index.d.ts');
+  monaco.languages.typescript.javascriptDefaults.addExtraLib(reactTypes, 'file:///node_modules/@types/react/index.d.ts');
   
   // Add shadcn component type definitions
-  monaco.languages.typescript.typescriptDefaults.addExtraLib(shadcnTypes, 'file:///node_modules/@types/shadcn/index.d.ts')
-  monaco.languages.typescript.javascriptDefaults.addExtraLib(shadcnTypes, 'file:///node_modules/@types/shadcn/index.d.ts')
+  monaco.languages.typescript.typescriptDefaults.addExtraLib(shadcnTypes, 'file:///node_modules/@types/shadcn/index.d.ts');
+  monaco.languages.typescript.javascriptDefaults.addExtraLib(shadcnTypes, 'file:///node_modules/@types/shadcn/index.d.ts');
 }
 
 /**
  * Language mapping for Monaco editor
  */
-export const languageMap: Record<string, string> = {
+const languageMap: Record<string, string> = {
   'JavaScript': 'javascript',
   'TypeScript': 'typescript',
   'JSX': 'javascript',
@@ -203,11 +203,13 @@ export const languageMap: Record<string, string> = {
   'SQL': 'sql',
   'Bash': 'shell',
   'Other': 'plaintext',
-}
+};
 
 /**
  * Converts a high-level language name to Monaco language ID
  */
-export function getMonacoLanguage(language: string): string {
-  return languageMap[language] || 'plaintext'
+function getMonacoLanguage(language: string): string {
+  return languageMap[language] || 'plaintext';
 }
+
+export { configureMonacoTypeScript, getMonacoLanguage };
