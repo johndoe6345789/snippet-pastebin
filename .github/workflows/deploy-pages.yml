@@ -42,6 +42,8 @@ jobs:
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
+        with:
+          enablement: true
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
@@ -66,3 +68,12 @@ jobs:
           echo "GitHub Pages deployed to: ${{ steps.deployment.outputs.page_url }}" >> "$GITHUB_STEP_SUMMARY"
           echo "page_url=${{ steps.deployment.outputs.page_url }}" >> "$GITHUB_OUTPUT"
           echo "::notice::GitHub Pages URL: ${{ steps.deployment.outputs.page_url }}"
+
+  summarize:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Summarize GitHub Pages URL
+        run: |
+          echo "GitHub Pages URL: ${{ needs.deploy.outputs.page_url }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "::notice::GitHub Pages URL: ${{ needs.deploy.outputs.page_url }}"
