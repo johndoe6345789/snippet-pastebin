@@ -64,3 +64,5 @@ jobs:
       - name: Publish deployment URL
         run: |
           echo "GitHub Pages deployed to: ${{ steps.deployment.outputs.page_url }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "page_url=${{ steps.deployment.outputs.page_url }}" >> "$GITHUB_OUTPUT"
+          echo "::notice::GitHub Pages URL: ${{ steps.deployment.outputs.page_url }}"
