@@ -24,14 +24,17 @@ export function ErrorFallback({ error }: ErrorFallbackProps) {
   };
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
+    <div className="min-h-screen bg-background flex items-center justify-center p-4" data-testid="error-fallback">
       <div className="w-full max-w-3xl">
-        <Alert variant="destructive" className="mb-6">
-          <AlertTriangleIcon />
+        <Alert variant="destructive" className="mb-6" data-testid="error-alert">
+          <AlertTriangleIcon aria-hidden="true" />
           <AlertTitle>This spark has encountered a runtime error</AlertTitle>
           <AlertDescription className="mt-3 space-y-4">
             <div className="flex items-center justify-between gap-2">
-              <code className="text-sm bg-destructive/20 px-2 py-1 rounded flex-1 break-all">
+              <code
+                className="text-sm bg-destructive/20 px-2 py-1 rounded flex-1 break-all"
+                data-testid="error-message"
+              >
                 {error.message}
               </code>
               <Button
@@ -39,6 +42,8 @@ export function ErrorFallback({ error }: ErrorFallbackProps) {
                 variant="outline"
                 onClick={handleCopy}
                 className="shrink-0"
+                data-testid="copy-error-btn"
+                aria-label="Copy error details"
               >
                 {copied ? (
                   <>

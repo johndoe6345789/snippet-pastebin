@@ -5,7 +5,7 @@ import { SidebarGroupLabel } from './sidebarGroupLabel'
 describe('SidebarGroupLabel Component', () => {
   it('renders without crashing', () => {
     render(<SidebarGroupLabel />)
-    expect(screen.getByRole('*', { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

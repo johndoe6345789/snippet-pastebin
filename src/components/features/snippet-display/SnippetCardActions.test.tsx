@@ -5,7 +5,7 @@ import { SnippetCardActions } from './snippetCardActions'
 describe('SnippetCardActions Component', () => {
   it('renders without crashing', () => {
     render(<SnippetCardActions />)
-    expect(screen.getByRole('*', { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

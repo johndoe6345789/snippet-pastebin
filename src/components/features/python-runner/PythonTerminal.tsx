@@ -27,7 +27,7 @@ export function PythonTerminal({ code }: PythonTerminalProps) {
   }, [lines])
 
   return (
-    <div className="flex flex-col h-full bg-card">
+    <div className="flex flex-col h-full bg-card" data-testid="python-terminal">
       <TerminalHeader
         onRun={() => handleRun(code)}
         isRunning={isRunning}
@@ -35,7 +35,12 @@ export function PythonTerminal({ code }: PythonTerminalProps) {
         waitingForInput={waitingForInput}
       />
 
-      <div className="flex-1 overflow-auto p-4 font-mono text-sm bg-background/50">
+      <div
+        className="flex-1 overflow-auto p-4 font-mono text-sm bg-background/50"
+        data-testid="terminal-output-area"
+        role="region"
+        aria-label="Terminal output"
+      >
         <TerminalOutput lines={lines} isRunning={isRunning} />
         <TerminalInput
           waitingForInput={waitingForInput}

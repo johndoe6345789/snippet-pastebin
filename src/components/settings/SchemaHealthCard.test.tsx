@@ -5,7 +5,7 @@ import { SchemaHealthCard } from './schemaHealthCard'
 describe('SchemaHealthCard Component', () => {
   it('renders without crashing', () => {
     render(<SchemaHealthCard />)
-    expect(screen.getByRole('*', { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

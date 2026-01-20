@@ -5,7 +5,7 @@ import { SidebarMenuSubItem } from './sidebarMenuSubItem'
 describe('SidebarMenuSubItem Component', () => {
   it('renders without crashing', () => {
     render(<SidebarMenuSubItem />)
-    expect(screen.getByRole('*', { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

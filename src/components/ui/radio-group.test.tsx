@@ -5,7 +5,7 @@ import { RadioGroup } from './radioGroup'
 describe('RadioGroup Component', () => {
   it('renders without crashing', () => {
     render(<RadioGroup />)
-    expect(screen.getByRole('*', { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

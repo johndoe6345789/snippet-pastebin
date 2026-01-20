@@ -13,6 +13,8 @@ const Toaster = ({ ...props }: ToasterProps) => {
           "--normal-border": "var(--border)",
         } as CSSProperties
       }
+      data-testid="toast-container"
+      position="bottom-right"
       {...props}
     />
   )

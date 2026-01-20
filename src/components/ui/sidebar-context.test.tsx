@@ -5,7 +5,7 @@ import { SIDEBAR_WIDTH } from './sIDEBAR_WIDTH'
 describe('SIDEBAR_WIDTH Component', () => {
   it('renders without crashing', () => {
     render(<SIDEBAR_WIDTH />)
-    expect(screen.getByRole('*', { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

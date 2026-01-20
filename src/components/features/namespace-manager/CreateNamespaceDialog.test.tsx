@@ -5,7 +5,7 @@ import { CreateNamespaceDialog } from './createNamespaceDialog'
 describe('CreateNamespaceDialog Component', () => {
   it('renders without crashing', () => {
     render(<CreateNamespaceDialog />)
-    expect(screen.getByRole('*', { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

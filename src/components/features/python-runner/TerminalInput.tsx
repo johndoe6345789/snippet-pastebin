@@ -33,8 +33,9 @@ export function TerminalInput({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       className="flex items-center gap-2 mt-2"
+      data-testid="terminal-input-form"
     >
-      <span className="text-primary font-bold">{'>'}</span>
+      <span className="text-primary font-bold" aria-hidden="true">{'>'}</span>
       <Input
         ref={inputRef}
         type="text"
@@ -43,6 +44,8 @@ export function TerminalInput({
         className="flex-1 font-mono bg-background border-accent/50 focus:border-accent"
         placeholder="Enter input..."
         disabled={!waitingForInput}
+        data-testid="terminal-input"
+        aria-label="Terminal input"
       />
     </motion.form>
   )

@@ -5,7 +5,7 @@ import { BackendIndicator } from './backendIndicator'
 describe('BackendIndicator Component', () => {
   it('renders without crashing', () => {
     render(<BackendIndicator />)
-    expect(screen.getByRole('*', { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

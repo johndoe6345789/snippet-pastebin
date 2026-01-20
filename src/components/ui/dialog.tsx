@@ -46,6 +46,8 @@ function DialogOverlay({ className, onClick, ...props }: ComponentProps<"div">) 
     <div
       className={cn("cdk-overlay-backdrop cdk-overlay-dark-backdrop cdk-overlay-backdrop-showing", className)}
       onClick={onClick}
+      aria-hidden="true"
+      data-testid="dialog-overlay"
       {...props}
     />
   )
@@ -91,7 +93,8 @@ function DialogContent({
                     className="mat-mdc-icon-button mdc-icon-button"
                     onClick={onClose}
                     style={{ position: "absolute", right: "16px", top: "16px" }}
-                    aria-label="Close"
+                    aria-label="Close dialog"
+                    data-testid="dialog-close-btn"
                   >
                     <span className="mdc-icon-button__ripple" />
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">

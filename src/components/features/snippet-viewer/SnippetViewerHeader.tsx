@@ -60,8 +60,11 @@ export function SnippetViewerHeader({
             size="sm"
             onClick={onTogglePreview}
             className="gap-2"
+            data-testid="snippet-viewer-toggle-preview-btn"
+            aria-pressed={showPreview}
+            aria-label={showPreview ? "Hide preview" : "Show preview"}
           >
-            <SplitVertical className="h-4 w-4" />
+            <SplitVertical className="h-4 w-4" aria-hidden="true" />
             {showPreview ? strings.snippetViewer.buttons.hidePreview : strings.snippetViewer.buttons.showPreview}
           </Button>
         )}
@@ -70,15 +73,17 @@ export function SnippetViewerHeader({
           size="sm"
           onClick={onCopy}
           className="gap-2"
+          data-testid="snippet-viewer-copy-btn"
+          aria-label={isCopied ? "Code copied to clipboard" : "Copy code to clipboard"}
         >
           {isCopied ? (
             <>
-              <Check className="h-4 w-4" weight="bold" />
+              <Check className="h-4 w-4" weight="bold" aria-hidden="true" />
               {strings.snippetViewer.buttons.copied}
             </>
           ) : (
             <>
-              <Copy className="h-4 w-4" />
+              <Copy className="h-4 w-4" aria-hidden="true" />
               {strings.snippetViewer.buttons.copy}
             </>
           )}
@@ -88,8 +93,10 @@ export function SnippetViewerHeader({
           size="sm"
           onClick={onEdit}
           className="gap-2"
+          data-testid="snippet-viewer-edit-btn"
+          aria-label="Edit snippet"
         >
-          <Pencil className="h-4 w-4" />
+          <Pencil className="h-4 w-4" aria-hidden="true" />
           {strings.snippetViewer.buttons.edit}
         </Button>
       </div>

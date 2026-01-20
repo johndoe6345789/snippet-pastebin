@@ -5,7 +5,7 @@ import { SidebarGroupAction } from './sidebarGroupAction'
 describe('SidebarGroupAction Component', () => {
   it('renders without crashing', () => {
     render(<SidebarGroupAction />)
-    expect(screen.getByRole('*', { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

@@ -5,7 +5,7 @@ import { SidebarMenuSkeleton } from './sidebarMenuSkeleton'
 describe('SidebarMenuSkeleton Component', () => {
   it('renders without crashing', () => {
     render(<SidebarMenuSkeleton />)
-    expect(screen.getByRole('*', { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

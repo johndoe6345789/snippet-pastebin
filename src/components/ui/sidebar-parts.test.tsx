@@ -5,7 +5,7 @@ import { SidebarInput } from './sidebarInput'
 describe('SidebarInput Component', () => {
   it('renders without crashing', () => {
     render(<SidebarInput />)
-    expect(screen.getByRole('*', { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

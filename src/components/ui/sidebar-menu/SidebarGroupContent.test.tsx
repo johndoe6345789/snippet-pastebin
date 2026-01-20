@@ -5,7 +5,7 @@ import { SidebarGroupContent } from './sidebarGroupContent'
 describe('SidebarGroupContent Component', () => {
   it('renders without crashing', () => {
     render(<SidebarGroupContent />)
-    expect(screen.getByRole('*', { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

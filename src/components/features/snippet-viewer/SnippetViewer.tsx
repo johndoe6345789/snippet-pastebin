@@ -47,7 +47,10 @@ export function SnippetViewer({ snippet, open, onOpenChange, onEdit, onCopy }: S
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[95vw] sm:max-h-[95vh] h-[95vh] overflow-hidden flex flex-col p-0">
+      <DialogContent
+        className="sm:max-w-[95vw] sm:max-h-[95vh] h-[95vh] overflow-hidden flex flex-col p-0"
+        data-testid="snippet-viewer-dialog"
+      >
         <DialogHeader className="px-6 pt-6 pb-4 pr-14 border-b border-border">
           <SnippetViewerHeader 
             snippet={snippet}

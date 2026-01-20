@@ -5,7 +5,7 @@ import { SnippetViewerContent } from './snippetViewerContent'
 describe('SnippetViewerContent Component', () => {
   it('renders without crashing', () => {
     render(<SnippetViewerContent />)
-    expect(screen.getByRole('*', { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

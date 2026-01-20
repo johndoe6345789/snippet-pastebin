@@ -5,7 +5,7 @@ import { EmptyState } from './emptyState'
 describe('EmptyState Component', () => {
   it('renders without crashing', () => {
     render(<EmptyState />)
-    expect(screen.getByRole('*', { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

@@ -5,7 +5,7 @@ import { BackendAutoConfigCard } from './backendAutoConfigCard'
 describe('BackendAutoConfigCard Component', () => {
   it('renders without crashing', () => {
     render(<BackendAutoConfigCard />)
-    expect(screen.getByRole('*', { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

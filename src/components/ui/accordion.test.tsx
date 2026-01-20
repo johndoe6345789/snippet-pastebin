@@ -5,7 +5,7 @@ import { Accordion } from './accordion'
 describe('Accordion Component', () => {
   it('renders without crashing', () => {
     render(<Accordion />)
-    expect(screen.getByRole('*', { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

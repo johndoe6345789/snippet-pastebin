@@ -5,7 +5,7 @@ import { ContentGridsShowcase } from './contentGridsShowcase'
 describe('ContentGridsShowcase Component', () => {
   it('renders without crashing', () => {
     render(<ContentGridsShowcase />)
-    expect(screen.getByRole('*', { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

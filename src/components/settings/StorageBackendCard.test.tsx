@@ -5,7 +5,7 @@ import { StorageBackendCard } from './storageBackendCard'
 describe('StorageBackendCard Component', () => {
   it('renders without crashing', () => {
     render(<StorageBackendCard />)
-    expect(screen.getByRole('*', { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

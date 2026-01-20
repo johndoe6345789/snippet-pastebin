@@ -5,7 +5,7 @@ import { InputParameterItem } from './inputParameterItem'
 describe('InputParameterItem Component', () => {
   it('renders without crashing', () => {
     render(<InputParameterItem />)
-    expect(screen.getByRole('*', { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

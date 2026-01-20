@@ -5,7 +5,7 @@ import { LoadingAnalysis } from './loadingAnalysis'
 describe('LoadingAnalysis Component', () => {
   it('renders without crashing', () => {
     render(<LoadingAnalysis />)
-    expect(screen.getByRole('*', { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

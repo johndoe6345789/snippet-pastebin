@@ -5,7 +5,7 @@ import { DatabaseStatsCard } from './databaseStatsCard'
 describe('DatabaseStatsCard Component', () => {
   it('renders without crashing', () => {
     render(<DatabaseStatsCard />)
-    expect(screen.getByRole('*', { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

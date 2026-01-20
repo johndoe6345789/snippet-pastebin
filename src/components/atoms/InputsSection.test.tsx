@@ -5,7 +5,7 @@ import { InputsSection } from './inputsSection'
 describe('InputsSection Component', () => {
   it('renders without crashing', () => {
     render(<InputsSection />)
-    expect(screen.getByRole('*', { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

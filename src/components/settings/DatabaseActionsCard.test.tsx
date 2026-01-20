@@ -5,7 +5,7 @@ import { DatabaseActionsCard } from './databaseActionsCard'
 describe('DatabaseActionsCard Component', () => {
   it('renders without crashing', () => {
     render(<DatabaseActionsCard />)
-    expect(screen.getByRole('*', { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

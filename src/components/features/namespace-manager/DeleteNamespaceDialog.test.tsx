@@ -5,7 +5,7 @@ import { DeleteNamespaceDialog } from './deleteNamespaceDialog'
 describe('DeleteNamespaceDialog Component', () => {
   it('renders without crashing', () => {
     render(<DeleteNamespaceDialog />)
-    expect(screen.getByRole('*', { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

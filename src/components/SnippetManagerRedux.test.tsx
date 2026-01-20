@@ -5,7 +5,7 @@ import { SnippetManagerRedux } from './snippetManagerRedux'
 describe('SnippetManagerRedux Component', () => {
   it('renders without crashing', () => {
     render(<SnippetManagerRedux />)
-    expect(screen.getByRole('*', { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

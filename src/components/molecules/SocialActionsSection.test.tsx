@@ -5,7 +5,7 @@ import { SocialActionsSection } from './socialActionsSection'
 describe('SocialActionsSection Component', () => {
   it('renders without crashing', () => {
     render(<SocialActionsSection />)
-    expect(screen.getByRole('*', { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

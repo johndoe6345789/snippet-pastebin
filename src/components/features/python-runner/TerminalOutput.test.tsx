@@ -5,7 +5,7 @@ import { TerminalOutput } from './terminalOutput'
 describe('TerminalOutput Component', () => {
   it('renders without crashing', () => {
     render(<TerminalOutput />)
-    expect(screen.getByRole('*', { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {
