@@ -32,15 +32,12 @@ export function CreateNamespaceDialog({
 }: CreateNamespaceDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogTrigger asChild>
-        <Button
-          variant="outline"
-          size="icon"
-          data-testid="create-namespace-trigger"
-          aria-label="Create new namespace"
-        >
-          <Plus weight="bold" aria-hidden="true" />
-        </Button>
+      <DialogTrigger
+        className="px-2 py-1 rounded border border-input hover:bg-accent hover:text-accent-foreground"
+        data-testid="create-namespace-trigger"
+        aria-label="Create new namespace"
+      >
+        <Plus weight="bold" aria-hidden="true" />
       </DialogTrigger>
       <DialogContent data-testid="create-namespace-dialog">
         <DialogHeader>

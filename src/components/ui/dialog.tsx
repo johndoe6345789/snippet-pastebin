@@ -17,25 +17,19 @@ function Dialog({ open, children }: DialogProps) {
   return <>{children}</>
 }
 
-interface DialogTriggerProps extends Omit<ComponentProps<"button">, "asChild"> {
-  asChild?: boolean
+interface DialogTriggerProps extends ComponentProps<"button"> {
+  children?: React.ReactNode
 }
 
-function DialogTrigger({ children, onClick, asChild = false, ...props }: DialogTriggerProps) {
-  const Comp = asChild ? "div" : "button"
-
-  const buttonProps = asChild ? {} : { type: "button" as const }
-  const clickHandler = asChild ? undefined : onClick
-  const spreadProps = asChild ? {} : props
-
+function DialogTrigger({ children, onClick, ...props }: DialogTriggerProps) {
   return (
-    <Comp
-      {...buttonProps}
-      onClick={clickHandler}
-      {...spreadProps}
+    <button
+      type="button"
+      onClick={onClick}
+      {...props}
     >
       {children}
-    </Comp>
+    </button>
   )
 }
 

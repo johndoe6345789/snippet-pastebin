@@ -63,22 +63,16 @@ export function ErrorFallback({ error }: ErrorFallbackProps) {
             </div>
 
             <Collapsible open={isStackOpen} onOpenChange={setIsStackOpen}>
-              <CollapsibleTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="w-full justify-between"
-                >
-                  {isStackOpen ? (
-                    <>
-                      Hide Stack Trace <ChevronUpIcon className="h-4 w-4 ml-2" />
-                    </>
-                  ) : (
-                    <>
-                      Show Stack Trace <ChevronDownIcon className="h-4 w-4 ml-2" />
-                    </>
-                  )}
-                </Button>
+              <CollapsibleTrigger className="w-full justify-between">
+                {isStackOpen ? (
+                  <>
+                    Hide Stack Trace <ChevronUpIcon className="h-4 w-4 ml-2" />
+                  </>
+                ) : (
+                  <>
+                    Show Stack Trace <ChevronDownIcon className="h-4 w-4 ml-2" />
+                  </>
+                )}
               </CollapsibleTrigger>
               <CollapsibleContent>
                 <div className="mt-4">

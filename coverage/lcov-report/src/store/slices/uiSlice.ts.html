@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">74.07% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>40/54</span>
+                <span class='fraction'>54/54</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>5/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/5</span>
+                <span class='fraction'>5/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">74.07% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>40/54</span>
+                <span class='fraction'>54/54</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -141,24 +141,24 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -194,25 +194,25 @@ const uiSlice = createSlice({
   name: 'ui',
   initialState,
   reducers: {
-    openDialog: <span class="fstat-no" title="function not covered" >(state, action: PayloadAction&lt;Snippet | null&gt;) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      state.dialogOpen = true</span>
-<span class="cstat-no" title="statement not covered" >      state.editingSnippet = action.payload</span>
-<span class="cstat-no" title="statement not covered" >    },</span>
-    closeDialog: <span class="fstat-no" title="function not covered" >(state) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      state.dialogOpen = false</span>
-<span class="cstat-no" title="statement not covered" >      state.editingSnippet = null</span>
-<span class="cstat-no" title="statement not covered" >    },</span>
-    openViewer: <span class="fstat-no" title="function not covered" >(state, action: PayloadAction&lt;Snippet&gt;) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      state.viewerOpen = true</span>
-<span class="cstat-no" title="statement not covered" >      state.viewingSnippet = action.payload</span>
-<span class="cstat-no" title="statement not covered" >    },</span>
-    closeViewer: <span class="fstat-no" title="function not covered" >(state) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      state.viewerOpen = false</span>
-<span class="cstat-no" title="statement not covered" >      state.viewingSnippet = null</span>
-<span class="cstat-no" title="statement not covered" >    },</span>
-    setSearchQuery: <span class="fstat-no" title="function not covered" >(state, action: PayloadAction&lt;string&gt;) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      state.searchQuery = action.payload</span>
-<span class="cstat-no" title="statement not covered" >    },</span>
+    openDialog: (state, action: PayloadAction&lt;Snippet | null&gt;) =&gt; {
+      state.dialogOpen = true
+      state.editingSnippet = action.payload
+    },
+    closeDialog: (state) =&gt; {
+      state.dialogOpen = false
+      state.editingSnippet = null
+    },
+    openViewer: (state, action: PayloadAction&lt;Snippet&gt;) =&gt; {
+      state.viewerOpen = true
+      state.viewingSnippet = action.payload
+    },
+    closeViewer: (state) =&gt; {
+      state.viewerOpen = false
+      state.viewingSnippet = null
+    },
+    setSearchQuery: (state, action: PayloadAction&lt;string&gt;) =&gt; {
+      state.searchQuery = action.payload
+    },
   },
 })
 &nbsp;
@@ -232,7 +232,7 @@ export default uiSlice.reducer
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-20T19:23:43.244Z
+                at 2026-01-20T20:11:01.482Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
