@@ -4,10 +4,9 @@
 // Flexbox mixins
 @mixin flex($direction: row, $justify: flex-start, $align: stretch, $wrap: nowrap) {
   display: flex;
-  flex-direction: $direction;
+  flex-flow: $direction $wrap;
   justify-content: $justify;
   align-items: $align;
-  flex-wrap: $wrap;
 }
 
 @mixin flex-center {
@@ -112,6 +111,7 @@
 // Responsive breakpoint mixin
 @mixin respond-to($breakpoint) {
   $size: fn.breakpoint($breakpoint);
+
   @media (min-width: $size) {
     @content;
   }
@@ -124,6 +124,7 @@
   @include rounded(md);
   @include font(medium);
   @include text(sm);
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -144,25 +145,26 @@
   background: vars.$card;
   color: vars.$card-foreground;
   border: 1px solid vars.$border;
+
   @include rounded(lg);
   @include p(6);
 }
 
 // Shadow mixins
 @mixin shadow-sm {
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 5%);
 }
 
 @mixin shadow {
-  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 10%), 0 1px 2px -1px rgb(0 0 0 / 10%);
 }
 
 @mixin shadow-md {
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -2px rgb(0 0 0 / 10%);
 }
 
 @mixin shadow-lg {
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 10%), 0 4px 6px -4px rgb(0 0 0 / 10%);
 }
 
 // Transition mixin
@@ -185,7 +187,7 @@
   padding: 0;
   margin: -1px;
   overflow: hidden;
-  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
   white-space: nowrap;
   border-width: 0;
 }
@@ -200,10 +202,7 @@
 
 @mixin absolute-fill {
   position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  inset: 0;
 }
 
 // Focus ring

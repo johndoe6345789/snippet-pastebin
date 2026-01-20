@@ -12,6 +12,9 @@ export function useSnippetForm(editingSnippet?: Snippet | null, open?: boolean) 
   const [inputParameters, setInputParameters] = useState<InputParameter[]>([])
   const [errors, setErrors] = useState<{ title?: string; code?: string }>({})
 
+  /* eslint-disable react-hooks/set-state-in-effect */
+  // This effect hydrates the form when the dialog opens or when a different snippet is selected for editing.
+  // The state reset is intentional user-facing behavior.
   useEffect(() => {
     if (editingSnippet) {
       setTitle(editingSnippet.title)
@@ -32,6 +35,7 @@ export function useSnippetForm(editingSnippet?: Snippet | null, open?: boolean) 
     }
     setErrors({})
   }, [editingSnippet, open])
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const handleAddParameter = () => {
     setInputParameters((prev) => [
