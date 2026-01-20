@@ -49,7 +49,11 @@ function Counter() {
             borderRadius: '0.5rem',
             cursor: 'pointer',
             transition: 'all 0.2s',
-            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+            minHeight: '44px',
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center'
           }}
           onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
           onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
@@ -69,7 +73,11 @@ function Counter() {
             borderRadius: '0.5rem',
             cursor: 'pointer',
             transition: 'all 0.2s',
-            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+            minHeight: '44px',
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center'
           }}
           onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
           onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
@@ -89,7 +97,11 @@ function Counter() {
             borderRadius: '0.5rem',
             cursor: 'pointer',
             transition: 'all 0.2s',
-            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+            minHeight: '44px',
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center'
           }}
           onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
           onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
