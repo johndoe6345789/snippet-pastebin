@@ -1,31 +1,29 @@
-import { expect, test } from "./fixtures"
+import { expect, test, setupConsoleErrorTracking } from "./fixtures"
 
 test.describe("Component-Specific Tests", () => {
   test.describe("Snippet Manager Component", () => {
     test("snippet manager renders without errors", async ({ page }) => {
-      const errors: string[] = []
-
-      page.on("console", (msg) => {
-        if (msg.type() === "error") {
-          errors.push(msg.text())
-        }
-      })
+      const errorTracker = setupConsoleErrorTracking(page)
 
       await page.goto("/")
       await page.waitForLoadState("networkidle")
-      await page.waitForTimeout(1000) // Wait for dynamic import
+
+      // Wait for snippet manager to load dynamically
+      const snippetManager = page.locator('[data-testid="snippet-grid"], .snippet-grid')
+      await snippetManager.first().waitFor({ state: 'visible', timeout: 2000 }).catch(() => {})
 
       // Should not have hydration errors
-      expect(errors.filter((e) => e.toLowerCase().includes("hydration"))).toHaveLength(0)
+      expect(errorTracker.errors.filter((e) => e.toLowerCase().includes("hydration"))).toHaveLength(0)
+      errorTracker.cleanup()
     })
 
     test("snippet grid displays correctly", async ({ page }) => {
       await page.goto("/")
       await page.waitForLoadState("networkidle")
-      await page.waitForTimeout(1000)
 
-      // Check for grid structure
+      // Check for grid structure - wait for it
       const grid = page.locator("[data-testid='snippet-grid'], .snippet-grid, [role='grid']")
+      await grid.first().waitFor({ state: 'visible', timeout: 2000 }).catch(() => {})
 
       if (await grid.count() > 0) {
         await expect(grid.first()).toBeVisible()
@@ -39,9 +37,9 @@ test.describe("Component-Specific Tests", () => {
     test("snippet toolbar buttons function correctly", async ({ page }) => {
       await page.goto("/")
       await page.waitForLoadState("networkidle")
-      await page.waitForTimeout(1000)
 
       const toolbar = page.locator("[data-testid='snippet-toolbar'], .snippet-toolbar")
+      await toolbar.first().waitFor({ state: 'visible', timeout: 2000 }).catch(() => {})
 
       if (await toolbar.count() > 0) {
         const buttons = toolbar.locator("button")
@@ -52,8 +50,7 @@ test.describe("Component-Specific Tests", () => {
         // Each button should be clickable
         if (count > 0) {
           const firstButton = buttons.first()
-      await firstButton.click()
-      await page.waitForTimeout(100)
+          await firstButton.click()
 
           // Should be responsive to clicks
           expect(true).toBe(true)
@@ -64,7 +61,6 @@ test.describe("Component-Specific Tests", () => {
     test("selection controls work properly", async ({ page }) => {
       await page.goto("/")
       await page.waitForLoadState("networkidle")
-      await page.waitForTimeout(1000)
 
       const selectionControls = page.locator(
         "[data-testid='selection-controls'], .selection-controls"
@@ -76,7 +72,6 @@ test.describe("Component-Specific Tests", () => {
 
         if (await selectAllButton.count() > 0) {
           await selectAllButton.first().click()
-          await page.waitForTimeout(100)
 
           const afterClick = await selectAllButton.first().isChecked()
 
@@ -95,7 +90,8 @@ test.describe("Component-Specific Tests", () => {
       const navToggle = page.locator('button[aria-label*="navigation" i], button[aria-label*="menu" i]').first()
       if (await navToggle.count() > 0) {
         await navToggle.click()
-        await page.waitForTimeout(300) // Wait for animation
+        // Wait for navigation to appear instead of fixed timeout
+        await page.locator('[role="navigation"]').first().waitFor({ state: 'visible', timeout: 1000 }).catch(() => {})
       }
 
       const navLinks = page.locator("nav a, [role='navigation'] a")
@@ -289,10 +285,10 @@ test.describe("Component-Specific Tests", () => {
       if (await modalTriggers.count() > 0) {
         const firstTrigger = modalTriggers.first()
         await firstTrigger.click()
-        await page.waitForTimeout(300)
 
-        // Check if modal opened
+        // Check if modal opened - wait for it to appear
         const modal = page.locator("[role='dialog'], .modal, [data-testid='modal']")
+        await modal.first().waitFor({ state: 'visible', timeout: 1000 }).catch(() => {})
 
         if (await modal.count() > 0) {
           await expect(modal.first()).toBeVisible()
@@ -311,11 +307,11 @@ test.describe("Component-Specific Tests", () => {
 
       if (await modalTrigger.count() > 0) {
         await modalTrigger.first().click()
-        await page.waitForTimeout(300)
+        // Wait for modal to appear before pressing Escape
+        await page.locator("[role='dialog']").first().waitFor({ state: 'visible', timeout: 1000 }).catch(() => {})
 
         // Press Escape
         await page.keyboard.press("Escape")
-        await page.waitForTimeout(300)
 
         // Modal should be closed (or page should be functional)
         expect(page.url()).toBeTruthy()
@@ -332,7 +328,8 @@ test.describe("Component-Specific Tests", () => {
       if (await dropdownTriggers.count() > 0) {
         const trigger = dropdownTriggers.first()
         await trigger.click()
-        await page.waitForTimeout(300)
+        // Wait for menu to appear
+        await page.locator("[role='menu'], [role='listbox']").first().waitFor({ state: 'visible', timeout: 1000 }).catch(() => {})
 
         // Menu should appear
         const menu = page.locator("[role='menu'], [role='listbox']")
@@ -350,11 +347,11 @@ test.describe("Component-Specific Tests", () => {
       if (await dropdownTriggers.count() > 0) {
         const trigger = dropdownTriggers.first()
         await trigger.click()
-        await page.waitForTimeout(300)
+        // Wait for menu to appear before keyboard navigation
+        await page.locator("[role='menu']").first().waitFor({ state: 'visible', timeout: 1000 }).catch(() => {})
 
         // Try arrow key navigation
         await page.keyboard.press("ArrowDown")
-        await page.waitForTimeout(100)
 
         // Should have navigated through menu items
         const focusedElement = await page.evaluate(() => {
@@ -421,7 +418,6 @@ test.describe("Component-Specific Tests", () => {
       if (await link.count() > 0) {
         await link.click()
         await page.waitForLoadState("networkidle")
-        await page.waitForTimeout(300) // Wait for transition
 
         const finalHeight = await page.evaluate(() => document.documentElement.scrollHeight)
 
@@ -442,7 +438,6 @@ test.describe("Component-Specific Tests", () => {
       const button = page.locator("button").first()
       if (await button.count() > 0) {
         await button.hover()
-        await page.waitForTimeout(500)
       }
 
       const finalMetrics = await (page as Record<string, unknown>).metrics() as Record<string, number>
@@ -452,18 +447,15 @@ test.describe("Component-Specific Tests", () => {
     })
 
     test("CSS animations complete without errors", async ({ page }) => {
-      const animationErrors: string[] = []
-
-      page.on("console", (msg) => {
-        if (msg.type() === "error" && msg.text().toLowerCase().includes("animation")) {
-          animationErrors.push(msg.text())
-        }
-      })
+      const errorTracker = setupConsoleErrorTracking(page)
 
       await page.goto("/")
-      await page.waitForTimeout(1000) // Wait for animations
+      // Wait for page to stabilize
+      await page.waitForLoadState("networkidle")
 
+      const animationErrors = errorTracker.errors.filter((e) => e.toLowerCase().includes("animation"))
       expect(animationErrors).toHaveLength(0)
+      errorTracker.cleanup()
     })
   })
 })

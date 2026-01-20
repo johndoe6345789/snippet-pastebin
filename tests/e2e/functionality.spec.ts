@@ -1,16 +1,10 @@
-import { expect, test } from "./fixtures"
+import { expect, test, setupConsoleErrorTracking } from "./fixtures"
 
 test.describe("Functionality Tests - Core Features", () => {
   test.describe("Page Navigation and Routing", () => {
     test("navigates to all main routes without errors", async ({ page }) => {
       const routes = ["/", "/atoms", "/molecules", "/organisms", "/templates", "/demo", "/settings"]
-
-      const consoleErrors: string[] = []
-      page.on("console", (msg) => {
-        if (msg.type() === "error") {
-          consoleErrors.push(msg.text())
-        }
-      })
+      const errorTracker = setupConsoleErrorTracking(page)
 
       for (const route of routes) {
         await page.goto(route)
@@ -20,16 +14,8 @@ test.describe("Functionality Tests - Core Features", () => {
         expect(page.url()).toContain(route)
       }
 
-      // Filter out expected/known errors (e.g., no backend, hydration warnings)
-      const criticalErrors = consoleErrors.filter((e) => {
-        const text = e.toLowerCase()
-        // Ignore expected errors
-        if (text.includes("failed to load") || text.includes("network")) return false
-        if (text.includes("hydration")) return false
-        if (text.includes("warning")) return false
-        return text.includes("error")
-      })
-      expect(criticalErrors.length).toBe(0)
+      expect(errorTracker.errors.length).toBe(0)
+      errorTracker.cleanup()
     })
 
     test("navigation menu opens and closes correctly", async ({ page }) => {
@@ -44,11 +30,11 @@ test.describe("Functionality Tests - Core Features", () => {
 
         // Click to open
         await navButton.click()
-        await page.waitForTimeout(300) // Wait for animation
+        // Wait for menu to stabilize (use locator visibility instead of fixed wait)
+        await page.locator('[role="navigation"]').first().waitFor({ state: 'visible' }).catch(() => {})
 
         // Click to close
         await navButton.click()
-        await page.waitForTimeout(300)
 
         // Should be functional
         expect(true).toBe(true) // Navigation toggled without error
@@ -98,7 +84,8 @@ test.describe("Functionality Tests - Core Features", () => {
 
       // Scroll down
       await page.evaluate(() => window.scrollBy(0, 500))
-      await page.waitForTimeout(100)
+      // Let browser paint, but don't wait for a fixed time
+      await page.waitForFunction(() => true)
 
       const scrolledBox = await header.boundingBox()
 
@@ -130,12 +117,12 @@ test.describe("Functionality Tests - Core Features", () => {
       await page.waitForLoadState("networkidle")
 
       // Wait for snippet manager to load (it's dynamically imported)
-      await page.waitForTimeout(1000)
-
-      // Check for snippet grid or snippet items
       const snippetContainer = page.locator(
         '[data-testid="snippet-grid"], [data-testid="snippet-manager"], .snippet-manager'
       )
+
+      // Wait for it to appear, but don't hang if it doesn't
+      await snippetContainer.first().waitFor({ state: 'visible', timeout: 2000 }).catch(() => {})
 
       if (await snippetContainer.count() > 0) {
         await expect(snippetContainer.first()).toBeVisible()
@@ -145,10 +132,10 @@ test.describe("Functionality Tests - Core Features", () => {
     test("toolbar controls are accessible", async ({ page }) => {
       await page.goto("/")
       await page.waitForLoadState("networkidle")
-      await page.waitForTimeout(1000)
 
-      // Look for toolbar elements
+      // Look for toolbar elements, wait for it to appear
       const toolbar = page.locator('[data-testid="snippet-toolbar"], .snippet-toolbar')
+      await toolbar.first().waitFor({ state: 'visible', timeout: 2000 }).catch(() => {})
 
       if (await toolbar.count() > 0) {
         const buttons = toolbar.locator("button")
@@ -196,14 +183,14 @@ test.describe("Functionality Tests - Core Features", () => {
       if (await forms.count() > 0) {
         const form = forms.first()
 
-        // Listen for unexpected navigations
-      // Try to submit the first form (if it has a submit button)
-      const submitButton = form.locator("button[type='submit']")
+        // Try to submit the first form (if it has a submit button)
+        const submitButton = form.locator("button[type='submit']")
         if (await submitButton.count() > 0) {
           const currentUrl = page.url()
 
           await submitButton.click()
-          await page.waitForTimeout(500)
+          // Wait for potential navigation or form processing
+          await page.waitForLoadState('networkidle').catch(() => {})
 
           // URL should not change unexpectedly
           // (unless form explicitly navigates)
@@ -219,7 +206,6 @@ test.describe("Functionality Tests - Core Features", () => {
       if (await inputs.count() > 0) {
         // Tab to first element
         await page.keyboard.press("Tab")
-        await page.waitForTimeout(100)
 
         // Get focused element
         const focusedElement = await page.evaluate(() => {
@@ -331,7 +317,6 @@ test.describe("Functionality Tests - Core Features", () => {
       // Simulate keyboard navigation
       for (let i = 0; i < 10; i++) {
         await page.keyboard.press("Tab")
-        await page.waitForTimeout(50)
 
         const focused = await page.evaluate(() => {
           const el = document.activeElement as HTMLElement

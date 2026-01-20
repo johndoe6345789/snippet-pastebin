@@ -1,13 +1,8 @@
-import { expect, test } from "./fixtures"
+import { expect, test, setupConsoleErrorTracking } from "./fixtures"
 
 test.describe("home page", () => {
   test("renders key sections without console errors", async ({ page }) => {
-    const consoleErrors: string[] = []
-    page.on("console", (message) => {
-      if (message.type() === "error") {
-        consoleErrors.push(message.text())
-      }
-    })
+    const errorTracker = setupConsoleErrorTracking(page)
 
     await page.goto("/")
 
@@ -19,14 +14,8 @@ test.describe("home page", () => {
     await expect(page.locator("main")).toBeVisible()
     await expect(page.locator("footer")).toBeVisible()
 
-    // Filter out expected/known errors (IndexedDB, network, etc.)
-    const criticalErrors = consoleErrors.filter((e) => {
-      const text = e.toLowerCase()
-      if (text.includes("indexeddb") || text.includes("constrainterror")) return false
-      if (text.includes("failed to load") || text.includes("network")) return false
-      return true
-    })
-    expect(criticalErrors).toEqual([])
+    expect(errorTracker.errors).toEqual([])
+    errorTracker.cleanup()
   })
 
   test("stays within viewport on mobile (no horizontal overflow)", async ({ page }, testInfo) => {

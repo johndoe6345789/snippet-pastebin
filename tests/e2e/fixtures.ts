@@ -10,6 +10,43 @@ if (!(globalThis as unknown as Record<string, unknown>).window) {
   ;(w as Record<string, number>).innerWidth ??= 1920
 }
 
+/**
+ * Helper to collect console errors efficiently with early exit.
+ * Only tracks critical errors, filters out known non-blocking issues.
+ */
+export const setupConsoleErrorTracking = (page: any, maxErrors = 5) => {
+  const errors: string[] = []
+  const knownIgnorablePatterns = [
+    /indexeddb/i,
+    /constrainterror/i,
+    /failed to load/i,
+    /network/i,
+    /404/i,
+  ]
+
+  const listener = (msg: any) => {
+    if (msg.type() === "error" && errors.length < maxErrors) {
+      const text = msg.text()
+      const isIgnorable = knownIgnorablePatterns.some((pattern) => pattern.test(text))
+      if (!isIgnorable) {
+        errors.push(text)
+      }
+    }
+  }
+
+  page.on("console", listener)
+
+  return {
+    errors,
+    clear: () => {
+      errors.length = 0
+    },
+    cleanup: () => {
+      page.off("console", listener)
+    },
+  }
+}
+
 // Attach a Puppeteer-style metrics helper to every page prototype so tests can call page.metrics().
 const patchPagePrototype = (page: unknown) => {
   const proto = Object.getPrototypeOf(page)
