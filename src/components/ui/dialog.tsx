@@ -6,10 +6,13 @@ import { createPortal } from "react-dom"
 import { cn } from "@/lib/utils"
 
 interface DialogProps {
+  open?: boolean
   children: React.ReactNode
 }
 
-function Dialog({ children }: DialogProps) {
+function Dialog({ open, children }: DialogProps) {
+  // If open is explicitly false, don't render
+  if (open === false) return null
   return <>{children}</>
 }
 

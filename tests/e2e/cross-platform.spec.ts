@@ -273,10 +273,12 @@ test.describe("Cross-Platform UI Consistency", () => {
 
       await mobilePage.evaluate(() => {
         document.addEventListener("click", () => {
-          ;(window as any).clickEventsFired = ((window as any).clickEventsFired || 0) + 1
+          const w = window as unknown as Record<string, number>
+          w.clickEventsFired = (w.clickEventsFired || 0) + 1
         })
         document.addEventListener("touchstart", () => {
-          ;(window as any).touchEventsFired = ((window as any).touchEventsFired || 0) + 1
+          const w = window as unknown as Record<string, number>
+          w.touchEventsFired = (w.touchEventsFired || 0) + 1
         })
       })
 
@@ -286,7 +288,8 @@ test.describe("Cross-Platform UI Consistency", () => {
         await mobilePage.waitForTimeout(100)
 
         eventsFired = await mobilePage.evaluate(() => {
-          return ((window as any).clickEventsFired || 0) + ((window as any).touchEventsFired || 0)
+          const w = window as unknown as Record<string, number>
+          return (w.clickEventsFired || 0) + (w.touchEventsFired || 0)
         })
 
         expect(eventsFired).toBeGreaterThan(0)
@@ -316,7 +319,6 @@ test.describe("Cross-Platform UI Consistency", () => {
 
       // Check footer/header visible
       const header = mobilePage.locator("header")
-      const footer = mobilePage.locator("footer")
 
       if (await header.count() > 0) {
         await expect(header).toBeVisible()

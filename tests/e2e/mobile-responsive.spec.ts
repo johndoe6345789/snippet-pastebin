@@ -276,7 +276,8 @@ test.describe("Mobile and Responsive Tests", () => {
       if (await button.count() > 0) {
         await page.evaluate(() => {
           document.addEventListener("click", () => {
-            ;(window as any).clickCounter = ((window as any).clickCounter || 0) + 1
+            const w = window as unknown as Record<string, number>
+            w.clickCounter = (w.clickCounter || 0) + 1
           })
         })
 
@@ -285,7 +286,8 @@ test.describe("Mobile and Responsive Tests", () => {
         await page.waitForTimeout(100)
 
         const clicks = await page.evaluate(() => {
-          return (window as any).clickCounter || 0
+          const w = window as unknown as Record<string, number>
+          return w.clickCounter || 0
         })
 
         // Should only register once
@@ -301,23 +303,19 @@ test.describe("Mobile and Responsive Tests", () => {
 
       // Simulate swipe
       await page.evaluate(() => {
-        const start = new TouchEvent("touchstart", {
-          touches: [
-            {
-              clientX: 300,
-              clientY: 400,
-            } as any,
-          ],
-        })
-        const end = new TouchEvent("touchend", {
-          touches: [],
-          changedTouches: [
-            {
-              clientX: 100,
-              clientY: 400,
-            } as any,
-          ],
-        })
+        const touchInit = {
+          bubbles: true,
+          cancelable: true,
+          touches: [new Touch({ target: document.body, clientX: 300, clientY: 400 })] as TouchList | unknown,
+        }
+        const start = new TouchEvent("touchstart", touchInit as unknown as TouchEventInit)
+        const touchEnd = {
+          bubbles: true,
+          cancelable: true,
+          touches: [] as TouchList | unknown,
+          changedTouches: [new Touch({ target: document.body, clientX: 100, clientY: 400 })] as TouchList | unknown,
+        }
+        const end = new TouchEvent("touchend", touchEnd as unknown as TouchEventInit)
 
         document.dispatchEvent(start)
         document.dispatchEvent(end)

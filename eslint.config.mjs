@@ -6,7 +6,14 @@ import globals from 'globals'
 
 export default [
   {
-    ignores: ['node_modules', '.next', 'dist', 'coverage', 'src/styles/m3-scss/**'],
+    ignores: ['node_modules', '.next', 'dist', 'coverage', 'src/styles/m3-scss/**', 'scripts/**'],
+  },
+  {
+    languageOptions: {
+      globals: globals.browser,
+      ecmaVersion: 2020,
+      sourceType: 'module',
+    },
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,

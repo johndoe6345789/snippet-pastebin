@@ -223,9 +223,10 @@ test.describe("Functionality Tests - Core Features", () => {
 
         // Get focused element
         const focusedElement = await page.evaluate(() => {
+          const active = document.activeElement as HTMLElement | null
           return {
-            tag: (document.activeElement as any)?.tagName,
-            id: (document.activeElement as any)?.id,
+            tag: active?.tagName,
+            id: active?.id,
           }
         })
 

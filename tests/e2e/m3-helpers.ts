@@ -1,4 +1,4 @@
-import { Page, Locator, expect } from "@playwright/test"
+import { Page, Locator } from "@playwright/test"
 
 /**
  * M3 Test Helpers for Material Design 3 Framework
