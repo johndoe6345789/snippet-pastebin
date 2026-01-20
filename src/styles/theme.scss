@@ -1,40 +1,185 @@
-@use 'm3-scss/material' as mat;
+// Import the M3 SCSS material design system
+// Note: Adjust this path based on where your m3-scss folder is located
+@use 'sass:map';
+@use 'sass:list';
 
-// Define your M3 theme with violet palette
-$theme: mat.define-theme((
-  color: (
-    theme-type: light,
-    primary: mat.$violet-palette,
-    tertiary: mat.$blue-palette,
-  ),
-  typography: (
-    plain-family: (Inter, sans-serif),
-    brand-family: ('Bricolage Grotesque', sans-serif),
-  ),
-  density: 0,
-));
-
-// Include all M3 component themes
-@include mat.all-component-themes($theme);
-@include mat.system-classes();
-@include mat.typography-hierarchy($theme);
+// Define CSS custom properties for the theme
+:root {
+  // Color tokens - Violet palette (primary)
+  --mat-sys-primary: #7d00fa;
+  --mat-sys-on-primary: #ffffff;
+  --mat-sys-primary-container: #ecdcff;
+  --mat-sys-on-primary-container: #5f00c0;
+  
+  // Secondary colors
+  --mat-sys-secondary: #645b70;
+  --mat-sys-on-secondary: #ffffff;
+  --mat-sys-secondary-container: #eadef7;
+  --mat-sys-on-secondary-container: #4b4357;
+  
+  // Tertiary colors (Blue palette)
+  --mat-sys-tertiary: #343dff;
+  --mat-sys-on-tertiary: #ffffff;
+  --mat-sys-tertiary-container: #e0e0ff;
+  --mat-sys-on-tertiary-container: #1a21ff;
+  
+  // Error colors
+  --mat-sys-error: #ba1a1a;
+  --mat-sys-on-error: #ffffff;
+  --mat-sys-error-container: #ffdad6;
+  --mat-sys-on-error-container: #93000a;
+  
+  // Surface colors
+  --mat-sys-surface: #fef8fc;
+  --mat-sys-on-surface: #1d1b1e;
+  --mat-sys-surface-variant: #e8e0eb;
+  --mat-sys-on-surface-variant: #49454e;
+  
+  // Background
+  --mat-sys-background: #fef8fc;
+  --mat-sys-on-background: #1d1b1e;
+  
+  // Outline
+  --mat-sys-outline: #7b757f;
+  --mat-sys-outline-variant: #cbc4cf;
+  
+  // Surface containers
+  --mat-sys-surface-container: #f2ecf1;
+  --mat-sys-surface-container-high: #ede6eb;
+  --mat-sys-surface-container-highest: #e6e1e6;
+  --mat-sys-surface-container-low: #f8f2f6;
+  --mat-sys-surface-container-lowest: #ffffff;
+  
+  // Inverse colors
+  --mat-sys-inverse-surface: #323033;
+  --mat-sys-inverse-on-surface: #f5eff4;
+  --mat-sys-inverse-primary: #d5baff;
+  
+  // Shadow
+  --mat-sys-shadow: #000000;
+  --mat-sys-scrim: #000000;
+  
+  // Elevation levels
+  --mat-sys-level0: 0px 0px 0px 0px rgba(0, 0, 0, 0.2), 0px 0px 0px 0px rgba(0, 0, 0, 0.14), 0px 0px 0px 0px rgba(0, 0, 0, 0.12);
+  --mat-sys-level1: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+  --mat-sys-level2: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+  --mat-sys-level3: 0px 3px 3px -2px rgba(0, 0, 0, 0.2), 0px 3px 4px 0px rgba(0, 0, 0, 0.14), 0px 1px 8px 0px rgba(0, 0, 0, 0.12);
+  --mat-sys-level4: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+  --mat-sys-level5: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 5px 8px 0px rgba(0, 0, 0, 0.14), 0px 1px 14px 0px rgba(0, 0, 0, 0.12);
+  
+  // Typography tokens
+  --mat-sys-body-large-font: Inter, sans-serif;
+  --mat-sys-body-large-size: 1rem;
+  --mat-sys-body-large-weight: 400;
+  --mat-sys-body-large-line-height: 1.5rem;
+  --mat-sys-body-large-tracking: 0.031rem;
+  
+  --mat-sys-body-medium-font: Inter, sans-serif;
+  --mat-sys-body-medium-size: 0.875rem;
+  --mat-sys-body-medium-weight: 400;
+  --mat-sys-body-medium-line-height: 1.25rem;
+  --mat-sys-body-medium-tracking: 0.016rem;
+  
+  --mat-sys-body-small-font: Inter, sans-serif;
+  --mat-sys-body-small-size: 0.75rem;
+  --mat-sys-body-small-weight: 400;
+  --mat-sys-body-small-line-height: 1rem;
+  --mat-sys-body-small-tracking: 0.025rem;
+  
+  --mat-sys-title-large-font: 'Bricolage Grotesque', sans-serif;
+  --mat-sys-title-large-size: 1.375rem;
+  --mat-sys-title-large-weight: 400;
+  --mat-sys-title-large-line-height: 1.75rem;
+  --mat-sys-title-large-tracking: 0;
+  
+  --mat-sys-title-medium-font: Inter, sans-serif;
+  --mat-sys-title-medium-size: 1rem;
+  --mat-sys-title-medium-weight: 500;
+  --mat-sys-title-medium-line-height: 1.5rem;
+  --mat-sys-title-medium-tracking: 0.009rem;
+  
+  --mat-sys-title-small-font: Inter, sans-serif;
+  --mat-sys-title-small-size: 0.875rem;
+  --mat-sys-title-small-weight: 500;
+  --mat-sys-title-small-line-height: 1.25rem;
+  --mat-sys-title-small-tracking: 0.006rem;
+  
+  --mat-sys-label-large-font: Inter, sans-serif;
+  --mat-sys-label-large-size: 0.875rem;
+  --mat-sys-label-large-weight: 500;
+  --mat-sys-label-large-line-height: 1.25rem;
+  --mat-sys-label-large-tracking: 0.006rem;
+  
+  --mat-sys-label-medium-font: Inter, sans-serif;
+  --mat-sys-label-medium-size: 0.75rem;
+  --mat-sys-label-medium-weight: 500;
+  --mat-sys-label-medium-line-height: 1rem;
+  --mat-sys-label-medium-tracking: 0.031rem;
+  
+  --mat-sys-label-small-font: Inter, sans-serif;
+  --mat-sys-label-small-size: 0.688rem;
+  --mat-sys-label-small-weight: 500;
+  --mat-sys-label-small-line-height: 1rem;
+  --mat-sys-label-small-tracking: 0.031rem;
+  
+  // Shape tokens
+  --mat-sys-corner-none: 0;
+  --mat-sys-corner-extra-small: 4px;
+  --mat-sys-corner-small: 8px;
+  --mat-sys-corner-medium: 12px;
+  --mat-sys-corner-large: 16px;
+  --mat-sys-corner-extra-large: 28px;
+  --mat-sys-corner-full: 9999px;
+  
+  // State layer opacities
+  --mat-sys-hover-state-layer-opacity: 0.08;
+  --mat-sys-focus-state-layer-opacity: 0.12;
+  --mat-sys-pressed-state-layer-opacity: 0.12;
+}
 
 // Dark theme
 .dark {
-  $dark-theme: mat.define-theme((
-    color: (
-      theme-type: dark,
-      primary: mat.$violet-palette,
-      tertiary: mat.$blue-palette,
-    ),
-    typography: (
-      plain-family: (Inter, sans-serif),
-      brand-family: ('Bricolage Grotesque', sans-serif),
-    ),
-    density: 0,
-  ));
+  // Color tokens - Dark mode
+  --mat-sys-primary: #d5baff;
+  --mat-sys-on-primary: #5f00c0;
+  --mat-sys-primary-container: #6e00dc;
+  --mat-sys-on-primary-container: #ecdcff;
   
-  @include mat.all-component-colors($dark-theme);
+  --mat-sys-secondary: #cec2db;
+  --mat-sys-on-secondary: #4b4357;
+  --mat-sys-secondary-container: #574f63;
+  --mat-sys-on-secondary-container: #eadef7;
+  
+  --mat-sys-tertiary: #bec2ff;
+  --mat-sys-on-tertiary: #0001ac;
+  --mat-sys-tertiary-container: #1a21ff;
+  --mat-sys-on-tertiary-container: #e0e0ff;
+  
+  --mat-sys-error: #ffb4ab;
+  --mat-sys-on-error: #690005;
+  --mat-sys-error-container: #93000a;
+  --mat-sys-on-error-container: #ffdad6;
+  
+  --mat-sys-surface: #1d1b1e;
+  --mat-sys-on-surface: #e6e1e6;
+  --mat-sys-surface-variant: #49454e;
+  --mat-sys-on-surface-variant: #cbc4cf;
+  
+  --mat-sys-background: #1d1b1e;
+  --mat-sys-on-background: #e6e1e6;
+  
+  --mat-sys-outline: #95909a;
+  --mat-sys-outline-variant: #49454e;
+  
+  --mat-sys-surface-container: #211f22;
+  --mat-sys-surface-container-high: #2b292d;
+  --mat-sys-surface-container-highest: #363438;
+  --mat-sys-surface-container-low: #1d1b1e;
+  --mat-sys-surface-container-lowest: #0e0e11;
+  
+  --mat-sys-inverse-surface: #e6e1e6;
+  --mat-sys-inverse-on-surface: #1d1b1e;
+  --mat-sys-inverse-primary: #7d00fa;
 }
 
 // Custom utility classes for common patterns
