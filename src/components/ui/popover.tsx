@@ -1,6 +1,6 @@
 "use client"
 
-import { ComponentProps, useState, useRef, useEffect } from "react"
+import React, { ComponentProps, useState, useRef, useEffect, createContext, useContext, isValidElement, cloneElement } from "react"
 import { createPortal } from "react-dom"
 import { cn } from "@/lib/utils"
 
@@ -9,7 +9,7 @@ interface PopoverContextValue {
   setOpen: (open: boolean) => void
 }
 
-const PopoverContext = React.createContext<PopoverContextValue | null>(null)
+const PopoverContext = createContext<PopoverContextValue | null>(null)
 
 function Popover({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(false)
@@ -21,14 +21,14 @@ function Popover({ children }: { children: React.ReactNode }) {
 }
 
 function PopoverTrigger({ children, asChild, ...props }: ComponentProps<"button"> & { asChild?: boolean }) {
-  const context = React.useContext(PopoverContext)
+  const context = useContext(PopoverContext)
 
   const handleClick = () => {
     context?.setOpen(!context.open)
   }
 
-  if (asChild && React.isValidElement(children)) {
-    return React.cloneElement(children as React.ReactElement, {
+  if (asChild && isValidElement(children)) {
+    return cloneElement(children as React.ReactElement, {
       onClick: handleClick,
       ...props,
     })
@@ -49,7 +49,7 @@ function PopoverContent({
   align?: "start" | "center" | "end"
   sideOffset?: number
 }) {
-  const context = React.useContext(PopoverContext)
+  const context = useContext(PopoverContext)
   const contentRef = useRef<HTMLDivElement>(null)
   const [mounted, setMounted] = useState(false)
 
@@ -107,7 +107,7 @@ function PopoverAnchor({ children }: { children: React.ReactNode }) {
 }
 
 function PopoverClose({ children, className, ...props }: ComponentProps<"button">) {
-  const context = React.useContext(PopoverContext)
+  const context = useContext(PopoverContext)
 
   return (
     <button

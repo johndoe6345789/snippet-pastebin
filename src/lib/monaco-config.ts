@@ -8,7 +8,7 @@ export function configureMonacoTypeScript(monaco: Monaco) {
   // This function can be used for additional configuration if needed
   if (monaco.languages.typescript) {
     // Configure TypeScript defaults if needed
-    monaco.languages.typescript.typescriptDefaults.setEagerModelSyncEnabled(true)
+    monaco.languages.typescript.typescriptDefaults.setEagerModelSync(true)
   }
 }
 

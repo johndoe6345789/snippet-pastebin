@@ -1,3 +1,5 @@
+'use client'
+
 import { useRef, useEffect } from 'react'
 import { usePythonTerminal } from '@/hooks/usePythonTerminal'
 import { TerminalHeader } from '@/components/features/python-runner/TerminalHeader'

@@ -1,3 +1,5 @@
+'use client'
+
 import { useState, useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { Play, CircleNotch, ArrowClockwise, Warning } from '@phosphor-icons/react'

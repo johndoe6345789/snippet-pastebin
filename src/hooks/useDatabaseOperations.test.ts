@@ -152,6 +152,7 @@ describe('useDatabaseOperations Hook', () => {
       const mockStats = {
         snippetCount: 20,
         templateCount: 10,
+        namespaceCount: 3,
         storageType: 'indexeddb' as const,
         databaseSize: 2048,
       }
@@ -180,7 +181,8 @@ describe('useDatabaseOperations Hook', () => {
       mockDb.getDatabaseStats.mockResolvedValueOnce({
         snippetCount: 0,
         templateCount: 0,
-        storageType: 'none' as const,
+        namespaceCount: 0,
+        storageType: 'indexeddb' as const,
         databaseSize: 0,
       })
 
@@ -231,6 +233,7 @@ describe('useDatabaseOperations Hook', () => {
       mockDb.getDatabaseStats.mockResolvedValueOnce({
         snippetCount: 0,
         templateCount: 0,
+        namespaceCount: 0,
         storageType: 'indexeddb' as const,
         databaseSize: 0,
       })
@@ -279,6 +282,7 @@ describe('useDatabaseOperations Hook', () => {
       mockDb.getDatabaseStats.mockResolvedValueOnce({
         snippetCount: 5,
         templateCount: 3,
+        namespaceCount: 1,
         storageType: 'indexeddb' as const,
         databaseSize: 512,
       })

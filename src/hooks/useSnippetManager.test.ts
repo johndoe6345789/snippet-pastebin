@@ -43,7 +43,7 @@ describe('useSnippetManager Hook', () => {
 
   const renderHookWithProviders = <T,>(hook: () => T) => {
     return renderHook(hook, {
-      wrapper: ({ children }: any) => React.createElement(Provider, { store }, children),
+      wrapper: ({ children }: { children: React.ReactNode }) => React.createElement(Provider, { store, children }),
     })
   }
 
@@ -271,7 +271,7 @@ describe('useSnippetManager Hook', () => {
         expect(mockDb.seedDatabase).toHaveBeenCalled()
       }, { timeout: 2000 })
 
-      const initialCount = result.current.selectedIds.size
+      const initialCount = result.current.selectedIds.length
 
       await act(async () => {
         result.current.handleToggleSnippetSelection('snippet-1')

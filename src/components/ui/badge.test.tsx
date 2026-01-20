@@ -33,7 +33,7 @@ describe('Badge Component', () => {
 
     it('applies secondary variant', () => {
       const { container } = render(<Badge variant="secondary">Secondary</Badge>)
-      const badge = container.firstChild
+      const badge = container.firstChild as HTMLElement | null
       expect(badge?.className).toBeTruthy()
     })
 

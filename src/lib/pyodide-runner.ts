@@ -1,4 +1,4 @@
-import { loadPyodide, PyodideInterface } from 'pyodide'
+type PyodideInterface = any // Avoid importing pyodide at type-check time
 
 let pyodideInstance: PyodideInterface | null = null
 let pyodideLoading: Promise<PyodideInterface> | null = null
@@ -18,19 +18,27 @@ export async function getPyodide(): Promise<PyodideInterface> {
     return pyodideLoading
   }
 
-  pyodideLoading = loadPyodide({
-    indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.27.0/full/',
-  }).then((pyodide) => {
-    pyodideInstance = pyodide
-    initializationError = null
-    return pyodide
-  }).catch((err) => {
+  try {
+    const { loadPyodide } = await import('pyodide')
+
+    pyodideLoading = loadPyodide({
+      indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.27.0/full/',
+    }).then((pyodide) => {
+      pyodideInstance = pyodide
+      initializationError = null
+      return pyodide
+    }).catch((err) => {
+      initializationError = err instanceof Error ? err : new Error(String(err))
+      pyodideLoading = null
+      throw initializationError
+    })
+
+    return pyodideLoading
+  } catch (err) {
     initializationError = err instanceof Error ? err : new Error(String(err))
     pyodideLoading = null
     throw initializationError
-  })
-
-  return pyodideLoading
+  }
 }
 
 export async function runPythonCode(code: string): Promise<{ output?: string; error?: string }> {

@@ -27,8 +27,8 @@ function DialogTrigger({ children, onClick, asChild = false, ...props }: DialogT
   return (
     <Comp
       {...(asChild ? {} : { type: "button" })}
-      onClick={asChild ? undefined : onClick}
-      {...props}
+      onClick={asChild ? undefined : (onClick as any)}
+      {...(asChild ? {} : props)}
     >
       {children}
     </Comp>

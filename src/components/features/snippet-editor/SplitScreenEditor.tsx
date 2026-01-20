@@ -1,3 +1,5 @@
+'use client'
+
 import { useState } from 'react'
 import { MonacoEditor } from '@/components/features/snippet-editor/MonacoEditor'
 import { ReactPreview } from '@/components/features/snippet-editor/ReactPreview'

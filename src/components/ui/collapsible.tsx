@@ -1,10 +1,11 @@
 import { ComponentProps, ReactNode, useState } from "react"
 import { cn } from "@/lib/utils"
 
-interface CollapsibleProps extends ComponentProps<"div"> {
+interface CollapsibleProps extends Omit<ComponentProps<"div">, "children"> {
   open?: boolean
   onOpenChange?: (open: boolean) => void
   defaultOpen?: boolean
+  children?: ReactNode | ((state: { open: boolean; onOpenChange: (open: boolean) => void }) => ReactNode)
 }
 
 function Collapsible({

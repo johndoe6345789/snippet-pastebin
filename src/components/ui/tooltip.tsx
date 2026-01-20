@@ -26,7 +26,7 @@ function Tooltip({ children }: { children: React.ReactNode }) {
 
 function TooltipTrigger({ children, asChild, ...props }: ComponentProps<"button"> & { asChild?: boolean }) {
   const context = React.useContext(TooltipContext)
-  const timeoutRef = useRef<NodeJS.Timeout>()
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   const handleMouseEnter = () => {
     timeoutRef.current = setTimeout(() => {
