@@ -1,6 +1,6 @@
 "use client"
 
-import { ComponentProps, useState, useRef, useEffect } from "react"
+import React, { ComponentProps, useState, useRef, useEffect } from "react"
 import { createPortal } from "react-dom"
 import { cn } from "@/lib/utils"
 
