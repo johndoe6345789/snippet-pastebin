@@ -1,27 +1,77 @@
-import { ComponentProps } from "react"
+import { ComponentProps, forwardRef } from "react"
+import { cn } from "@/lib/utils"
 
-function Card({ className, ...props }: ComponentProps<"div">) {
-  return <div className={["mdc-card", className].filter(Boolean).join(" ")} {...props} />
-}
+const Card = forwardRef<HTMLDivElement, ComponentProps<"div">>(
+  ({ className, ...props }, ref) => (
+    <div
+      ref={ref}
+      data-slot="card"
+      className={cn(
+        "rounded-lg border bg-card text-card-foreground shadow-sm",
+        className
+      )}
+      {...props}
+    />
+  )
+)
+Card.displayName = "Card"
 
-function CardHeader(props: ComponentProps<"div">) {
-  return <div className="mdc-card__primary-action" {...props} />
-}
+const CardHeader = forwardRef<HTMLDivElement, ComponentProps<"div">>(
+  ({ className, ...props }, ref) => (
+    <div
+      ref={ref}
+      data-slot="card-header"
+      className={cn("flex flex-col space-y-1.5 p-6", className)}
+      {...props}
+    />
+  )
+)
+CardHeader.displayName = "CardHeader"
 
-function CardTitle(props: ComponentProps<"div">) {
-  return <h3 className="mdc-typography--headline6" {...props} />
-}
+const CardTitle = forwardRef<HTMLParagraphElement, ComponentProps<"h3">>(
+  ({ className, ...props }, ref) => (
+    <h3
+      ref={ref}
+      data-slot="card-title"
+      className={cn(
+        "text-2xl font-semibold leading-none tracking-tight",
+        className
+      )}
+      {...props}
+    />
+  )
+)
+CardTitle.displayName = "CardTitle"
 
-function CardContent(props: ComponentProps<"div">) {
-  return <div className="mdc-card__content" {...props} />
-}
+const CardDescription = forwardRef<HTMLParagraphElement, ComponentProps<"p">>(
+  ({ className, ...props }, ref) => (
+    <p
+      ref={ref}
+      data-slot="card-description"
+      className={cn("text-sm text-muted-foreground", className)}
+      {...props}
+    />
+  )
+)
+CardDescription.displayName = "CardDescription"
 
-function CardFooter(props: ComponentProps<"div">) {
-  return <div className="mdc-card__actions" {...props} />
-}
+const CardContent = forwardRef<HTMLDivElement, ComponentProps<"div">>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} data-slot="card-content" className={cn("p-6 pt-0", className)} {...props} />
+  )
+)
+CardContent.displayName = "CardContent"
 
-function CardAction(props: ComponentProps<"button">) {
-  return <button className="mdc-button mdc-card__action mdc-card__action--button" {...props} />
-}
+const CardFooter = forwardRef<HTMLDivElement, ComponentProps<"div">>(
+  ({ className, ...props }, ref) => (
+    <div
+      ref={ref}
+      data-slot="card-footer"
+      className={cn("flex items-center p-6 pt-0", className)}
+      {...props}
+    />
+  )
+)
+CardFooter.displayName = "CardFooter"
 
-export { Card, CardHeader, CardTitle, CardContent, CardFooter, CardAction }
+export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }

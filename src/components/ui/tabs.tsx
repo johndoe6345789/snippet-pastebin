@@ -2,41 +2,58 @@
 
 import { ComponentProps } from "react"
 import * as TabsPrimitive from "@radix-ui/react-tabs"
+import { cn } from "@/lib/utils"
 
 function Tabs(props: ComponentProps<typeof TabsPrimitive.Root>) {
-  return <TabsPrimitive.Root className="mdc-tab-bar" activationMode="automatic" {...props} />
+  return <TabsPrimitive.Root data-slot="tabs" {...props} />
 }
 
-function TabsList(props: ComponentProps<typeof TabsPrimitive.List>) {
+function TabsList({
+  className,
+  ...props
+}: ComponentProps<typeof TabsPrimitive.List>) {
   return (
-    <TabsPrimitive.List className="mdc-tab-scroller" {...props}>
-      <div className="mdc-tab-scroller__scroll-area">
-        <div className="mdc-tab-scroller__scroll-content">{props.children}</div>
-      </div>
-    </TabsPrimitive.List>
+    <TabsPrimitive.List
+      data-slot="tabs-list"
+      className={cn(
+        "inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground",
+        className
+      )}
+      {...props}
+    />
   )
 }
 
-function TabsTrigger({ children, className, ...props }: ComponentProps<typeof TabsPrimitive.Trigger>) {
+function TabsTrigger({
+  className,
+  ...props
+}: ComponentProps<typeof TabsPrimitive.Trigger>) {
   return (
     <TabsPrimitive.Trigger
-      className={["mdc-tab", className].filter(Boolean).join(" ")}
+      data-slot="tabs-trigger"
+      className={cn(
+        "inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm",
+        className
+      )}
       {...props}
-    >
-      <span className="mdc-tab__content">
-        <span className="mdc-tab__text-label">{children}</span>
-      </span>
-      <span className="mdc-tab__ripple" />
-      <span className="mdc-tab__focus-ring" />
-      <span className="mdc-tab-indicator">
-        <span className="mdc-tab-indicator__content mdc-tab-indicator__content--underline" />
-      </span>
-    </TabsPrimitive.Trigger>
+    />
   )
 }
 
-function TabsContent(props: ComponentProps<typeof TabsPrimitive.Content>) {
-  return <TabsPrimitive.Content className="mdc-tab-panel" {...props} />
+function TabsContent({
+  className,
+  ...props
+}: ComponentProps<typeof TabsPrimitive.Content>) {
+  return (
+    <TabsPrimitive.Content
+      data-slot="tabs-content"
+      className={cn(
+        "mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+        className
+      )}
+      {...props}
+    />
+  )
 }
 
 export { Tabs, TabsList, TabsTrigger, TabsContent }

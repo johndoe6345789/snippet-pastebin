@@ -1,19 +1,43 @@
-import { ComponentProps } from "react"
+import { ComponentProps, forwardRef } from "react"
+import { cva, type VariantProps } from "class-variance-authority"
+import { cn } from "@/lib/utils"
 
-function Chip({ className, children, ...props }: ComponentProps<"button">) {
-  return (
-    <button
-      className={["mdc-evolution-chip", className].filter(Boolean).join(" ")}
-      {...props}
-    >
-      <span className="mdc-evolution-chip__cell mdc-evolution-chip__cell--primary">
-        <span className="mdc-evolution-chip__action mdc-evolution-chip__action--primary">
-          <span className="mdc-evolution-chip__ripple" />
-          <span className="mdc-evolution-chip__text-label">{children}</span>
-        </span>
-      </span>
-    </button>
-  )
-}
+const chipVariants = cva(
+  "inline-flex items-center justify-center gap-1.5 rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+  {
+    variants: {
+      variant: {
+        default:
+          "border-transparent bg-primary text-primary-foreground hover:bg-primary/80",
+        secondary:
+          "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        destructive:
+          "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
+        outline: "text-foreground",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+)
 
-export { Chip }
+interface ChipProps
+  extends ComponentProps<"div">,
+    VariantProps<typeof chipVariants> {}
+
+const Chip = forwardRef<HTMLDivElement, ChipProps>(
+  ({ className, variant, ...props }, ref) => {
+    return (
+      <div
+        ref={ref}
+        data-slot="chip"
+        className={cn(chipVariants({ variant }), className)}
+        {...props}
+      />
+    )
+  }
+)
+Chip.displayName = "Chip"
+
+export { Chip, chipVariants }

@@ -1,29 +1,56 @@
 import { ComponentProps } from "react"
+import { cva, type VariantProps } from "class-variance-authority"
+import { cn } from "@/lib/utils"
 
-type AlertVariant = "default" | "destructive"
+const alertVariants = cva(
+  "relative w-full rounded-lg border p-4 [&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground",
+  {
+    variants: {
+      variant: {
+        default: "bg-background text-foreground",
+        destructive:
+          "border-destructive/50 text-destructive dark:border-destructive [&>svg]:text-destructive",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+)
 
-function Alert({ className, variant = "default", children, ...props }: ComponentProps<"div"> & { variant?: AlertVariant }) {
+function Alert({
+  className,
+  variant,
+  ...props
+}: ComponentProps<"div"> & VariantProps<typeof alertVariants>) {
   return (
     <div
       role="alert"
-      className={["mdc-banner", variant === "destructive" && "mdc-banner--error", className].filter(Boolean).join(" ")}
+      data-slot="alert"
+      className={cn(alertVariants({ variant }), className)}
       {...props}
-    >
-      <div className="mdc-banner__content">
-        <div className="mdc-banner__graphic-text-wrapper">
-          <div className="mdc-banner__text">{children}</div>
-        </div>
-      </div>
-    </div>
+    />
   )
 }
 
-function AlertTitle({ className, ...props }: ComponentProps<"div">) {
-  return <div className={["mdc-typography--subtitle1", className].filter(Boolean).join(" ")} {...props} />
+function AlertTitle({ className, ...props }: ComponentProps<"h5">) {
+  return (
+    <h5
+      data-slot="alert-title"
+      className={cn("mb-1 font-medium leading-none tracking-tight", className)}
+      {...props}
+    />
+  )
 }
 
 function AlertDescription({ className, ...props }: ComponentProps<"div">) {
-  return <div className={["mdc-typography--body2", className].filter(Boolean).join(" ")} {...props} />
+  return (
+    <div
+      data-slot="alert-description"
+      className={cn("text-sm [&_p]:leading-relaxed", className)}
+      {...props}
+    />
+  )
 }
 
 export { Alert, AlertTitle, AlertDescription }
