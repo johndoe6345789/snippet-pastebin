@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render, screen } from '@/test-utils'
 
 // Since this is a utility component, we test the role and basic structure
 describe('Alert Component', () => {
