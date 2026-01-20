@@ -1,44 +1,49 @@
-"use client"
+import { ComponentProps, forwardRef, createContext, useContext } from 'react'
+import styles from './radio-group.module.scss'
+import { cn } from '@/lib/utils'
+import { Circle } from '@phosphor-icons/react'
 
-import * as React from "react"
-import * as RadioGroupPrimitive from "@radix-ui/react-radio-group"
-import Circle from "lucide-react/dist/esm/icons/circle"
+interface RadioGroupContextValue {
+  value?: string
+  onValueChange?: (value: string) => void
+}
 
-import { cn } from "@/lib/utils"
+const RadioGroupContext = createContext<RadioGroupContextValue | null>(null)
 
-const RadioGroup = React.forwardRef<
-  React.ElementRef<typeof RadioGroupPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root>
->(({ className, ...props }, ref) => {
-  return (
-    <RadioGroupPrimitive.Root
-      className={cn("grid gap-2", className)}
-      {...props}
-      ref={ref}
-    />
+interface RadioGroupProps extends ComponentProps<'div'> {
+  value?: string
+  onValueChange?: (value: string) => void
+}
+
+export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
+  ({ className, value, onValueChange, ...props }, ref) => (
+    <RadioGroupContext.Provider value={{ value, onValueChange }}>
+      <div ref={ref} className={cn(styles.group, className)} role="radiogroup" {...props} />
+    </RadioGroupContext.Provider>
   )
-})
-RadioGroup.displayName = RadioGroupPrimitive.Root.displayName
+)
+RadioGroup.displayName = 'RadioGroup'
 
-const RadioGroupItem = React.forwardRef<
-  React.ElementRef<typeof RadioGroupPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item>
->(({ className, ...props }, ref) => {
-  return (
-    <RadioGroupPrimitive.Item
-      ref={ref}
-      className={cn(
-        "aspect-square h-4 w-4 rounded-full border border-primary text-primary ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
-        className
-      )}
-      {...props}
-    >
-      <RadioGroupPrimitive.Indicator className="flex items-center justify-center">
-        <Circle className="h-2.5 w-2.5 fill-current text-current" />
-      </RadioGroupPrimitive.Indicator>
-    </RadioGroupPrimitive.Item>
-  )
-})
-RadioGroupItem.displayName = RadioGroupPrimitive.Item.displayName
-
-export { RadioGroup, RadioGroupItem }
+export const RadioGroupItem = forwardRef<HTMLInputElement, ComponentProps<'input'> & { value: string }>(
+  ({ className, value, ...props }, ref) => {
+    const context = useContext(RadioGroupContext)
+    const isChecked = context?.value === value
+    
+    return (
+      <label className={cn(styles.item, className)}>
+        <input
+          ref={ref}
+          type="radio"
+          className={styles.input}
+          checked={isChecked}
+          onChange={() => context?.onValueChange?.(value)}
+          {...props}
+        />
+        <span className={styles.indicator}>
+          {isChecked && <Circle className={styles.icon} weight="fill" />}
+        </span>
+      </label>
+    )
+  }
+)
+RadioGroupItem.displayName = 'RadioGroupItem'

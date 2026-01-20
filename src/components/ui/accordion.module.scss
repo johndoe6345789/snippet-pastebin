@@ -1,0 +1,70 @@
+.accordion {
+  width: 100%;
+}
+
+.item {
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+  
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 16px 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: var(--mat-sys-body-large-font);
+  font-size: var(--mat-sys-body-large-size);
+  font-weight: var(--mat-sys-body-large-weight);
+  color: var(--mat-sys-on-surface);
+  text-align: left;
+  transition: color 200ms;
+  
+  &:hover {
+    color: var(--mat-sys-primary);
+  }
+  
+  &:focus-visible {
+    outline: 2px solid var(--mat-sys-primary);
+    outline-offset: 2px;
+  }
+  
+  &:disabled {
+    opacity: 0.38;
+    cursor: not-allowed;
+  }
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  transition: transform 200ms;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.iconOpen {
+  transform: rotate(180deg);
+}
+
+.content {
+  overflow: hidden;
+  transition: max-height 300ms ease-in-out;
+  max-height: 1000px;
+}
+
+.contentClosed {
+  max-height: 0;
+}
+
+.contentInner {
+  padding: 0 0 16px;
+  font-family: var(--mat-sys-body-medium-font);
+  font-size: var(--mat-sys-body-medium-size);
+  color: var(--mat-sys-on-surface-variant);
+}

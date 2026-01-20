@@ -3,9 +3,9 @@ import { MonacoEditor } from '@/components/features/snippet-editor/MonacoEditor'
 import { ReactPreview } from '@/components/features/snippet-editor/ReactPreview'
 import { PythonOutput } from '@/components/features/python-runner/PythonOutput'
 import { Button } from '@/components/ui/button'
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
 import { Code, Eye, SplitHorizontal } from '@phosphor-icons/react'
 import { InputParameter } from '@/lib/types'
+import styles from './split-screen-editor.module.scss'
 
 interface SplitScreenEditorProps {
   value: string
@@ -43,43 +43,40 @@ export function SplitScreenEditor({
   }
 
   return (
-    <div className="space-y-3">
-      <div className="flex items-center gap-2 justify-end">
-        <div className="flex items-center gap-1 p-1 bg-muted rounded-md">
+    <div className={styles.container}>
+      <div className={styles.toolbar}>
+        <div className={styles.buttonGroup}>
           <Button
             variant={viewMode === 'code' ? 'secondary' : 'ghost'}
             size="sm"
             onClick={() => setViewMode('code')}
-            className="gap-2 h-8"
+            className={styles.button}
           >
-            <Code className="h-4 w-4" />
-            <span className="hidden sm:inline">Code</span>
+            <Code className={styles.buttonIcon} />
+            <span className={styles.buttonLabel}>Code</span>
           </Button>
           <Button
             variant={viewMode === 'split' ? 'secondary' : 'ghost'}
             size="sm"
             onClick={() => setViewMode('split')}
-            className="gap-2 h-8"
+            className={styles.button}
           >
-            <SplitHorizontal className="h-4 w-4" />
-            <span className="hidden sm:inline">Split</span>
+            <SplitHorizontal className={styles.buttonIcon} />
+            <span className={styles.buttonLabel}>Split</span>
           </Button>
           <Button
             variant={viewMode === 'preview' ? 'secondary' : 'ghost'}
             size="sm"
             onClick={() => setViewMode('preview')}
-            className="gap-2 h-8"
+            className={styles.button}
           >
-            <Eye className="h-4 w-4" />
-            <span className="hidden sm:inline">{isPython ? 'Output' : 'Preview'}</span>
+            <Eye className={styles.buttonIcon} />
+            <span className={styles.buttonLabel}>{isPython ? 'Output' : 'Preview'}</span>
           </Button>
         </div>
       </div>
 
-      <div 
-        className="rounded-md border border-border overflow-hidden bg-card"
-        style={{ height }}
-      >
+      <div className={styles.viewport} style={{ height }}>
         {viewMode === 'code' && (
           <MonacoEditor
             value={value}
@@ -103,17 +100,16 @@ export function SplitScreenEditor({
         )}
 
         {viewMode === 'split' && (
-          <ResizablePanelGroup direction="horizontal" className="h-full">
-            <ResizablePanel defaultSize={50} minSize={30}>
+          <div className={styles.splitView}>
+            <div className={styles.editorPanel}>
               <MonacoEditor
                 value={value}
                 onChange={onChange}
                 language={language}
                 height="100%"
               />
-            </ResizablePanel>
-            <ResizableHandle withHandle />
-            <ResizablePanel defaultSize={50} minSize={30}>
+            </div>
+            <div className={styles.previewPanel}>
               {isPython ? (
                 <PythonOutput code={value} />
               ) : (
@@ -124,8 +120,8 @@ export function SplitScreenEditor({
                   inputParameters={inputParameters}
                 />
               )}
-            </ResizablePanel>
-          </ResizablePanelGroup>
+            </div>
+          </div>
         )}
       </div>
     </div>

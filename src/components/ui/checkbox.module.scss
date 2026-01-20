@@ -1,0 +1,51 @@
+.container {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  
+  &:focus-visible + .indicator {
+    outline: 2px solid var(--mat-sys-primary);
+    outline-offset: 2px;
+  }
+}
+
+.indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--mat-sys-on-surface-variant);
+  border-radius: var(--mat-sys-corner-extra-small);
+  background-color: transparent;
+  transition: all 200ms;
+  
+  .input:hover + & {
+    border-color: var(--mat-sys-on-surface);
+    background-color: color-mix(in srgb, var(--mat-sys-on-surface) 8%, transparent);
+  }
+  
+  .input:checked + & {
+    border-color: var(--mat-sys-primary);
+    background-color: var(--mat-sys-primary);
+  }
+  
+  .input:disabled + & {
+    opacity: 0.38;
+    cursor: not-allowed;
+  }
+}
+
+.icon {
+  width: 14px;
+  height: 14px;
+  color: var(--mat-sys-on-primary);
+}
