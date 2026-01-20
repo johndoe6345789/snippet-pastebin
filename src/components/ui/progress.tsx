@@ -1,30 +1,35 @@
-"use client"
-
-import { ComponentProps } from "react"
-import * as ProgressPrimitive from "@radix-ui/react-progress"
+import { ComponentProps, forwardRef } from "react"
 import { cn } from "@/lib/utils"
 
-function Progress({
-  className,
-  value,
-  ...props
-}: ComponentProps<typeof ProgressPrimitive.Root>) {
-  return (
-    <ProgressPrimitive.Root
-      data-slot="progress"
-      className={cn(
-        "relative h-4 w-full overflow-hidden rounded-full bg-secondary",
-        className
-      )}
-      {...props}
-    >
-      <ProgressPrimitive.Indicator
-        data-slot="progress-indicator"
-        className="h-full w-full flex-1 bg-primary transition-all"
-        style={{ transform: `translateX(-${100 - (value || 0)}%)` }}
-      />
-    </ProgressPrimitive.Root>
-  )
+interface ProgressProps extends ComponentProps<"div"> {
+  value?: number
 }
 
-export { Progress }
+export const Progress = forwardRef<HTMLDivElement, ProgressProps>(
+  ({ className, value = 0, ...props }, ref) => (
+    <div
+      ref={ref}
+      className={cn("mat-mdc-progress-bar", "mdc-linear-progress", className)}
+      role="progressbar"
+      aria-valuemin={0}
+      aria-valuemax={100}
+      aria-valuenow={value}
+      {...props}
+    >
+      <div className="mdc-linear-progress__buffer">
+        <div className="mdc-linear-progress__buffer-bar" />
+        <div className="mdc-linear-progress__buffer-dots" />
+      </div>
+      <div 
+        className="mdc-linear-progress__bar mdc-linear-progress__primary-bar"
+        style={{ transform: `scaleX(${value / 100})` }}
+      >
+        <span className="mdc-linear-progress__bar-inner" />
+      </div>
+      <div className="mdc-linear-progress__bar mdc-linear-progress__secondary-bar">
+        <span className="mdc-linear-progress__bar-inner" />
+      </div>
+    </div>
+  )
+)
+Progress.displayName = "Progress"

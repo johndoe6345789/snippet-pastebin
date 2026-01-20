@@ -1,8 +1,6 @@
-import { ComponentProps, forwardRef, useState, createContext, useContext } from 'react'
-import { createPortal } from 'react-dom'
-import styles from './select.module.scss'
-import { cn } from '@/lib/utils'
-import { CaretDown, Check } from '@phosphor-icons/react'
+import { ComponentProps, forwardRef, useState, createContext, useContext } from "react"
+import { createPortal } from "react-dom"
+import { cn } from "@/lib/utils"
 
 interface SelectContextValue {
   value?: string
@@ -29,42 +27,45 @@ export function Select({ value, onValueChange, children }: SelectProps) {
   )
 }
 
-export const SelectTrigger = forwardRef<HTMLButtonElement, ComponentProps<'button'> & { size?: 'sm' | 'default' }>(
-  ({ className, children, size = 'default', ...props }, ref) => {
+export const SelectTrigger = forwardRef<HTMLButtonElement, ComponentProps<"button">>(
+  ({ className, children, ...props }, ref) => {
     const context = useContext(SelectContext)
     
     return (
       <button
         ref={ref}
-        className={cn(styles.trigger, size === 'sm' && styles.triggerSm, className)}
+        className={cn("mat-mdc-select-trigger", className)}
         onClick={() => context?.setOpen(!context.open)}
         {...props}
       >
-        {children}
-        <CaretDown className={styles.icon} />
+        <span className="mat-mdc-select-value">{children}</span>
+        <span className="mat-mdc-select-arrow-wrapper">
+          <svg className="mat-mdc-select-arrow" viewBox="0 0 10 5">
+            <polygon points="0,0 5,5 10,0" />
+          </svg>
+        </span>
       </button>
     )
   }
 )
-SelectTrigger.displayName = 'SelectTrigger'
+SelectTrigger.displayName = "SelectTrigger"
 
 export const SelectValue = ({ placeholder }: { placeholder?: string }) => {
   const context = useContext(SelectContext)
-  return <span>{context?.value || placeholder}</span>
+  return <>{context?.value || placeholder}</>
 }
 
-export const SelectContent = forwardRef<HTMLDivElement, ComponentProps<'div'>>(
-  ({ className, children, position = 'popper', ...props }, ref) => {
+export const SelectContent = forwardRef<HTMLDivElement, ComponentProps<"div">>(
+  ({ className, children, ...props }, ref) => {
     const context = useContext(SelectContext)
     
     if (!context?.open) return null
     
     return createPortal(
-      <div className={styles.overlay} onClick={() => context.setOpen(false)}>
+      <div className="cdk-overlay-pane">
         <div 
           ref={ref}
-          className={cn(styles.content, className)} 
-          onClick={(e) => e.stopPropagation()}
+          className={cn("mat-mdc-select-panel", className)} 
           {...props}
         >
           {children}
@@ -74,9 +75,9 @@ export const SelectContent = forwardRef<HTMLDivElement, ComponentProps<'div'>>(
     )
   }
 )
-SelectContent.displayName = 'SelectContent'
+SelectContent.displayName = "SelectContent"
 
-export const SelectItem = forwardRef<HTMLDivElement, ComponentProps<'div'> & { value: string }>(
+export const SelectItem = forwardRef<HTMLDivElement, ComponentProps<"div"> & { value: string }>(
   ({ className, children, value, ...props }, ref) => {
     const context = useContext(SelectContext)
     const isSelected = context?.value === value
@@ -84,41 +85,45 @@ export const SelectItem = forwardRef<HTMLDivElement, ComponentProps<'div'> & { v
     return (
       <div
         ref={ref}
-        className={cn(styles.item, isSelected && styles.itemSelected, className)}
+        className={cn(
+          "mat-mdc-option",
+          "mdc-list-item",
+          isSelected && "mdc-list-item--selected",
+          className
+        )}
         onClick={() => {
           context?.onValueChange?.(value)
           context?.setOpen(false)
         }}
         {...props}
       >
-        {children}
-        {isSelected && <Check className={styles.checkmark} weight="bold" />}
+        <span className="mdc-list-item__primary-text">{children}</span>
       </div>
     )
   }
 )
-SelectItem.displayName = 'SelectItem'
+SelectItem.displayName = "SelectItem"
 
-export const SelectGroup = forwardRef<HTMLDivElement, ComponentProps<'div'>>(
+export const SelectGroup = forwardRef<HTMLDivElement, ComponentProps<"div">>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn(styles.group, className)} {...props} />
+    <div ref={ref} className={cn("mat-mdc-optgroup", className)} {...props} />
   )
 )
-SelectGroup.displayName = 'SelectGroup'
+SelectGroup.displayName = "SelectGroup"
 
-export const SelectLabel = forwardRef<HTMLDivElement, ComponentProps<'div'>>(
+export const SelectLabel = forwardRef<HTMLDivElement, ComponentProps<"div">>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn(styles.label, className)} {...props} />
+    <div ref={ref} className={cn("mat-mdc-optgroup-label", className)} {...props} />
   )
 )
-SelectLabel.displayName = 'SelectLabel'
+SelectLabel.displayName = "SelectLabel"
 
-export const SelectSeparator = forwardRef<HTMLDivElement, ComponentProps<'div'>>(
+export const SelectSeparator = forwardRef<HTMLDivElement, ComponentProps<"div">>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn(styles.separator, className)} {...props} />
+    <div ref={ref} className={cn("mat-divider", className)} {...props} />
   )
 )
-SelectSeparator.displayName = 'SelectSeparator'
+SelectSeparator.displayName = "SelectSeparator"
 
 export const SelectScrollUpButton = () => null
 export const SelectScrollDownButton = () => null

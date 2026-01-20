@@ -29,7 +29,7 @@ code {
   font-family: 'JetBrains Mono', monospace;
   background-color: var(--mat-sys-surface-variant);
   padding: 0.125rem 0.25rem;
-  border-radius: 0.25rem;
+  border-radius: var(--mat-sys-corner-extra-small);
   font-size: 0.875em;
 }
 
@@ -37,7 +37,7 @@ pre {
   font-family: 'JetBrains Mono', monospace;
   background-color: var(--mat-sys-surface-variant);
   padding: 1rem;
-  border-radius: 0.5rem;
+  border-radius: var(--mat-sys-corner-small);
   overflow-x: auto;
 }
 

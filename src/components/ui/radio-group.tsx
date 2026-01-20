@@ -1,7 +1,5 @@
-import { ComponentProps, forwardRef, createContext, useContext } from 'react'
-import styles from './radio-group.module.scss'
-import { cn } from '@/lib/utils'
-import { Circle } from '@phosphor-icons/react'
+import { ComponentProps, forwardRef, createContext, useContext } from "react"
+import { cn } from "@/lib/utils"
 
 interface RadioGroupContextValue {
   value?: string
@@ -10,7 +8,7 @@ interface RadioGroupContextValue {
 
 const RadioGroupContext = createContext<RadioGroupContextValue | null>(null)
 
-interface RadioGroupProps extends ComponentProps<'div'> {
+interface RadioGroupProps extends ComponentProps<"div"> {
   value?: string
   onValueChange?: (value: string) => void
 }
@@ -18,32 +16,36 @@ interface RadioGroupProps extends ComponentProps<'div'> {
 export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
   ({ className, value, onValueChange, ...props }, ref) => (
     <RadioGroupContext.Provider value={{ value, onValueChange }}>
-      <div ref={ref} className={cn(styles.group, className)} role="radiogroup" {...props} />
+      <div ref={ref} className={cn("mat-mdc-radio-group", className)} role="radiogroup" {...props} />
     </RadioGroupContext.Provider>
   )
 )
-RadioGroup.displayName = 'RadioGroup'
+RadioGroup.displayName = "RadioGroup"
 
-export const RadioGroupItem = forwardRef<HTMLInputElement, ComponentProps<'input'> & { value: string }>(
+export const RadioGroupItem = forwardRef<HTMLInputElement, ComponentProps<"input"> & { value: string }>(
   ({ className, value, ...props }, ref) => {
     const context = useContext(RadioGroupContext)
     const isChecked = context?.value === value
     
     return (
-      <label className={cn(styles.item, className)}>
-        <input
-          ref={ref}
-          type="radio"
-          className={styles.input}
-          checked={isChecked}
-          onChange={() => context?.onValueChange?.(value)}
-          {...props}
-        />
-        <span className={styles.indicator}>
-          {isChecked && <Circle className={styles.icon} weight="fill" />}
-        </span>
-      </label>
+      <div className={cn("mat-mdc-radio-button", className)}>
+        <div className="mdc-radio">
+          <input
+            ref={ref}
+            type="radio"
+            className="mdc-radio__native-control"
+            checked={isChecked}
+            onChange={() => context?.onValueChange?.(value)}
+            {...props}
+          />
+          <div className="mdc-radio__background">
+            <div className="mdc-radio__outer-circle" />
+            <div className="mdc-radio__inner-circle" />
+          </div>
+          <div className="mdc-radio__ripple" />
+        </div>
+      </div>
     )
   }
 )
-RadioGroupItem.displayName = 'RadioGroupItem'
+RadioGroupItem.displayName = "RadioGroupItem"

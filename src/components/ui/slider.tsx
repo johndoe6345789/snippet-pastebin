@@ -1,28 +1,49 @@
-"use client"
-
-import { ComponentProps } from "react"
-import * as SliderPrimitive from "@radix-ui/react-slider"
+import { ComponentProps, forwardRef } from "react"
 import { cn } from "@/lib/utils"
 
-function Slider({
-  className,
-  ...props
-}: ComponentProps<typeof SliderPrimitive.Root>) {
-  return (
-    <SliderPrimitive.Root
-      data-slot="slider"
-      className={cn(
-        "relative flex w-full touch-none select-none items-center",
-        className
-      )}
-      {...props}
-    >
-      <SliderPrimitive.Track className="relative h-2 w-full grow overflow-hidden rounded-full bg-secondary">
-        <SliderPrimitive.Range className="absolute h-full bg-primary" />
-      </SliderPrimitive.Track>
-      <SliderPrimitive.Thumb className="block h-5 w-5 rounded-full border-2 border-primary bg-background ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50" />
-    </SliderPrimitive.Root>
-  )
+interface SliderProps extends Omit<ComponentProps<"input">, "type"> {
+  value?: number[]
+  onValueChange?: (value: number[]) => void
+  min?: number
+  max?: number
+  step?: number
 }
 
-export { Slider }
+export const Slider = forwardRef<HTMLInputElement, SliderProps>(
+  ({ className, value = [0], onValueChange, min = 0, max = 100, step = 1, ...props }, ref) => {
+    const currentValue = value[0] || 0
+    const percentage = ((currentValue - min) / (max - min)) * 100
+    
+    return (
+      <div className={cn("mat-mdc-slider", "mdc-slider", className)}>
+        <input
+          ref={ref}
+          type="range"
+          className="mdc-slider__input"
+          min={min}
+          max={max}
+          step={step}
+          value={currentValue}
+          onChange={(e) => onValueChange?.([Number(e.target.value)])}
+          {...props}
+        />
+        <div className="mdc-slider__track">
+          <div className="mdc-slider__track--inactive" />
+          <div 
+            className="mdc-slider__track--active"
+            style={{ transform: `scaleX(${percentage / 100})` }}
+          >
+            <div className="mdc-slider__track--active_fill" />
+          </div>
+        </div>
+        <div 
+          className="mdc-slider__thumb"
+          style={{ left: `${percentage}%` }}
+        >
+          <div className="mdc-slider__thumb-knob" />
+        </div>
+      </div>
+    )
+  }
+)
+Slider.displayName = "Slider"
