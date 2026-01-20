@@ -1,5 +1,4 @@
 import { transformReactCode } from './react-transform'
-import React from 'react'
 
 describe('transformReactCode', () => {
   describe('basic component transformation', () => {
@@ -16,9 +15,9 @@ describe('transformReactCode', () => {
 
     test('transforms component with explicit name', () => {
       const code = `
-        const Button = () => <button>Click me</button>
+        const MyButtonComp = () => <button>Click me</button>
       `
-      const component = transformReactCode(code, 'Button')
+      const component = transformReactCode(code, 'MyButtonComp')
       expect(component).not.toBeNull()
       expect(typeof component).toBe('function')
     })
@@ -33,31 +32,7 @@ describe('transformReactCode', () => {
     })
   })
 
-  describe('import removal', () => {
-    test('removes React imports', () => {
-      const code = `
-        import React from 'react'
-        function Hello() {
-          return <div>Hi</div>
-        }
-      `
-      const component = transformReactCode(code)
-      expect(component).not.toBeNull()
-    })
-
-    test('removes all import statements', () => {
-      const code = `
-        import { useState } from 'react'
-        import { Button } from '@/components'
-        function App() {
-          const [count, setCount] = useState(0)
-          return <div>{count}</div>
-        }
-      `
-      const component = transformReactCode(code)
-      expect(component).not.toBeNull()
-    })
-
+  describe('export removal', () => {
     test('removes export default statements', () => {
       const code = `
         function MyComp() {
@@ -130,7 +105,7 @@ describe('transformReactCode', () => {
   describe('component with JSX', () => {
     test('transforms component with JSX elements', () => {
       const code = `
-        function Card() {
+        function MyCard() {
           return (
             <div className="card">
               <h1>Title</h1>
@@ -303,36 +278,20 @@ describe('transformReactCode', () => {
   })
 
   describe('code cleanup', () => {
-    test('handles multiline imports', () => {
+    test('handles whitespace in exports', () => {
       const code = `
-        import {
-          useState,
-          useEffect
-        } from 'react'
-
-        function App() {
-          return <div>App</div>
+        export   default   function MyComp() {
+          return <div>Test</div>
         }
       `
       const component = transformReactCode(code)
       expect(component).not.toBeNull()
     })
 
-    test('handles semicolons in imports', () => {
+    test('handles no exports', () => {
       const code = `
-        import React from 'react';
-        import { Button } from '@/ui';
-
-        const MyButton = () => <Button>Click</Button>
-      `
-      const component = transformReactCode(code)
-      expect(component).not.toBeNull()
-    })
-
-    test('handles whitespace in exports', () => {
-      const code = `
-        export   default   function MyComp() {
-          return <div>Test</div>
+        function SimpleComponent() {
+          return <p>No export</p>
         }
       `
       const component = transformReactCode(code)

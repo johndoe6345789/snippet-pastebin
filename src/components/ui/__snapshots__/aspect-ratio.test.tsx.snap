@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AspectRatio applies ratio prop 1`] = `
+<div>
+  <div
+    data-slot="aspect-ratio"
+  >
+    <div>
+      Square
+    </div>
+  </div>
+</div>
+`;
