@@ -4,7 +4,7 @@
  */
 
 import { ConfigLoader } from '../../../src/lib/quality-validator/config/ConfigLoader';
-import { ConfigurationError } from '../../../src/lib/quality-validator/types/index.js';
+import { ConfigurationError } from '../../../src/lib/quality-validator/types';
 import { createTempDir, cleanupTempDir, createTestFile } from '../../test-utils';
 import * as fs from 'fs';
 import * as path from 'path';

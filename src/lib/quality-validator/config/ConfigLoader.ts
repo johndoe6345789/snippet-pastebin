@@ -370,13 +370,6 @@ export class ConfigLoader {
    * Apply CLI options to configuration
    */
   applyCliOptions(config: Configuration, options: CommandLineOptions): Configuration {
-    if (options.skipCoverage) {
-      // This should never mutate the original config
-      const result = JSON.parse(JSON.stringify(config));
-      if (result.testCoverage === config.testCoverage) {
-        throw new Error('DEEP COPY FAILED: testCoverage objects are the same!');
-      }
-    }
     const result = JSON.parse(JSON.stringify(config));
 
     // Toggle analyses based on CLI options

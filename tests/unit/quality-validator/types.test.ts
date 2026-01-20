@@ -22,7 +22,7 @@ import {
   AnalysisErrorClass,
   IntegrationError,
   ReportingError,
-} from '../../../src/lib/quality-validator/types/index.js';
+} from '../../../src/lib/quality-validator/types/index';
 
 describe('Quality Validator Type Definitions', () => {
   describe('CodeQualityMetrics', () => {

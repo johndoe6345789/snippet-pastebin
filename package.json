@@ -12,7 +12,11 @@
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:debug": "playwright test --debug",
-    "test:unit": "jest --watch"
+    "test:unit": "jest --watch",
+    "quality-check": "node run-quality-check.mjs",
+    "quality-check:json": "node run-quality-check.mjs --format json --output .quality/report.json",
+    "quality-check:html": "node run-quality-check.mjs --format html --output .quality/report.html",
+    "quality-check:verbose": "node run-quality-check.mjs --verbose"
   },
   "dependencies": {
     "@babel/standalone": "^7.24.0",

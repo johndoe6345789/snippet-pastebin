@@ -3,7 +3,7 @@
  * Tests logging functionality with color support
  */
 
-import { logger, Logger } from '../../../src/lib/quality-validator/utils/logger.js';
+import { logger, Logger } from '../../../src/lib/quality-validator/utils/logger';
 
 describe('Logger', () => {
   beforeEach(() => {

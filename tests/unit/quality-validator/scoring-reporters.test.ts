@@ -12,7 +12,7 @@ import {
   ResultMetadata,
   Configuration,
   ScoringWeights,
-} from '../../../src/lib/quality-validator/types/index.js';
+} from '../../../src/lib/quality-validator/types/index';
 
 describe('Scoring Engine', () => {
   describe('Score Calculation', () => {

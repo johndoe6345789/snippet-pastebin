@@ -3,8 +3,8 @@
  * Tests complexity, duplication, and linting analysis
  */
 
-import { CodeQualityAnalyzer } from '../../../src/lib/quality-validator/analyzers/codeQualityAnalyzer.js';
-import { logger } from '../../../src/lib/quality-validator/utils/logger.js';
+import { CodeQualityAnalyzer } from '../../../src/lib/quality-validator/analyzers/codeQualityAnalyzer';
+import { logger } from '../../../src/lib/quality-validator/utils/logger';
 import * as fs from 'fs';
 import * as path from 'path';
 import { createTempDir, cleanupTempDir, createTestFile } from '../../test-utils';

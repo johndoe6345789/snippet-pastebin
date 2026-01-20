@@ -7,7 +7,7 @@ import {
   QualityValidationError,
   ConfigurationError,
   AnalysisErrorClass,
-} from '../../../src/lib/quality-validator/types/index.js';
+} from '../../../src/lib/quality-validator/types/index';
 
 describe('Configuration Loader', () => {
   const createDefaultConfig = (): Configuration => ({

@@ -3,6 +3,7 @@ import { defineConfig, devices } from "@playwright/test"
 export default defineConfig({
   // Run both general e2e and MD3 conformance suites
   testDir: "./tests",
+  testMatch: "**/*.spec.ts",
   timeout: 60_000,
   globalSetup: "./tests/e2e/setup/global-setup.ts",
   expect: {

@@ -1,0 +1,47 @@
+{
+  "minOverallScore": 85,
+  "minCodeQuality": 80,
+  "minTestCoverage": 70,
+  "minArchitecture": 80,
+  "minSecurity": 85,
+  "metrics": {
+    "codeQuality": {
+      "minScore": 80,
+      "maxComplexity": 15,
+      "maxDuplication": 5,
+      "maxLintErrors": 3,
+      "maxLintWarnings": 15
+    },
+    "testCoverage": {
+      "minScore": 70,
+      "minLinesCovered": 70,
+      "minBranchCovered": 65,
+      "minFunctionsCovered": 70,
+      "minStatementsCovered": 70,
+      "maxMockUsage": 50
+    },
+    "architecture": {
+      "minScore": 80,
+      "maxComponentSize": 500,
+      "allowCircularDependencies": false,
+      "allowCrossLayerDependencies": false
+    },
+    "security": {
+      "minScore": 85,
+      "maxCriticalVulnerabilities": 0,
+      "maxHighVulnerabilities": 2,
+      "checkSecrets": true,
+      "checkDangerousPatterns": true
+    }
+  },
+  "trend": {
+    "allowScoreDropPercent": 5,
+    "trackingEnabled": true,
+    "historySize": 10
+  },
+  "failConditions": [
+    "overallScore < minOverallScore",
+    "criticalSecurityVulnerabilities > 0",
+    "testCoverageDropPercent > allowScoreDropPercent"
+  ]
+}

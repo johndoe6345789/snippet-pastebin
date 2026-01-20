@@ -16,6 +16,8 @@ import {
   ScoringWeights,
   ResultMetadata,
 } from '../types/index.js';
+import { trendAnalyzer } from './trendAnalyzer';
+import { saveTrendHistory, createHistoricalRecord } from '../utils/trendStorage';
 
 /**
  * Scoring engine that calculates quality scores
@@ -116,6 +118,11 @@ export class ScoringEngine {
       findings
     );
 
+    // Analyze trends and save to history
+    const trend = trendAnalyzer.analyzeTrend(overallScore.score, componentScores);
+    const historicalRecord = createHistoricalRecord(overallScore.score, grade, componentScores);
+    saveTrendHistory(historicalRecord);
+
     return {
       overall: {
         score: overallScore.score,
@@ -127,6 +134,7 @@ export class ScoringEngine {
       componentScores,
       findings,
       recommendations,
+      trend,
       metadata,
     };
   }

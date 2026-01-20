@@ -3,7 +3,7 @@
  * Tests weighted scoring, grade assignment, and recommendation generation
  */
 
-import { ScoringEngine } from '../../../src/lib/quality-validator/scoring/scoringEngine.js';
+import { ScoringEngine } from '../../../src/lib/quality-validator/scoring/scoringEngine';
 import {
   createMockCodeQualityMetrics,
   createMockTestCoverageMetrics,

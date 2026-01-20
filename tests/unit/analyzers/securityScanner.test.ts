@@ -3,8 +3,8 @@
  * Tests vulnerability detection and security pattern matching
  */
 
-import { SecurityScanner } from '../../../src/lib/quality-validator/analyzers/securityScanner.js';
-import { logger } from '../../../src/lib/quality-validator/utils/logger.js';
+import { SecurityScanner } from '../../../src/lib/quality-validator/analyzers/securityScanner';
+import { logger } from '../../../src/lib/quality-validator/utils/logger';
 import { createTempDir, cleanupTempDir, createTestFile } from '../../test-utils';
 
 describe('SecurityScanner', () => {

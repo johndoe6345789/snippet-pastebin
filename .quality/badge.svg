@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="160" height="28">
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#999999;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#999999;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="160" height="28" rx="4" fill="#f0f0f0"/>
+
+  <!-- Left side (label) -->
+  <rect width="80" height="28" rx="4" fill="#555"/>
+
+  <!-- Right side (score) -->
+  <rect x="80" width="80" height="28" rx="4" fill="url(#gradient)"/>
+
+  <!-- Left text -->
+  <text x="14" y="19" font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="white" text-anchor="start">
+    Quality
+  </text>
+
+  <!-- Right text -->
+  <text x="146" y="19" font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="white" text-anchor="end">
+    0.0% →
+  </text>
+
+  <!-- Grade indicator -->
+  <text x="120" y="7" font-family="Arial,sans-serif" font-size="8" font-weight="bold" fill="white" text-anchor="middle">
+    N/A
+  </text>
+</svg>

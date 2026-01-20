@@ -15,7 +15,7 @@ import {
   SecurityAntiPattern,
   CoverageGap,
   AnalysisResult,
-} from '../../../src/lib/quality-validator/types/index.js';
+} from '../../../src/lib/quality-validator/types/index';
 
 describe('Code Quality Analyzer', () => {
   describe('Cyclomatic Complexity Analysis', () => {

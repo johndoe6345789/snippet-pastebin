@@ -10,7 +10,7 @@ import {
   ReportingError,
   QualityValidationError,
   ExitCode,
-} from '../../src/lib/quality-validator/types/index.js';
+} from '../../src/lib/quality-validator/types/index';
 
 describe('Error Classes', () => {
   describe('QualityValidationError', () => {

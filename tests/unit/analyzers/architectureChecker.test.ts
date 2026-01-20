@@ -3,8 +3,8 @@
  * Tests component validation, dependency analysis, and pattern compliance
  */
 
-import { ArchitectureChecker } from '../../../src/lib/quality-validator/analyzers/architectureChecker.js';
-import { logger } from '../../../src/lib/quality-validator/utils/logger.js';
+import { ArchitectureChecker } from '../../../src/lib/quality-validator/analyzers/architectureChecker';
+import { logger } from '../../../src/lib/quality-validator/utils/logger';
 import { createTempDir, cleanupTempDir, createTestFile } from '../../test-utils';
 
 describe('ArchitectureChecker', () => {

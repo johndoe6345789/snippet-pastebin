@@ -3,8 +3,8 @@
  * Tests test coverage metric parsing and effectiveness scoring
  */
 
-import { CoverageAnalyzer } from '../../../src/lib/quality-validator/analyzers/coverageAnalyzer.js';
-import { logger } from '../../../src/lib/quality-validator/utils/logger.js';
+import { CoverageAnalyzer } from '../../../src/lib/quality-validator/analyzers/coverageAnalyzer';
+import { logger } from '../../../src/lib/quality-validator/utils/logger';
 import * as fs from 'fs';
 import * as path from 'path';
 import { createTempDir, cleanupTempDir, createTestFile } from '../../test-utils';

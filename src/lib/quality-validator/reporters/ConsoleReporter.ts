@@ -232,19 +232,73 @@ export class ConsoleReporter extends ReporterBase {
 
     lines.push(color('┌─ TREND ──────────────────────────────────────────────────┐', 'cyan'));
 
+    // Current score and direction
     if (trend.previousScore !== undefined) {
       const change = trend.currentScore - trend.previousScore;
+      const changePercent = ((change / trend.previousScore) * 100).toFixed(1);
       const changeStr = change >= 0 ? `+${change.toFixed(1)}` : `${change.toFixed(1)}`;
-      const trendColor = change >= 0 ? 'green' : 'red';
-      const trendSymbol = change >= 0 ? '↑' : change <= 0 ? '↓' : '→';
+      const trendColor = change > 0 ? 'green' : change < 0 ? 'red' : 'yellow';
+      const trendSymbol = change > 0 ? '↑ improving' : change < 0 ? '↓ degrading' : '→ stable';
 
-      lines.push(`│ Score: ${trend.currentScore.toFixed(1)}% ${color(trendSymbol + ' ' + changeStr + '%', trendColor)}`);
-      lines.push(`│ Direction: ${color(trend.direction || 'unknown', trendColor)}`);
+      lines.push(`│ Current Score: ${trend.currentScore.toFixed(1)}% ${color(trendSymbol, trendColor)} (${changeStr}%, ${changePercent}%)`);
+    } else {
+      lines.push(`│ Current Score: ${trend.currentScore.toFixed(1)}% (baseline - no history)`);
     }
 
+    // Historical averages
+    const trendData = trend as any;
+    if (trendData.sevenDayAverage !== undefined && trendData.sevenDayAverage > 0) {
+      const diff7 = (trend.currentScore - trendData.sevenDayAverage).toFixed(1);
+      const sign7 = Number(diff7) >= 0 ? '+' : '';
+      lines.push(`│ 7-day avg: ${trendData.sevenDayAverage.toFixed(1)}% (${sign7}${diff7}%)`);
+    }
+
+    if (trendData.thirtyDayAverage !== undefined && trendData.thirtyDayAverage > 0) {
+      const diff30 = (trend.currentScore - trendData.thirtyDayAverage).toFixed(1);
+      const sign30 = Number(diff30) >= 0 ? '+' : '';
+      lines.push(`│ 30-day avg: ${trendData.thirtyDayAverage.toFixed(1)}% (${sign30}${diff30}%)`);
+    }
+
+    // Best and worst scores
+    if (trendData.bestScore !== undefined && trendData.worstScore !== undefined) {
+      lines.push(`│ Best: ${trendData.bestScore.toFixed(1)}% | Worst: ${trendData.worstScore.toFixed(1)}%`);
+    }
+
+    // Volatility
+    if (trendData.volatility !== undefined) {
+      const volatilityStatus =
+        trendData.volatility < 1 ? 'Excellent' : trendData.volatility < 3 ? 'Good' : trendData.volatility < 5 ? 'Moderate' : 'High';
+      lines.push(`│ Consistency: ${volatilityStatus} (volatility: ${trendData.volatility.toFixed(1)})`);
+    }
+
+    // Recent sparkline
     if (trend.lastFiveScores && trend.lastFiveScores.length > 0) {
       const sparkline = formatSparkline(trend.lastFiveScores);
       lines.push(`│ Recent: ${sparkline}`);
+    }
+
+    // Component trends
+    if (trend.componentTrends) {
+      lines.push(color('├─ Component Trends ────────────────────────────────────────┤', 'cyan'));
+      const categories = ['codeQuality', 'testCoverage', 'architecture', 'security'];
+      for (const category of categories) {
+        const componentTrend = trend.componentTrends[category];
+        if (componentTrend) {
+          const arrow = componentTrend.direction === 'up' ? '↑' : componentTrend.direction === 'down' ? '↓' : '→';
+          const change = componentTrend.change !== undefined ? `${componentTrend.change >= 0 ? '+' : ''}${componentTrend.change.toFixed(1)}` : 'N/A';
+          lines.push(`│ ${category.padEnd(16)} ${arrow} ${componentTrend.current.toFixed(1)}% (${change})`);
+        }
+      }
+    }
+
+    // Concerning metrics alert
+    if (trendData.concerningMetrics && trendData.concerningMetrics.length > 0) {
+      lines.push(color(`│ ⚠ ALERT: ${trendData.concerningMetrics.join(', ')} showing concerning decline`, 'red'));
+    }
+
+    // Summary
+    if (trendData.trendSummary) {
+      lines.push(`│ Summary: ${trendData.trendSummary}`);
     }
 
     lines.push(color('└─────────────────────────────────────────────────────────┘', 'cyan'));

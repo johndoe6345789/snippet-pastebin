@@ -10,7 +10,7 @@ import {
   AnalysisResult,
   ExitCode,
   ResultMetadata,
-} from '../../../src/lib/quality-validator/types/index.js';
+} from '../../../src/lib/quality-validator/types/index';
 
 describe('Quality Validator Orchestrator', () => {
   const createMockConfig = (): Configuration => ({
