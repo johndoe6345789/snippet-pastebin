@@ -1,29 +1,42 @@
-import type { Metadata } from 'next';
-import './globals.scss';
-import { Providers } from './providers';
+import type { Metadata } from 'next'
+import { Inter, Bricolage_Grotesque, JetBrains_Mono } from 'next/font/google'
+import '@/styles/theme.scss'
+import '@/app/globals.css'
+import { Providers } from '@/components/providers/Providers'
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+})
+
+const bricolage = Bricolage_Grotesque({
+  subsets: ['latin'],
+  variable: '--font-bricolage',
+  display: 'swap',
+})
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-jetbrains',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
-  title: 'CodeSnippet - Share & Run Code (Python, React & More)',
-  description: 'Save, organize, and share your code snippets with beautiful syntax highlighting and live execution',
-};
+  title: 'CodeSnippet - Material Design 3',
+  description: 'A modern code snippet manager built with Material Design 3',
+}
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: {
+  children: React.ReactNode
+}) {
   return (
-    <html lang="en" className="dark" suppressHydrationWarning>
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-      </head>
+    <html lang="en" className={`${inter.variable} ${bricolage.variable} ${jetbrainsMono.variable}`}>
       <body>
-        <Providers>
-          {children}
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
-  );
+  )
 }
