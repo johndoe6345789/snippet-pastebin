@@ -1,3 +1,5 @@
+'use client'
+
 import { List } from '@phosphor-icons/react'
 import { useNavigation } from './useNavigation'
 

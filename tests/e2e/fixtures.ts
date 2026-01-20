@@ -1,4 +1,5 @@
 import { expect, test as base } from "@playwright/test"
+import * as M3Helpers from "./m3-helpers"
 
 // Ensure a minimal window object exists in the Node test runtime.
 if (!(globalThis as any).window) {
@@ -44,8 +45,13 @@ const patchPagePrototype = (page: any) => {
 const test = base.extend({
   page: async ({ page }, use) => {
     patchPagePrototype(page)
+
+    // Add M3 helpers to page object
+    ;(page as any).m3 = M3Helpers
+
     await use(page)
   },
 })
 
 export { test, expect }
+export * from "./m3-helpers"

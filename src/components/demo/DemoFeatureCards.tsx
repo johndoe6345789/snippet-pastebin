@@ -1,6 +1,8 @@
+'use client'
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
-export function DemoFeatureCards() {
+export const DemoFeatureCards = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       <Card className="border-primary/20">

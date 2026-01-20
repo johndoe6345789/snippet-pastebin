@@ -12,6 +12,8 @@ import { OpenAISettingsCard } from '@/components/settings/OpenAISettingsCard';
 import { useSettingsState } from '@/hooks/useSettingsState';
 import { PageLayout } from '../PageLayout';
 
+export const dynamic = 'force-dynamic'
+
 export default function SettingsPage() {
   const {
     stats,

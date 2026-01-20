@@ -9,6 +9,8 @@ import { DEMO_CODE } from '@/components/demo/demo-constants';
 import { DemoFeatureCards } from '@/components/demo/DemoFeatureCards';
 import { PageLayout } from '../PageLayout';
 
+export const dynamic = 'force-dynamic'
+
 // Dynamically import SplitScreenEditor to avoid SSR issues with Pyodide
 const SplitScreenEditor = dynamic(
   () => import('@/components/features/snippet-editor/SplitScreenEditor').then(mod => ({ default: mod.SplitScreenEditor })),
