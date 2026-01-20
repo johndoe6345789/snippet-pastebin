@@ -5,7 +5,7 @@ import { OpenAISettingsCard } from './openAISettingsCard'
 describe('OpenAISettingsCard Component', () => {
   it('renders without crashing', () => {
     render(<OpenAISettingsCard />)
-    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test')).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

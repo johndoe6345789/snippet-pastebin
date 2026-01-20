@@ -5,7 +5,7 @@ import { TemplatesSection } from './templatesSection'
 describe('TemplatesSection Component', () => {
   it('renders without crashing', () => {
     render(<TemplatesSection />)
-    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test')).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

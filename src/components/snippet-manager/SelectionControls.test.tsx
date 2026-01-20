@@ -5,7 +5,7 @@ import { SelectionControls } from './selectionControls'
 describe('SelectionControls Component', () => {
   it('renders without crashing', () => {
     render(<SelectionControls />)
-    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test')).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

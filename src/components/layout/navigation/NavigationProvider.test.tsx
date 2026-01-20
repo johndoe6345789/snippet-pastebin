@@ -5,7 +5,7 @@ import { NavigationProvider } from './navigationProvider'
 describe('NavigationProvider Component', () => {
   it('renders without crashing', () => {
     render(<NavigationProvider />)
-    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test')).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

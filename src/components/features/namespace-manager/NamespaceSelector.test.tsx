@@ -5,7 +5,7 @@ import { NamespaceSelector } from './namespaceSelector'
 describe('NamespaceSelector Component', () => {
   it('renders without crashing', () => {
     render(<NamespaceSelector />)
-    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test')).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

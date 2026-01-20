@@ -5,7 +5,7 @@ import { SnippetViewerHeader } from './snippetViewerHeader'
 describe('SnippetViewerHeader Component', () => {
   it('renders without crashing', () => {
     render(<SnippetViewerHeader />)
-    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test')).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

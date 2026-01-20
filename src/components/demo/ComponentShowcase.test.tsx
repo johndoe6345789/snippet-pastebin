@@ -5,7 +5,7 @@ import { ComponentShowcase } from './componentShowcase'
 describe('ComponentShowcase Component', () => {
   it('renders without crashing', () => {
     render(<ComponentShowcase />)
-    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test')).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

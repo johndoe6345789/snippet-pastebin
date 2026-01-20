@@ -5,7 +5,7 @@ import { PersistenceExample } from './persistenceExample'
 describe('PersistenceExample Component', () => {
   it('renders without crashing', () => {
     render(<PersistenceExample />)
-    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test')).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

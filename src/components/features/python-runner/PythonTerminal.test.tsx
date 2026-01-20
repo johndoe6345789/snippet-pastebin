@@ -5,7 +5,7 @@ import { PythonTerminal } from './pythonTerminal'
 describe('PythonTerminal Component', () => {
   it('renders without crashing', () => {
     render(<PythonTerminal />)
-    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test')).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

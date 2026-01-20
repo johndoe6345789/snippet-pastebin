@@ -5,7 +5,7 @@ import { Sidebar } from './sidebar'
 describe('Sidebar Component', () => {
   it('renders without crashing', () => {
     render(<Sidebar />)
-    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test')).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

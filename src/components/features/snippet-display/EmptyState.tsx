@@ -21,8 +21,13 @@ interface EmptyStateProps {
 
 export function EmptyState({ onCreateClick, onCreateFromTemplate }: EmptyStateProps) {
   return (
-    <div className="flex flex-col items-center justify-center py-20 px-4 text-center">
-      <div className="rounded-full bg-accent/10 p-6 mb-6">
+    <div
+      className="flex flex-col items-center justify-center py-20 px-4 text-center"
+      data-testid="empty-state"
+      role="status"
+      aria-label="No snippets available"
+    >
+      <div className="rounded-full bg-accent/10 p-6 mb-6" aria-hidden="true">
         <Code className="h-16 w-16 text-accent" weight="duotone" />
       </div>
       <h2 className="text-2xl font-semibold mb-2">{strings.emptyState.title}</h2>
@@ -31,15 +36,27 @@ export function EmptyState({ onCreateClick, onCreateFromTemplate }: EmptyStatePr
       </p>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button size="lg" className="gap-2">
-            <Code className="h-5 w-5" weight="bold" />
+          <Button
+            size="lg"
+            className="gap-2"
+            data-testid="empty-state-create-menu"
+            aria-label="Create new snippet from templates"
+          >
+            <Code className="h-5 w-5" weight="bold" aria-hidden="true" />
             {strings.emptyState.buttonText}
-            <CaretDown weight="bold" />
+            <CaretDown weight="bold" aria-hidden="true" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="center" className="w-72 max-h-[500px] overflow-y-auto">
-          <DropdownMenuItem onClick={onCreateClick}>
-            <Plus className="mr-2 h-4 w-4" weight="bold" />
+        <DropdownMenuContent
+          align="center"
+          className="w-72 max-h-[500px] overflow-y-auto"
+          data-testid="empty-state-menu-content"
+        >
+          <DropdownMenuItem
+            onClick={onCreateClick}
+            data-testid="create-blank-snippet-item"
+          >
+            <Plus className="mr-2 h-4 w-4" weight="bold" aria-hidden="true" />
             Blank Snippet
           </DropdownMenuItem>
           <DropdownMenuSeparator />
@@ -48,6 +65,7 @@ export function EmptyState({ onCreateClick, onCreateFromTemplate }: EmptyStatePr
             <DropdownMenuItem
               key={template.id}
               onClick={() => onCreateFromTemplate?.(template.id)}
+              data-testid={`template-react-${template.id}`}
             >
               <div className="flex flex-col gap-1 py-1">
                 <span className="font-medium">{template.title}</span>

@@ -5,7 +5,7 @@ import { CodeEditorSection } from './codeEditorSection'
 describe('CodeEditorSection Component', () => {
   it('renders without crashing', () => {
     render(<CodeEditorSection />)
-    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test')).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

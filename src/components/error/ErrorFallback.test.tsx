@@ -5,7 +5,7 @@ import { ErrorFallback } from './errorFallback'
 describe('ErrorFallback Component', () => {
   it('renders without crashing', () => {
     render(<ErrorFallback />)
-    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test')).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

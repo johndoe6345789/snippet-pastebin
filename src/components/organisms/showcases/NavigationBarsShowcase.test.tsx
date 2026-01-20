@@ -5,7 +5,7 @@ import { NavigationBarsShowcase } from './navigationBarsShowcase'
 describe('NavigationBarsShowcase Component', () => {
   it('renders without crashing', () => {
     render(<NavigationBarsShowcase />)
-    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test')).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

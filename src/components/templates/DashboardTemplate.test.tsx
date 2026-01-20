@@ -5,7 +5,7 @@ import { DashboardTemplate } from './dashboardTemplate'
 describe('DashboardTemplate Component', () => {
   it('renders without crashing', () => {
     render(<DashboardTemplate />)
-    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test')).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

@@ -10,7 +10,10 @@ interface ErrorFallbackProps {
 }
 
 export function ErrorFallback({ error }: ErrorFallbackProps) {
-  if (import.meta.env.DEV) throw error;
+  // Only throw in development environment (not in tests)
+  if (typeof process !== 'undefined' && process.env.NODE_ENV === 'development') {
+    throw error;
+  }
 
   const [isStackOpen, setIsStackOpen] = useState(false);
   const [copied, setCopied] = useState(false);

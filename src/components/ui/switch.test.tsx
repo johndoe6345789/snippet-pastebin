@@ -5,7 +5,7 @@ import { Switch } from './switch'
 describe('Switch Component', () => {
   it('renders without crashing', () => {
     render(<Switch />)
-    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test')).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

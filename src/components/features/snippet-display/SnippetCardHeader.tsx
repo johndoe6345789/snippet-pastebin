@@ -27,14 +27,22 @@ export function SnippetCardHeader({
             onCheckedChange={onToggleSelect}
             onClick={(e) => e.stopPropagation()}
             className="mt-1"
+            data-testid={`snippet-select-checkbox-${snippet.id}`}
+            aria-label={`Select snippet: ${snippet.title}`}
           />
         )}
         <div className="flex-1 min-w-0">
-          <h3 className="text-lg font-semibold text-foreground mb-1 truncate">
+          <h3
+            className="text-lg font-semibold text-foreground mb-1 truncate"
+            data-testid={`snippet-title-${snippet.id}`}
+          >
             {snippet.title}
           </h3>
           {description && (
-            <p className="text-sm text-muted-foreground line-clamp-2">
+            <p
+              className="text-sm text-muted-foreground line-clamp-2"
+              data-testid={`snippet-description-${snippet.id}`}
+            >
               {description}
             </p>
           )}
@@ -42,6 +50,8 @@ export function SnippetCardHeader({
       </div>
       <Badge
         className={`shrink-0 ${LANGUAGE_COLORS[snippet.language] || LANGUAGE_COLORS['Other']}`}
+        data-testid={`snippet-language-badge-${snippet.id}`}
+        aria-label={`Language: ${snippet.language}`}
       >
         {snippet.language}
       </Badge>

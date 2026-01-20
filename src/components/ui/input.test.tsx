@@ -5,7 +5,7 @@ import { Input } from './input'
 describe('Input Component', () => {
   it('renders without crashing', () => {
     render(<Input />)
-    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test')).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

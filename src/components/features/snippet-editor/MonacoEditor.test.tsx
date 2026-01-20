@@ -5,7 +5,7 @@ import { MonacoEditor } from './monacoEditor'
 describe('MonacoEditor Component', () => {
   it('renders without crashing', () => {
     render(<MonacoEditor />)
-    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test')).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

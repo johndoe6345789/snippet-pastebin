@@ -5,7 +5,7 @@ import { Badge } from './badge'
 describe('Badge Component', () => {
   it('renders without crashing', () => {
     render(<Badge />)
-    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test')).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

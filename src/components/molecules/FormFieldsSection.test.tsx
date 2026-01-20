@@ -5,7 +5,7 @@ import { FormFieldsSection } from './formFieldsSection'
 describe('FormFieldsSection Component', () => {
   it('renders without crashing', () => {
     render(<FormFieldsSection />)
-    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test')).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

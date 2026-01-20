@@ -5,7 +5,7 @@ import { SnippetGrid } from './snippetGrid'
 describe('SnippetGrid Component', () => {
   it('renders without crashing', () => {
     render(<SnippetGrid />)
-    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test')).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

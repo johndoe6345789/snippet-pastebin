@@ -5,7 +5,7 @@ import { Checkbox } from './checkbox'
 describe('Checkbox Component', () => {
   it('renders without crashing', () => {
     render(<Checkbox />)
-    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test')).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

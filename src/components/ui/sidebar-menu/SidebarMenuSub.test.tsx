@@ -5,7 +5,7 @@ import { SidebarMenuSub } from './sidebarMenuSub'
 describe('SidebarMenuSub Component', () => {
   it('renders without crashing', () => {
     render(<SidebarMenuSub />)
-    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test')).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {

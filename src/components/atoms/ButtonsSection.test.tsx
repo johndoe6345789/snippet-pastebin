@@ -5,7 +5,7 @@ import { ButtonsSection } from './buttonsSection'
 describe('ButtonsSection Component', () => {
   it('renders without crashing', () => {
     render(<ButtonsSection />)
-    expect(screen.queryByTestId('test'), { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByTestId('test')).toBeInTheDocument()
   })
 
   it('has proper accessibility attributes', () => {
