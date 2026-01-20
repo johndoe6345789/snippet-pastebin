@@ -34,6 +34,7 @@ export function NavigationSidebar() {
             className="fixed inset-0 z-40 bg-black/32"
             onClick={() => setMenuOpen(false)}
             aria-hidden="true"
+            data-testid="navigation-sidebar-overlay"
           />
 
           {/* Navigation Drawer */}
@@ -53,6 +54,7 @@ export function NavigationSidebar() {
               "flex flex-col",
               "shadow-xl"
             )}
+            data-testid="navigation-sidebar"
           >
             {/* Header */}
             <div className="flex items-center justify-between h-16 px-4 border-b border-border/50">
@@ -71,13 +73,18 @@ export function NavigationSidebar() {
                   "outline-none focus-visible:ring-2 focus-visible:ring-primary"
                 )}
                 aria-label="Close navigation"
+                data-testid="navigation-sidebar-close-btn"
               >
-                <X weight="bold" className="size-5" />
+                <X weight="bold" className="size-5" aria-hidden="true" />
               </button>
             </div>
 
             {/* Navigation Items */}
-            <nav role="navigation" className="flex-1 overflow-y-auto py-2 px-3">
+            <nav
+              role="navigation"
+              className="flex-1 overflow-y-auto py-2 px-3"
+              data-testid="navigation-items"
+            >
               <ul className="space-y-0.5">
                 {navigationItems.map((item) => {
                   const Icon = item.icon;
@@ -105,10 +112,13 @@ export function NavigationSidebar() {
                             ? "bg-secondary text-secondary-foreground"
                             : "text-muted-foreground hover:text-foreground"
                         )}
+                        data-testid={`nav-link-${item.path.replace(/\//g, '-')}`}
+                        aria-current={isActive ? "page" : undefined}
                       >
                         <Icon
                           weight={isActive ? "fill" : "regular"}
                           className="size-6 relative z-10 shrink-0"
+                          aria-hidden="true"
                         />
                         <span className="relative z-10">{item.label}</span>
 

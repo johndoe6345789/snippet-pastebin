@@ -61,7 +61,10 @@ export function SnippetDialog({ open, onOpenChange, onSave, editingSnippet }: Sn
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[900px] max-h-[90vh] overflow-hidden flex flex-col">
+      <DialogContent
+        className="sm:max-w-[900px] max-h-[90vh] overflow-hidden flex flex-col"
+        data-testid="snippet-dialog"
+      >
         <DialogHeader className="pr-8">
           <DialogTitle className="text-2xl">
             {editingSnippet?.id ? strings.snippetDialog.edit.title : strings.snippetDialog.create.title}
@@ -108,10 +111,17 @@ export function SnippetDialog({ open, onOpenChange, onSave, editingSnippet }: Sn
         </div>
 
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)}>
+          <Button
+            variant="outline"
+            onClick={() => onOpenChange(false)}
+            data-testid="snippet-dialog-cancel-btn"
+          >
             {strings.snippetDialog.buttons.cancel}
           </Button>
-          <Button onClick={handleSave}>
+          <Button
+            onClick={handleSave}
+            data-testid="snippet-dialog-save-btn"
+          >
             {editingSnippet ? strings.snippetDialog.buttons.update : strings.snippetDialog.buttons.create} Snippet
           </Button>
         </DialogFooter>

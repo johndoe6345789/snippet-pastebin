@@ -3,6 +3,8 @@ import { Inter, Bricolage_Grotesque, JetBrains_Mono } from 'next/font/google'
 import '@/app/globals.css'
 import { Providers } from '@/app/providers'
 
+export const dynamic = 'force-dynamic'
+
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',

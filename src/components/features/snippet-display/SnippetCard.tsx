@@ -129,11 +129,13 @@ export function SnippetCard({
   const availableNamespaces = namespaces.filter(n => n.id !== snippet.namespaceId)
 
   return (
-    <Card 
+    <Card
       className={`group overflow-hidden hover:border-accent/50 transition-all cursor-pointer ${
         isSelected ? 'border-accent ring-2 ring-accent/20' : ''
       }`}
       onClick={handleView}
+      data-testid={`snippet-card-${snippet.id}`}
+      role="article"
     >
       <div className="p-6 space-y-4">
         <SnippetCardHeader 

@@ -42,8 +42,10 @@ export function SnippetCardActions({
           size="sm"
           onClick={onView}
           className="gap-2"
+          data-testid="snippet-card-view-btn"
+          aria-label="View snippet"
         >
-          <Eye className="h-4 w-4" />
+          <Eye className="h-4 w-4" aria-hidden="true" />
           {strings.snippetCard.viewButton}
         </Button>
       </div>
@@ -53,18 +55,20 @@ export function SnippetCardActions({
           size="sm"
           onClick={onCopy}
           className="gap-2"
+          data-testid="snippet-card-copy-btn"
           aria-label={strings.snippetCard.ariaLabels.copy}
         >
-          <Copy className="h-4 w-4" />
+          <Copy className="h-4 w-4" aria-hidden="true" />
           {isCopied ? strings.snippetCard.copiedButton : strings.snippetCard.copyButton}
         </Button>
         <Button
           variant="ghost"
           size="sm"
           onClick={onEdit}
+          data-testid="snippet-card-edit-btn"
           aria-label={strings.snippetCard.ariaLabels.edit}
         >
-          <Pencil className="h-4 w-4" />
+          <Pencil className="h-4 w-4" aria-hidden="true" />
         </Button>
         
         <DropdownMenu>
@@ -73,9 +77,10 @@ export function SnippetCardActions({
               variant="ghost"
               size="sm"
               onClick={(e) => e.stopPropagation()}
+              data-testid="snippet-card-actions-menu"
               aria-label="More options"
             >
-              <DotsThree className="h-4 w-4" weight="bold" />
+              <DotsThree className="h-4 w-4" weight="bold" aria-hidden="true" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
