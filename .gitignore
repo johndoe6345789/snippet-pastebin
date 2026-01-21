@@ -41,3 +41,19 @@ pids
 
 .spark-workbench-id
 .aider*
+
+# Test and Coverage Reports
+coverage/
+.coverage
+.nyc_output/
+*.lcov
+test-results/
+blob-report/
+
+# Playwright test artifacts
+playwright-report/
+playwright/.cache/
+
+# Quality and build state
+.quality/
+.qualityrc-cache/
