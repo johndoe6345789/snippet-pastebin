@@ -45,7 +45,7 @@ export function SnippetManagerRedux() {
 
   if (loading) {
     return (
-      <div className="text-center py-20" data-testid="snippet-manager-loading">
+      <div className="text-center py-20" data-testid="snippet-manager-loading" role="status" aria-busy="true" aria-label="Loading snippets">
         <p className="text-muted-foreground">Loading snippets...</p>
       </div>
     )
@@ -54,13 +54,13 @@ export function SnippetManagerRedux() {
   if (snippets.length === 0) {
     return (
       <>
-        <div className="mb-6">
+        <div className="mb-6" data-testid="empty-state-namespace-selector">
           <NamespaceSelector
             selectedNamespaceId={selectedNamespaceId}
             onNamespaceChange={handleNamespaceChange}
           />
         </div>
-        <EmptyState 
+        <EmptyState
           onCreateClick={handleCreateNew}
           onCreateFromTemplate={handleCreateFromTemplate}
         />
@@ -75,7 +75,7 @@ export function SnippetManagerRedux() {
   }
 
   return (
-    <div className="space-y-6" data-testid="snippet-manager">
+    <div className="space-y-6" data-testid="snippet-manager-redux" role="main" aria-label="Snippet manager">
       <NamespaceSelector
         selectedNamespaceId={selectedNamespaceId}
         onNamespaceChange={handleNamespaceChange}
@@ -103,7 +103,7 @@ export function SnippetManagerRedux() {
       )}
 
       {filteredSnippets.length === 0 && searchQuery && (
-        <div className="text-center py-20">
+        <div className="text-center py-20" data-testid="no-results-message" role="status">
           <p className="text-muted-foreground">No snippets found matching "{searchQuery}"</p>
         </div>
       )}

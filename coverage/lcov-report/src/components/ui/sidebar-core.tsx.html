@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/181</span>
+                <span class='fraction'>0/189</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/181</span>
+                <span class='fraction'>0/189</span>
             </div>
         
             
@@ -244,7 +244,23 @@
 <a name='L179'></a><a href='#L179'>179</a>
 <a name='L180'></a><a href='#L180'>180</a>
 <a name='L181'></a><a href='#L181'>181</a>
-<a name='L182'></a><a href='#L182'>182</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L182'></a><a href='#L182'>182</a>
+<a name='L183'></a><a href='#L183'>183</a>
+<a name='L184'></a><a href='#L184'>184</a>
+<a name='L185'></a><a href='#L185'>185</a>
+<a name='L186'></a><a href='#L186'>186</a>
+<a name='L187'></a><a href='#L187'>187</a>
+<a name='L188'></a><a href='#L188'>188</a>
+<a name='L189'></a><a href='#L189'>189</a>
+<a name='L190'></a><a href='#L190'>190</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -458,6 +474,7 @@
 <span class="cstat-no" title="statement not covered" >    return (</span>
 <span class="cstat-no" title="statement not covered" >      &lt;div</span>
 <span class="cstat-no" title="statement not covered" >        data-slot="sidebar"</span>
+<span class="cstat-no" title="statement not covered" >        data-testid="sidebar"</span>
 <span class="cstat-no" title="statement not covered" >        className={cn(</span>
 <span class="cstat-no" title="statement not covered" >          "bg-sidebar text-sidebar-foreground flex h-full w-(--sidebar-width) flex-col",</span>
 <span class="cstat-no" title="statement not covered" >          className</span>
@@ -502,6 +519,9 @@
 <span class="cstat-no" title="statement not covered" >      data-variant={variant}</span>
 <span class="cstat-no" title="statement not covered" >      data-side={side}</span>
 <span class="cstat-no" title="statement not covered" >      data-slot="sidebar"</span>
+<span class="cstat-no" title="statement not covered" >      data-testid="sidebar-desktop"</span>
+<span class="cstat-no" title="statement not covered" >      role="navigation"</span>
+<span class="cstat-no" title="statement not covered" >      aria-label="Main sidebar"</span>
 <span class="cstat-no" title="statement not covered" >    &gt;</span>
 <span class="cstat-no" title="statement not covered" >      {/* This is what handles the sidebar gap on desktop */}</span>
 <span class="cstat-no" title="statement not covered" >      &lt;div</span>
@@ -553,6 +573,7 @@
 <span class="cstat-no" title="statement not covered" >    &lt;Button</span>
 <span class="cstat-no" title="statement not covered" >      data-sidebar="trigger"</span>
 <span class="cstat-no" title="statement not covered" >      data-slot="sidebar-trigger"</span>
+<span class="cstat-no" title="statement not covered" >      data-testid="sidebar-trigger"</span>
 <span class="cstat-no" title="statement not covered" >      variant="ghost"</span>
 <span class="cstat-no" title="statement not covered" >      size="icon"</span>
 <span class="cstat-no" title="statement not covered" >      className={cn("size-7", className)}</span>
@@ -560,6 +581,7 @@
 <span class="cstat-no" title="statement not covered" >        onClick?.(event)</span>
 <span class="cstat-no" title="statement not covered" >        toggleSidebar()</span>
 <span class="cstat-no" title="statement not covered" >      }}</span>
+<span class="cstat-no" title="statement not covered" >      aria-label="Toggle sidebar"</span>
 <span class="cstat-no" title="statement not covered" >      {...props}</span>
 <span class="cstat-no" title="statement not covered" >    &gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;PanelLeftIcon /&gt;</span>
@@ -575,6 +597,7 @@
 <span class="cstat-no" title="statement not covered" >    &lt;button</span>
 <span class="cstat-no" title="statement not covered" >      data-sidebar="rail"</span>
 <span class="cstat-no" title="statement not covered" >      data-slot="sidebar-rail"</span>
+<span class="cstat-no" title="statement not covered" >      data-testid="sidebar-rail"</span>
 <span class="cstat-no" title="statement not covered" >      aria-label="Toggle Sidebar"</span>
 <span class="cstat-no" title="statement not covered" >      tabIndex={-1}</span>
 <span class="cstat-no" title="statement not covered" >      onClick={toggleSidebar}</span>
@@ -597,6 +620,7 @@
 <span class="cstat-no" title="statement not covered" >  return (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;main</span>
 <span class="cstat-no" title="statement not covered" >      data-slot="sidebar-inset"</span>
+<span class="cstat-no" title="statement not covered" >      data-testid="sidebar-inset"</span>
 <span class="cstat-no" title="statement not covered" >      className={cn(</span>
 <span class="cstat-no" title="statement not covered" >        "bg-background relative flex w-full flex-1 flex-col",</span>
 <span class="cstat-no" title="statement not covered" >        "md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow-sm md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ml-2",</span>
@@ -613,7 +637,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-20T23:21:59.834Z
+                at 2026-01-21T00:47:57.712Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

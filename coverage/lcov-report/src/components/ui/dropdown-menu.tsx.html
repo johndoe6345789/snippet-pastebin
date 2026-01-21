@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/279</span>
+                <span class='fraction'>0/290</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/279</span>
+                <span class='fraction'>0/290</span>
             </div>
         
             
@@ -342,7 +342,29 @@
 <a name='L277'></a><a href='#L277'>277</a>
 <a name='L278'></a><a href='#L278'>278</a>
 <a name='L279'></a><a href='#L279'>279</a>
-<a name='L280'></a><a href='#L280'>280</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L280'></a><a href='#L280'>280</a>
+<a name='L281'></a><a href='#L281'>281</a>
+<a name='L282'></a><a href='#L282'>282</a>
+<a name='L283'></a><a href='#L283'>283</a>
+<a name='L284'></a><a href='#L284'>284</a>
+<a name='L285'></a><a href='#L285'>285</a>
+<a name='L286'></a><a href='#L286'>286</a>
+<a name='L287'></a><a href='#L287'>287</a>
+<a name='L288'></a><a href='#L288'>288</a>
+<a name='L289'></a><a href='#L289'>289</a>
+<a name='L290'></a><a href='#L290'>290</a>
+<a name='L291'></a><a href='#L291'>291</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -664,12 +686,13 @@
 <span class="cstat-no" title="statement not covered" >  if (asChild &amp;&amp; React.isValidElement(children)) {</span>
 <span class="cstat-no" title="statement not covered" >    return React.cloneElement(children as React.ReactElement, {</span>
 <span class="cstat-no" title="statement not covered" >      onClick: handleClick,</span>
+<span class="cstat-no" title="statement not covered" >      "data-testid": "dropdown-menu-trigger",</span>
 <span class="cstat-no" title="statement not covered" >      ...props,</span>
 <span class="cstat-no" title="statement not covered" >    })</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;button type="button" onClick={handleClick} className={className} {...props}&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;button type="button" onClick={handleClick} className={className} data-testid="dropdown-menu-trigger" {...props}&gt;</span>
 <span class="cstat-no" title="statement not covered" >      {children}</span>
 <span class="cstat-no" title="statement not covered" >    &lt;/button&gt;</span>
 <span class="cstat-no" title="statement not covered" >  )</span>
@@ -717,6 +740,7 @@
 <span class="cstat-no" title="statement not covered" >            ref={contentRef}</span>
 <span class="cstat-no" title="statement not covered" >            className={cn("mat-mdc-menu-panel mat-menu-panel-animations-enabled", className)}</span>
 <span class="cstat-no" title="statement not covered" >            role="menu"</span>
+<span class="cstat-no" title="statement not covered" >            data-testid="dropdown-menu-content"</span>
 <span class="cstat-no" title="statement not covered" >            {...props}</span>
 <span class="cstat-no" title="statement not covered" >          &gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;div className="mat-mdc-menu-content"&gt;</span>
@@ -730,7 +754,7 @@
 <span class="cstat-no" title="statement not covered" >}</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >function DropdownMenuGroup({ children }: { children: React.ReactNode }) {</span>
-<span class="cstat-no" title="statement not covered" >  return &lt;div role="group"&gt;{children}&lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  return &lt;div role="group" data-testid="dropdown-menu-group"&gt;{children}&lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >}</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >function DropdownMenuItem({</span>
@@ -760,10 +784,11 @@
 <span class="cstat-no" title="statement not covered" >        className</span>
 <span class="cstat-no" title="statement not covered" >      )}</span>
 <span class="cstat-no" title="statement not covered" >      onClick={handleClick}</span>
+<span class="cstat-no" title="statement not covered" >      data-testid="dropdown-menu-item"</span>
 <span class="cstat-no" title="statement not covered" >      {...props}</span>
 <span class="cstat-no" title="statement not covered" >    &gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;span className="mdc-list-item__primary-text"&gt;{children}&lt;/span&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;div className="mat-mdc-menu-ripple mat-ripple" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;div className="mat-mdc-menu-ripple mat-ripple" aria-hidden="true" /&gt;</span>
 <span class="cstat-no" title="statement not covered" >    &lt;/button&gt;</span>
 <span class="cstat-no" title="statement not covered" >  )</span>
 <span class="cstat-no" title="statement not covered" >}</span>
@@ -780,11 +805,12 @@
 <span class="cstat-no" title="statement not covered" >      role="menuitemcheckbox"</span>
 <span class="cstat-no" title="statement not covered" >      aria-checked={checked}</span>
 <span class="cstat-no" title="statement not covered" >      className={cn("mat-mdc-menu-item mdc-list-item", className)}</span>
+<span class="cstat-no" title="statement not covered" >      data-testid="dropdown-menu-checkbox-item"</span>
 <span class="cstat-no" title="statement not covered" >      {...props}</span>
 <span class="cstat-no" title="statement not covered" >    &gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;span className="mdc-list-item__primary-text"&gt;{children}&lt;/span&gt;</span>
 <span class="cstat-no" title="statement not covered" >      {checked &amp;&amp; (</span>
-<span class="cstat-no" title="statement not covered" >        &lt;span className="mdc-list-item__end"&gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;span className="mdc-list-item__end" aria-hidden="true"&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" /&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;/svg&gt;</span>
@@ -795,7 +821,7 @@
 <span class="cstat-no" title="statement not covered" >}</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >function DropdownMenuRadioGroup({ children }: { children: React.ReactNode }) {</span>
-<span class="cstat-no" title="statement not covered" >  return &lt;div role="radiogroup"&gt;{children}&lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  return &lt;div role="radiogroup" data-testid="dropdown-menu-radio-group"&gt;{children}&lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >}</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >function DropdownMenuRadioItem({</span>
@@ -808,6 +834,7 @@
 <span class="cstat-no" title="statement not covered" >      type="button"</span>
 <span class="cstat-no" title="statement not covered" >      role="menuitemradio"</span>
 <span class="cstat-no" title="statement not covered" >      className={cn("mat-mdc-menu-item mdc-list-item", className)}</span>
+<span class="cstat-no" title="statement not covered" >      data-testid="dropdown-menu-radio-item"</span>
 <span class="cstat-no" title="statement not covered" >      {...props}</span>
 <span class="cstat-no" title="statement not covered" >    &gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;span className="mdc-list-item__primary-text"&gt;{children}&lt;/span&gt;</span>
@@ -819,6 +846,7 @@
 <span class="cstat-no" title="statement not covered" >  return (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;div</span>
 <span class="cstat-no" title="statement not covered" >      className={cn("mat-mdc-optgroup-label", className)}</span>
+<span class="cstat-no" title="statement not covered" >      data-testid="dropdown-menu-label"</span>
 <span class="cstat-no" title="statement not covered" >      {...props}</span>
 <span class="cstat-no" title="statement not covered" >    /&gt;</span>
 <span class="cstat-no" title="statement not covered" >  )</span>
@@ -829,6 +857,8 @@
 <span class="cstat-no" title="statement not covered" >    &lt;hr</span>
 <span class="cstat-no" title="statement not covered" >      className={cn("mat-divider", className)}</span>
 <span class="cstat-no" title="statement not covered" >      role="separator"</span>
+<span class="cstat-no" title="statement not covered" >      data-testid="dropdown-menu-separator"</span>
+<span class="cstat-no" title="statement not covered" >      aria-hidden="true"</span>
 <span class="cstat-no" title="statement not covered" >      {...props}</span>
 <span class="cstat-no" title="statement not covered" >    /&gt;</span>
 <span class="cstat-no" title="statement not covered" >  )</span>
@@ -839,6 +869,7 @@
 <span class="cstat-no" title="statement not covered" >    &lt;span</span>
 <span class="cstat-no" title="statement not covered" >      className={className}</span>
 <span class="cstat-no" title="statement not covered" >      style={{ marginLeft: "auto", fontSize: "0.75rem", opacity: 0.6 }}</span>
+<span class="cstat-no" title="statement not covered" >      data-testid="dropdown-menu-shortcut"</span>
 <span class="cstat-no" title="statement not covered" >      {...props}</span>
 <span class="cstat-no" title="statement not covered" >    /&gt;</span>
 <span class="cstat-no" title="statement not covered" >  )</span>
@@ -857,10 +888,11 @@
 <span class="cstat-no" title="statement not covered" >    &lt;button</span>
 <span class="cstat-no" title="statement not covered" >      type="button"</span>
 <span class="cstat-no" title="statement not covered" >      className={cn("mat-mdc-menu-item mdc-list-item", className)}</span>
+<span class="cstat-no" title="statement not covered" >      data-testid="dropdown-menu-sub-trigger"</span>
 <span class="cstat-no" title="statement not covered" >      {...props}</span>
 <span class="cstat-no" title="statement not covered" >    &gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;span className="mdc-list-item__primary-text"&gt;{children}&lt;/span&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;span className="mat-mdc-menu-submenu-icon"&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;span className="mat-mdc-menu-submenu-icon" aria-hidden="true"&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" /&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;/svg&gt;</span>
@@ -874,6 +906,7 @@
 <span class="cstat-no" title="statement not covered" >    &lt;div</span>
 <span class="cstat-no" title="statement not covered" >      className={cn("mat-mdc-menu-panel", className)}</span>
 <span class="cstat-no" title="statement not covered" >      role="menu"</span>
+<span class="cstat-no" title="statement not covered" >      data-testid="dropdown-menu-sub-content"</span>
 <span class="cstat-no" title="statement not covered" >      {...props}</span>
 <span class="cstat-no" title="statement not covered" >    &gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;div className="mat-mdc-menu-content"&gt;</span>
@@ -907,7 +940,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-20T23:21:59.834Z
+                at 2026-01-21T00:47:57.712Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

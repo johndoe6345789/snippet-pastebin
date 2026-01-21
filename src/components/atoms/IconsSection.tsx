@@ -12,7 +12,7 @@ import {
 
 export function IconsSection() {
   return (
-    <section className="space-y-6">
+    <section className="space-y-6" data-testid="icons-section" role="region" aria-label="Icon gallery">
       <div>
         <h2 className="text-3xl font-bold mb-2">Icons</h2>
         <p className="text-muted-foreground">

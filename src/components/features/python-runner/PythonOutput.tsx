@@ -110,15 +110,19 @@ export function PythonOutput({ code }: PythonOutputProps) {
   }
 
   return (
-    <div className="flex flex-col h-full bg-card">
+    <div className="flex flex-col h-full bg-card" data-testid="python-output">
       <div className="flex items-center justify-between p-4 border-b border-border bg-muted/30">
         <div className="flex items-center gap-2">
           <h3 className="text-sm font-semibold text-foreground">Python Output</h3>
           <span
             className={`flex items-center gap-2 rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-wide ${statusTone}`}
+            role="status"
+            aria-live="polite"
+            aria-label={`Python environment status: ${statusLabel}`}
           >
             <span
               className={`size-2.5 rounded-full ${initError ? 'bg-destructive' : 'bg-primary'}`}
+              aria-hidden="true"
             />
             {statusLabel}
           </span>
@@ -130,8 +134,10 @@ export function PythonOutput({ code }: PythonOutputProps) {
               size="sm"
               variant="tonal"
               className="gap-2"
+              data-testid="python-retry-btn"
+              aria-label="Retry loading Python environment"
             >
-              <ArrowClockwise size={16} />
+              <ArrowClockwise size={16} aria-hidden="true" />
               Retry
             </Button>
           )}
@@ -140,15 +146,18 @@ export function PythonOutput({ code }: PythonOutputProps) {
             disabled={isRunning || isInitializing || Boolean(initError)}
             size="sm"
             className="gap-2"
+            data-testid="run-python-code-btn"
+            aria-label={isRunning ? 'Running code' : isInitializing ? 'Loading environment' : 'Run Python code'}
+            aria-busy={isRunning || isInitializing}
           >
             {isRunning || isInitializing ? (
               <>
-                <CircleNotch className="animate-spin" size={16} />
+                <CircleNotch className="animate-spin" size={16} aria-hidden="true" />
                 {isInitializing ? 'Loading...' : 'Running...'}
               </>
             ) : (
               <>
-                <Play size={16} weight="fill" />
+                <Play size={16} weight="fill" aria-hidden="true" />
                 Run
               </>
             )}
@@ -156,12 +165,12 @@ export function PythonOutput({ code }: PythonOutputProps) {
         </div>
       </div>
 
-      <div className="flex-1 overflow-auto p-4 space-y-4">
+      <div className="flex-1 overflow-auto p-4 space-y-4" role="region" aria-label="Output content">
         {isInitializing && (
-          <Card className="p-4 border border-border/60">
+          <Card className="p-4 border border-border/60" data-testid="init-loading-card" role="status">
             <div className="flex items-start gap-3 text-sm text-foreground">
               <div className="mt-1 rounded-full bg-primary/10 p-2 text-primary">
-                <CircleNotch className="animate-spin" size={18} />
+                <CircleNotch className="animate-spin" size={18} aria-hidden="true" />
               </div>
               <div className="space-y-1">
                 <p className="font-semibold">Preparing Python environment</p>
@@ -176,10 +185,12 @@ export function PythonOutput({ code }: PythonOutputProps) {
         {initError && (
           <Card
             className="p-4 border-destructive/40 bg-destructive/5"
+            data-testid="init-error-card"
+            role="alert"
           >
             <div className="flex items-start gap-3">
               <div className="mt-1 rounded-full bg-destructive/10 p-2 text-destructive">
-                <Warning size={18} weight="fill" />
+                <Warning size={18} weight="fill" aria-hidden="true" />
               </div>
               <div className="space-y-3">
                 <div className="space-y-1">
@@ -192,14 +203,16 @@ export function PythonOutput({ code }: PythonOutputProps) {
                     variant="tonal"
                     className="gap-2"
                     onClick={handleRetry}
+                    data-testid="retry-init-btn"
                   >
-                    <ArrowClockwise size={16} />
+                    <ArrowClockwise size={16} aria-hidden="true" />
                     Retry loading
                   </Button>
                   <Button
                     size="sm"
                     variant="text"
                     onClick={() => toast.info('Check your network connection or disable blockers that may block Pyodide.')}
+                    data-testid="troubleshoot-btn"
                   >
                     Troubleshoot
                   </Button>
@@ -210,7 +223,7 @@ export function PythonOutput({ code }: PythonOutputProps) {
         )}
 
         {!isInitializing && !initError && !output && !error && (
-          <div className="flex items-center justify-center h-full text-muted-foreground text-sm">
+          <div className="flex items-center justify-center h-full text-muted-foreground text-sm" data-testid="empty-output" role="status">
             Click "Run" to execute the Python code
           </div>
         )}
@@ -220,6 +233,9 @@ export function PythonOutput({ code }: PythonOutputProps) {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.2 }}
+            data-testid="python-output-card"
+            role="region"
+            aria-label="Python output result"
           >
             <Card className="p-4 bg-background">
               <pre className="text-sm font-mono whitespace-pre-wrap text-foreground">
@@ -235,6 +251,8 @@ export function PythonOutput({ code }: PythonOutputProps) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.2 }}
             className="mt-4"
+            data-testid="python-error-card"
+            role="alert"
           >
             <Card className="p-4 bg-destructive/10 border-destructive/20">
               <div className="flex items-start gap-2">

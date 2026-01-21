@@ -12,6 +12,7 @@ function Pagination({ className, ...props }: ComponentProps<"nav">) {
       role="navigation"
       aria-label="pagination"
       data-slot="pagination"
+      data-testid="pagination"
       className={cn("mx-auto flex w-full justify-center", className)}
       {...props}
     />
@@ -25,6 +26,7 @@ function PaginationContent({
   return (
     <ul
       data-slot="pagination-content"
+      data-testid="pagination-content"
       className={cn("flex flex-row items-center gap-1", className)}
       {...props}
     />
@@ -32,7 +34,7 @@ function PaginationContent({
 }
 
 function PaginationItem({ ...props }: ComponentProps<"li">) {
-  return <li data-slot="pagination-item" {...props} />
+  return <li data-slot="pagination-item" data-testid="pagination-item" {...props} />
 }
 
 type PaginationLinkProps = {
@@ -51,6 +53,7 @@ function PaginationLink({
       aria-current={isActive ? "page" : undefined}
       data-slot="pagination-link"
       data-active={isActive}
+      data-testid="pagination-link"
       className={cn(
         buttonVariants({
           variant: isActive ? "outline" : "ghost",
@@ -105,10 +108,11 @@ function PaginationEllipsis({
     <span
       aria-hidden
       data-slot="pagination-ellipsis"
+      data-testid="pagination-ellipsis"
       className={cn("flex size-9 items-center justify-center", className)}
       {...props}
     >
-      <MoreHorizontalIcon className="size-4" />
+      <MoreHorizontalIcon className="size-4" aria-hidden="true" />
       <span className="sr-only">More pages</span>
     </span>
   )

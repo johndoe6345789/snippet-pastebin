@@ -195,10 +195,10 @@
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >export function DatabaseStatsCard({ loading, stats, formatBytes }: DatabaseStatsCardProps) {</span>
 <span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;Card&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;Card data-testid="database-stats-card"&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;CardHeader&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;CardTitle className="flex items-center gap-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;Database weight="duotone" size={24} /&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;Database weight="duotone" size={24} aria-hidden="true" /&gt;</span>
 <span class="cstat-no" title="statement not covered" >          Database Statistics</span>
 <span class="cstat-no" title="statement not covered" >        &lt;/CardTitle&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;CardDescription&gt;</span>
@@ -207,28 +207,28 @@
 <span class="cstat-no" title="statement not covered" >      &lt;/CardHeader&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;CardContent&gt;</span>
 <span class="cstat-no" title="statement not covered" >        {loading ? (</span>
-<span class="cstat-no" title="statement not covered" >          &lt;p className="text-muted-foreground"&gt;Loading...&lt;/p&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;p className="text-muted-foreground" data-testid="stats-loading" role="status" aria-busy="true"&gt;Loading...&lt;/p&gt;</span>
 <span class="cstat-no" title="statement not covered" >        ) : stats ? (</span>
-<span class="cstat-no" title="statement not covered" >          &lt;div className="space-y-3"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;div className="flex justify-between items-center py-2 border-b border-border"&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;div className="space-y-3" role="region" aria-label="Database statistics"&gt;</span>
+<span class="cstat-no" title="statement not covered" >            &lt;div className="flex justify-between items-center py-2 border-b border-border" data-testid="stat-snippets"&gt;</span>
 <span class="cstat-no" title="statement not covered" >              &lt;span className="text-sm text-muted-foreground"&gt;Snippets&lt;/span&gt;</span>
 <span class="cstat-no" title="statement not covered" >              &lt;span className="font-semibold"&gt;{stats.snippetCount}&lt;/span&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;div className="flex justify-between items-center py-2 border-b border-border"&gt;</span>
+<span class="cstat-no" title="statement not covered" >            &lt;div className="flex justify-between items-center py-2 border-b border-border" data-testid="stat-templates"&gt;</span>
 <span class="cstat-no" title="statement not covered" >              &lt;span className="text-sm text-muted-foreground"&gt;Templates&lt;/span&gt;</span>
 <span class="cstat-no" title="statement not covered" >              &lt;span className="font-semibold"&gt;{stats.templateCount}&lt;/span&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;div className="flex justify-between items-center py-2 border-b border-border"&gt;</span>
+<span class="cstat-no" title="statement not covered" >            &lt;div className="flex justify-between items-center py-2 border-b border-border" data-testid="stat-storage-type"&gt;</span>
 <span class="cstat-no" title="statement not covered" >              &lt;span className="text-sm text-muted-foreground"&gt;Storage Type&lt;/span&gt;</span>
 <span class="cstat-no" title="statement not covered" >              &lt;span className="font-semibold capitalize"&gt;{stats.storageType}&lt;/span&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;div className="flex justify-between items-center py-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >            &lt;div className="flex justify-between items-center py-2" data-testid="stat-database-size"&gt;</span>
 <span class="cstat-no" title="statement not covered" >              &lt;span className="text-sm text-muted-foreground"&gt;Database Size&lt;/span&gt;</span>
 <span class="cstat-no" title="statement not covered" >              &lt;span className="font-semibold"&gt;{formatBytes(stats.databaseSize)}&lt;/span&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >        ) : (</span>
-<span class="cstat-no" title="statement not covered" >          &lt;p className="text-destructive"&gt;Failed to load statistics&lt;/p&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;p className="text-destructive" data-testid="stats-error" role="alert"&gt;Failed to load statistics&lt;/p&gt;</span>
 <span class="cstat-no" title="statement not covered" >        )}</span>
 <span class="cstat-no" title="statement not covered" >      &lt;/CardContent&gt;</span>
 <span class="cstat-no" title="statement not covered" >    &lt;/Card&gt;</span>
@@ -241,7 +241,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-20T23:21:59.834Z
+                at 2026-01-21T00:47:57.712Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

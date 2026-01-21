@@ -13,6 +13,7 @@ function AspectRatio({
   return (
     <div
       data-slot="aspect-ratio"
+      data-testid="aspect-ratio"
       style={{
         ...style,
         aspectRatio: ratio,

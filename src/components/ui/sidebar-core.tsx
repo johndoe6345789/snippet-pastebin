@@ -31,6 +31,7 @@ export function Sidebar({
     return (
       <div
         data-slot="sidebar"
+        data-testid="sidebar"
         className={cn(
           "bg-sidebar text-sidebar-foreground flex h-full w-(--sidebar-width) flex-col",
           className
@@ -75,6 +76,9 @@ export function Sidebar({
       data-variant={variant}
       data-side={side}
       data-slot="sidebar"
+      data-testid="sidebar-desktop"
+      role="navigation"
+      aria-label="Main sidebar"
     >
       {/* This is what handles the sidebar gap on desktop */}
       <div
@@ -126,6 +130,7 @@ export function SidebarTrigger({
     <Button
       data-sidebar="trigger"
       data-slot="sidebar-trigger"
+      data-testid="sidebar-trigger"
       variant="ghost"
       size="icon"
       className={cn("size-7", className)}
@@ -133,6 +138,7 @@ export function SidebarTrigger({
         onClick?.(event)
         toggleSidebar()
       }}
+      aria-label="Toggle sidebar"
       {...props}
     >
       <PanelLeftIcon />
@@ -148,6 +154,7 @@ export function SidebarRail({ className, ...props }: ComponentProps<"button">) {
     <button
       data-sidebar="rail"
       data-slot="sidebar-rail"
+      data-testid="sidebar-rail"
       aria-label="Toggle Sidebar"
       tabIndex={-1}
       onClick={toggleSidebar}
@@ -170,6 +177,7 @@ export function SidebarInset({ className, ...props }: ComponentProps<"main">) {
   return (
     <main
       data-slot="sidebar-inset"
+      data-testid="sidebar-inset"
       className={cn(
         "bg-background relative flex w-full flex-1 flex-col",
         "md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow-sm md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ml-2",

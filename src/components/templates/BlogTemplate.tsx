@@ -7,7 +7,7 @@ import { ArrowRight } from '@phosphor-icons/react'
 
 export function BlogTemplate() {
   return (
-    <Card className="overflow-hidden">
+    <Card className="overflow-hidden" data-testid="blog-template" role="main" aria-label="Blog template">
       <div className="border-b border-border bg-card p-4">
         <div className="flex items-center justify-between">
           <h3 className="text-xl font-bold">Blog</h3>

@@ -8,6 +8,7 @@ export function SidebarMenuItem({ className, ...props }: ComponentProps<"li">) {
     <li
       data-slot="sidebar-menu-item"
       data-sidebar="menu-item"
+      data-testid="sidebar-menu-item"
       className={cn("group/menu-item relative", className)}
       {...props}
     />

@@ -12,7 +12,7 @@ interface BadgesSectionProps {
 
 export function BadgesSection({ onSaveSnippet }: BadgesSectionProps) {
   return (
-    <section className="space-y-6">
+    <section className="space-y-6" data-testid="badges-section" role="region" aria-label="Badge status indicators">
       <div>
         <h2 className="text-3xl font-bold mb-2">Badges</h2>
         <p className="text-muted-foreground">

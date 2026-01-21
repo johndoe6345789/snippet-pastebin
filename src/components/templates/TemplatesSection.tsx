@@ -12,8 +12,8 @@ interface TemplatesSectionProps {
 
 export function TemplatesSection({ onSaveSnippet }: TemplatesSectionProps) {
   return (
-    <div className="space-y-16">
-      <section className="space-y-6">
+    <div className="space-y-16" data-testid="templates-section" role="region" aria-label="Page layout templates">
+      <section className="space-y-6" data-testid="dashboard-template-section">
         <div>
           <h2 className="text-3xl font-bold mb-2">Dashboard Layout</h2>
           <p className="text-muted-foreground">
@@ -32,7 +32,7 @@ export function TemplatesSection({ onSaveSnippet }: TemplatesSectionProps) {
         </ComponentShowcase>
       </section>
 
-      <section className="space-y-6">
+      <section className="space-y-6" data-testid="landing-page-template-section">
         <div>
           <h2 className="text-3xl font-bold mb-2">Landing Page</h2>
           <p className="text-muted-foreground">
@@ -51,7 +51,7 @@ export function TemplatesSection({ onSaveSnippet }: TemplatesSectionProps) {
         </ComponentShowcase>
       </section>
 
-      <section className="space-y-6">
+      <section className="space-y-6" data-testid="ecommerce-template-section">
         <div>
           <h2 className="text-3xl font-bold mb-2">E-commerce Product Page</h2>
           <p className="text-muted-foreground">
@@ -70,7 +70,7 @@ export function TemplatesSection({ onSaveSnippet }: TemplatesSectionProps) {
         </ComponentShowcase>
       </section>
 
-      <section className="space-y-6">
+      <section className="space-y-6" data-testid="blog-template-section">
         <div>
           <h2 className="text-3xl font-bold mb-2">Blog Article</h2>
           <p className="text-muted-foreground">

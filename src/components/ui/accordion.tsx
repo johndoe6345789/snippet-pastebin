@@ -15,18 +15,18 @@ interface AccordionProps extends ComponentProps<"div"> {
   defaultValue?: string | string[]
 }
 
-export function Accordion({ 
-  type = "single", 
+export function Accordion({
+  type = "single",
   defaultValue,
-  children, 
+  children,
   className,
-  ...props 
+  ...props
 }: AccordionProps) {
   const [openItems, setOpenItems] = useState<Set<string>>(() => {
     if (!defaultValue) return new Set()
     return new Set(Array.isArray(defaultValue) ? defaultValue : [defaultValue])
   })
-  
+
   const toggleItem = (value: string) => {
     setOpenItems(prev => {
       const next = new Set(prev)
@@ -41,10 +41,10 @@ export function Accordion({
       return next
     })
   }
-  
+
   return (
     <AccordionContext.Provider value={{ openItems, toggleItem, type }}>
-      <div className={cn("mat-accordion", className)} {...props}>
+      <div className={cn("mat-accordion", className)} data-testid="accordion" role="region" {...props}>
         {children}
       </div>
     </AccordionContext.Provider>
@@ -55,16 +55,18 @@ export const AccordionItem = forwardRef<HTMLDivElement, ComponentProps<"div"> & 
   ({ className, value, children, ...props }, ref) => {
     const context = useContext(AccordionContext)
     const isExpanded = context?.openItems.has(value)
-    
+
     return (
-      <div 
-        ref={ref} 
+      <div
+        ref={ref}
         className={cn(
           "mat-expansion-panel",
           isExpanded && "mat-expanded",
           className
-        )} 
-        data-value={value} 
+        )}
+        data-value={value}
+        data-testid="accordion-item"
+        role="article"
         {...props}
       >
         {children}
@@ -90,12 +92,14 @@ export const AccordionTrigger = forwardRef<HTMLButtonElement, ComponentProps<"bu
         ref={ref}
         className={cn("mat-expansion-panel-header", className)}
         onClick={() => context?.toggleItem(value)}
+        data-testid="accordion-trigger"
+        aria-expanded={context?.openItems.has(value) ?? false}
         {...props}
       >
         <span className="mat-content">
           <span className="mat-expansion-panel-header-title">{children}</span>
         </span>
-        <span className="mat-expansion-indicator">
+        <span className="mat-expansion-indicator" aria-hidden="true">
           <CaretDown />
         </span>
       </button>
@@ -119,10 +123,11 @@ export const AccordionContent = forwardRef<HTMLDivElement, ComponentProps<"div">
     if (!isExpanded) return null
 
     return (
-      <div className="mat-expansion-panel-content">
+      <div className="mat-expansion-panel-content" role="region" aria-hidden={!isExpanded}>
         <div
           ref={ref}
           className={cn("mat-expansion-panel-body", className)}
+          data-testid="accordion-content"
           {...props}
         >
           {children}

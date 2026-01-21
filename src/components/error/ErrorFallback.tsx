@@ -29,7 +29,7 @@ export function ErrorFallback({ error }: ErrorFallbackProps) {
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4" data-testid="error-fallback">
       <div className="w-full max-w-3xl">
-        <Alert variant="destructive" className="mb-6" data-testid="error-alert">
+        <Alert variant="destructive" className="mb-6" data-testid="error-alert" role="alert">
           <AlertTriangleIcon aria-hidden="true" />
           <AlertTitle>This spark has encountered a runtime error</AlertTitle>
           <AlertDescription className="mt-3 space-y-4">
@@ -47,6 +47,7 @@ export function ErrorFallback({ error }: ErrorFallbackProps) {
                 className="shrink-0"
                 data-testid="copy-error-btn"
                 aria-label="Copy error details"
+                aria-live="polite"
               >
                 {copied ? (
                   <>
@@ -62,21 +63,21 @@ export function ErrorFallback({ error }: ErrorFallbackProps) {
               </Button>
             </div>
 
-            <Collapsible open={isStackOpen} onOpenChange={setIsStackOpen}>
-              <CollapsibleTrigger className="w-full justify-between">
+            <Collapsible open={isStackOpen} onOpenChange={setIsStackOpen} data-testid="stack-trace-collapsible">
+              <CollapsibleTrigger className="w-full justify-between" aria-expanded={isStackOpen} data-testid="stack-trace-trigger">
                 {isStackOpen ? (
                   <>
-                    Hide Stack Trace <ChevronUpIcon className="h-4 w-4 ml-2" />
+                    Hide Stack Trace <ChevronUpIcon className="h-4 w-4 ml-2" aria-hidden="true" />
                   </>
                 ) : (
                   <>
-                    Show Stack Trace <ChevronDownIcon className="h-4 w-4 ml-2" />
+                    Show Stack Trace <ChevronDownIcon className="h-4 w-4 ml-2" aria-hidden="true" />
                   </>
                 )}
               </CollapsibleTrigger>
-              <CollapsibleContent>
+              <CollapsibleContent data-testid="stack-trace-content">
                 <div className="mt-4">
-                  <pre className="text-xs bg-destructive/10 p-3 rounded overflow-auto max-h-60">
+                  <pre className="text-xs bg-destructive/10 p-3 rounded overflow-auto max-h-60" data-testid="error-stack-trace">
                     {error.stack || 'No stack trace available'}
                   </pre>
                 </div>
@@ -91,8 +92,10 @@ export function ErrorFallback({ error }: ErrorFallbackProps) {
           onClick={() => window.location.reload()}
           className="w-full mt-6"
           variant="outline"
+          data-testid="reload-btn"
+          aria-label="Try reloading the page"
         >
-          <RefreshCwIcon className="h-4 w-4 mr-2" />
+          <RefreshCwIcon className="h-4 w-4 mr-2" aria-hidden="true" />
           Try Reloading
         </Button>
       </div>

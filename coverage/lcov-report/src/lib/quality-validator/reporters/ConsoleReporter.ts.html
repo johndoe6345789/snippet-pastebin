@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/343</span>
+                <span class='fraction'>0/356</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/343</span>
+                <span class='fraction'>0/356</span>
             </div>
         
             
@@ -406,7 +406,33 @@
 <a name='L341'></a><a href='#L341'>341</a>
 <a name='L342'></a><a href='#L342'>342</a>
 <a name='L343'></a><a href='#L343'>343</a>
-<a name='L344'></a><a href='#L344'>344</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L344'></a><a href='#L344'>344</a>
+<a name='L345'></a><a href='#L345'>345</a>
+<a name='L346'></a><a href='#L346'>346</a>
+<a name='L347'></a><a href='#L347'>347</a>
+<a name='L348'></a><a href='#L348'>348</a>
+<a name='L349'></a><a href='#L349'>349</a>
+<a name='L350'></a><a href='#L350'>350</a>
+<a name='L351'></a><a href='#L351'>351</a>
+<a name='L352'></a><a href='#L352'>352</a>
+<a name='L353'></a><a href='#L353'>353</a>
+<a name='L354'></a><a href='#L354'>354</a>
+<a name='L355'></a><a href='#L355'>355</a>
+<a name='L356'></a><a href='#L356'>356</a>
+<a name='L357'></a><a href='#L357'>357</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -752,15 +778,19 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >/**</span></span></span>
 <span class="cstat-no" title="statement not covered" > * Console Reporter</span>
 <span class="cstat-no" title="statement not covered" > * Generates formatted console output with colors</span>
+<span class="cstat-no" title="statement not covered" > * Refactored to use ReporterBase for shared functionality</span>
 <span class="cstat-no" title="statement not covered" > */</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >import { ScoringResult, Finding, Recommendation } from '../types/index.js';</span>
+<span class="cstat-no" title="statement not covered" >import { ScoringResult } from '../types/index.js';</span>
+<span class="cstat-no" title="statement not covered" >import { ReporterBase } from './ReporterBase.js';</span>
 <span class="cstat-no" title="statement not covered" >import { logger } from '../utils/logger.js';</span>
+<span class="cstat-no" title="statement not covered" >import { formatSparkline, formatBar } from '../utils/formatters.js';</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >/**</span>
 <span class="cstat-no" title="statement not covered" > * Console Reporter</span>
+<span class="cstat-no" title="statement not covered" > * Extends ReporterBase to leverage shared formatting and processing utilities</span>
 <span class="cstat-no" title="statement not covered" > */</span>
-<span class="cstat-no" title="statement not covered" >export class ConsoleReporter {</span>
+<span class="cstat-no" title="statement not covered" >export class ConsoleReporter extends ReporterBase {</span>
 <span class="cstat-no" title="statement not covered" >  /**</span>
 <span class="cstat-no" title="statement not covered" >   * Generate console report</span>
 <span class="cstat-no" title="statement not covered" >   */</span>
@@ -803,10 +833,11 @@
 <span class="cstat-no" title="statement not covered" >  private generateHeader(result: ScoringResult, useColors: boolean): string {</span>
 <span class="cstat-no" title="statement not covered" >    const color = this.getColorizer(useColors);</span>
 <span class="cstat-no" title="statement not covered" >    const lines: string[] = [];</span>
+<span class="cstat-no" title="statement not covered" >    const projectName = result.metadata.configUsed.projectName || 'snippet-pastebin';</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >    lines.push('');</span>
 <span class="cstat-no" title="statement not covered" >    lines.push(color('╔════════════════════════════════════════════════════════╗', 'cyan'));</span>
-<span class="cstat-no" title="statement not covered" >    lines.push(color('║   QUALITY VALIDATION REPORT - snippet-pastebin         ║', 'cyan'));</span>
+<span class="cstat-no" title="statement not covered" >    lines.push(color(`║   QUALITY VALIDATION REPORT - ${projectName.padEnd(24)}║`, 'cyan'));</span>
 <span class="cstat-no" title="statement not covered" >    lines.push(</span>
 <span class="cstat-no" title="statement not covered" >      color(</span>
 <span class="cstat-no" title="statement not covered" >        `║   ${result.metadata.timestamp.substring(0, 19).padEnd(49)}║`,</span>
@@ -825,13 +856,7 @@
 <span class="cstat-no" title="statement not covered" >  private generateOverallSection(result: ScoringResult, useColors: boolean): string {</span>
 <span class="cstat-no" title="statement not covered" >    const color = this.getColorizer(useColors);</span>
 <span class="cstat-no" title="statement not covered" >    const { overall } = result;</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    const gradeColor =</span>
-<span class="cstat-no" title="statement not covered" >      overall.grade === 'A' || overall.grade === 'B'</span>
-<span class="cstat-no" title="statement not covered" >        ? 'green'</span>
-<span class="cstat-no" title="statement not covered" >        : overall.grade === 'C' || overall.grade === 'D'</span>
-<span class="cstat-no" title="statement not covered" >          ? 'yellow'</span>
-<span class="cstat-no" title="statement not covered" >          : 'red';</span>
+<span class="cstat-no" title="statement not covered" >    const gradeColor = this.getGradeColor(overall.grade);</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >    const lines: string[] = [];</span>
 <span class="cstat-no" title="statement not covered" ></span>
@@ -884,8 +909,8 @@
 <span class="cstat-no" title="statement not covered" >    ];</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >    for (const score of scores) {</span>
-<span class="cstat-no" title="statement not covered" >      const scoreColor = score.score &gt;= 80 ? 'green' : score.score &gt;= 60 ? 'yellow' : 'red';</span>
-<span class="cstat-no" title="statement not covered" >      const bar = this.generateScoreBar(score.score);</span>
+<span class="cstat-no" title="statement not covered" >      const scoreColor = this.getColorForValue(score.score);</span>
+<span class="cstat-no" title="statement not covered" >      const bar = formatBar(score.score);</span>
 <span class="cstat-no" title="statement not covered" >      lines.push(</span>
 <span class="cstat-no" title="statement not covered" >        `│ ${score.name.padEnd(18)} ${bar} ${color(score.score.toFixed(1).padStart(5), scoreColor)}% (${score.weight})`</span>
 <span class="cstat-no" title="statement not covered" >      );</span>
@@ -900,49 +925,39 @@
 <span class="cstat-no" title="statement not covered" >  /**</span>
 <span class="cstat-no" title="statement not covered" >   * Generate findings section</span>
 <span class="cstat-no" title="statement not covered" >   */</span>
-<span class="cstat-no" title="statement not covered" >  private generateFindingsSection(findings: Finding[], useColors: boolean): string {</span>
+<span class="cstat-no" title="statement not covered" >  private generateFindingsSection(findings: any, useColors: boolean): string {</span>
 <span class="cstat-no" title="statement not covered" >    const color = this.getColorizer(useColors);</span>
 <span class="cstat-no" title="statement not covered" >    const lines: string[] = [];</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    // Group by severity</span>
-<span class="cstat-no" title="statement not covered" >    const bySeverity = new Map&lt;string, Finding[]&gt;();</span>
-<span class="cstat-no" title="statement not covered" >    for (const finding of findings) {</span>
-<span class="cstat-no" title="statement not covered" >      if (!bySeverity.has(finding.severity)) {</span>
-<span class="cstat-no" title="statement not covered" >        bySeverity.set(finding.severity, []);</span>
-<span class="cstat-no" title="statement not covered" >      }</span>
-<span class="cstat-no" title="statement not covered" >      bySeverity.get(finding.severity)!.push(finding);</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" >    // Use shared utility to group by severity</span>
+<span class="cstat-no" title="statement not covered" >    const grouped = this.formatFindingsForDisplay(findings, 3);</span>
+<span class="cstat-no" title="statement not covered" >    const stats = this.findingStatistics(findings);</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >    lines.push(color('┌─ FINDINGS ───────────────────────────────────────────────┐', 'cyan'));</span>
+<span class="cstat-no" title="statement not covered" >    lines.push(`│ Total: ${stats.total} findings`);</span>
+<span class="cstat-no" title="statement not covered" >    lines.push(color('├─────────────────────────────────────────────────────────┤', 'cyan'));</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >    const severityOrder = ['critical', 'high', 'medium', 'low', 'info'];</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    lines.push(color('┌─ FINDINGS ───────────────────────────────────────────────┐', 'cyan'));</span>
-<span class="cstat-no" title="statement not covered" >    lines.push(`│ Total: ${findings.length} findings`);</span>
-<span class="cstat-no" title="statement not covered" >    lines.push(color('├─────────────────────────────────────────────────────────┤', 'cyan'));</span>
-<span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >    for (const severity of severityOrder) {</span>
-<span class="cstat-no" title="statement not covered" >      const severityFindings = bySeverity.get(severity) || [];</span>
-<span class="cstat-no" title="statement not covered" >      if (severityFindings.length === 0) continue;</span>
+<span class="cstat-no" title="statement not covered" >      const finding = grouped[severity];</span>
+<span class="cstat-no" title="statement not covered" >      if (!finding) continue;</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >      const severityColor =</span>
-<span class="cstat-no" title="statement not covered" >        severity === 'critical' || severity === 'high'</span>
-<span class="cstat-no" title="statement not covered" >          ? 'red'</span>
-<span class="cstat-no" title="statement not covered" >          : severity === 'medium'</span>
-<span class="cstat-no" title="statement not covered" >            ? 'yellow'</span>
-<span class="cstat-no" title="statement not covered" >            : 'blue';</span>
+<span class="cstat-no" title="statement not covered" >      const severityColor = this.getColorForSeverity(severity);</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >      lines.push(</span>
-<span class="cstat-no" title="statement not covered" >        color(`│ ${severity.toUpperCase().padEnd(15)} (${severityFindings.length})`, severityColor)</span>
+<span class="cstat-no" title="statement not covered" >        color(`│ ${severity.toUpperCase().padEnd(15)} (${finding.count})`, severityColor)</span>
 <span class="cstat-no" title="statement not covered" >      );</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >      for (const finding of severityFindings.slice(0, 3)) {</span>
-<span class="cstat-no" title="statement not covered" >        lines.push(`│   • ${finding.title}`);</span>
-<span class="cstat-no" title="statement not covered" >        if (finding.location?.file) {</span>
-<span class="cstat-no" title="statement not covered" >          lines.push(`│     Location: ${finding.location.file}${finding.location.line ? `:${finding.location.line}` : ''}`);</span>
+<span class="cstat-no" title="statement not covered" >      for (const item of finding.displayed) {</span>
+<span class="cstat-no" title="statement not covered" >        lines.push(`│   • ${item.title}`);</span>
+<span class="cstat-no" title="statement not covered" >        if (item.location?.file) {</span>
+<span class="cstat-no" title="statement not covered" >          lines.push(`│     Location: ${item.location.file}${item.location.line ? `:${item.location.line}` : ''}`);</span>
 <span class="cstat-no" title="statement not covered" >        }</span>
 <span class="cstat-no" title="statement not covered" >      }</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >      if (severityFindings.length &gt; 3) {</span>
-<span class="cstat-no" title="statement not covered" >        lines.push(`│   ... and ${severityFindings.length - 3} more`);</span>
+<span class="cstat-no" title="statement not covered" >      if (finding.remaining &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >        lines.push(`│   ... and ${finding.remaining} more`);</span>
 <span class="cstat-no" title="statement not covered" >      }</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" ></span>
@@ -955,20 +970,18 @@
 <span class="cstat-no" title="statement not covered" >  /**</span>
 <span class="cstat-no" title="statement not covered" >   * Generate recommendations section</span>
 <span class="cstat-no" title="statement not covered" >   */</span>
-<span class="cstat-no" title="statement not covered" >  private generateRecommendationsSection(recommendations: Recommendation[], useColors: boolean): string {</span>
+<span class="cstat-no" title="statement not covered" >  private generateRecommendationsSection(recommendations: any, useColors: boolean): string {</span>
 <span class="cstat-no" title="statement not covered" >    const color = this.getColorizer(useColors);</span>
 <span class="cstat-no" title="statement not covered" >    const lines: string[] = [];</span>
 <span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >    // Use shared utility to get top recommendations</span>
+<span class="cstat-no" title="statement not covered" >    const topRecs = this.getTopRecommendations(recommendations, 5);</span>
+<span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >    lines.push(color('┌─ TOP RECOMMENDATIONS ────────────────────────────────────┐', 'cyan'));</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; Math.min(5, recommendations.length); i++) {</span>
-<span class="cstat-no" title="statement not covered" >      const rec = recommendations[i];</span>
-<span class="cstat-no" title="statement not covered" >      const priorityColor =</span>
-<span class="cstat-no" title="statement not covered" >        rec.priority === 'critical' || rec.priority === 'high'</span>
-<span class="cstat-no" title="statement not covered" >          ? 'red'</span>
-<span class="cstat-no" title="statement not covered" >          : rec.priority === 'medium'</span>
-<span class="cstat-no" title="statement not covered" >            ? 'yellow'</span>
-<span class="cstat-no" title="statement not covered" >            : 'green';</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; topRecs.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >      const rec = topRecs[i];</span>
+<span class="cstat-no" title="statement not covered" >      const priorityColor = this.getColorForSeverity(rec.priority);</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >      lines.push(</span>
 <span class="cstat-no" title="statement not covered" >        `│ ${(i + 1).toString().padEnd(2)} ${color(rec.priority.toUpperCase().padEnd(8), priorityColor)} ${rec.issue}`</span>
@@ -996,19 +1009,73 @@
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >    lines.push(color('┌─ TREND ──────────────────────────────────────────────────┐', 'cyan'));</span>
 <span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >    // Current score and direction</span>
 <span class="cstat-no" title="statement not covered" >    if (trend.previousScore !== undefined) {</span>
 <span class="cstat-no" title="statement not covered" >      const change = trend.currentScore - trend.previousScore;</span>
+<span class="cstat-no" title="statement not covered" >      const changePercent = ((change / trend.previousScore) * 100).toFixed(1);</span>
 <span class="cstat-no" title="statement not covered" >      const changeStr = change &gt;= 0 ? `+${change.toFixed(1)}` : `${change.toFixed(1)}`;</span>
-<span class="cstat-no" title="statement not covered" >      const trendColor = change &gt;= 0 ? 'green' : 'red';</span>
-<span class="cstat-no" title="statement not covered" >      const trendSymbol = change &gt;= 0 ? '↑' : change &lt;= 0 ? '↓' : '→';</span>
+<span class="cstat-no" title="statement not covered" >      const trendColor = change &gt; 0 ? 'green' : change &lt; 0 ? 'red' : 'yellow';</span>
+<span class="cstat-no" title="statement not covered" >      const trendSymbol = change &gt; 0 ? '↑ improving' : change &lt; 0 ? '↓ degrading' : '→ stable';</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >      lines.push(`│ Score: ${trend.currentScore.toFixed(1)}% ${color(trendSymbol + ' ' + changeStr + '%', trendColor)}`);</span>
-<span class="cstat-no" title="statement not covered" >      lines.push(`│ Direction: ${color(trend.direction || 'unknown', trendColor)}`);</span>
+<span class="cstat-no" title="statement not covered" >      lines.push(`│ Current Score: ${trend.currentScore.toFixed(1)}% ${color(trendSymbol, trendColor)} (${changeStr}%, ${changePercent}%)`);</span>
+<span class="cstat-no" title="statement not covered" >    } else {</span>
+<span class="cstat-no" title="statement not covered" >      lines.push(`│ Current Score: ${trend.currentScore.toFixed(1)}% (baseline - no history)`);</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >    // Historical averages</span>
+<span class="cstat-no" title="statement not covered" >    const trendData = trend as any;</span>
+<span class="cstat-no" title="statement not covered" >    if (trendData.sevenDayAverage !== undefined &amp;&amp; trendData.sevenDayAverage &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >      const diff7 = (trend.currentScore - trendData.sevenDayAverage).toFixed(1);</span>
+<span class="cstat-no" title="statement not covered" >      const sign7 = Number(diff7) &gt;= 0 ? '+' : '';</span>
+<span class="cstat-no" title="statement not covered" >      lines.push(`│ 7-day avg: ${trendData.sevenDayAverage.toFixed(1)}% (${sign7}${diff7}%)`);</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >    if (trendData.thirtyDayAverage !== undefined &amp;&amp; trendData.thirtyDayAverage &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >      const diff30 = (trend.currentScore - trendData.thirtyDayAverage).toFixed(1);</span>
+<span class="cstat-no" title="statement not covered" >      const sign30 = Number(diff30) &gt;= 0 ? '+' : '';</span>
+<span class="cstat-no" title="statement not covered" >      lines.push(`│ 30-day avg: ${trendData.thirtyDayAverage.toFixed(1)}% (${sign30}${diff30}%)`);</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >    // Best and worst scores</span>
+<span class="cstat-no" title="statement not covered" >    if (trendData.bestScore !== undefined &amp;&amp; trendData.worstScore !== undefined) {</span>
+<span class="cstat-no" title="statement not covered" >      lines.push(`│ Best: ${trendData.bestScore.toFixed(1)}% | Worst: ${trendData.worstScore.toFixed(1)}%`);</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >    // Volatility</span>
+<span class="cstat-no" title="statement not covered" >    if (trendData.volatility !== undefined) {</span>
+<span class="cstat-no" title="statement not covered" >      const volatilityStatus =</span>
+<span class="cstat-no" title="statement not covered" >        trendData.volatility &lt; 1 ? 'Excellent' : trendData.volatility &lt; 3 ? 'Good' : trendData.volatility &lt; 5 ? 'Moderate' : 'High';</span>
+<span class="cstat-no" title="statement not covered" >      lines.push(`│ Consistency: ${volatilityStatus} (volatility: ${trendData.volatility.toFixed(1)})`);</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >    // Recent sparkline</span>
 <span class="cstat-no" title="statement not covered" >    if (trend.lastFiveScores &amp;&amp; trend.lastFiveScores.length &gt; 0) {</span>
-<span class="cstat-no" title="statement not covered" >      const sparkline = this.generateSparkline(trend.lastFiveScores);</span>
+<span class="cstat-no" title="statement not covered" >      const sparkline = formatSparkline(trend.lastFiveScores);</span>
 <span class="cstat-no" title="statement not covered" >      lines.push(`│ Recent: ${sparkline}`);</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >    // Component trends</span>
+<span class="cstat-no" title="statement not covered" >    if (trend.componentTrends) {</span>
+<span class="cstat-no" title="statement not covered" >      lines.push(color('├─ Component Trends ────────────────────────────────────────┤', 'cyan'));</span>
+<span class="cstat-no" title="statement not covered" >      const categories = ['codeQuality', 'testCoverage', 'architecture', 'security'];</span>
+<span class="cstat-no" title="statement not covered" >      for (const category of categories) {</span>
+<span class="cstat-no" title="statement not covered" >        const componentTrend = trend.componentTrends[category];</span>
+<span class="cstat-no" title="statement not covered" >        if (componentTrend) {</span>
+<span class="cstat-no" title="statement not covered" >          const arrow = componentTrend.direction === 'up' ? '↑' : componentTrend.direction === 'down' ? '↓' : '→';</span>
+<span class="cstat-no" title="statement not covered" >          const change = componentTrend.change !== undefined ? `${componentTrend.change &gt;= 0 ? '+' : ''}${componentTrend.change.toFixed(1)}` : 'N/A';</span>
+<span class="cstat-no" title="statement not covered" >          lines.push(`│ ${category.padEnd(16)} ${arrow} ${componentTrend.current.toFixed(1)}% (${change})`);</span>
+<span class="cstat-no" title="statement not covered" >        }</span>
+<span class="cstat-no" title="statement not covered" >      }</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >    // Concerning metrics alert</span>
+<span class="cstat-no" title="statement not covered" >    if (trendData.concerningMetrics &amp;&amp; trendData.concerningMetrics.length &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >      lines.push(color(`│ ⚠ ALERT: ${trendData.concerningMetrics.join(', ')} showing concerning decline`, 'red'));</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >    // Summary</span>
+<span class="cstat-no" title="statement not covered" >    if (trendData.trendSummary) {</span>
+<span class="cstat-no" title="statement not covered" >      lines.push(`│ Summary: ${trendData.trendSummary}`);</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >    lines.push(color('└─────────────────────────────────────────────────────────┘', 'cyan'));</span>
@@ -1026,7 +1093,7 @@
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >    lines.push(color('╔════════════════════════════════════════════════════════╗', 'cyan'));</span>
 <span class="cstat-no" title="statement not covered" >    lines.push(</span>
-<span class="cstat-no" title="statement not covered" >      `║ Analysis completed in ${result.metadata.analysisTime.toFixed(2)}ms${' '.repeat(28)}║`</span>
+<span class="cstat-no" title="statement not covered" >      `║ Analysis completed in ${this.formatDuration(result.metadata.analysisTime)}${' '.repeat(32 - this.formatDuration(result.metadata.analysisTime).length)}║`</span>
 <span class="cstat-no" title="statement not covered" >    );</span>
 <span class="cstat-no" title="statement not covered" >    lines.push(</span>
 <span class="cstat-no" title="statement not covered" >      `║ Tool: ${result.metadata.toolVersion}${' '.repeat(48)}║`</span>
@@ -1035,34 +1102,6 @@
 <span class="cstat-no" title="statement not covered" >    lines.push('');</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >    return lines.join('\n');</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  /**</span>
-<span class="cstat-no" title="statement not covered" >   * Generate a visual score bar</span>
-<span class="cstat-no" title="statement not covered" >   */</span>
-<span class="cstat-no" title="statement not covered" >  private generateScoreBar(score: number, width: number = 30): string {</span>
-<span class="cstat-no" title="statement not covered" >    const filled = Math.round((score / 100) * width);</span>
-<span class="cstat-no" title="statement not covered" >    const empty = width - filled;</span>
-<span class="cstat-no" title="statement not covered" >    const bar = '█'.repeat(filled) + '░'.repeat(empty);</span>
-<span class="cstat-no" title="statement not covered" >    return `[${bar}]`;</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  /**</span>
-<span class="cstat-no" title="statement not covered" >   * Generate a sparkline from data points</span>
-<span class="cstat-no" title="statement not covered" >   */</span>
-<span class="cstat-no" title="statement not covered" >  private generateSparkline(values: number[], width: number = 10): string {</span>
-<span class="cstat-no" title="statement not covered" >    const chars = ['▁', '▂', '▃', '▄', '▅', '▆', '▇', '█'];</span>
-<span class="cstat-no" title="statement not covered" >    const min = Math.min(...values);</span>
-<span class="cstat-no" title="statement not covered" >    const max = Math.max(...values);</span>
-<span class="cstat-no" title="statement not covered" >    const range = max - min || 1;</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    return values</span>
-<span class="cstat-no" title="statement not covered" >      .slice(Math.max(0, values.length - width))</span>
-<span class="cstat-no" title="statement not covered" >      .map((v) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >        const index = Math.round(((v - min) / range) * (chars.length - 1));</span>
-<span class="cstat-no" title="statement not covered" >        return chars[index];</span>
-<span class="cstat-no" title="statement not covered" >      })</span>
-<span class="cstat-no" title="statement not covered" >      .join('');</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  /**</span>
@@ -1099,7 +1138,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-20T23:21:59.834Z
+                at 2026-01-21T00:47:57.712Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

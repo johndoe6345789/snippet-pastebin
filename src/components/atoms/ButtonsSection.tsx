@@ -17,7 +17,7 @@ interface ButtonsSectionProps {
 
 export function ButtonsSection({ onSaveSnippet }: ButtonsSectionProps) {
   return (
-    <section className="space-y-6">
+    <section className="space-y-6" data-testid="buttons-section" role="region" aria-label="Button components">
       <div>
         <h2 className="text-3xl font-bold mb-2">Buttons</h2>
         <p className="text-muted-foreground">

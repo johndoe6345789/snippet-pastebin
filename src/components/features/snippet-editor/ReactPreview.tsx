@@ -37,7 +37,7 @@ export function ReactPreview({ code, language, functionName, inputParameters }: 
         className="h-full flex items-center justify-center p-6 bg-muted/30"
         data-testid="preview-unsupported"
         role="status"
-        aria-label="Preview not available"
+        aria-label="Preview not available for this language"
       >
         <div className="text-center text-muted-foreground">
           <WarningCircle className="h-12 w-12 mx-auto mb-3 opacity-50" aria-hidden="true" />
@@ -54,6 +54,8 @@ export function ReactPreview({ code, language, functionName, inputParameters }: 
         className="h-full overflow-auto p-6 bg-destructive/5"
         data-testid="preview-error"
         role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
       >
         <Alert variant="destructive" className="mb-4" data-testid="preview-error-alert">
           <WarningCircle className="h-4 w-4" aria-hidden="true" />
@@ -76,6 +78,7 @@ export function ReactPreview({ code, language, functionName, inputParameters }: 
         data-testid="preview-loading"
         role="status"
         aria-label="Loading preview"
+        aria-busy="true"
       >
         <div className="text-center text-muted-foreground">
           <p className="text-sm">Loading preview...</p>
@@ -85,7 +88,7 @@ export function ReactPreview({ code, language, functionName, inputParameters }: 
   }
 
   return (
-    <div className="h-full overflow-auto bg-background">
+    <div className="h-full overflow-auto bg-background" data-testid="react-preview-container" role="region" aria-label="React component preview">
       <div className="p-6">
         <Component {...props} />
       </div>

@@ -124,6 +124,7 @@ function Carousel({
         role="region"
         aria-roledescription="carousel"
         data-slot="carousel"
+        data-testid="carousel"
         {...props}
       >
         {children}
@@ -140,6 +141,7 @@ function CarouselContent({ className, ...props }: ComponentProps<"div">) {
       ref={carouselRef}
       className="overflow-hidden"
       data-slot="carousel-content"
+      data-testid="carousel-content"
     >
       <div
         className={cn(
@@ -161,6 +163,7 @@ function CarouselItem({ className, ...props }: ComponentProps<"div">) {
       role="group"
       aria-roledescription="slide"
       data-slot="carousel-item"
+      data-testid="carousel-item"
       className={cn(
         "min-w-0 shrink-0 grow-0 basis-full",
         orientation === "horizontal" ? "pl-4" : "pt-4",
@@ -182,6 +185,7 @@ function CarouselPrevious({
   return (
     <Button
       data-slot="carousel-previous"
+      data-testid="carousel-previous"
       variant={variant}
       size={size}
       className={cn(
@@ -193,9 +197,10 @@ function CarouselPrevious({
       )}
       disabled={!canScrollPrev}
       onClick={scrollPrev}
+      aria-label="Previous slide"
       {...props}
     >
-      <ArrowLeft />
+      <ArrowLeft aria-hidden="true" />
       <span className="sr-only">Previous slide</span>
     </Button>
   )
@@ -212,6 +217,7 @@ function CarouselNext({
   return (
     <Button
       data-slot="carousel-next"
+      data-testid="carousel-next"
       variant={variant}
       size={size}
       className={cn(
@@ -223,9 +229,10 @@ function CarouselNext({
       )}
       disabled={!canScrollNext}
       onClick={scrollNext}
+      aria-label="Next slide"
       {...props}
     >
-      <ArrowRight />
+      <ArrowRight aria-hidden="true" />
       <span className="sr-only">Next slide</span>
     </Button>
   )

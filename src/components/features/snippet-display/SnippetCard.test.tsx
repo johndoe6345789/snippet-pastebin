@@ -115,7 +115,7 @@ describe('SnippetCard', () => {
       />
     )
 
-    expect(screen.getByTestId('snippet-card-actions-menu')).toBeInTheDocument()
+    expect(screen.getByTestId('snippet-card-actions')).toBeInTheDocument()
   })
 
   it('calls onEdit when edit button is clicked', async () => {

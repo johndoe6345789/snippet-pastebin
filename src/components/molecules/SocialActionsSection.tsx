@@ -5,7 +5,7 @@ import { Heart, ChatCircle, Share, DotsThree } from '@phosphor-icons/react'
 
 export function SocialActionsSection() {
   return (
-    <section className="space-y-6">
+    <section className="space-y-6" data-testid="social-actions-section" role="region" aria-label="Social action buttons">
       <div>
         <h2 className="text-3xl font-bold mb-2">Social Actions</h2>
         <p className="text-muted-foreground">

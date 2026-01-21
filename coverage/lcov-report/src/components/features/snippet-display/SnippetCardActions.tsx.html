@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/130</span>
+                <span class='fraction'>0/134</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/130</span>
+                <span class='fraction'>0/134</span>
             </div>
         
             
@@ -193,7 +193,15 @@
 <a name='L128'></a><a href='#L128'>128</a>
 <a name='L129'></a><a href='#L129'>129</a>
 <a name='L130'></a><a href='#L130'>130</a>
-<a name='L131'></a><a href='#L131'>131</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L131'></a><a href='#L131'>131</a>
+<a name='L132'></a><a href='#L132'>132</a>
+<a name='L133'></a><a href='#L133'>133</a>
+<a name='L134'></a><a href='#L134'>134</a>
+<a name='L135'></a><a href='#L135'>135</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -360,7 +368,7 @@
 <span class="cstat-no" title="statement not covered" >  onMoveToNamespace,</span>
 <span class="cstat-no" title="statement not covered" >}: SnippetCardActionsProps) {</span>
 <span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;div className="flex items-center justify-between gap-2 pt-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;div className="flex items-center justify-between gap-2 pt-2" data-testid="snippet-card-actions" role="group" aria-label="Snippet actions"&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;div className="flex-1 flex items-center gap-2"&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;Button</span>
 <span class="cstat-no" title="statement not covered" >          variant="ghost"</span>
@@ -404,22 +412,24 @@
 <span class="cstat-no" title="statement not covered" >              onClick={(e) =&gt; e.stopPropagation()}</span>
 <span class="cstat-no" title="statement not covered" >              data-testid="snippet-card-actions-menu"</span>
 <span class="cstat-no" title="statement not covered" >              aria-label="More options"</span>
+<span class="cstat-no" title="statement not covered" >              aria-haspopup="menu"</span>
 <span class="cstat-no" title="statement not covered" >            &gt;</span>
 <span class="cstat-no" title="statement not covered" >              &lt;DotsThree className="h-4 w-4" weight="bold" aria-hidden="true" /&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;/Button&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;/DropdownMenuTrigger&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;DropdownMenuContent align="end" onClick={(e) =&gt; e.stopPropagation()}&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;DropdownMenuContent align="end" onClick={(e) =&gt; e.stopPropagation()} data-testid="snippet-actions-menu-content"&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;DropdownMenuSub&gt;</span>
 <span class="cstat-no" title="statement not covered" >              &lt;DropdownMenuSubTrigger</span>
 <span class="cstat-no" title="statement not covered" >                disabled={isMoving || availableNamespaces.length === 0}</span>
 <span class="cstat-no" title="statement not covered" >                data-testid="snippet-card-move-submenu"</span>
+<span class="cstat-no" title="statement not covered" >                aria-label="Move snippet to another namespace"</span>
 <span class="cstat-no" title="statement not covered" >              &gt;</span>
 <span class="cstat-no" title="statement not covered" >                &lt;FolderOpen className="h-4 w-4 mr-2" aria-hidden="true" /&gt;</span>
 <span class="cstat-no" title="statement not covered" >                &lt;span&gt;Move to...&lt;/span&gt;</span>
 <span class="cstat-no" title="statement not covered" >              &lt;/DropdownMenuSubTrigger&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;DropdownMenuSubContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >              &lt;DropdownMenuSubContent data-testid="move-to-namespaces-list"&gt;</span>
 <span class="cstat-no" title="statement not covered" >                {availableNamespaces.length === 0 ? (</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;DropdownMenuItem disabled&gt;</span>
+<span class="cstat-no" title="statement not covered" >                  &lt;DropdownMenuItem disabled data-testid="no-namespaces-item"&gt;</span>
 <span class="cstat-no" title="statement not covered" >                    No other namespaces</span>
 <span class="cstat-no" title="statement not covered" >                  &lt;/DropdownMenuItem&gt;</span>
 <span class="cstat-no" title="statement not covered" >                ) : (</span>
@@ -428,6 +438,7 @@
 <span class="cstat-no" title="statement not covered" >                      key={namespace.id}</span>
 <span class="cstat-no" title="statement not covered" >                      onClick={() =&gt; onMoveToNamespace(namespace.id)}</span>
 <span class="cstat-no" title="statement not covered" >                      data-testid={`move-to-namespace-${namespace.id}`}</span>
+<span class="cstat-no" title="statement not covered" >                      aria-label={`Move to ${namespace.name}${namespace.isDefault ? ' (Default)' : ''}`}</span>
 <span class="cstat-no" title="statement not covered" >                    &gt;</span>
 <span class="cstat-no" title="statement not covered" >                      {namespace.name}</span>
 <span class="cstat-no" title="statement not covered" >                      {namespace.isDefault &amp;&amp; (</span>
@@ -443,6 +454,7 @@
 <span class="cstat-no" title="statement not covered" >              onClick={onDelete}</span>
 <span class="cstat-no" title="statement not covered" >              className="text-destructive focus:text-destructive"</span>
 <span class="cstat-no" title="statement not covered" >              data-testid="snippet-card-delete-btn"</span>
+<span class="cstat-no" title="statement not covered" >              aria-label="Delete snippet"</span>
 <span class="cstat-no" title="statement not covered" >            &gt;</span>
 <span class="cstat-no" title="statement not covered" >              &lt;Trash className="h-4 w-4 mr-2" aria-hidden="true" /&gt;</span>
 <span class="cstat-no" title="statement not covered" >              Delete</span>
@@ -460,7 +472,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-20T23:21:59.834Z
+                at 2026-01-21T00:47:57.712Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

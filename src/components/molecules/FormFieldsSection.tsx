@@ -12,7 +12,7 @@ interface FormFieldsSectionProps {
 
 export function FormFieldsSection({ onSaveSnippet }: FormFieldsSectionProps) {
   return (
-    <section className="space-y-6">
+    <section className="space-y-6" data-testid="form-fields-section" role="region" aria-label="Form field components">
       <div>
         <h2 className="text-3xl font-bold mb-2">Form Fields</h2>
         <p className="text-muted-foreground">

@@ -24,9 +24,9 @@ export function InputParameterList({
   onUpdateParameter,
 }: InputParameterListProps) {
   return (
-    <Card className="bg-muted/30">
+    <Card className="bg-muted/30" data-testid="input-parameters-card">
       <CardHeader className="pb-3">
-        <CardTitle className="text-base font-semibold flex items-center justify-between">
+        <CardTitle className="text-base font-semibold flex items-center justify-between" data-testid="preview-config-title">
           <span>Preview Configuration</span>
           <Button
             variant="outline"
@@ -62,7 +62,7 @@ export function InputParameterList({
         </div>
 
         {inputParameters.length > 0 && (
-          <div className="space-y-3">
+          <div className="space-y-3" role="region" aria-label="Input parameters list">
             <Label className="text-sm font-medium">Input Parameters (Props)</Label>
             {inputParameters.map((param, index) => (
               <InputParameterItem

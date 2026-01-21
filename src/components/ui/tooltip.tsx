@@ -45,6 +45,7 @@ function TooltipTrigger({ children, asChild, ...props }: ComponentProps<"button"
     return React.cloneElement(children as React.ReactElement, {
       onMouseEnter: handleMouseEnter,
       onMouseLeave: handleMouseLeave,
+      "data-testid": "tooltip-trigger",
       ...props,
     })
   }
@@ -54,6 +55,7 @@ function TooltipTrigger({ children, asChild, ...props }: ComponentProps<"button"
       type="button"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      data-testid="tooltip-trigger"
       {...props}
     >
       {children}
@@ -84,6 +86,7 @@ function TooltipContent({
             className
           )}
           role="tooltip"
+          data-testid="tooltip-content"
           {...props}
         >
           <div className="mdc-tooltip__surface mdc-tooltip__surface-animation">

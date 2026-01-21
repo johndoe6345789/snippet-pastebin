@@ -17,6 +17,7 @@ export const Separator = forwardRef<HTMLHRElement, SeparatorProps>(
       )}
       aria-orientation={orientation}
       role={decorative ? "none" : "separator"}
+      data-testid="separator"
       {...props}
     />
   )

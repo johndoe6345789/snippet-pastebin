@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/32</span>
+                <span class='fraction'>33/33</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/32</span>
+                <span class='fraction'>33/33</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -95,70 +95,73 @@
 <a name='L30'></a><a href='#L30'>30</a>
 <a name='L31'></a><a href='#L31'>31</a>
 <a name='L32'></a><a href='#L32'>32</a>
-<a name='L33'></a><a href='#L33'>33</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >import { ComponentProps, forwardRef } from "react"</span></span></span>
-<span class="cstat-no" title="statement not covered" >import { cn } from "@/lib/utils"</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >interface CheckboxProps extends Omit&lt;ComponentProps&lt;"input"&gt;, "type"&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  checked?: boolean</span>
-<span class="cstat-no" title="statement not covered" >  onCheckedChange?: (checked: boolean) =&gt; void</span>
-<span class="cstat-no" title="statement not covered" >}</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >export const Checkbox = forwardRef&lt;HTMLInputElement, CheckboxProps&gt;(</span>
-<span class="cstat-no" title="statement not covered" >  ({ className, checked, onCheckedChange, ...props }, ref) =&gt; (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;div className={cn("mat-mdc-checkbox", className)}&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;div className="mdc-checkbox"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;input</span>
-<span class="cstat-no" title="statement not covered" >          ref={ref}</span>
-<span class="cstat-no" title="statement not covered" >          type="checkbox"</span>
-<span class="cstat-no" title="statement not covered" >          className="mdc-checkbox__native-control"</span>
-<span class="cstat-no" title="statement not covered" >          checked={checked}</span>
-<span class="cstat-no" title="statement not covered" >          onChange={(e) =&gt; onCheckedChange?.(e.target.checked)}</span>
-<span class="cstat-no" title="statement not covered" >          {...props}</span>
-<span class="cstat-no" title="statement not covered" >        /&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;div className="mdc-checkbox__background"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;svg className="mdc-checkbox__checkmark" viewBox="0 0 24 24"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;path className="mdc-checkbox__checkmark-path" fill="none" d="M1.73,12.91 8.1,19.28 22.79,4.59" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/svg&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;div className="mdc-checkbox__mixedmark" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;div className="mdc-checkbox__ripple" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >  )</span>
-<span class="cstat-no" title="statement not covered" >)</span>
-<span class="cstat-no" title="statement not covered" >Checkbox.displayName = "Checkbox"</span>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { ComponentProps, forwardRef } from "react"
+import { cn } from "@/lib/utils"
+&nbsp;
+interface CheckboxProps extends Omit&lt;ComponentProps&lt;"input"&gt;, "type"&gt; {
+  checked?: boolean
+  onCheckedChange?: (checked: boolean) =&gt; void
+}
+&nbsp;
+export const Checkbox = forwardRef&lt;HTMLInputElement, CheckboxProps&gt;(
+  ({ className, checked, onCheckedChange, ...props }, ref) =&gt; (
+    &lt;div className={cn("mat-mdc-checkbox", className)} data-testid="checkbox-wrapper"&gt;
+      &lt;div className="mdc-checkbox"&gt;
+        &lt;input
+          ref={ref}
+          type="checkbox"
+          className="mdc-checkbox__native-control"
+          checked={checked}
+          onChange={(e) =&gt; onCheckedChange?.(e.target.checked)}
+          data-testid="checkbox"
+          {...props}
+        /&gt;
+        &lt;div className="mdc-checkbox__background"&gt;
+          &lt;svg className="mdc-checkbox__checkmark" viewBox="0 0 24 24" aria-hidden="true"&gt;
+            &lt;path className="mdc-checkbox__checkmark-path" fill="none" d="M1.73,12.91 8.1,19.28 22.79,4.59" /&gt;
+          &lt;/svg&gt;
+          &lt;div className="mdc-checkbox__mixedmark" aria-hidden="true" /&gt;
+        &lt;/div&gt;
+        &lt;div className="mdc-checkbox__ripple" aria-hidden="true" /&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  )
+)
+Checkbox.displayName = "Checkbox"
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -166,7 +169,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-20T23:21:59.834Z
+                at 2026-01-21T00:47:57.712Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

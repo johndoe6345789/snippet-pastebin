@@ -20,6 +20,7 @@ export function SidebarMenuSubButton({
     <Comp
       data-slot="sidebar-menu-sub-button"
       data-sidebar="menu-sub-button"
+      data-testid="sidebar-menu-sub-button"
       data-size={size}
       data-active={isActive}
       className={cn(
@@ -39,6 +40,7 @@ export function SidebarMenuSubButton({
         "group-data-[collapsible=icon]:hidden",
         className
       )}
+      aria-current={isActive ? "page" : undefined}
       {...props}
     />
   )

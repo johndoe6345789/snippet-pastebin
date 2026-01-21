@@ -3,7 +3,7 @@ import { Separator } from '@/components/ui/separator'
 
 export function TypographySection() {
   return (
-    <section className="space-y-6">
+    <section className="space-y-6" data-testid="typography-section" role="region" aria-label="Typography styles">
       <div>
         <h2 className="text-3xl font-bold mb-2">Typography</h2>
         <p className="text-muted-foreground">

@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/144</span>
+                <span class='fraction'>0/145</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/144</span>
+                <span class='fraction'>0/145</span>
             </div>
         
             
@@ -207,7 +207,9 @@
 <a name='L142'></a><a href='#L142'>142</a>
 <a name='L143'></a><a href='#L143'>143</a>
 <a name='L144'></a><a href='#L144'>144</a>
-<a name='L145'></a><a href='#L145'>145</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L145'></a><a href='#L145'>145</a>
+<a name='L146'></a><a href='#L146'>146</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -385,8 +387,8 @@
 <span class="cstat-no" title="statement not covered" >  templates,</span>
 <span class="cstat-no" title="statement not covered" >}: SnippetToolbarProps) {</span>
 <span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between"&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;div className="relative flex-1 w-full sm:max-w-md"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between" data-testid="snippet-toolbar" role="toolbar" aria-label="Snippet management toolbar"&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;div className="relative flex-1 w-full sm:max-w-md" data-testid="search-container"&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;MagnifyingGlass</span>
 <span class="cstat-no" title="statement not covered" >          className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground"</span>
 <span class="cstat-no" title="statement not covered" >          aria-hidden="true"</span>
@@ -400,7 +402,7 @@
 <span class="cstat-no" title="statement not covered" >          aria-label="Search snippets"</span>
 <span class="cstat-no" title="statement not covered" >        /&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;div className="flex gap-2 w-full sm:w-auto"&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;div className="flex gap-2 w-full sm:w-auto" data-testid="toolbar-actions"&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;Button</span>
 <span class="cstat-no" title="statement not covered" >          variant={selectionMode ? "filled" : "outline"}</span>
 <span class="cstat-no" title="statement not covered" >          onClick={onToggleSelectionMode}</span>
@@ -427,13 +429,14 @@
 <span class="cstat-no" title="statement not covered" >              className="gap-2 w-full sm:w-auto"</span>
 <span class="cstat-no" title="statement not covered" >              data-testid="snippet-create-menu-trigger"</span>
 <span class="cstat-no" title="statement not covered" >              aria-label="Create new snippet"</span>
+<span class="cstat-no" title="statement not covered" >              aria-haspopup="menu"</span>
 <span class="cstat-no" title="statement not covered" >            &gt;</span>
 <span class="cstat-no" title="statement not covered" >              &lt;Plus weight="bold" aria-hidden="true" /&gt;</span>
 <span class="cstat-no" title="statement not covered" >              {strings.app.header.newSnippetButton}</span>
 <span class="cstat-no" title="statement not covered" >              &lt;CaretDown weight="bold" aria-hidden="true" /&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;/Button&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;/DropdownMenuTrigger&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;DropdownMenuContent align="end" className="w-72 max-h-[500px] overflow-y-auto"&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;DropdownMenuContent align="end" className="w-72 max-h-[500px] overflow-y-auto" data-testid="create-menu-content"&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;DropdownMenuItem</span>
 <span class="cstat-no" title="statement not covered" >              onClick={onCreateNew}</span>
 <span class="cstat-no" title="statement not covered" >              data-testid="snippet-create-blank-item"</span>
@@ -502,7 +505,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-20T23:21:59.834Z
+                at 2026-01-21T00:47:57.712Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

@@ -14,7 +14,7 @@ import {
 
 export function DashboardTemplate() {
   return (
-    <Card className="overflow-hidden">
+    <Card className="overflow-hidden" data-testid="dashboard-template" role="main" aria-label="Dashboard template">
       <div className="border-b border-border bg-card p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-6">

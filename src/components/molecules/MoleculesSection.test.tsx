@@ -76,7 +76,7 @@ describe('MoleculesSection', () => {
   test('all sections are rendered in order', () => {
     const { container } = render(<MoleculesSection onSaveSnippet={mockOnSaveSnippet} />);
     const sections = container.querySelectorAll('[data-testid]');
-    expect(sections.length).toBe(6);
+    expect(sections.length).toBe(7);
   });
 
   test('has correct spacing classes', () => {

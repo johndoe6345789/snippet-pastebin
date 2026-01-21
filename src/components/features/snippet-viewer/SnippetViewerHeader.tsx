@@ -53,7 +53,7 @@ export function SnippetViewerHeader({
           {strings.snippetViewer.lastUpdated}: {new Date(snippet.updatedAt).toLocaleString()}
         </p>
       </div>
-      <div className="flex gap-2 shrink-0">
+      <div className="flex gap-2 shrink-0" data-testid="viewer-header-actions" role="toolbar" aria-label="Snippet viewer actions">
         {canPreview && (
           <Button
             variant={showPreview ? "filled" : "outline"}
@@ -75,6 +75,7 @@ export function SnippetViewerHeader({
           className="gap-2"
           data-testid="snippet-viewer-copy-btn"
           aria-label={isCopied ? "Code copied to clipboard" : "Copy code to clipboard"}
+          aria-live="polite"
         >
           {isCopied ? (
             <>

@@ -12,7 +12,7 @@ interface InputsSectionProps {
 
 export function InputsSection({ onSaveSnippet }: InputsSectionProps) {
   return (
-    <section className="space-y-6">
+    <section className="space-y-6" data-testid="inputs-section" role="region" aria-label="Input form fields">
       <div>
         <h2 className="text-3xl font-bold mb-2">Inputs</h2>
         <p className="text-muted-foreground">

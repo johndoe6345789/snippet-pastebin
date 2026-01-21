@@ -73,7 +73,7 @@ function FormItem({ className, ...props }: ComponentProps<"div">) {
 
   return (
     <FormItemContext.Provider value={{ id }}>
-      <div className={cn("mat-mdc-form-field", className)} {...props} />
+      <div className={cn("mat-mdc-form-field", className)} data-testid="form-item" {...props} />
     </FormItemContext.Provider>
   )
 }
@@ -85,6 +85,7 @@ function FormLabel({ className, ...props }: ComponentProps<typeof Label>) {
     <Label
       className={cn(error && "mat-error", className)}
       htmlFor={formItemId}
+      data-testid="form-label"
       {...props}
     />
   )
@@ -103,6 +104,7 @@ function FormControl({ className, ...props }: ComponentProps<"div">) {
       }
       aria-invalid={!!error}
       className={className}
+      data-testid="form-control"
       {...props}
     />
   )
@@ -115,6 +117,7 @@ function FormDescription({ className, ...props }: ComponentProps<"p">) {
     <p
       id={formDescriptionId}
       className={cn("mat-mdc-form-field-hint", className)}
+      data-testid="form-description"
       {...props}
     />
   )
@@ -132,6 +135,8 @@ function FormMessage({ className, ...props }: ComponentProps<"p">) {
     <p
       id={formMessageId}
       className={cn("mat-mdc-form-field-error", className)}
+      data-testid="form-message"
+      role="alert"
       {...props}
     >
       {body}

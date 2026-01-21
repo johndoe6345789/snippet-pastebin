@@ -32,7 +32,9 @@ const Chip = forwardRef<HTMLDivElement, ChipProps>(
       <div
         ref={ref}
         data-slot="chip"
+        data-testid="chip"
         className={cn(chipVariants({ variant }), className)}
+        role="status"
         {...props}
       />
     )

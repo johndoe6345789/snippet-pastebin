@@ -37,10 +37,10 @@ export function StorageBackendCard({
   onMigrateToIndexedDB,
 }: StorageBackendCardProps) {
   return (
-    <Card>
+    <Card data-testid="storage-backend-card">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <CloudArrowUp weight="duotone" size={24} />
+          <CloudArrowUp weight="duotone" size={24} aria-hidden="true" />
           Storage Backend
         </CardTitle>
         <CardDescription>
@@ -49,9 +49,9 @@ export function StorageBackendCard({
       </CardHeader>
       <CardContent className="space-y-6">
         {envVarSet && (
-          <Alert className="border-accent bg-accent/10">
+          <Alert className="border-accent bg-accent/10" data-testid="env-var-alert" role="status">
             <AlertDescription className="flex items-center gap-2">
-              <CloudCheck weight="fill" size={16} className="text-accent" />
+              <CloudCheck weight="fill" size={16} className="text-accent" aria-hidden="true" />
               <span>
                 Storage backend is configured via <code className="px-1.5 py-0.5 rounded bg-muted text-xs font-mono">NEXT_PUBLIC_FLASK_BACKEND_URL</code> environment variable and cannot be changed here.
               </span>
@@ -63,7 +63,7 @@ export function StorageBackendCard({
           value={storageBackend}
           onValueChange={(value) => onStorageBackendChange(value as StorageBackend)}
         >
-          <div className="flex items-start space-x-3 space-y-0">
+          <div className="flex items-start space-x-3 space-y-0" data-testid="storage-option-indexeddb">
             <RadioGroupItem value="indexeddb" id="storage-indexeddb" disabled={envVarSet} />
             <div className="flex-1">
               <Label htmlFor="storage-indexeddb" className={`font-semibold ${envVarSet ? 'opacity-50' : 'cursor-pointer'}`}>
@@ -75,7 +75,7 @@ export function StorageBackendCard({
             </div>
           </div>
           
-          <div className="flex items-start space-x-3 space-y-0 mt-4">
+          <div className="flex items-start space-x-3 space-y-0 mt-4" data-testid="storage-option-flask">
             <RadioGroupItem value="flask" id="storage-flask" disabled={envVarSet} />
             <div className="flex-1">
               <Label htmlFor="storage-flask" className={`font-semibold ${envVarSet ? 'opacity-50' : 'cursor-pointer'}`}>
@@ -89,7 +89,7 @@ export function StorageBackendCard({
         </RadioGroup>
 
         {storageBackend === 'flask' && (
-          <div className="space-y-4 p-4 border border-border rounded-lg bg-muted/50">
+          <div className="space-y-4 p-4 border border-border rounded-lg bg-muted/50" data-testid="flask-config-section">
             <div>
               <Label htmlFor="flask-url">Flask Backend URL</Label>
               <div className="flex gap-2 mt-2">
@@ -100,46 +100,55 @@ export function StorageBackendCard({
                   value={flaskUrl}
                   onChange={(e) => onFlaskUrlChange(e.target.value)}
                   disabled={envVarSet}
+                  data-testid="flask-url-input"
+                  aria-label="Flask backend URL"
                 />
-                <Button 
-                  onClick={onTestConnection} 
+                <Button
+                  onClick={onTestConnection}
                   variant="outline"
                   disabled={testingConnection || !flaskUrl}
+                  data-testid="test-flask-btn"
+                  aria-label="Test flask connection"
+                  aria-busy={testingConnection}
                 >
                   {testingConnection ? 'Testing...' : 'Test'}
                 </Button>
               </div>
               {flaskConnectionStatus === 'connected' && (
-                <div className="flex items-center gap-2 mt-2 text-sm text-green-600">
-                  <CloudCheck weight="fill" size={16} />
+                <div className="flex items-center gap-2 mt-2 text-sm text-green-600" data-testid="flask-connected-status">
+                  <CloudCheck weight="fill" size={16} aria-hidden="true" />
                   Connected successfully
                 </div>
               )}
               {flaskConnectionStatus === 'failed' && (
-                <div className="flex items-center gap-2 mt-2 text-sm text-destructive">
-                  <CloudSlash weight="fill" size={16} />
+                <div className="flex items-center gap-2 mt-2 text-sm text-destructive" data-testid="flask-failed-status">
+                  <CloudSlash weight="fill" size={16} aria-hidden="true" />
                   Connection failed
                 </div>
               )}
             </div>
 
             <div className="pt-2 space-y-2">
-              <Button 
-                onClick={onMigrateToFlask} 
-                variant="outline" 
+              <Button
+                onClick={onMigrateToFlask}
+                variant="outline"
                 size="sm"
                 className="w-full gap-2"
+                data-testid="migrate-to-flask-btn"
+                aria-label="Migrate IndexedDB data to Flask backend"
               >
-                <Upload weight="bold" size={16} />
+                <Upload weight="bold" size={16} aria-hidden="true" />
                 Migrate IndexedDB Data to Flask
               </Button>
-              <Button 
-                onClick={onMigrateToIndexedDB} 
-                variant="outline" 
+              <Button
+                onClick={onMigrateToIndexedDB}
+                variant="outline"
                 size="sm"
                 className="w-full gap-2"
+                data-testid="migrate-to-indexeddb-btn"
+                aria-label="Migrate Flask data to IndexedDB"
               >
-                <Download weight="bold" size={16} />
+                <Download weight="bold" size={16} aria-hidden="true" />
                 Migrate Flask Data to IndexedDB
               </Button>
             </div>
@@ -147,8 +156,8 @@ export function StorageBackendCard({
         )}
 
         <div className="pt-2">
-          <Button onClick={onSaveConfig} className="gap-2" disabled={envVarSet}>
-            <Database weight="bold" size={16} />
+          <Button onClick={onSaveConfig} className="gap-2" disabled={envVarSet} data-testid="save-storage-settings-btn" aria-label="Save storage configuration">
+            <Database weight="bold" size={16} aria-hidden="true" />
             Save Storage Settings
           </Button>
         </div>

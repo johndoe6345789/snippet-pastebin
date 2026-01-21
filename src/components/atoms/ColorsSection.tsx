@@ -2,7 +2,7 @@ import { Card } from '@/components/ui/card'
 
 export function ColorsSection() {
   return (
-    <section className="space-y-6">
+    <section className="space-y-6" data-testid="colors-section" role="region" aria-label="Colors palette">
       <div>
         <h2 className="text-3xl font-bold mb-2">Colors</h2>
         <p className="text-muted-foreground">

@@ -115,12 +115,14 @@ export function SnippetDialog({ open, onOpenChange, onSave, editingSnippet }: Sn
             variant="outline"
             onClick={() => onOpenChange(false)}
             data-testid="snippet-dialog-cancel-btn"
+            aria-label="Cancel editing snippet"
           >
             {strings.snippetDialog.buttons.cancel}
           </Button>
           <Button
             onClick={handleSave}
             data-testid="snippet-dialog-save-btn"
+            aria-label={editingSnippet ? "Update snippet" : "Create new snippet"}
           >
             {editingSnippet ? strings.snippetDialog.buttons.update : strings.snippetDialog.buttons.create} Snippet
           </Button>

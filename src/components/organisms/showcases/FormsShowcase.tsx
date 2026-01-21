@@ -11,7 +11,7 @@ import {
 
 export function FormsShowcase() {
   return (
-    <section className="space-y-6">
+    <section className="space-y-6" data-testid="forms-showcase" role="region" aria-label="Forms showcase">
       <div>
         <h2 className="text-3xl font-bold mb-2">Forms</h2>
         <p className="text-muted-foreground">

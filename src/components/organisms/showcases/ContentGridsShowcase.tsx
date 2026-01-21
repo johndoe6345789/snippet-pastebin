@@ -11,7 +11,7 @@ export function ContentGridsShowcase() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
 
   return (
-    <section className="space-y-6">
+    <section className="space-y-6" data-testid="content-grids-showcase" role="region" aria-label="Content grids showcase">
       <div>
         <h2 className="text-3xl font-bold mb-2">Content Grids</h2>
         <p className="text-muted-foreground">

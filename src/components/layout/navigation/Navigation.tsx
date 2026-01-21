@@ -13,6 +13,7 @@ export function Navigation() {
       aria-expanded={menuOpen}
       aria-controls="navigation-sidebar"
       data-testid="navigation-toggle-btn"
+      aria-haspopup="menu"
     >
       <List weight="bold" aria-hidden="true" />
     </button>

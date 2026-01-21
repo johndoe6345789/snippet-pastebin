@@ -30,17 +30,20 @@ export function Select({ value, onValueChange, children }: SelectProps) {
 export const SelectTrigger = forwardRef<HTMLButtonElement, ComponentProps<"button">>(
   ({ className, children, ...props }, ref) => {
     const context = useContext(SelectContext)
-    
+
     return (
       <button
         ref={ref}
         className={cn("mat-mdc-select-trigger", className)}
         onClick={() => context?.setOpen(!context.open)}
+        data-testid="select-trigger"
+        role="combobox"
+        aria-expanded={context?.open}
         {...props}
       >
         <span className="mat-mdc-select-value">{children}</span>
-        <span className="mat-mdc-select-arrow-wrapper">
-          <svg className="mat-mdc-select-arrow" viewBox="0 0 10 5">
+        <span className="mat-mdc-select-arrow-wrapper" aria-hidden="true">
+          <svg className="mat-mdc-select-arrow" viewBox="0 0 10 5" aria-hidden="true">
             <polygon points="0,0 5,5 10,0" />
           </svg>
         </span>
@@ -58,14 +61,16 @@ export const SelectValue = ({ placeholder }: { placeholder?: string }) => {
 export const SelectContent = forwardRef<HTMLDivElement, ComponentProps<"div">>(
   ({ className, children, ...props }, ref) => {
     const context = useContext(SelectContext)
-    
+
     if (!context?.open) return null
-    
+
     return createPortal(
       <div className="cdk-overlay-pane">
-        <div 
+        <div
           ref={ref}
-          className={cn("mat-mdc-select-panel", className)} 
+          className={cn("mat-mdc-select-panel", className)}
+          data-testid="select-content"
+          role="listbox"
           {...props}
         >
           {children}
@@ -81,7 +86,7 @@ export const SelectItem = forwardRef<HTMLDivElement, ComponentProps<"div"> & { v
   ({ className, children, value, ...props }, ref) => {
     const context = useContext(SelectContext)
     const isSelected = context?.value === value
-    
+
     return (
       <div
         ref={ref}
@@ -95,6 +100,9 @@ export const SelectItem = forwardRef<HTMLDivElement, ComponentProps<"div"> & { v
           context?.onValueChange?.(value)
           context?.setOpen(false)
         }}
+        role="option"
+        aria-selected={isSelected}
+        data-testid={`select-item-${value}`}
         {...props}
       >
         <span className="mdc-list-item__primary-text">{children}</span>
@@ -106,21 +114,21 @@ SelectItem.displayName = "SelectItem"
 
 export const SelectGroup = forwardRef<HTMLDivElement, ComponentProps<"div">>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("mat-mdc-optgroup", className)} {...props} />
+    <div ref={ref} className={cn("mat-mdc-optgroup", className)} role="group" data-testid="select-group" {...props} />
   )
 )
 SelectGroup.displayName = "SelectGroup"
 
 export const SelectLabel = forwardRef<HTMLDivElement, ComponentProps<"div">>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("mat-mdc-optgroup-label", className)} {...props} />
+    <div ref={ref} className={cn("mat-mdc-optgroup-label", className)} data-testid="select-label" {...props} />
   )
 )
 SelectLabel.displayName = "SelectLabel"
 
 export const SelectSeparator = forwardRef<HTMLDivElement, ComponentProps<"div">>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("mat-divider", className)} {...props} />
+    <div ref={ref} className={cn("mat-divider", className)} role="separator" data-testid="select-separator" aria-hidden="true" {...props} />
   )
 )
 SelectSeparator.displayName = "SelectSeparator"

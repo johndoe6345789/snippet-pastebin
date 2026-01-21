@@ -12,7 +12,7 @@ import {
 
 export function SidebarNavigationShowcase() {
   return (
-    <section className="space-y-6">
+    <section className="space-y-6" data-testid="sidebar-navigation-showcase" role="region" aria-label="Sidebar navigation showcase">
       <div>
         <h2 className="text-3xl font-bold mb-2">Sidebar Navigation</h2>
         <p className="text-muted-foreground">

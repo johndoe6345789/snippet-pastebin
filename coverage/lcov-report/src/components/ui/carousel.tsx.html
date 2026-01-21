@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/241</span>
+                <span class='fraction'>0/248</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/241</span>
+                <span class='fraction'>0/248</span>
             </div>
         
             
@@ -304,7 +304,21 @@
 <a name='L239'></a><a href='#L239'>239</a>
 <a name='L240'></a><a href='#L240'>240</a>
 <a name='L241'></a><a href='#L241'>241</a>
-<a name='L242'></a><a href='#L242'>242</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L242'></a><a href='#L242'>242</a>
+<a name='L243'></a><a href='#L243'>243</a>
+<a name='L244'></a><a href='#L244'>244</a>
+<a name='L245'></a><a href='#L245'>245</a>
+<a name='L246'></a><a href='#L246'>246</a>
+<a name='L247'></a><a href='#L247'>247</a>
+<a name='L248'></a><a href='#L248'>248</a>
+<a name='L249'></a><a href='#L249'>249</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -671,6 +685,7 @@
 <span class="cstat-no" title="statement not covered" >        role="region"</span>
 <span class="cstat-no" title="statement not covered" >        aria-roledescription="carousel"</span>
 <span class="cstat-no" title="statement not covered" >        data-slot="carousel"</span>
+<span class="cstat-no" title="statement not covered" >        data-testid="carousel"</span>
 <span class="cstat-no" title="statement not covered" >        {...props}</span>
 <span class="cstat-no" title="statement not covered" >      &gt;</span>
 <span class="cstat-no" title="statement not covered" >        {children}</span>
@@ -687,6 +702,7 @@
 <span class="cstat-no" title="statement not covered" >      ref={carouselRef}</span>
 <span class="cstat-no" title="statement not covered" >      className="overflow-hidden"</span>
 <span class="cstat-no" title="statement not covered" >      data-slot="carousel-content"</span>
+<span class="cstat-no" title="statement not covered" >      data-testid="carousel-content"</span>
 <span class="cstat-no" title="statement not covered" >    &gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;div</span>
 <span class="cstat-no" title="statement not covered" >        className={cn(</span>
@@ -708,6 +724,7 @@
 <span class="cstat-no" title="statement not covered" >      role="group"</span>
 <span class="cstat-no" title="statement not covered" >      aria-roledescription="slide"</span>
 <span class="cstat-no" title="statement not covered" >      data-slot="carousel-item"</span>
+<span class="cstat-no" title="statement not covered" >      data-testid="carousel-item"</span>
 <span class="cstat-no" title="statement not covered" >      className={cn(</span>
 <span class="cstat-no" title="statement not covered" >        "min-w-0 shrink-0 grow-0 basis-full",</span>
 <span class="cstat-no" title="statement not covered" >        orientation === "horizontal" ? "pl-4" : "pt-4",</span>
@@ -729,6 +746,7 @@
 <span class="cstat-no" title="statement not covered" >  return (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;Button</span>
 <span class="cstat-no" title="statement not covered" >      data-slot="carousel-previous"</span>
+<span class="cstat-no" title="statement not covered" >      data-testid="carousel-previous"</span>
 <span class="cstat-no" title="statement not covered" >      variant={variant}</span>
 <span class="cstat-no" title="statement not covered" >      size={size}</span>
 <span class="cstat-no" title="statement not covered" >      className={cn(</span>
@@ -740,9 +758,10 @@
 <span class="cstat-no" title="statement not covered" >      )}</span>
 <span class="cstat-no" title="statement not covered" >      disabled={!canScrollPrev}</span>
 <span class="cstat-no" title="statement not covered" >      onClick={scrollPrev}</span>
+<span class="cstat-no" title="statement not covered" >      aria-label="Previous slide"</span>
 <span class="cstat-no" title="statement not covered" >      {...props}</span>
 <span class="cstat-no" title="statement not covered" >    &gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;ArrowLeft /&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;ArrowLeft aria-hidden="true" /&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;span className="sr-only"&gt;Previous slide&lt;/span&gt;</span>
 <span class="cstat-no" title="statement not covered" >    &lt;/Button&gt;</span>
 <span class="cstat-no" title="statement not covered" >  )</span>
@@ -759,6 +778,7 @@
 <span class="cstat-no" title="statement not covered" >  return (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;Button</span>
 <span class="cstat-no" title="statement not covered" >      data-slot="carousel-next"</span>
+<span class="cstat-no" title="statement not covered" >      data-testid="carousel-next"</span>
 <span class="cstat-no" title="statement not covered" >      variant={variant}</span>
 <span class="cstat-no" title="statement not covered" >      size={size}</span>
 <span class="cstat-no" title="statement not covered" >      className={cn(</span>
@@ -770,9 +790,10 @@
 <span class="cstat-no" title="statement not covered" >      )}</span>
 <span class="cstat-no" title="statement not covered" >      disabled={!canScrollNext}</span>
 <span class="cstat-no" title="statement not covered" >      onClick={scrollNext}</span>
+<span class="cstat-no" title="statement not covered" >      aria-label="Next slide"</span>
 <span class="cstat-no" title="statement not covered" >      {...props}</span>
 <span class="cstat-no" title="statement not covered" >    &gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;ArrowRight /&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;ArrowRight aria-hidden="true" /&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;span className="sr-only"&gt;Next slide&lt;/span&gt;</span>
 <span class="cstat-no" title="statement not covered" >    &lt;/Button&gt;</span>
 <span class="cstat-no" title="statement not covered" >  )</span>
@@ -793,7 +814,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-20T23:21:59.834Z
+                at 2026-01-21T00:47:57.712Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

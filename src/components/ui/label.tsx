@@ -5,6 +5,7 @@ const Label = forwardRef<HTMLLabelElement, ComponentProps<"label">>(
     <label
       ref={ref}
       className={className}
+      data-testid="label"
       {...props}
     />
   )

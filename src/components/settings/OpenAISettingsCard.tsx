@@ -32,7 +32,7 @@ export function OpenAISettingsCard() {
   };
 
   return (
-    <Card data-testid="openai-settings-card">
+    <Card data-testid="openai-settings-card" role="region" aria-label="OpenAI API configuration">
       <CardHeader>
         <div className="flex items-center gap-2">
           <Key className="h-5 w-5 text-primary" weight="duotone" aria-hidden="true" />
@@ -87,6 +87,7 @@ export function OpenAISettingsCard() {
             onClick={handleSave}
             disabled={!apiKey.trim()}
             data-testid="save-api-key-btn"
+            aria-label="Save OpenAI API key"
           >
             {saved ? 'Saved!' : 'Save API Key'}
           </Button>
@@ -95,6 +96,7 @@ export function OpenAISettingsCard() {
               onClick={handleClear}
               variant="outline"
               data-testid="clear-api-key-btn"
+              aria-label="Clear OpenAI API key"
             >
               Clear
             </Button>
@@ -102,7 +104,7 @@ export function OpenAISettingsCard() {
         </div>
 
         {apiKey && (
-          <div className="text-sm text-muted-foreground bg-muted/50 p-3 rounded-md">
+          <div className="text-sm text-muted-foreground bg-muted/50 p-3 rounded-md" data-testid="api-key-configured-status" role="status">
             ✓ API key is configured. Error analysis will use OpenAI GPT-4o-mini.
           </div>
         )}

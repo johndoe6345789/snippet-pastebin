@@ -57,6 +57,8 @@ export function CodeEditorSection({
           <div
             className={errors.code ? 'ring-2 ring-destructive/20 rounded-md' : ''}
             data-testid="split-screen-editor-container"
+            role="region"
+            aria-label="Code editor with split screen view"
           >
             <SplitScreenEditor
               value={code}
@@ -73,12 +75,16 @@ export function CodeEditorSection({
               errors.code ? 'border-destructive ring-2 ring-destructive/20' : 'border-border'
             }`}
             data-testid="code-editor-container"
+            role="region"
+            aria-label="Code editor"
+            aria-invalid={!!errors.code}
+            aria-describedby={errors.code ? "code-error" : undefined}
           >
             <MonacoEditor value={code} onChange={onCodeChange} language={language} height="400px" />
           </div>
         )}
         {errors.code && (
-          <p className="text-sm text-destructive" id="code-error" data-testid="code-error-message">
+          <p className="text-sm text-destructive" id="code-error" data-testid="code-error-message" role="alert">
             {errors.code}
           </p>
         )}

@@ -76,7 +76,7 @@ describe('OrganismsSection', () => {
   test('all showcases are rendered in correct order', () => {
     const { container } = render(<OrganismsSection onSaveSnippet={mockOnSaveSnippet} />);
     const showcases = container.querySelectorAll('[data-testid]');
-    expect(showcases.length).toBe(6);
+    expect(showcases.length).toBe(7);
   });
 
   test('has space-y-16 spacing class', () => {

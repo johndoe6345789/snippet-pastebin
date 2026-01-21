@@ -11,10 +11,12 @@ function Avatar({
   return (
     <div
       data-slot="avatar"
+      data-testid="avatar"
       className={cn(
         "relative flex size-8 shrink-0 overflow-hidden rounded-full",
         className
       )}
+      role="img"
       {...props}
     >
       {children}
@@ -34,6 +36,7 @@ function AvatarImage({
   return (
     <img
       data-slot="avatar-image"
+      data-testid="avatar-image"
       className={cn("aspect-square size-full object-cover", className)}
       onError={() => {
         setHasError(true)
@@ -51,6 +54,7 @@ function AvatarFallback({
   return (
     <div
       data-slot="avatar-fallback"
+      data-testid="avatar-fallback"
       className={cn(
         "flex size-full items-center justify-center rounded-full",
         "bg-gray-300 dark:bg-gray-600",

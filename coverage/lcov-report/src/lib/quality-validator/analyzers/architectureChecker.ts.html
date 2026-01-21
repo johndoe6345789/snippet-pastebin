@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/372</span>
+                <span class='fraction'>0/396</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/372</span>
+                <span class='fraction'>0/396</span>
             </div>
         
             
@@ -435,7 +435,55 @@
 <a name='L370'></a><a href='#L370'>370</a>
 <a name='L371'></a><a href='#L371'>371</a>
 <a name='L372'></a><a href='#L372'>372</a>
-<a name='L373'></a><a href='#L373'>373</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L373'></a><a href='#L373'>373</a>
+<a name='L374'></a><a href='#L374'>374</a>
+<a name='L375'></a><a href='#L375'>375</a>
+<a name='L376'></a><a href='#L376'>376</a>
+<a name='L377'></a><a href='#L377'>377</a>
+<a name='L378'></a><a href='#L378'>378</a>
+<a name='L379'></a><a href='#L379'>379</a>
+<a name='L380'></a><a href='#L380'>380</a>
+<a name='L381'></a><a href='#L381'>381</a>
+<a name='L382'></a><a href='#L382'>382</a>
+<a name='L383'></a><a href='#L383'>383</a>
+<a name='L384'></a><a href='#L384'>384</a>
+<a name='L385'></a><a href='#L385'>385</a>
+<a name='L386'></a><a href='#L386'>386</a>
+<a name='L387'></a><a href='#L387'>387</a>
+<a name='L388'></a><a href='#L388'>388</a>
+<a name='L389'></a><a href='#L389'>389</a>
+<a name='L390'></a><a href='#L390'>390</a>
+<a name='L391'></a><a href='#L391'>391</a>
+<a name='L392'></a><a href='#L392'>392</a>
+<a name='L393'></a><a href='#L393'>393</a>
+<a name='L394'></a><a href='#L394'>394</a>
+<a name='L395'></a><a href='#L395'>395</a>
+<a name='L396'></a><a href='#L396'>396</a>
+<a name='L397'></a><a href='#L397'>397</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -826,19 +874,34 @@
 <span class="cstat-no" title="statement not covered" >} from '../types/index.js';</span>
 <span class="cstat-no" title="statement not covered" >import { getSourceFiles, readFile, getLineCount, normalizeFilePath } from '../utils/fileSystem.js';</span>
 <span class="cstat-no" title="statement not covered" >import { logger } from '../utils/logger.js';</span>
+<span class="cstat-no" title="statement not covered" >import { BaseAnalyzer, AnalyzerConfig } from './BaseAnalyzer.js';</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >/**</span>
 <span class="cstat-no" title="statement not covered" > * Architecture Checker</span>
+<span class="cstat-no" title="statement not covered" > * Extends BaseAnalyzer to implement SOLID principles</span>
 <span class="cstat-no" title="statement not covered" > */</span>
-<span class="cstat-no" title="statement not covered" >export class ArchitectureChecker {</span>
+<span class="cstat-no" title="statement not covered" >export class ArchitectureChecker extends BaseAnalyzer {</span>
+<span class="cstat-no" title="statement not covered" >  constructor(config?: AnalyzerConfig) {</span>
+<span class="cstat-no" title="statement not covered" >    super(</span>
+<span class="cstat-no" title="statement not covered" >      config || {</span>
+<span class="cstat-no" title="statement not covered" >        name: 'ArchitectureChecker',</span>
+<span class="cstat-no" title="statement not covered" >        enabled: true,</span>
+<span class="cstat-no" title="statement not covered" >        timeout: 45000,</span>
+<span class="cstat-no" title="statement not covered" >        retryAttempts: 1,</span>
+<span class="cstat-no" title="statement not covered" >      }</span>
+<span class="cstat-no" title="statement not covered" >    );</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  /**</span>
 <span class="cstat-no" title="statement not covered" >   * Check architecture compliance</span>
 <span class="cstat-no" title="statement not covered" >   */</span>
-<span class="cstat-no" title="statement not covered" >  async analyze(filePaths: string[]): Promise&lt;AnalysisResult&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    const startTime = performance.now();</span>
+<span class="cstat-no" title="statement not covered" >  async analyze(filePaths: string[] = []): Promise&lt;AnalysisResult&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    return this.executeWithTiming(async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      if (!this.validate()) {</span>
+<span class="cstat-no" title="statement not covered" >        throw new Error('ArchitectureChecker validation failed');</span>
+<span class="cstat-no" title="statement not covered" >      }</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    try {</span>
-<span class="cstat-no" title="statement not covered" >      logger.debug('Starting architecture analysis...');</span>
+<span class="cstat-no" title="statement not covered" >      this.startTiming();</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >      const components = this.analyzeComponents(filePaths);</span>
 <span class="cstat-no" title="statement not covered" >      const dependencies = this.analyzeDependencies(filePaths);</span>
@@ -850,12 +913,12 @@
 <span class="cstat-no" title="statement not covered" >        patterns,</span>
 <span class="cstat-no" title="statement not covered" >      };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >      const findings = this.generateFindings(metrics);</span>
+<span class="cstat-no" title="statement not covered" >      this.generateFindings(metrics);</span>
 <span class="cstat-no" title="statement not covered" >      const score = this.calculateScore(metrics);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >      const executionTime = performance.now() - startTime;</span>
+<span class="cstat-no" title="statement not covered" >      const executionTime = this.getExecutionTime();</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >      logger.debug(`Architecture analysis complete (${executionTime.toFixed(2)}ms)`, {</span>
+<span class="cstat-no" title="statement not covered" >      this.logProgress('Architecture analysis complete', {</span>
 <span class="cstat-no" title="statement not covered" >        components: components.totalCount,</span>
 <span class="cstat-no" title="statement not covered" >        circularDeps: dependencies.circularDependencies.length,</span>
 <span class="cstat-no" title="statement not covered" >      });</span>
@@ -863,15 +926,28 @@
 <span class="cstat-no" title="statement not covered" >      return {</span>
 <span class="cstat-no" title="statement not covered" >        category: 'architecture' as const,</span>
 <span class="cstat-no" title="statement not covered" >        score,</span>
-<span class="cstat-no" title="statement not covered" >        status: (score &gt;= 80 ? 'pass' : score &gt;= 70 ? 'warning' : 'fail') as Status,</span>
-<span class="cstat-no" title="statement not covered" >        findings,</span>
+<span class="cstat-no" title="statement not covered" >        status: this.getStatus(score),</span>
+<span class="cstat-no" title="statement not covered" >        findings: this.getFindings(),</span>
 <span class="cstat-no" title="statement not covered" >        metrics: metrics as unknown as Record&lt;string, unknown&gt;,</span>
 <span class="cstat-no" title="statement not covered" >        executionTime,</span>
 <span class="cstat-no" title="statement not covered" >      };</span>
-<span class="cstat-no" title="statement not covered" >    } catch (error) {</span>
-<span class="cstat-no" title="statement not covered" >      logger.error('Architecture analysis failed', { error: (error as Error).message });</span>
-<span class="cstat-no" title="statement not covered" >      throw error;</span>
+<span class="cstat-no" title="statement not covered" >    }, 'architecture analysis');</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >  /**</span>
+<span class="cstat-no" title="statement not covered" >   * Validate analyzer configuration and preconditions</span>
+<span class="cstat-no" title="statement not covered" >   */</span>
+<span class="cstat-no" title="statement not covered" >  validate(): boolean {</span>
+<span class="cstat-no" title="statement not covered" >    if (!this.validateConfig()) {</span>
+<span class="cstat-no" title="statement not covered" >      return false;</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >    if (!this.config.enabled) {</span>
+<span class="cstat-no" title="statement not covered" >      logger.debug(`${this.config.name} is disabled`);</span>
+<span class="cstat-no" title="statement not covered" >      return false;</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >    return true;</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  /**</span>
@@ -1106,12 +1182,10 @@
 <span class="cstat-no" title="statement not covered" >  /**</span>
 <span class="cstat-no" title="statement not covered" >   * Generate findings from metrics</span>
 <span class="cstat-no" title="statement not covered" >   */</span>
-<span class="cstat-no" title="statement not covered" >  private generateFindings(metrics: ArchitectureMetrics): Finding[] {</span>
-<span class="cstat-no" title="statement not covered" >    const findings: Finding[] = [];</span>
-<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >  private generateFindings(metrics: ArchitectureMetrics): void {</span>
 <span class="cstat-no" title="statement not covered" >    // Component size findings</span>
 <span class="cstat-no" title="statement not covered" >    for (const component of metrics.components.oversized.slice(0, 3)) {</span>
-<span class="cstat-no" title="statement not covered" >      findings.push({</span>
+<span class="cstat-no" title="statement not covered" >      this.addFinding({</span>
 <span class="cstat-no" title="statement not covered" >        id: `oversized-${component.file}`,</span>
 <span class="cstat-no" title="statement not covered" >        severity: 'medium',</span>
 <span class="cstat-no" title="statement not covered" >        category: 'architecture',</span>
@@ -1127,7 +1201,7 @@
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >    // Circular dependency findings</span>
 <span class="cstat-no" title="statement not covered" >    for (const cycle of metrics.dependencies.circularDependencies) {</span>
-<span class="cstat-no" title="statement not covered" >      findings.push({</span>
+<span class="cstat-no" title="statement not covered" >      this.addFinding({</span>
 <span class="cstat-no" title="statement not covered" >        id: `circular-${cycle.files[0]}`,</span>
 <span class="cstat-no" title="statement not covered" >        severity: 'high',</span>
 <span class="cstat-no" title="statement not covered" >        category: 'architecture',</span>
@@ -1140,7 +1214,7 @@
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >    // Pattern violations</span>
 <span class="cstat-no" title="statement not covered" >    for (const issue of metrics.patterns.reduxCompliance.issues.slice(0, 2)) {</span>
-<span class="cstat-no" title="statement not covered" >      findings.push({</span>
+<span class="cstat-no" title="statement not covered" >      this.addFinding({</span>
 <span class="cstat-no" title="statement not covered" >        id: `redux-${issue.file}`,</span>
 <span class="cstat-no" title="statement not covered" >        severity: issue.severity,</span>
 <span class="cstat-no" title="statement not covered" >        category: 'architecture',</span>
@@ -1153,8 +1227,6 @@
 <span class="cstat-no" title="statement not covered" >        remediation: issue.suggestion,</span>
 <span class="cstat-no" title="statement not covered" >      });</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    return findings;</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  /**</span>
@@ -1186,7 +1258,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-20T23:21:59.834Z
+                at 2026-01-21T00:47:57.712Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

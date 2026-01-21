@@ -11,8 +11,13 @@ export function BackendIndicator() {
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
-            <div data-testid="backend-indicator" className="backend-indicator disconnected flex items-center gap-2 px-3 py-1.5 rounded-full bg-muted/50 border border-border">
-              <Database size={16} className="text-muted-foreground" />
+            <div
+              data-testid="backend-indicator"
+              className="backend-indicator disconnected flex items-center gap-2 px-3 py-1.5 rounded-full bg-muted/50 border border-border"
+              role="status"
+              aria-label="Backend connection status: Local storage"
+            >
+              <Database size={16} className="text-muted-foreground" aria-hidden="true" />
               <span className="text-xs font-medium text-muted-foreground">Local</span>
             </div>
           </TooltipTrigger>
@@ -28,11 +33,16 @@ export function BackendIndicator() {
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <div data-testid="backend-indicator" className="backend-indicator connected flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent/10 border border-accent/30">
-            <CloudCheck size={16} className="text-accent" weight="fill" />
+          <div
+            data-testid="backend-indicator"
+            className="backend-indicator connected flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent/10 border border-accent/30"
+            role="status"
+            aria-label={`Backend connection status: Connected${isEnvConfigured ? ' (Auto-configured)' : ''}`}
+          >
+            <CloudCheck size={16} className="text-accent" weight="fill" aria-hidden="true" />
             <span className="text-xs font-medium text-accent">Connected</span>
             {isEnvConfigured && (
-              <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+              <span className="w-1.5 h-1.5 rounded-full bg-accent" aria-hidden="true" />
             )}
           </div>
         </TooltipTrigger>

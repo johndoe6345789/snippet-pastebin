@@ -18,7 +18,7 @@ interface NavigationBarsShowcaseProps {
 
 export function NavigationBarsShowcase({ onSaveSnippet }: NavigationBarsShowcaseProps) {
   return (
-    <section className="space-y-6">
+    <section className="space-y-6" data-testid="navigation-bars-showcase" role="region" aria-label="Navigation bars showcase">
       <div>
         <h2 className="text-3xl font-bold mb-2">Navigation Bars</h2>
         <p className="text-muted-foreground">

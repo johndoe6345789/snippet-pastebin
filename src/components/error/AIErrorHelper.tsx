@@ -53,16 +53,22 @@ export function AIErrorHelper({ error, context, className }: AIErrorHelperProps)
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 0.2 }}
         className={className}
+        data-testid="ai-error-helper"
+        role="region"
+        aria-label="AI error analysis tool"
       >
         <Button
           onClick={analyzeError}
           variant="outline"
           size="sm"
           className="gap-2 border-accent/50 text-accent hover:bg-accent/10 hover:text-accent hover:border-accent transition-all"
+          data-testid="ai-helper-btn"
+          aria-label="Ask AI for help with this error"
         >
           <motion.div
             animate={{ rotate: [0, 10, -10, 10, 0] }}
             transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
+            aria-hidden="true"
           >
             <Sparkle className="h-4 w-4" weight="fill" />
           </motion.div>
@@ -71,10 +77,10 @@ export function AIErrorHelper({ error, context, className }: AIErrorHelperProps)
       </motion.div>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-2xl max-h-[80vh] overflow-hidden flex flex-col">
+        <DialogContent className="max-w-2xl max-h-[80vh] overflow-hidden flex flex-col" data-testid="ai-analysis-dialog">
           <DialogHeader className="pr-8">
-            <DialogTitle className="flex items-center gap-2">
-              <Sparkle className="h-5 w-5 text-accent" weight="fill" />
+            <DialogTitle className="flex items-center gap-2" data-testid="ai-analysis-title">
+              <Sparkle className="h-5 w-5 text-accent" weight="fill" aria-hidden="true" />
               AI Error Analysis
             </DialogTitle>
             <DialogDescription>
@@ -82,8 +88,8 @@ export function AIErrorHelper({ error, context, className }: AIErrorHelperProps)
             </DialogDescription>
           </DialogHeader>
 
-          <div className="flex-1 overflow-y-auto space-y-4">
-            <Alert className="bg-destructive/10 border-destructive/30">
+          <div className="flex-1 overflow-y-auto space-y-4" role="region" aria-label="Error analysis results">
+            <Alert className="bg-destructive/10 border-destructive/30" data-testid="error-message-alert">
               <AlertDescription className="text-sm font-mono">
                 {errorMessage}
               </AlertDescription>
@@ -92,7 +98,7 @@ export function AIErrorHelper({ error, context, className }: AIErrorHelperProps)
             {isAnalyzing && <LoadingAnalysis />}
 
             {analysisError && (
-              <Alert variant="destructive">
+              <Alert variant="destructive" data-testid="analysis-error-alert" role="alert">
                 <AlertDescription>{analysisError}</AlertDescription>
               </Alert>
             )}

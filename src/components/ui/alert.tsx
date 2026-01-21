@@ -27,6 +27,7 @@ function Alert({
     <div
       role="alert"
       data-slot="alert"
+      data-testid="alert"
       className={cn(alertVariants({ variant }), className)}
       {...props}
     />
@@ -37,6 +38,7 @@ function AlertTitle({ className, ...props }: ComponentProps<"h5">) {
   return (
     <h5
       data-slot="alert-title"
+      data-testid="alert-title"
       className={cn("mb-1 font-medium leading-none tracking-tight", className)}
       {...props}
     />
@@ -47,6 +49,7 @@ function AlertDescription({ className, ...props }: ComponentProps<"div">) {
   return (
     <div
       data-slot="alert-description"
+      data-testid="alert-description"
       className={cn("text-sm [&_p]:leading-relaxed", className)}
       {...props}
     />

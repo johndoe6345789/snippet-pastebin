@@ -14,6 +14,7 @@ export function SidebarGroupLabel({
     <Comp
       data-slot="sidebar-group-label"
       data-sidebar="group-label"
+      data-testid="sidebar-group-label"
       className={cn(
         "flex h-8 shrink-0 items-center rounded-md px-2",
         "text-xs font-medium",

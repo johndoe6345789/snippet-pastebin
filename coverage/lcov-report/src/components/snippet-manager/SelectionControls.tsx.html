@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/74</span>
+                <span class='fraction'>0/76</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/74</span>
+                <span class='fraction'>0/76</span>
             </div>
         
             
@@ -137,7 +137,11 @@
 <a name='L72'></a><a href='#L72'>72</a>
 <a name='L73'></a><a href='#L73'>73</a>
 <a name='L74'></a><a href='#L74'>74</a>
-<a name='L75'></a><a href='#L75'>75</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -239,7 +243,7 @@
 <span class="cstat-no" title="statement not covered" >  onBulkMove,</span>
 <span class="cstat-no" title="statement not covered" >}: SelectionControlsProps) {</span>
 <span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;div className="flex items-center gap-2 p-4 bg-muted/50 rounded-lg" data-testid="selection-controls"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;div className="flex items-center gap-2 p-4 bg-muted/50 rounded-lg" data-testid="selection-controls" role="region" aria-label="Selection controls"&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;Button</span>
 <span class="cstat-no" title="statement not covered" >        variant="outline"</span>
 <span class="cstat-no" title="statement not covered" >        size="sm"</span>
@@ -251,7 +255,7 @@
 <span class="cstat-no" title="statement not covered" >      &lt;/Button&gt;</span>
 <span class="cstat-no" title="statement not covered" >      {selectedIds.length &gt; 0 &amp;&amp; (</span>
 <span class="cstat-no" title="statement not covered" >        &lt;&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;span className="text-sm text-muted-foreground" data-testid="selection-count"&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;span className="text-sm text-muted-foreground" data-testid="selection-count" role="status" aria-live="polite"&gt;</span>
 <span class="cstat-no" title="statement not covered" >            {selectedIds.length} selected</span>
 <span class="cstat-no" title="statement not covered" >          &lt;/span&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;DropdownMenu&gt;</span>
@@ -262,18 +266,20 @@
 <span class="cstat-no" title="statement not covered" >                className="gap-2"</span>
 <span class="cstat-no" title="statement not covered" >                data-testid="bulk-move-menu-trigger"</span>
 <span class="cstat-no" title="statement not covered" >                aria-label="Move selected snippets to another namespace"</span>
+<span class="cstat-no" title="statement not covered" >                aria-haspopup="menu"</span>
 <span class="cstat-no" title="statement not covered" >              &gt;</span>
 <span class="cstat-no" title="statement not covered" >                &lt;FolderOpen weight="bold" className="h-4 w-4" aria-hidden="true" /&gt;</span>
 <span class="cstat-no" title="statement not covered" >                Move to...</span>
 <span class="cstat-no" title="statement not covered" >              &lt;/Button&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;/DropdownMenuTrigger&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;DropdownMenuContent data-testid="bulk-move-menu"&gt;</span>
+<span class="cstat-no" title="statement not covered" >            &lt;DropdownMenuContent data-testid="bulk-move-menu" aria-label="Namespace options for moving snippets"&gt;</span>
 <span class="cstat-no" title="statement not covered" >              {namespaces.map((namespace) =&gt; (</span>
 <span class="cstat-no" title="statement not covered" >                &lt;DropdownMenuItem</span>
 <span class="cstat-no" title="statement not covered" >                  key={namespace.id}</span>
 <span class="cstat-no" title="statement not covered" >                  onClick={() =&gt; onBulkMove(namespace.id)}</span>
 <span class="cstat-no" title="statement not covered" >                  disabled={namespace.id === currentNamespaceId}</span>
 <span class="cstat-no" title="statement not covered" >                  data-testid={`bulk-move-to-namespace-${namespace.id}`}</span>
+<span class="cstat-no" title="statement not covered" >                  aria-label={`Move to ${namespace.name}${namespace.isDefault ? ' (Default)' : ''}`}</span>
 <span class="cstat-no" title="statement not covered" >                &gt;</span>
 <span class="cstat-no" title="statement not covered" >                  {namespace.name} {namespace.isDefault &amp;&amp; '(Default)'}</span>
 <span class="cstat-no" title="statement not covered" >                &lt;/DropdownMenuItem&gt;</span>
@@ -292,7 +298,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-20T23:21:59.834Z
+                at 2026-01-21T00:47:57.712Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

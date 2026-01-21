@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/351</span>
+                <span class='fraction'>0/375</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/351</span>
+                <span class='fraction'>0/375</span>
             </div>
         
             
@@ -414,7 +414,55 @@
 <a name='L349'></a><a href='#L349'>349</a>
 <a name='L350'></a><a href='#L350'>350</a>
 <a name='L351'></a><a href='#L351'>351</a>
-<a name='L352'></a><a href='#L352'>352</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L352'></a><a href='#L352'>352</a>
+<a name='L353'></a><a href='#L353'>353</a>
+<a name='L354'></a><a href='#L354'>354</a>
+<a name='L355'></a><a href='#L355'>355</a>
+<a name='L356'></a><a href='#L356'>356</a>
+<a name='L357'></a><a href='#L357'>357</a>
+<a name='L358'></a><a href='#L358'>358</a>
+<a name='L359'></a><a href='#L359'>359</a>
+<a name='L360'></a><a href='#L360'>360</a>
+<a name='L361'></a><a href='#L361'>361</a>
+<a name='L362'></a><a href='#L362'>362</a>
+<a name='L363'></a><a href='#L363'>363</a>
+<a name='L364'></a><a href='#L364'>364</a>
+<a name='L365'></a><a href='#L365'>365</a>
+<a name='L366'></a><a href='#L366'>366</a>
+<a name='L367'></a><a href='#L367'>367</a>
+<a name='L368'></a><a href='#L368'>368</a>
+<a name='L369'></a><a href='#L369'>369</a>
+<a name='L370'></a><a href='#L370'>370</a>
+<a name='L371'></a><a href='#L371'>371</a>
+<a name='L372'></a><a href='#L372'>372</a>
+<a name='L373'></a><a href='#L373'>373</a>
+<a name='L374'></a><a href='#L374'>374</a>
+<a name='L375'></a><a href='#L375'>375</a>
+<a name='L376'></a><a href='#L376'>376</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -783,19 +831,34 @@
 <span class="cstat-no" title="statement not covered" >} from '../types/index.js';</span>
 <span class="cstat-no" title="statement not covered" >import { readFile, getSourceFiles, normalizeFilePath } from '../utils/fileSystem.js';</span>
 <span class="cstat-no" title="statement not covered" >import { logger } from '../utils/logger.js';</span>
+<span class="cstat-no" title="statement not covered" >import { BaseAnalyzer, AnalyzerConfig } from './BaseAnalyzer.js';</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >/**</span>
 <span class="cstat-no" title="statement not covered" > * Security Scanner</span>
+<span class="cstat-no" title="statement not covered" > * Extends BaseAnalyzer to implement SOLID principles</span>
 <span class="cstat-no" title="statement not covered" > */</span>
-<span class="cstat-no" title="statement not covered" >export class SecurityScanner {</span>
+<span class="cstat-no" title="statement not covered" >export class SecurityScanner extends BaseAnalyzer {</span>
+<span class="cstat-no" title="statement not covered" >  constructor(config?: AnalyzerConfig) {</span>
+<span class="cstat-no" title="statement not covered" >    super(</span>
+<span class="cstat-no" title="statement not covered" >      config || {</span>
+<span class="cstat-no" title="statement not covered" >        name: 'SecurityScanner',</span>
+<span class="cstat-no" title="statement not covered" >        enabled: true,</span>
+<span class="cstat-no" title="statement not covered" >        timeout: 60000,</span>
+<span class="cstat-no" title="statement not covered" >        retryAttempts: 1,</span>
+<span class="cstat-no" title="statement not covered" >      }</span>
+<span class="cstat-no" title="statement not covered" >    );</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  /**</span>
 <span class="cstat-no" title="statement not covered" >   * Scan for security issues</span>
 <span class="cstat-no" title="statement not covered" >   */</span>
-<span class="cstat-no" title="statement not covered" >  async analyze(filePaths: string[]): Promise&lt;AnalysisResult&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    const startTime = performance.now();</span>
+<span class="cstat-no" title="statement not covered" >  async analyze(filePaths: string[] = []): Promise&lt;AnalysisResult&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    return this.executeWithTiming(async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      if (!this.validate()) {</span>
+<span class="cstat-no" title="statement not covered" >        throw new Error('SecurityScanner validation failed');</span>
+<span class="cstat-no" title="statement not covered" >      }</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    try {</span>
-<span class="cstat-no" title="statement not covered" >      logger.debug('Starting security analysis...');</span>
+<span class="cstat-no" title="statement not covered" >      this.startTiming();</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >      const vulnerabilities = this.scanVulnerabilities();</span>
 <span class="cstat-no" title="statement not covered" >      const codePatterns = this.detectSecurityPatterns(filePaths);</span>
@@ -807,12 +870,12 @@
 <span class="cstat-no" title="statement not covered" >        performanceIssues,</span>
 <span class="cstat-no" title="statement not covered" >      };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >      const findings = this.generateFindings(metrics);</span>
+<span class="cstat-no" title="statement not covered" >      this.generateFindings(metrics);</span>
 <span class="cstat-no" title="statement not covered" >      const score = this.calculateScore(metrics);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >      const executionTime = performance.now() - startTime;</span>
+<span class="cstat-no" title="statement not covered" >      const executionTime = this.getExecutionTime();</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >      logger.debug(`Security analysis complete (${executionTime.toFixed(2)}ms)`, {</span>
+<span class="cstat-no" title="statement not covered" >      this.logProgress('Security analysis complete', {</span>
 <span class="cstat-no" title="statement not covered" >        vulnerabilities: vulnerabilities.length,</span>
 <span class="cstat-no" title="statement not covered" >        patterns: codePatterns.length,</span>
 <span class="cstat-no" title="statement not covered" >      });</span>
@@ -820,15 +883,28 @@
 <span class="cstat-no" title="statement not covered" >      return {</span>
 <span class="cstat-no" title="statement not covered" >        category: 'security' as const,</span>
 <span class="cstat-no" title="statement not covered" >        score,</span>
-<span class="cstat-no" title="statement not covered" >        status: (score &gt;= 80 ? 'pass' : score &gt;= 60 ? 'warning' : 'fail') as Status,</span>
-<span class="cstat-no" title="statement not covered" >        findings,</span>
+<span class="cstat-no" title="statement not covered" >        status: this.getStatus(score),</span>
+<span class="cstat-no" title="statement not covered" >        findings: this.getFindings(),</span>
 <span class="cstat-no" title="statement not covered" >        metrics: metrics as unknown as Record&lt;string, unknown&gt;,</span>
 <span class="cstat-no" title="statement not covered" >        executionTime,</span>
 <span class="cstat-no" title="statement not covered" >      };</span>
-<span class="cstat-no" title="statement not covered" >    } catch (error) {</span>
-<span class="cstat-no" title="statement not covered" >      logger.error('Security analysis failed', { error: (error as Error).message });</span>
-<span class="cstat-no" title="statement not covered" >      throw error;</span>
+<span class="cstat-no" title="statement not covered" >    }, 'security analysis');</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >  /**</span>
+<span class="cstat-no" title="statement not covered" >   * Validate analyzer configuration and preconditions</span>
+<span class="cstat-no" title="statement not covered" >   */</span>
+<span class="cstat-no" title="statement not covered" >  validate(): boolean {</span>
+<span class="cstat-no" title="statement not covered" >    if (!this.validateConfig()) {</span>
+<span class="cstat-no" title="statement not covered" >      return false;</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >    if (!this.config.enabled) {</span>
+<span class="cstat-no" title="statement not covered" >      logger.debug(`${this.config.name} is disabled`);</span>
+<span class="cstat-no" title="statement not covered" >      return false;</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >    return true;</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  /**</span>
@@ -1056,12 +1132,10 @@
 <span class="cstat-no" title="statement not covered" >  /**</span>
 <span class="cstat-no" title="statement not covered" >   * Generate findings from metrics</span>
 <span class="cstat-no" title="statement not covered" >   */</span>
-<span class="cstat-no" title="statement not covered" >  private generateFindings(metrics: SecurityMetrics): Finding[] {</span>
-<span class="cstat-no" title="statement not covered" >    const findings: Finding[] = [];</span>
-<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >  private generateFindings(metrics: SecurityMetrics): void {</span>
 <span class="cstat-no" title="statement not covered" >    // Vulnerability findings</span>
 <span class="cstat-no" title="statement not covered" >    for (const vuln of metrics.vulnerabilities.slice(0, 5)) {</span>
-<span class="cstat-no" title="statement not covered" >      findings.push({</span>
+<span class="cstat-no" title="statement not covered" >      this.addFinding({</span>
 <span class="cstat-no" title="statement not covered" >        id: `vuln-${vuln.package}`,</span>
 <span class="cstat-no" title="statement not covered" >        severity: vuln.severity === 'critical' ? 'critical' : 'high',</span>
 <span class="cstat-no" title="statement not covered" >        category: 'security',</span>
@@ -1074,7 +1148,7 @@
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >    // Code pattern findings</span>
 <span class="cstat-no" title="statement not covered" >    for (const pattern of metrics.codePatterns.slice(0, 5)) {</span>
-<span class="cstat-no" title="statement not covered" >      findings.push({</span>
+<span class="cstat-no" title="statement not covered" >      this.addFinding({</span>
 <span class="cstat-no" title="statement not covered" >        id: `pattern-${pattern.file}-${pattern.line}`,</span>
 <span class="cstat-no" title="statement not covered" >        severity: pattern.severity,</span>
 <span class="cstat-no" title="statement not covered" >        category: 'security',</span>
@@ -1088,8 +1162,6 @@
 <span class="cstat-no" title="statement not covered" >        evidence: pattern.evidence,</span>
 <span class="cstat-no" title="statement not covered" >      });</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    return findings;</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  /**</span>
@@ -1123,7 +1195,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-20T23:21:59.834Z
+                at 2026-01-21T00:47:57.712Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

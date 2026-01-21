@@ -11,6 +11,9 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0 }}
       className="prose prose-invert prose-sm max-w-none"
+      data-testid="markdown-renderer"
+      role="region"
+      aria-label="Error analysis content"
     >
       <div className="bg-card/50 rounded-lg p-4 border border-border space-y-3">
         {content.split('\n').map((line, idx) => {

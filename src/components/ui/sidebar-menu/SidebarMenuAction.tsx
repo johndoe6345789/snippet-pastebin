@@ -18,6 +18,7 @@ export function SidebarMenuAction({
     <Comp
       data-slot="sidebar-menu-action"
       data-sidebar="menu-action"
+      data-testid="sidebar-menu-action"
       className={cn(
         "mat-mdc-button mat-icon-button",
         "absolute top-1.5 right-1",

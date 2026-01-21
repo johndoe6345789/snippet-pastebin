@@ -111,6 +111,7 @@ export function SidebarProvider({
       <TooltipProvider delayDuration={0}>
         <div
           data-slot="sidebar-wrapper"
+          data-testid="sidebar-provider"
           style={
             {
               "--sidebar-width": SIDEBAR_WIDTH,
@@ -122,6 +123,7 @@ export function SidebarProvider({
             "group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full",
             className
           )}
+          role="presentation"
           {...props}
         >
           {children}

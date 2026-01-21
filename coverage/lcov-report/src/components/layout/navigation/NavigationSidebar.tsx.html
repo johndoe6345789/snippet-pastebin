@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/159</span>
+                <span class='fraction'>0/160</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/159</span>
+                <span class='fraction'>0/160</span>
             </div>
         
             
@@ -222,7 +222,9 @@
 <a name='L157'></a><a href='#L157'>157</a>
 <a name='L158'></a><a href='#L158'>158</a>
 <a name='L159'></a><a href='#L159'>159</a>
-<a name='L160'></a><a href='#L160'>160</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L160'></a><a href='#L160'>160</a>
+<a name='L161'></a><a href='#L161'>161</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -443,7 +445,7 @@
 <span class="cstat-no" title="statement not covered" >            aria-label="Main navigation menu"</span>
 <span class="cstat-no" title="statement not covered" >          &gt;</span>
 <span class="cstat-no" title="statement not covered" >            {/* Header */}</span>
-<span class="cstat-no" title="statement not covered" >            &lt;div className="flex items-center justify-between h-16 px-4 border-b border-border/50"&gt;</span>
+<span class="cstat-no" title="statement not covered" >            &lt;div className="flex items-center justify-between h-16 px-4 border-b border-border/50" data-testid="navigation-header"&gt;</span>
 <span class="cstat-no" title="statement not covered" >              &lt;span className="text-base font-medium text-foreground pl-3"&gt;</span>
 <span class="cstat-no" title="statement not covered" >                CodeSnippet</span>
 <span class="cstat-no" title="statement not covered" >              &lt;/span&gt;</span>
@@ -470,6 +472,7 @@
 <span class="cstat-no" title="statement not covered" >              role="navigation"</span>
 <span class="cstat-no" title="statement not covered" >              className="flex-1 overflow-y-auto py-2 px-3"</span>
 <span class="cstat-no" title="statement not covered" >              data-testid="navigation-items"</span>
+<span class="cstat-no" title="statement not covered" >              aria-label="Navigation menu items"</span>
 <span class="cstat-no" title="statement not covered" >            &gt;</span>
 <span class="cstat-no" title="statement not covered" >              &lt;ul className="space-y-0.5"&gt;</span>
 <span class="cstat-no" title="statement not covered" >                {navigationItems.map((item) =&gt; {</span>
@@ -477,7 +480,7 @@
 <span class="cstat-no" title="statement not covered" >                  const isActive = pathname === item.path;</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >                  return (</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;li key={item.path}&gt;</span>
+<span class="cstat-no" title="statement not covered" >                    &lt;li key={item.path} data-testid={`nav-item-${item.path.replace(/\//g, '-')}`}&gt;</span>
 <span class="cstat-no" title="statement not covered" >                      &lt;Link</span>
 <span class="cstat-no" title="statement not covered" >                        href={item.path}</span>
 <span class="cstat-no" title="statement not covered" >                        onClick={() =&gt; setMenuOpen(false)}</span>
@@ -524,14 +527,14 @@
 <span class="cstat-no" title="statement not covered" >            &lt;/nav&gt;</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >            {/* Footer */}</span>
-<span class="cstat-no" title="statement not covered" >            &lt;div className="p-4 border-t border-border/50"&gt;</span>
+<span class="cstat-no" title="statement not covered" >            &lt;div className="p-4 border-t border-border/50" data-testid="navigation-footer"&gt;</span>
 <span class="cstat-no" title="statement not covered" >              &lt;p className="text-xs text-muted-foreground text-center"&gt;</span>
 <span class="cstat-no" title="statement not covered" >                Material Design 3</span>
 <span class="cstat-no" title="statement not covered" >              &lt;/p&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >            {/* Android gesture bar indicator */}</span>
-<span class="cstat-no" title="statement not covered" >            &lt;div className="h-5 flex items-center justify-center pb-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >            &lt;div className="h-5 flex items-center justify-center pb-2" data-testid="gesture-bar" aria-hidden="true"&gt;</span>
 <span class="cstat-no" title="statement not covered" >              &lt;div className="w-[134px] h-[5px] bg-muted-foreground/40 rounded-full" /&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;/motion.aside&gt;</span>
@@ -547,7 +550,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-20T23:21:59.834Z
+                at 2026-01-21T00:47:57.712Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

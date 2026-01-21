@@ -12,7 +12,7 @@ import {
 
 export function DataTablesShowcase() {
   return (
-    <section className="space-y-6">
+    <section className="space-y-6" data-testid="data-tables-showcase" role="region" aria-label="Data tables showcase">
       <div>
         <h2 className="text-3xl font-bold mb-2">Data Tables</h2>
         <p className="text-muted-foreground">

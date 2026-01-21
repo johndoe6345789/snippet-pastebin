@@ -12,7 +12,7 @@ interface MoleculesSectionProps {
 
 export function MoleculesSection({ onSaveSnippet }: MoleculesSectionProps) {
   return (
-    <div className="space-y-16">
+    <div className="space-y-16" data-testid="molecules-section" role="region" aria-label="Molecular design system components">
       <FormFieldsSection onSaveSnippet={onSaveSnippet} />
       <SearchBarsSection onSaveSnippet={onSaveSnippet} />
       <UserCardsSection />

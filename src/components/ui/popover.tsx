@@ -30,12 +30,13 @@ function PopoverTrigger({ children, asChild, ...props }: ComponentProps<"button"
   if (asChild && isValidElement(children)) {
     return cloneElement(children as React.ReactElement, {
       onClick: handleClick,
+      "data-testid": "popover-trigger",
       ...props,
     })
   }
 
   return (
-    <button type="button" onClick={handleClick} {...props}>
+    <button type="button" onClick={handleClick} data-testid="popover-trigger" {...props}>
       {children}
     </button>
   )
@@ -90,6 +91,7 @@ function PopoverContent({
           ref={contentRef}
           className={cn("mat-mdc-menu-panel", className)}
           role="dialog"
+          data-testid="popover-content"
           {...props}
         >
           <div className="mat-mdc-menu-content">
@@ -114,6 +116,8 @@ function PopoverClose({ children, className, ...props }: ComponentProps<"button"
       type="button"
       onClick={() => context?.setOpen(false)}
       className={cn("mat-mdc-icon-button", className)}
+      data-testid="popover-close"
+      aria-label="Close popover"
       {...props}
     >
       {children}

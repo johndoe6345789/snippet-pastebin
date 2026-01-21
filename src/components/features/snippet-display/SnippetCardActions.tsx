@@ -35,7 +35,7 @@ export function SnippetCardActions({
   onMoveToNamespace,
 }: SnippetCardActionsProps) {
   return (
-    <div className="flex items-center justify-between gap-2 pt-2">
+    <div className="flex items-center justify-between gap-2 pt-2" data-testid="snippet-card-actions" role="group" aria-label="Snippet actions">
       <div className="flex-1 flex items-center gap-2">
         <Button
           variant="ghost"
@@ -79,22 +79,24 @@ export function SnippetCardActions({
               onClick={(e) => e.stopPropagation()}
               data-testid="snippet-card-actions-menu"
               aria-label="More options"
+              aria-haspopup="menu"
             >
               <DotsThree className="h-4 w-4" weight="bold" aria-hidden="true" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
+          <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()} data-testid="snippet-actions-menu-content">
             <DropdownMenuSub>
               <DropdownMenuSubTrigger
                 disabled={isMoving || availableNamespaces.length === 0}
                 data-testid="snippet-card-move-submenu"
+                aria-label="Move snippet to another namespace"
               >
                 <FolderOpen className="h-4 w-4 mr-2" aria-hidden="true" />
                 <span>Move to...</span>
               </DropdownMenuSubTrigger>
-              <DropdownMenuSubContent>
+              <DropdownMenuSubContent data-testid="move-to-namespaces-list">
                 {availableNamespaces.length === 0 ? (
-                  <DropdownMenuItem disabled>
+                  <DropdownMenuItem disabled data-testid="no-namespaces-item">
                     No other namespaces
                   </DropdownMenuItem>
                 ) : (
@@ -103,6 +105,7 @@ export function SnippetCardActions({
                       key={namespace.id}
                       onClick={() => onMoveToNamespace(namespace.id)}
                       data-testid={`move-to-namespace-${namespace.id}`}
+                      aria-label={`Move to ${namespace.name}${namespace.isDefault ? ' (Default)' : ''}`}
                     >
                       {namespace.name}
                       {namespace.isDefault && (
@@ -118,6 +121,7 @@ export function SnippetCardActions({
               onClick={onDelete}
               className="text-destructive focus:text-destructive"
               data-testid="snippet-card-delete-btn"
+              aria-label="Delete snippet"
             >
               <Trash className="h-4 w-4 mr-2" aria-hidden="true" />
               Delete

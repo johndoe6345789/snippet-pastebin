@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/125</span>
+                <span class='fraction'>0/129</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/125</span>
+                <span class='fraction'>0/129</span>
             </div>
         
             
@@ -188,7 +188,15 @@
 <a name='L123'></a><a href='#L123'>123</a>
 <a name='L124'></a><a href='#L124'>124</a>
 <a name='L125'></a><a href='#L125'>125</a>
-<a name='L126'></a><a href='#L126'>126</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L126'></a><a href='#L126'>126</a>
+<a name='L127'></a><a href='#L127'>127</a>
+<a name='L128'></a><a href='#L128'>128</a>
+<a name='L129'></a><a href='#L129'>129</a>
+<a name='L130'></a><a href='#L130'>130</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -327,6 +335,7 @@
 <span class="cstat-no" title="statement not covered" >      role="navigation"</span>
 <span class="cstat-no" title="statement not covered" >      aria-label="pagination"</span>
 <span class="cstat-no" title="statement not covered" >      data-slot="pagination"</span>
+<span class="cstat-no" title="statement not covered" >      data-testid="pagination"</span>
 <span class="cstat-no" title="statement not covered" >      className={cn("mx-auto flex w-full justify-center", className)}</span>
 <span class="cstat-no" title="statement not covered" >      {...props}</span>
 <span class="cstat-no" title="statement not covered" >    /&gt;</span>
@@ -340,6 +349,7 @@
 <span class="cstat-no" title="statement not covered" >  return (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;ul</span>
 <span class="cstat-no" title="statement not covered" >      data-slot="pagination-content"</span>
+<span class="cstat-no" title="statement not covered" >      data-testid="pagination-content"</span>
 <span class="cstat-no" title="statement not covered" >      className={cn("flex flex-row items-center gap-1", className)}</span>
 <span class="cstat-no" title="statement not covered" >      {...props}</span>
 <span class="cstat-no" title="statement not covered" >    /&gt;</span>
@@ -347,7 +357,7 @@
 <span class="cstat-no" title="statement not covered" >}</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >function PaginationItem({ ...props }: ComponentProps&lt;"li"&gt;) {</span>
-<span class="cstat-no" title="statement not covered" >  return &lt;li data-slot="pagination-item" {...props} /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  return &lt;li data-slot="pagination-item" data-testid="pagination-item" {...props} /&gt;</span>
 <span class="cstat-no" title="statement not covered" >}</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >type PaginationLinkProps = {</span>
@@ -366,6 +376,7 @@
 <span class="cstat-no" title="statement not covered" >      aria-current={isActive ? "page" : undefined}</span>
 <span class="cstat-no" title="statement not covered" >      data-slot="pagination-link"</span>
 <span class="cstat-no" title="statement not covered" >      data-active={isActive}</span>
+<span class="cstat-no" title="statement not covered" >      data-testid="pagination-link"</span>
 <span class="cstat-no" title="statement not covered" >      className={cn(</span>
 <span class="cstat-no" title="statement not covered" >        buttonVariants({</span>
 <span class="cstat-no" title="statement not covered" >          variant: isActive ? "outline" : "ghost",</span>
@@ -420,10 +431,11 @@
 <span class="cstat-no" title="statement not covered" >    &lt;span</span>
 <span class="cstat-no" title="statement not covered" >      aria-hidden</span>
 <span class="cstat-no" title="statement not covered" >      data-slot="pagination-ellipsis"</span>
+<span class="cstat-no" title="statement not covered" >      data-testid="pagination-ellipsis"</span>
 <span class="cstat-no" title="statement not covered" >      className={cn("flex size-9 items-center justify-center", className)}</span>
 <span class="cstat-no" title="statement not covered" >      {...props}</span>
 <span class="cstat-no" title="statement not covered" >    &gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;MoreHorizontalIcon className="size-4" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;MoreHorizontalIcon className="size-4" aria-hidden="true" /&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;span className="sr-only"&gt;More pages&lt;/span&gt;</span>
 <span class="cstat-no" title="statement not covered" >    &lt;/span&gt;</span>
 <span class="cstat-no" title="statement not covered" >  )</span>
@@ -445,7 +457,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-20T23:21:59.834Z
+                at 2026-01-21T00:47:57.712Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

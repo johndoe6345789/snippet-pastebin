@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/51</span>
+                <span class='fraction'>0/52</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/51</span>
+                <span class='fraction'>0/52</span>
             </div>
         
             
@@ -114,7 +114,9 @@
 <a name='L49'></a><a href='#L49'>49</a>
 <a name='L50'></a><a href='#L50'>50</a>
 <a name='L51'></a><a href='#L51'>51</a>
-<a name='L52'></a><a href='#L52'>52</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -183,7 +185,7 @@
 <span class="cstat-no" title="statement not covered" >export const RadioGroup = forwardRef&lt;HTMLDivElement, RadioGroupProps&gt;(</span>
 <span class="cstat-no" title="statement not covered" >  ({ className, value, onValueChange, ...props }, ref) =&gt; (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;RadioGroupContext.Provider value={{ value, onValueChange }}&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;div ref={ref} className={cn("mat-mdc-radio-group", className)} role="radiogroup" {...props} /&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;div ref={ref} className={cn("mat-mdc-radio-group", className)} role="radiogroup" data-testid="radio-group" {...props} /&gt;</span>
 <span class="cstat-no" title="statement not covered" >    &lt;/RadioGroupContext.Provider&gt;</span>
 <span class="cstat-no" title="statement not covered" >  )</span>
 <span class="cstat-no" title="statement not covered" >)</span>
@@ -193,9 +195,9 @@
 <span class="cstat-no" title="statement not covered" >  ({ className, value, ...props }, ref) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    const context = useContext(RadioGroupContext)</span>
 <span class="cstat-no" title="statement not covered" >    const isChecked = context?.value === value</span>
-<span class="cstat-no" title="statement not covered" >    </span>
+<span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >    return (</span>
-<span class="cstat-no" title="statement not covered" >      &lt;div className={cn("mat-mdc-radio-button", className)}&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;div className={cn("mat-mdc-radio-button", className)} data-testid={`radio-group-item-${value}`}&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;div className="mdc-radio"&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;input</span>
 <span class="cstat-no" title="statement not covered" >            ref={ref}</span>
@@ -203,13 +205,14 @@
 <span class="cstat-no" title="statement not covered" >            className="mdc-radio__native-control"</span>
 <span class="cstat-no" title="statement not covered" >            checked={isChecked}</span>
 <span class="cstat-no" title="statement not covered" >            onChange={() =&gt; context?.onValueChange?.(value)}</span>
+<span class="cstat-no" title="statement not covered" >            data-testid="radio-input"</span>
 <span class="cstat-no" title="statement not covered" >            {...props}</span>
 <span class="cstat-no" title="statement not covered" >          /&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;div className="mdc-radio__background"&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;div className="mdc-radio__background" aria-hidden="true"&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;div className="mdc-radio__outer-circle" /&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;div className="mdc-radio__inner-circle" /&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;div className="mdc-radio__ripple" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;div className="mdc-radio__ripple" aria-hidden="true" /&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >    )</span>
@@ -223,7 +226,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-20T23:21:59.834Z
+                at 2026-01-21T00:47:57.712Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

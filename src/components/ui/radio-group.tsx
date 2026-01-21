@@ -16,7 +16,7 @@ interface RadioGroupProps extends ComponentProps<"div"> {
 export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
   ({ className, value, onValueChange, ...props }, ref) => (
     <RadioGroupContext.Provider value={{ value, onValueChange }}>
-      <div ref={ref} className={cn("mat-mdc-radio-group", className)} role="radiogroup" {...props} />
+      <div ref={ref} className={cn("mat-mdc-radio-group", className)} role="radiogroup" data-testid="radio-group" {...props} />
     </RadioGroupContext.Provider>
   )
 )
@@ -26,9 +26,9 @@ export const RadioGroupItem = forwardRef<HTMLInputElement, ComponentProps<"input
   ({ className, value, ...props }, ref) => {
     const context = useContext(RadioGroupContext)
     const isChecked = context?.value === value
-    
+
     return (
-      <div className={cn("mat-mdc-radio-button", className)}>
+      <div className={cn("mat-mdc-radio-button", className)} data-testid={`radio-group-item-${value}`}>
         <div className="mdc-radio">
           <input
             ref={ref}
@@ -36,13 +36,14 @@ export const RadioGroupItem = forwardRef<HTMLInputElement, ComponentProps<"input
             className="mdc-radio__native-control"
             checked={isChecked}
             onChange={() => context?.onValueChange?.(value)}
+            data-testid="radio-input"
             {...props}
           />
-          <div className="mdc-radio__background">
+          <div className="mdc-radio__background" aria-hidden="true">
             <div className="mdc-radio__outer-circle" />
             <div className="mdc-radio__inner-circle" />
           </div>
-          <div className="mdc-radio__ripple" />
+          <div className="mdc-radio__ripple" aria-hidden="true" />
         </div>
       </div>
     )

@@ -64,6 +64,7 @@ const Toggle = forwardRef<HTMLButtonElement, ToggleProps>(
         )}
         onClick={handleClick}
         aria-pressed={isPressed}
+        data-testid="toggle"
         {...props}
       />
     )

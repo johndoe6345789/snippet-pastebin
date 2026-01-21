@@ -4,7 +4,7 @@ import { Calendar } from '@phosphor-icons/react'
 
 export function ContentPreviewCardsSection() {
   return (
-    <section className="space-y-6">
+    <section className="space-y-6" data-testid="content-preview-cards-section" role="region" aria-label="Content preview card examples">
       <div>
         <h2 className="text-3xl font-bold mb-2">Content Preview Cards</h2>
         <p className="text-muted-foreground">

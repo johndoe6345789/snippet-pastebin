@@ -4,7 +4,7 @@ import { Separator } from '@/components/ui/separator'
 
 export function StatusIndicatorsSection() {
   return (
-    <section className="space-y-6">
+    <section className="space-y-6" data-testid="status-indicators-section" role="region" aria-label="Status indicator examples">
       <div>
         <h2 className="text-3xl font-bold mb-2">Status Indicators</h2>
         <p className="text-muted-foreground">

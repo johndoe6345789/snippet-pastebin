@@ -26,6 +26,7 @@ function DialogTrigger({ children, onClick, ...props }: DialogTriggerProps) {
     <button
       type="button"
       onClick={onClick}
+      data-testid="dialog-trigger"
       {...props}
     >
       {children}
@@ -78,7 +79,7 @@ function DialogContent({
 
   return (
     <DialogPortal>
-      <div className="cdk-overlay-container">
+      <div className="cdk-overlay-container" data-testid="dialog-container">
         <div className="cdk-global-overlay-wrapper">
           <div className="cdk-overlay-pane">
             <DialogOverlay onClick={onClose} />
@@ -89,6 +90,7 @@ function DialogContent({
                   className={cn("mat-mdc-dialog-surface mdc-dialog__surface", className)}
                   role="dialog"
                   aria-modal="true"
+                  data-testid="dialog-content"
                   {...props}
                 >
                   {children}
@@ -100,8 +102,8 @@ function DialogContent({
                     aria-label="Close dialog"
                     data-testid="dialog-close-btn"
                   >
-                    <span className="mdc-icon-button__ripple" />
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <span className="mdc-icon-button__ripple" aria-hidden="true" />
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                       <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
                     </svg>
                   </button>
@@ -119,6 +121,7 @@ function DialogHeader({ className, ...props }: ComponentProps<"div">) {
   return (
     <div
       className={cn("mat-mdc-dialog-title", className)}
+      data-testid="dialog-header"
       {...props}
     />
   )
@@ -128,6 +131,7 @@ function DialogFooter({ className, ...props }: ComponentProps<"div">) {
   return (
     <div
       className={cn("mat-mdc-dialog-actions", className)}
+      data-testid="dialog-footer"
       {...props}
     />
   )
@@ -137,6 +141,7 @@ function DialogTitle({ className, ...props }: ComponentProps<"h2">) {
   return (
     <h2
       className={cn("mat-mdc-dialog-title", className)}
+      data-testid="dialog-title"
       {...props}
     />
   )
@@ -146,6 +151,7 @@ function DialogDescription({ className, ...props }: ComponentProps<"p">) {
   return (
     <p
       className={cn("mat-mdc-dialog-content", className)}
+      data-testid="dialog-description"
       {...props}
     />
   )
@@ -153,7 +159,7 @@ function DialogDescription({ className, ...props }: ComponentProps<"p">) {
 
 function DialogClose({ children, onClick }: ComponentProps<"button">) {
   return (
-    <button type="button" onClick={onClick}>
+    <button type="button" onClick={onClick} data-testid="dialog-close">
       {children}
     </button>
   )

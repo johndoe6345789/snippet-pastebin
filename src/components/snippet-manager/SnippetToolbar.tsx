@@ -32,8 +32,8 @@ export function SnippetToolbar({
   templates,
 }: SnippetToolbarProps) {
   return (
-    <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-      <div className="relative flex-1 w-full sm:max-w-md">
+    <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between" data-testid="snippet-toolbar" role="toolbar" aria-label="Snippet management toolbar">
+      <div className="relative flex-1 w-full sm:max-w-md" data-testid="search-container">
         <MagnifyingGlass
           className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground"
           aria-hidden="true"
@@ -47,7 +47,7 @@ export function SnippetToolbar({
           aria-label="Search snippets"
         />
       </div>
-      <div className="flex gap-2 w-full sm:w-auto">
+      <div className="flex gap-2 w-full sm:w-auto" data-testid="toolbar-actions">
         <Button
           variant={selectionMode ? "filled" : "outline"}
           onClick={onToggleSelectionMode}
@@ -74,13 +74,14 @@ export function SnippetToolbar({
               className="gap-2 w-full sm:w-auto"
               data-testid="snippet-create-menu-trigger"
               aria-label="Create new snippet"
+              aria-haspopup="menu"
             >
               <Plus weight="bold" aria-hidden="true" />
               {strings.app.header.newSnippetButton}
               <CaretDown weight="bold" aria-hidden="true" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-72 max-h-[500px] overflow-y-auto">
+          <DropdownMenuContent align="end" className="w-72 max-h-[500px] overflow-y-auto" data-testid="create-menu-content">
             <DropdownMenuItem
               onClick={onCreateNew}
               data-testid="snippet-create-blank-item"

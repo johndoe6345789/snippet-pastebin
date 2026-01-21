@@ -11,6 +11,7 @@ export function SidebarGroupContent({
     <div
       data-slot="sidebar-group-content"
       data-sidebar="group-content"
+      data-testid="sidebar-group-content"
       className={cn("w-full text-sm", className)}
       {...props}
     />

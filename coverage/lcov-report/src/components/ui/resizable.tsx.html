@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/54</span>
+                <span class='fraction'>0/58</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/54</span>
+                <span class='fraction'>0/58</span>
             </div>
         
             
@@ -117,7 +117,15 @@
 <a name='L52'></a><a href='#L52'>52</a>
 <a name='L53'></a><a href='#L53'>53</a>
 <a name='L54'></a><a href='#L54'>54</a>
-<a name='L55'></a><a href='#L55'>55</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -184,6 +192,7 @@
 <span class="cstat-no" title="statement not covered" >  return (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;Group</span>
 <span class="cstat-no" title="statement not covered" >      data-slot="resizable-panel-group"</span>
+<span class="cstat-no" title="statement not covered" >      data-testid="resizable-panel-group"</span>
 <span class="cstat-no" title="statement not covered" >      className={cn(</span>
 <span class="cstat-no" title="statement not covered" >        "flex h-full w-full data-[panel-group-direction=vertical]:flex-col",</span>
 <span class="cstat-no" title="statement not covered" >        className</span>
@@ -196,7 +205,7 @@
 <span class="cstat-no" title="statement not covered" >function ResizablePanel({</span>
 <span class="cstat-no" title="statement not covered" >  ...props</span>
 <span class="cstat-no" title="statement not covered" >}: ComponentProps&lt;typeof Panel&gt;) {</span>
-<span class="cstat-no" title="statement not covered" >  return &lt;Panel data-slot="resizable-panel" {...props} /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  return &lt;Panel data-slot="resizable-panel" data-testid="resizable-panel" {...props} /&gt;</span>
 <span class="cstat-no" title="statement not covered" >}</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >function ResizableHandle({</span>
@@ -209,14 +218,17 @@
 <span class="cstat-no" title="statement not covered" >  return (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;Separator</span>
 <span class="cstat-no" title="statement not covered" >      data-slot="resizable-handle"</span>
+<span class="cstat-no" title="statement not covered" >      data-testid="resizable-handle"</span>
 <span class="cstat-no" title="statement not covered" >      className={cn(</span>
 <span class="cstat-no" title="statement not covered" >        "bg-border focus-visible:ring-ring relative flex w-px items-center justify-center after:absolute after:inset-y-0 after:left-1/2 after:w-1 after:-translate-x-1/2 focus-visible:ring-1 focus-visible:ring-offset-1 focus-visible:outline-hidden data-[panel-group-direction=vertical]:h-px data-[panel-group-direction=vertical]:w-full data-[panel-group-direction=vertical]:after:left-0 data-[panel-group-direction=vertical]:after:h-1 data-[panel-group-direction=vertical]:after:w-full data-[panel-group-direction=vertical]:after:-translate-y-1/2 data-[panel-group-direction=vertical]:after:translate-x-0 [&amp;[data-panel-group-direction=vertical]&gt;div]:rotate-90",</span>
 <span class="cstat-no" title="statement not covered" >        className</span>
 <span class="cstat-no" title="statement not covered" >      )}</span>
+<span class="cstat-no" title="statement not covered" >      role="separator"</span>
+<span class="cstat-no" title="statement not covered" >      aria-orientation="vertical"</span>
 <span class="cstat-no" title="statement not covered" >      {...props}</span>
 <span class="cstat-no" title="statement not covered" >    &gt;</span>
 <span class="cstat-no" title="statement not covered" >      {withHandle &amp;&amp; (</span>
-<span class="cstat-no" title="statement not covered" >        &lt;div className="bg-border z-10 flex h-4 w-3 items-center justify-center rounded-xs border"&gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;div className="bg-border z-10 flex h-4 w-3 items-center justify-center rounded-xs border" aria-hidden="true"&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;GripVerticalIcon className="size-2.5" /&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >      )}</span>
@@ -232,7 +244,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-20T23:21:59.834Z
+                at 2026-01-21T00:47:57.712Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/121</span>
+                <span class='fraction'>0/127</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/121</span>
+                <span class='fraction'>0/127</span>
             </div>
         
             
@@ -184,7 +184,19 @@
 <a name='L119'></a><a href='#L119'>119</a>
 <a name='L120'></a><a href='#L120'>120</a>
 <a name='L121'></a><a href='#L121'>121</a>
-<a name='L122'></a><a href='#L122'>122</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L122'></a><a href='#L122'>122</a>
+<a name='L123'></a><a href='#L123'>123</a>
+<a name='L124'></a><a href='#L124'>124</a>
+<a name='L125'></a><a href='#L125'>125</a>
+<a name='L126'></a><a href='#L126'>126</a>
+<a name='L127'></a><a href='#L127'>127</a>
+<a name='L128'></a><a href='#L128'>128</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -319,10 +331,10 @@
 <span class="cstat-no" title="statement not covered" >  const { config, togglePersistence, toggleLogging, updateDebounceDelay } = usePersistenceConfig()</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;Card&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;Card data-testid="persistence-settings"&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;CardHeader&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;div className="flex items-center gap-3"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center"&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center" aria-hidden="true"&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;FloppyDisk className="h-5 w-5 text-primary" weight="duotone" /&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;div&gt;</span>
@@ -334,7 +346,7 @@
 <span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;/CardHeader&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;CardContent className="space-y-6"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;div className="flex items-center justify-between"&gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;div className="flex items-center justify-between" data-testid="persistence-enabled-setting"&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;div className="space-y-1"&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;Label htmlFor="persistence-enabled" className="text-base font-medium"&gt;</span>
 <span class="cstat-no" title="statement not covered" >              Auto-Save Enabled</span>
@@ -347,14 +359,16 @@
 <span class="cstat-no" title="statement not covered" >            id="persistence-enabled"</span>
 <span class="cstat-no" title="statement not covered" >            checked={config.enabled}</span>
 <span class="cstat-no" title="statement not covered" >            onCheckedChange={togglePersistence}</span>
+<span class="cstat-no" title="statement not covered" >            data-testid="persistence-enabled-toggle"</span>
+<span class="cstat-no" title="statement not covered" >            aria-label="Toggle auto-save persistence"</span>
 <span class="cstat-no" title="statement not covered" >          /&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >        &lt;div className="flex items-center justify-between"&gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;div className="flex items-center justify-between" data-testid="logging-enabled-setting"&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;div className="space-y-1"&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;Label htmlFor="logging-enabled" className="text-base font-medium flex items-center gap-2"&gt;</span>
 <span class="cstat-no" title="statement not covered" >              Debug Logging</span>
-<span class="cstat-no" title="statement not covered" >              &lt;Bug className="h-4 w-4 text-muted-foreground" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >              &lt;Bug className="h-4 w-4 text-muted-foreground" aria-hidden="true" /&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;/Label&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;p className="text-sm text-muted-foreground"&gt;</span>
 <span class="cstat-no" title="statement not covered" >              Log persistence operations to console</span>
@@ -364,16 +378,18 @@
 <span class="cstat-no" title="statement not covered" >            id="logging-enabled"</span>
 <span class="cstat-no" title="statement not covered" >            checked={config.logging}</span>
 <span class="cstat-no" title="statement not covered" >            onCheckedChange={toggleLogging}</span>
+<span class="cstat-no" title="statement not covered" >            data-testid="logging-enabled-toggle"</span>
+<span class="cstat-no" title="statement not covered" >            aria-label="Toggle debug logging"</span>
 <span class="cstat-no" title="statement not covered" >          /&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >        &lt;div className="space-y-3"&gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;div className="space-y-3" data-testid="debounce-setting"&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;div className="flex items-center justify-between"&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;Label htmlFor="debounce-delay" className="text-base font-medium flex items-center gap-2"&gt;</span>
 <span class="cstat-no" title="statement not covered" >              Save Delay</span>
-<span class="cstat-no" title="statement not covered" >              &lt;Timer className="h-4 w-4 text-muted-foreground" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >              &lt;Timer className="h-4 w-4 text-muted-foreground" aria-hidden="true" /&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;/Label&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Badge variant="secondary"&gt;{config.debounceMs}ms&lt;/Badge&gt;</span>
+<span class="cstat-no" title="statement not covered" >            &lt;Badge variant="secondary" data-testid="debounce-value"&gt;{config.debounceMs}ms&lt;/Badge&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;div className="space-y-2"&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;Slider</span>
@@ -384,6 +400,8 @@
 <span class="cstat-no" title="statement not covered" >              value={[config.debounceMs]}</span>
 <span class="cstat-no" title="statement not covered" >              onValueChange={([value]) =&gt; updateDebounceDelay(value)}</span>
 <span class="cstat-no" title="statement not covered" >              disabled={!config.enabled}</span>
+<span class="cstat-no" title="statement not covered" >              data-testid="debounce-slider"</span>
+<span class="cstat-no" title="statement not covered" >              aria-label="Debounce delay in milliseconds"</span>
 <span class="cstat-no" title="statement not covered" >            /&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;p className="text-xs text-muted-foreground"&gt;</span>
 <span class="cstat-no" title="statement not covered" >              Delay between rapid actions and database save (0-1000ms)</span>
@@ -391,34 +409,34 @@
 <span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >        &lt;div className="border-t pt-4 space-y-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;div className="border-t pt-4 space-y-2" data-testid="monitored-actions-section" role="region" aria-label="Monitored actions"&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;div className="flex items-center justify-between text-sm"&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;span className="text-muted-foreground"&gt;Monitored Actions&lt;/span&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Badge&gt;{config.actions.length}&lt;/Badge&gt;</span>
+<span class="cstat-no" title="statement not covered" >            &lt;Badge data-testid="actions-count"&gt;{config.actions.length}&lt;/Badge&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;div className="flex flex-wrap gap-1"&gt;</span>
 <span class="cstat-no" title="statement not covered" >            {config.actions.map((action) =&gt; (</span>
-<span class="cstat-no" title="statement not covered" >              &lt;Badge key={action} variant="outline" className="text-xs font-mono"&gt;</span>
+<span class="cstat-no" title="statement not covered" >              &lt;Badge key={action} variant="outline" className="text-xs font-mono" data-testid={`action-badge-${action.split('/').pop()}`}&gt;</span>
 <span class="cstat-no" title="statement not covered" >                {action.split('/').pop()}</span>
 <span class="cstat-no" title="statement not covered" >              &lt;/Badge&gt;</span>
 <span class="cstat-no" title="statement not covered" >            ))}</span>
 <span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >        &lt;div className="border-t pt-4 space-y-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;div className="border-t pt-4 space-y-2" data-testid="retry-settings-section" role="region" aria-label="Retry settings"&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;div className="text-sm font-medium"&gt;Retry Settings&lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;div className="grid grid-cols-2 gap-4 text-sm"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;div&gt;</span>
+<span class="cstat-no" title="statement not covered" >            &lt;div data-testid="retry-on-failure-stat"&gt;</span>
 <span class="cstat-no" title="statement not covered" >              &lt;div className="text-muted-foreground"&gt;Retry on Failure&lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;div className="font-medium"&gt;{config.retryOnFailure ? 'Yes' : 'No'}&lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >              &lt;div className="font-medium" aria-label={`Retry on failure: ${config.retryOnFailure ? 'Yes' : 'No'}`}&gt;{config.retryOnFailure ? 'Yes' : 'No'}&lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;div&gt;</span>
+<span class="cstat-no" title="statement not covered" >            &lt;div data-testid="max-retries-stat"&gt;</span>
 <span class="cstat-no" title="statement not covered" >              &lt;div className="text-muted-foreground"&gt;Max Retries&lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;div className="font-medium"&gt;{config.maxRetries}&lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >              &lt;div className="font-medium" aria-label={`Maximum retries: ${config.maxRetries}`}&gt;{config.maxRetries}&lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;div className="col-span-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >            &lt;div className="col-span-2" data-testid="retry-delay-stat"&gt;</span>
 <span class="cstat-no" title="statement not covered" >              &lt;div className="text-muted-foreground"&gt;Retry Delay&lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;div className="font-medium"&gt;{config.retryDelayMs}ms&lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >              &lt;div className="font-medium" aria-label={`Retry delay: ${config.retryDelayMs}ms`}&gt;{config.retryDelayMs}ms&lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
@@ -433,7 +451,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-20T23:21:59.834Z
+                at 2026-01-21T00:47:57.712Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

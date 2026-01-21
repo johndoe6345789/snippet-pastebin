@@ -13,11 +13,13 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(
       destructive: "mat-badge mat-warn",
       outline: "mat-badge",
     }[variant]
-    
+
     return (
       <div
         ref={ref}
         className={cn(variantClass, className)}
+        data-testid="badge"
+        role="status"
         {...props}
       />
     )

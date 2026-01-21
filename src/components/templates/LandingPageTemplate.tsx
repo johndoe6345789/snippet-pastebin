@@ -10,7 +10,7 @@ import {
 
 export function LandingPageTemplate() {
   return (
-    <Card className="overflow-hidden">
+    <Card className="overflow-hidden" data-testid="landing-page-template" role="main" aria-label="Landing page template">
       <div className="border-b border-border bg-card p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">

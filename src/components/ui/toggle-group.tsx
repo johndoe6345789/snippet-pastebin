@@ -48,6 +48,7 @@ function ToggleGroup({
   return (
     <div
       data-slot="toggle-group"
+      data-testid="toggle-group"
       data-variant={variant}
       data-size={size}
       className={cn(
@@ -55,6 +56,7 @@ function ToggleGroup({
         variant === "outline" && "shadow-sm",
         className
       )}
+      role="group"
       {...props}
     >
       <ToggleGroupContext.Provider
@@ -118,6 +120,7 @@ function ToggleGroupItem({
   return (
     <button
       data-slot="toggle-group-item"
+      data-testid={`toggle-group-item-${value}`}
       data-variant={context.variant}
       data-size={context.size}
       className={cn(

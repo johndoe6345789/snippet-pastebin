@@ -60,7 +60,7 @@ export function NavigationSidebar() {
             aria-label="Main navigation menu"
           >
             {/* Header */}
-            <div className="flex items-center justify-between h-16 px-4 border-b border-border/50">
+            <div className="flex items-center justify-between h-16 px-4 border-b border-border/50" data-testid="navigation-header">
               <span className="text-base font-medium text-foreground pl-3">
                 CodeSnippet
               </span>
@@ -87,6 +87,7 @@ export function NavigationSidebar() {
               role="navigation"
               className="flex-1 overflow-y-auto py-2 px-3"
               data-testid="navigation-items"
+              aria-label="Navigation menu items"
             >
               <ul className="space-y-0.5">
                 {navigationItems.map((item) => {
@@ -94,7 +95,7 @@ export function NavigationSidebar() {
                   const isActive = pathname === item.path;
 
                   return (
-                    <li key={item.path}>
+                    <li key={item.path} data-testid={`nav-item-${item.path.replace(/\//g, '-')}`}>
                       <Link
                         href={item.path}
                         onClick={() => setMenuOpen(false)}
@@ -141,14 +142,14 @@ export function NavigationSidebar() {
             </nav>
 
             {/* Footer */}
-            <div className="p-4 border-t border-border/50">
+            <div className="p-4 border-t border-border/50" data-testid="navigation-footer">
               <p className="text-xs text-muted-foreground text-center">
                 Material Design 3
               </p>
             </div>
 
             {/* Android gesture bar indicator */}
-            <div className="h-5 flex items-center justify-center pb-2">
+            <div className="h-5 flex items-center justify-center pb-2" data-testid="gesture-bar" aria-hidden="true">
               <div className="w-[134px] h-[5px] bg-muted-foreground/40 rounded-full" />
             </div>
           </motion.aside>

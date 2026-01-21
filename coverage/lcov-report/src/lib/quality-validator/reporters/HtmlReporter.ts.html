@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/132</span>
+                <span class='fraction'>0/135</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/132</span>
+                <span class='fraction'>0/135</span>
             </div>
         
             
@@ -195,7 +195,13 @@
 <a name='L130'></a><a href='#L130'>130</a>
 <a name='L131'></a><a href='#L131'>131</a>
 <a name='L132'></a><a href='#L132'>132</a>
-<a name='L133'></a><a href='#L133'>133</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L133'></a><a href='#L133'>133</a>
+<a name='L134'></a><a href='#L134'>134</a>
+<a name='L135'></a><a href='#L135'>135</a>
+<a name='L136'></a><a href='#L136'>136</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -330,10 +336,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >/**</span></span></span>
 <span class="cstat-no" title="statement not covered" > * HTML Reporter - Orchestrator</span>
 <span class="cstat-no" title="statement not covered" > * Coordinates sub-reporters to generate complete HTML reports</span>
-<span class="cstat-no" title="statement not covered" > * This is the main entry point that delegates to specialized modules</span>
+<span class="cstat-no" title="statement not covered" > * Refactored to use ReporterBase for shared functionality</span>
 <span class="cstat-no" title="statement not covered" > */</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >import { ScoringResult } from '../types/index.js';</span>
+<span class="cstat-no" title="statement not covered" >import { ReporterBase } from './ReporterBase.js';</span>
 <span class="cstat-no" title="statement not covered" >import { generateOpeningTags, generateClosingTags } from './html/HtmlHeader.js';</span>
 <span class="cstat-no" title="statement not covered" >import { generateOverallSection, generateComponentScoresSection, generateSummaryStatistics } from './html/HtmlScoreSection.js';</span>
 <span class="cstat-no" title="statement not covered" >import { generateFindingsSection, generateRecommendationsSection, generateFindingsSummaryTable } from './html/HtmlDetailsSection.js';</span>
@@ -344,15 +351,17 @@
 <span class="cstat-no" title="statement not covered" > * HTML Reporter - Orchestrates all HTML generation modules</span>
 <span class="cstat-no" title="statement not covered" > *</span>
 <span class="cstat-no" title="statement not covered" > * @description</span>
-<span class="cstat-no" title="statement not covered" > * Coordinates specialized modules to generate complete HTML reports:</span>
+<span class="cstat-no" title="statement not covered" > * Extends ReporterBase and coordinates specialized modules to generate complete HTML reports:</span>
 <span class="cstat-no" title="statement not covered" > * - HtmlHeader: Document structure and meta tags</span>
 <span class="cstat-no" title="statement not covered" > * - HtmlScoreSection: Overall score and component visualization</span>
 <span class="cstat-no" title="statement not covered" > * - HtmlDetailsSection: Findings and recommendations</span>
 <span class="cstat-no" title="statement not covered" > * - HtmlMetricsSection: Detailed metrics display</span>
 <span class="cstat-no" title="statement not covered" > * - HtmlFooter: Metadata and resources</span>
 <span class="cstat-no" title="statement not covered" > * - HtmlStyleSheet: Embedded CSS</span>
+<span class="cstat-no" title="statement not covered" > *</span>
+<span class="cstat-no" title="statement not covered" > * Leverages ReporterBase shared utilities for metadata handling, formatting, and aggregation</span>
 <span class="cstat-no" title="statement not covered" > */</span>
-<span class="cstat-no" title="statement not covered" >export class HtmlReporter {</span>
+<span class="cstat-no" title="statement not covered" >export class HtmlReporter extends ReporterBase {</span>
 <span class="cstat-no" title="statement not covered" >  /**</span>
 <span class="cstat-no" title="statement not covered" >   * Generate complete HTML report from scoring result</span>
 <span class="cstat-no" title="statement not covered" >   *</span>
@@ -466,7 +475,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-20T23:21:59.834Z
+                at 2026-01-21T00:47:57.712Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

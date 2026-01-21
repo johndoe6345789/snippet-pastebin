@@ -9,7 +9,7 @@ interface StorageInfoCardProps {
 
 export function StorageInfoCard({ storageType }: StorageInfoCardProps) {
   return (
-    <Card>
+    <Card data-testid="storage-info-card">
       <CardHeader>
         <CardTitle>Storage Information</CardTitle>
         <CardDescription>
@@ -17,8 +17,8 @@ export function StorageInfoCard({ storageType }: StorageInfoCardProps) {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <Alert>
-          <AlertDescription>
+        <Alert role="status" aria-label="Storage type information">
+          <AlertDescription data-testid="storage-type-description">
             {storageType === 'indexeddb' ? (
               <>
                 <strong>IndexedDB</strong> is being used for storage. This provides better performance and

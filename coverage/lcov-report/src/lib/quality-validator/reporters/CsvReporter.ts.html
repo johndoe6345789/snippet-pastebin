@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/126</span>
+                <span class='fraction'>0/130</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/126</span>
+                <span class='fraction'>0/130</span>
             </div>
         
             
@@ -189,7 +189,15 @@
 <a name='L124'></a><a href='#L124'>124</a>
 <a name='L125'></a><a href='#L125'>125</a>
 <a name='L126'></a><a href='#L126'>126</a>
-<a name='L127'></a><a href='#L127'>127</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L127'></a><a href='#L127'>127</a>
+<a name='L128'></a><a href='#L128'>128</a>
+<a name='L129'></a><a href='#L129'>129</a>
+<a name='L130'></a><a href='#L130'>130</a>
+<a name='L131'></a><a href='#L131'>131</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -318,14 +326,17 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >/**</span></span></span>
 <span class="cstat-no" title="statement not covered" > * CSV Reporter</span>
 <span class="cstat-no" title="statement not covered" > * Generates CSV export for spreadsheet analysis</span>
+<span class="cstat-no" title="statement not covered" > * Refactored to use ReporterBase for shared CSV formatting utilities</span>
 <span class="cstat-no" title="statement not covered" > */</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >import { ScoringResult } from '../types/index.js';</span>
+<span class="cstat-no" title="statement not covered" >import { ReporterBase } from './ReporterBase.js';</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >/**</span>
 <span class="cstat-no" title="statement not covered" > * CSV Reporter</span>
+<span class="cstat-no" title="statement not covered" > * Extends ReporterBase to leverage shared CSV field escaping and formatting utilities</span>
 <span class="cstat-no" title="statement not covered" > */</span>
-<span class="cstat-no" title="statement not covered" >export class CsvReporter {</span>
+<span class="cstat-no" title="statement not covered" >export class CsvReporter extends ReporterBase {</span>
 <span class="cstat-no" title="statement not covered" >  /**</span>
 <span class="cstat-no" title="statement not covered" >   * Generate CSV report</span>
 <span class="cstat-no" title="statement not covered" >   */</span>
@@ -334,15 +345,16 @@
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >    // Summary section</span>
 <span class="cstat-no" title="statement not covered" >    lines.push('# Quality Validation Report Summary');</span>
-<span class="cstat-no" title="statement not covered" >    lines.push(`"Timestamp","${result.metadata.timestamp}"`);</span>
-<span class="cstat-no" title="statement not covered" >    lines.push(`"Overall Score","${result.overall.score.toFixed(1)}%"`);</span>
-<span class="cstat-no" title="statement not covered" >    lines.push(`"Grade","${result.overall.grade}"`);</span>
-<span class="cstat-no" title="statement not covered" >    lines.push(`"Status","${result.overall.status.toUpperCase()}"`);</span>
+<span class="cstat-no" title="statement not covered" >    lines.push(this.buildCsvLine(['Timestamp', result.metadata.timestamp]));</span>
+<span class="cstat-no" title="statement not covered" >    lines.push(this.buildCsvLine(['Overall Score', this.formatPercentage(result.overall.score)]));</span>
+<span class="cstat-no" title="statement not covered" >    lines.push(this.buildCsvLine(['Grade', result.overall.grade]));</span>
+<span class="cstat-no" title="statement not covered" >    lines.push(this.buildCsvLine(['Status', result.overall.status.toUpperCase()]));</span>
 <span class="cstat-no" title="statement not covered" >    lines.push('');</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >    // Component scores</span>
 <span class="cstat-no" title="statement not covered" >    lines.push('# Component Scores');</span>
-<span class="cstat-no" title="statement not covered" >    lines.push('"Component","Score","Weight","Weighted Score"');</span>
+<span class="cstat-no" title="statement not covered" >    lines.push(this.buildCsvLine(['Component', 'Score', 'Weight', 'Weighted Score']));</span>
+<span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >    const scores = [</span>
 <span class="cstat-no" title="statement not covered" >      {</span>
 <span class="cstat-no" title="statement not covered" >        name: 'Code Quality',</span>
@@ -372,7 +384,12 @@
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >    for (const score of scores) {</span>
 <span class="cstat-no" title="statement not covered" >      lines.push(</span>
-<span class="cstat-no" title="statement not covered" >        `"${score.name}","${score.score.toFixed(1)}%","${(score.weight * 100).toFixed(0)}%","${score.weighted.toFixed(1)}%"`</span>
+<span class="cstat-no" title="statement not covered" >        this.buildCsvLine([</span>
+<span class="cstat-no" title="statement not covered" >          score.name,</span>
+<span class="cstat-no" title="statement not covered" >          `${score.score.toFixed(1)}%`,</span>
+<span class="cstat-no" title="statement not covered" >          `${(score.weight * 100).toFixed(0)}%`,</span>
+<span class="cstat-no" title="statement not covered" >          `${score.weighted.toFixed(1)}%`,</span>
+<span class="cstat-no" title="statement not covered" >        ])</span>
 <span class="cstat-no" title="statement not covered" >      );</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" ></span>
@@ -380,15 +397,21 @@
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >    // Findings</span>
 <span class="cstat-no" title="statement not covered" >    lines.push('# Findings');</span>
-<span class="cstat-no" title="statement not covered" >    lines.push('"Severity","Category","Title","File","Line","Description","Remediation"');</span>
+<span class="cstat-no" title="statement not covered" >    lines.push(this.buildCsvLine(['Severity', 'Category', 'Title', 'File', 'Line', 'Description', 'Remediation']));</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >    for (const finding of result.findings) {</span>
 <span class="cstat-no" title="statement not covered" >      const file = finding.location?.file || '';</span>
 <span class="cstat-no" title="statement not covered" >      const line = finding.location?.line ? finding.location.line.toString() : '';</span>
 <span class="cstat-no" title="statement not covered" >      lines.push(</span>
-<span class="cstat-no" title="statement not covered" >        `"${finding.severity}","${finding.category}","${this.escapeCsv(finding.title)}","${file}","${line}","${this.escapeCsv(</span>
-<span class="cstat-no" title="statement not covered" >          finding.description</span>
-<span class="cstat-no" title="statement not covered" >        )}","${this.escapeCsv(finding.remediation)}"`</span>
+<span class="cstat-no" title="statement not covered" >        this.buildCsvLine([</span>
+<span class="cstat-no" title="statement not covered" >          finding.severity,</span>
+<span class="cstat-no" title="statement not covered" >          finding.category,</span>
+<span class="cstat-no" title="statement not covered" >          finding.title,</span>
+<span class="cstat-no" title="statement not covered" >          file,</span>
+<span class="cstat-no" title="statement not covered" >          line,</span>
+<span class="cstat-no" title="statement not covered" >          finding.description,</span>
+<span class="cstat-no" title="statement not covered" >          finding.remediation,</span>
+<span class="cstat-no" title="statement not covered" >        ])</span>
 <span class="cstat-no" title="statement not covered" >      );</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" ></span>
@@ -397,13 +420,11 @@
 <span class="cstat-no" title="statement not covered" >    // Recommendations</span>
 <span class="cstat-no" title="statement not covered" >    if (result.recommendations.length &gt; 0) {</span>
 <span class="cstat-no" title="statement not covered" >      lines.push('# Recommendations');</span>
-<span class="cstat-no" title="statement not covered" >      lines.push('"Priority","Category","Issue","Remediation","Effort","Impact"');</span>
+<span class="cstat-no" title="statement not covered" >      lines.push(this.buildCsvLine(['Priority', 'Category', 'Issue', 'Remediation', 'Effort', 'Impact']));</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >      for (const rec of result.recommendations) {</span>
 <span class="cstat-no" title="statement not covered" >        lines.push(</span>
-<span class="cstat-no" title="statement not covered" >          `"${rec.priority}","${rec.category}","${this.escapeCsv(rec.issue)}","${this.escapeCsv(</span>
-<span class="cstat-no" title="statement not covered" >            rec.remediation</span>
-<span class="cstat-no" title="statement not covered" >          )}","${rec.estimatedEffort}","${this.escapeCsv(rec.expectedImpact)}"`</span>
+<span class="cstat-no" title="statement not covered" >          this.buildCsvLine([rec.priority, rec.category, rec.issue, rec.remediation, rec.estimatedEffort, rec.expectedImpact])</span>
 <span class="cstat-no" title="statement not covered" >        );</span>
 <span class="cstat-no" title="statement not covered" >      }</span>
 <span class="cstat-no" title="statement not covered" ></span>
@@ -413,30 +434,21 @@
 <span class="cstat-no" title="statement not covered" >    // Trend</span>
 <span class="cstat-no" title="statement not covered" >    if (result.trend) {</span>
 <span class="cstat-no" title="statement not covered" >      lines.push('# Trend');</span>
-<span class="cstat-no" title="statement not covered" >      lines.push('"Metric","Value"');</span>
-<span class="cstat-no" title="statement not covered" >      lines.push(`"Current Score","${result.trend.currentScore.toFixed(1)}%"`);</span>
+<span class="cstat-no" title="statement not covered" >      lines.push(this.buildCsvLine(['Metric', 'Value']));</span>
+<span class="cstat-no" title="statement not covered" >      lines.push(this.buildCsvLine(['Current Score', `${result.trend.currentScore.toFixed(1)}%`]));</span>
+<span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >      if (result.trend.previousScore !== undefined) {</span>
-<span class="cstat-no" title="statement not covered" >        lines.push(`"Previous Score","${result.trend.previousScore.toFixed(1)}%"`);</span>
+<span class="cstat-no" title="statement not covered" >        lines.push(this.buildCsvLine(['Previous Score', `${result.trend.previousScore.toFixed(1)}%`]));</span>
 <span class="cstat-no" title="statement not covered" >        const change = result.trend.currentScore - result.trend.previousScore;</span>
-<span class="cstat-no" title="statement not covered" >        lines.push(</span>
-<span class="cstat-no" title="statement not covered" >          `"Change","${change &gt;= 0 ? '+' : ''}${change.toFixed(1)}%"`</span>
-<span class="cstat-no" title="statement not covered" >        );</span>
+<span class="cstat-no" title="statement not covered" >        lines.push(this.buildCsvLine(['Change', `${change &gt;= 0 ? '+' : ''}${change.toFixed(1)}%`]));</span>
 <span class="cstat-no" title="statement not covered" >      }</span>
+<span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >      if (result.trend.direction) {</span>
-<span class="cstat-no" title="statement not covered" >        lines.push(`"Direction","${result.trend.direction}"`);</span>
+<span class="cstat-no" title="statement not covered" >        lines.push(this.buildCsvLine(['Direction', result.trend.direction]));</span>
 <span class="cstat-no" title="statement not covered" >      }</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >    return lines.join('\n');</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  /**</span>
-<span class="cstat-no" title="statement not covered" >   * Escape CSV field</span>
-<span class="cstat-no" title="statement not covered" >   */</span>
-<span class="cstat-no" title="statement not covered" >  private escapeCsv(field: string): string {</span>
-<span class="cstat-no" title="statement not covered" >    if (!field) return '';</span>
-<span class="cstat-no" title="statement not covered" >    // Escape quotes and wrap in quotes if needed</span>
-<span class="cstat-no" title="statement not covered" >    return field.replace(/"/g, '""');</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
 <span class="cstat-no" title="statement not covered" >}</span>
 <span class="cstat-no" title="statement not covered" ></span>
@@ -448,7 +460,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-20T23:21:59.834Z
+                at 2026-01-21T00:47:57.712Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

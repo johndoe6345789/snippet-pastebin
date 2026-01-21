@@ -29,6 +29,8 @@ function Collapsible({
       data-slot="collapsible"
       data-state={actualOpen ? "open" : "closed"}
       className={cn("w-full", className)}
+      data-testid="collapsible"
+      role="region"
       {...props}
     >
       {typeof children === "function"
@@ -57,6 +59,7 @@ function CollapsibleTrigger({
         className
       )}
       onClick={onClick}
+      data-testid="collapsible-trigger"
       {...props}
     >
       {children}
@@ -78,6 +81,7 @@ function CollapsibleContent({
         "data-[state=closed]:collapse",
         className
       )}
+      data-testid="collapsible-content"
       {...props}
     >
       <div className="px-3 py-2">

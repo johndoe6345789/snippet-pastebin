@@ -14,14 +14,14 @@ interface TerminalOutputProps {
 export function TerminalOutput({ lines, isRunning }: TerminalOutputProps) {
   if (lines.length === 0 && !isRunning) {
     return (
-      <div className="flex items-center justify-center h-full text-muted-foreground">
+      <div className="flex items-center justify-center h-full text-muted-foreground" data-testid="terminal-empty-state">
         Click "Run" to execute the Python code
       </div>
     )
   }
 
   return (
-    <div className="space-y-1">
+    <div className="space-y-1" data-testid="terminal-output-content">
       {lines.map((line) => (
         <motion.div
           key={line.id}

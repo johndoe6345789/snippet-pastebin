@@ -52,15 +52,17 @@ export function ComponentShowcase({
 
   return (
     <>
-      <Card className="relative group">
-        <div className="absolute top-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+      <Card className="relative group" data-testid={`showcase-${category}-${title.toLowerCase().replace(/\s+/g, '-')}`}>
+        <div className="absolute top-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity" data-testid="showcase-save-btn-container">
           <Button
             variant="secondary"
             size="sm"
             onClick={handleSaveClick}
             className="gap-2 shadow-lg"
+            data-testid="showcase-save-btn"
+            aria-label={`Save ${title} as snippet`}
           >
-            <FloppyDisk weight="bold" />
+            <FloppyDisk weight="bold" aria-hidden="true" />
             Save as Snippet
           </Button>
         </div>

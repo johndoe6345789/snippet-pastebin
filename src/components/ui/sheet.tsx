@@ -61,6 +61,7 @@ const SheetTrigger = React.forwardRef<
         setOpen(true)
         onClick?.(e)
       }}
+      data-testid="sheet-trigger"
       {...props}
     />
   )
@@ -84,6 +85,7 @@ const SheetOverlay = React.forwardRef<
     <div
       ref={ref}
       data-slot="sheet-overlay"
+      data-testid="sheet-overlay"
       className={cn(
         "fixed inset-0 z-40 bg-black/80",
         className
@@ -94,6 +96,7 @@ const SheetOverlay = React.forwardRef<
         }
         onClick?.(e)
       }}
+      aria-hidden="true"
       {...props}
     />
   )
@@ -123,12 +126,15 @@ const SheetContent = React.forwardRef<HTMLDivElement, SheetContentProps>(
           ref={ref}
           data-slot="sheet-content"
           data-state={open ? "open" : "closed"}
+          data-testid="sheet-content"
           className={cn(
             "fixed z-50 gap-4 bg-white dark:bg-gray-950 p-6 shadow-lg",
             "transition ease-in-out duration-300",
             sideClasses,
             className
           )}
+          role="dialog"
+          aria-modal="true"
           {...props}
         >
           {children}
@@ -139,8 +145,10 @@ const SheetContent = React.forwardRef<HTMLDivElement, SheetContentProps>(
               "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100",
               "focus-visible:ring-2 focus-visible:ring-offset-2"
             )}
+            aria-label="Close sheet"
+            data-testid="sheet-close-button"
           >
-            <X className="w-4 h-4" />
+            <X className="w-4 h-4" aria-hidden="true" />
             <span className="sr-only">Close</span>
           </button>
         </div>
@@ -163,6 +171,7 @@ const SheetClose = React.forwardRef<
         onClick?.(e)
       }}
       data-slot="sheet-close"
+      data-testid="sheet-close"
       {...props}
     />
   )
@@ -176,6 +185,7 @@ function SheetHeader({
   return (
     <div
       data-slot="sheet-header"
+      data-testid="sheet-header"
       className={cn(
         "flex flex-col space-y-2 text-center sm:text-left",
         className
@@ -192,6 +202,7 @@ function SheetFooter({
   return (
     <div
       data-slot="sheet-footer"
+      data-testid="sheet-footer"
       className={cn(
         "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2",
         className
@@ -208,6 +219,7 @@ const SheetTitle = React.forwardRef<
   <h2
     ref={ref}
     data-slot="sheet-title"
+    data-testid="sheet-title"
     className={cn("text-lg font-semibold text-gray-900 dark:text-gray-100", className)}
     {...props}
   />
@@ -221,6 +233,7 @@ const SheetDescription = React.forwardRef<
   <p
     ref={ref}
     data-slot="sheet-description"
+    data-testid="sheet-description"
     className={cn("text-sm text-gray-600 dark:text-gray-400", className)}
     {...props}
   />

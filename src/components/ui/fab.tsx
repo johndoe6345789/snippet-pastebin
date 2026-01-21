@@ -89,6 +89,7 @@ const FAB = forwardRef<HTMLButtonElement, FABProps>(
       <button
         ref={ref}
         data-slot="fab"
+        data-testid="fab"
         className={cn(fabVariants({ variant, size }), className)}
         {...props}
       >
@@ -158,6 +159,7 @@ const ExtendedFAB = forwardRef<HTMLButtonElement, ExtendedFABProps>(
       <button
         ref={ref}
         data-slot="extended-fab"
+        data-testid="extended-fab"
         className={cn(extendedFabVariants({ variant }), className)}
         {...props}
       >

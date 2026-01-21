@@ -5,7 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 export function UserCardsSection() {
   return (
-    <section className="space-y-6">
+    <section className="space-y-6" data-testid="user-cards-section" role="region" aria-label="User profile card examples">
       <div>
         <h2 className="text-3xl font-bold mb-2">User Cards</h2>
         <p className="text-muted-foreground">

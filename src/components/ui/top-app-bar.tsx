@@ -72,6 +72,8 @@ const TopAppBar = forwardRef<HTMLElement, TopAppBarProps>(
       <header
         ref={ref}
         data-slot="top-app-bar"
+        data-testid="top-app-bar"
+        role="banner"
         className={cn(topAppBarVariants({ variant, scrolled }), className)}
         {...props}
       >
@@ -160,6 +162,7 @@ const TopAppBarAction = forwardRef<HTMLButtonElement, TopAppBarActionProps>(
         ref={ref}
         type="button"
         data-slot="top-app-bar-action"
+        data-testid="top-app-bar-action"
         className={cn(
           "flex items-center justify-center",
           "size-12 rounded-full",

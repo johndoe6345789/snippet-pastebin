@@ -10,7 +10,7 @@ import {
 
 export function TaskListsShowcase() {
   return (
-    <section className="space-y-6">
+    <section className="space-y-6" data-testid="task-lists-showcase" role="region" aria-label="Task lists showcase">
       <div>
         <h2 className="text-3xl font-bold mb-2">Task Lists</h2>
         <p className="text-muted-foreground">

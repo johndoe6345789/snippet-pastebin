@@ -32,6 +32,7 @@ const BottomNavigation = forwardRef<HTMLElement, BottomNavigationProps>(
         <nav
           ref={ref}
           data-slot="bottom-navigation"
+          data-testid="bottom-navigation"
           className={cn(
             // Container styles
             "fixed bottom-0 left-0 right-0 z-50",
@@ -45,6 +46,8 @@ const BottomNavigation = forwardRef<HTMLElement, BottomNavigationProps>(
             "pb-safe",
             className
           )}
+          role="navigation"
+          aria-label="Bottom navigation"
           {...props}
         >
           {children}
@@ -76,6 +79,7 @@ const BottomNavigationItem = forwardRef<HTMLButtonElement, BottomNavigationItemP
       <button
         ref={ref}
         data-slot="bottom-navigation-item"
+        data-testid={`bottom-navigation-item-${value}`}
         data-active={isActive}
         className={cn(
           // Container
@@ -89,6 +93,8 @@ const BottomNavigationItem = forwardRef<HTMLButtonElement, BottomNavigationItemP
           className
         )}
         onClick={handleClick}
+        aria-selected={isActive}
+        aria-label={label}
         {...props}
       >
         {/* Active indicator pill */}
@@ -99,6 +105,7 @@ const BottomNavigationItem = forwardRef<HTMLButtonElement, BottomNavigationItemP
             "transform transition-all duration-200",
             isActive ? "scale-100 opacity-100" : "scale-75 opacity-0"
           )}
+          aria-hidden="true"
         />
 
         {/* Icon container */}
@@ -110,6 +117,7 @@ const BottomNavigationItem = forwardRef<HTMLButtonElement, BottomNavigationItemP
             "transition-colors duration-200",
             isActive ? "text-primary" : "text-muted-foreground"
           )}
+          aria-hidden="true"
         >
           {isActive && activeIcon ? activeIcon : icon}
 
@@ -124,6 +132,7 @@ const BottomNavigationItem = forwardRef<HTMLButtonElement, BottomNavigationItemP
                 "text-[10px] font-medium",
                 "rounded-full"
               )}
+              data-testid={`bottom-navigation-badge-${value}`}
             >
               {typeof badge === "number" ? (badge > 99 ? "99+" : badge) : ""}
             </span>

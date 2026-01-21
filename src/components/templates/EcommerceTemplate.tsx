@@ -11,7 +11,7 @@ import {
 
 export function EcommerceTemplate() {
   return (
-    <Card className="overflow-hidden">
+    <Card className="overflow-hidden" data-testid="ecommerce-template" role="main" aria-label="Ecommerce template">
       <div className="border-b border-border bg-card p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-6">

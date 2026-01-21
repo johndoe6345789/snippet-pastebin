@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/86</span>
+                <span class='fraction'>0/88</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/86</span>
+                <span class='fraction'>0/88</span>
             </div>
         
             
@@ -149,7 +149,11 @@
 <a name='L84'></a><a href='#L84'>84</a>
 <a name='L85'></a><a href='#L85'>85</a>
 <a name='L86'></a><a href='#L86'>86</a>
-<a name='L87'></a><a href='#L87'>87</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -255,7 +259,7 @@
 <span class="cstat-no" title="statement not covered" >  onClear </span>
 <span class="cstat-no" title="statement not covered" >}: DatabaseActionsCardProps) {</span>
 <span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;Card&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;Card data-testid="database-actions-card"&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;CardHeader&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;CardTitle&gt;Database Actions&lt;/CardTitle&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;CardDescription&gt;</span>
@@ -263,57 +267,59 @@
 <span class="cstat-no" title="statement not covered" >        &lt;/CardDescription&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;/CardHeader&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;CardContent className="space-y-4"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;div&gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;div data-testid="export-section"&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;h3 className="text-sm font-semibold mb-2"&gt;Export Database&lt;/h3&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;p className="text-sm text-muted-foreground mb-3"&gt;</span>
 <span class="cstat-no" title="statement not covered" >            Download your database as a file for backup or transfer to another device</span>
 <span class="cstat-no" title="statement not covered" >          &lt;/p&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;Button onClick={onExport} variant="outline" className="gap-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Download weight="bold" size={16} /&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;Button onClick={onExport} variant="outline" className="gap-2" data-testid="export-db-btn" aria-label="Export database as file"&gt;</span>
+<span class="cstat-no" title="statement not covered" >            &lt;Download weight="bold" size={16} aria-hidden="true" /&gt;</span>
 <span class="cstat-no" title="statement not covered" >            Export Database</span>
 <span class="cstat-no" title="statement not covered" >          &lt;/Button&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >        &lt;div className="pt-4 border-t border-border"&gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;div className="pt-4 border-t border-border" data-testid="import-section"&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;h3 className="text-sm font-semibold mb-2"&gt;Import Database&lt;/h3&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;p className="text-sm text-muted-foreground mb-3"&gt;</span>
 <span class="cstat-no" title="statement not covered" >            Restore a previously exported database file</span>
 <span class="cstat-no" title="statement not covered" >          &lt;/p&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;label&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;label data-testid="import-label"&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;input</span>
 <span class="cstat-no" title="statement not covered" >              type="file"</span>
 <span class="cstat-no" title="statement not covered" >              accept=".db"</span>
 <span class="cstat-no" title="statement not covered" >              onChange={onImport}</span>
 <span class="cstat-no" title="statement not covered" >              className="hidden"</span>
 <span class="cstat-no" title="statement not covered" >              id="import-db"</span>
+<span class="cstat-no" title="statement not covered" >              data-testid="import-file-input"</span>
+<span class="cstat-no" title="statement not covered" >              aria-label="Import database file"</span>
 <span class="cstat-no" title="statement not covered" >            /&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Button variant="outline" className="gap-2" asChild&gt;</span>
+<span class="cstat-no" title="statement not covered" >            &lt;Button variant="outline" className="gap-2" asChild data-testid="import-db-btn"&gt;</span>
 <span class="cstat-no" title="statement not covered" >              &lt;span&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;Upload weight="bold" size={16} /&gt;</span>
+<span class="cstat-no" title="statement not covered" >                &lt;Upload weight="bold" size={16} aria-hidden="true" /&gt;</span>
 <span class="cstat-no" title="statement not covered" >                Import Database</span>
 <span class="cstat-no" title="statement not covered" >              &lt;/span&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;/Button&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;/label&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >        &lt;div className="pt-4 border-t border-border"&gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;div className="pt-4 border-t border-border" data-testid="seed-section"&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;h3 className="text-sm font-semibold mb-2"&gt;Sample Data&lt;/h3&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;p className="text-sm text-muted-foreground mb-3"&gt;</span>
 <span class="cstat-no" title="statement not covered" >            Add sample code snippets to get started (only if database is empty)</span>
 <span class="cstat-no" title="statement not covered" >          &lt;/p&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;Button onClick={onSeed} variant="outline" className="gap-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Database weight="bold" size={16} /&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;Button onClick={onSeed} variant="outline" className="gap-2" data-testid="seed-db-btn" aria-label="Add sample data to database"&gt;</span>
+<span class="cstat-no" title="statement not covered" >            &lt;Database weight="bold" size={16} aria-hidden="true" /&gt;</span>
 <span class="cstat-no" title="statement not covered" >            Add Sample Data</span>
 <span class="cstat-no" title="statement not covered" >          &lt;/Button&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >        &lt;div className="pt-4 border-t border-border"&gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;div className="pt-4 border-t border-border" data-testid="clear-section"&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;h3 className="text-sm font-semibold mb-2 text-destructive"&gt;Clear All Data&lt;/h3&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;p className="text-sm text-muted-foreground mb-3"&gt;</span>
 <span class="cstat-no" title="statement not covered" >            Permanently delete all snippets and templates. This cannot be undone.</span>
 <span class="cstat-no" title="statement not covered" >          &lt;/p&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;Button onClick={onClear} variant="destructive" className="gap-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Trash weight="bold" size={16} /&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;Button onClick={onClear} variant="destructive" className="gap-2" data-testid="clear-db-btn" aria-label="Permanently delete all database contents"&gt;</span>
+<span class="cstat-no" title="statement not covered" >            &lt;Trash weight="bold" size={16} aria-hidden="true" /&gt;</span>
 <span class="cstat-no" title="statement not covered" >            Clear Database</span>
 <span class="cstat-no" title="statement not covered" >          &lt;/Button&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
@@ -328,7 +334,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-20T23:21:59.834Z
+                at 2026-01-21T00:47:57.712Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

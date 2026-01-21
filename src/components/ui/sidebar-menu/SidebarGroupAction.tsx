@@ -14,6 +14,7 @@ export function SidebarGroupAction({
     <Comp
       data-slot="sidebar-group-action"
       data-sidebar="group-action"
+      data-testid="sidebar-group-action"
       className={cn(
         "mat-mdc-button mat-icon-button",
         "absolute top-3.5 right-3",

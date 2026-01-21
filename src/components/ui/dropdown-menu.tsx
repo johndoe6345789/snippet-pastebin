@@ -41,12 +41,13 @@ function DropdownMenuTrigger({ children, asChild, className, ...props }: Compone
   if (asChild && React.isValidElement(children)) {
     return React.cloneElement(children as React.ReactElement, {
       onClick: handleClick,
+      "data-testid": "dropdown-menu-trigger",
       ...props,
     })
   }
 
   return (
-    <button type="button" onClick={handleClick} className={className} {...props}>
+    <button type="button" onClick={handleClick} className={className} data-testid="dropdown-menu-trigger" {...props}>
       {children}
     </button>
   )
@@ -94,6 +95,7 @@ function DropdownMenuContent({
             ref={contentRef}
             className={cn("mat-mdc-menu-panel mat-menu-panel-animations-enabled", className)}
             role="menu"
+            data-testid="dropdown-menu-content"
             {...props}
           >
             <div className="mat-mdc-menu-content">
@@ -107,7 +109,7 @@ function DropdownMenuContent({
 }
 
 function DropdownMenuGroup({ children }: { children: React.ReactNode }) {
-  return <div role="group">{children}</div>
+  return <div role="group" data-testid="dropdown-menu-group">{children}</div>
 }
 
 function DropdownMenuItem({
@@ -137,10 +139,11 @@ function DropdownMenuItem({
         className
       )}
       onClick={handleClick}
+      data-testid="dropdown-menu-item"
       {...props}
     >
       <span className="mdc-list-item__primary-text">{children}</span>
-      <div className="mat-mdc-menu-ripple mat-ripple" />
+      <div className="mat-mdc-menu-ripple mat-ripple" aria-hidden="true" />
     </button>
   )
 }
@@ -157,11 +160,12 @@ function DropdownMenuCheckboxItem({
       role="menuitemcheckbox"
       aria-checked={checked}
       className={cn("mat-mdc-menu-item mdc-list-item", className)}
+      data-testid="dropdown-menu-checkbox-item"
       {...props}
     >
       <span className="mdc-list-item__primary-text">{children}</span>
       {checked && (
-        <span className="mdc-list-item__end">
+        <span className="mdc-list-item__end" aria-hidden="true">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
             <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
           </svg>
@@ -172,7 +176,7 @@ function DropdownMenuCheckboxItem({
 }
 
 function DropdownMenuRadioGroup({ children }: { children: React.ReactNode }) {
-  return <div role="radiogroup">{children}</div>
+  return <div role="radiogroup" data-testid="dropdown-menu-radio-group">{children}</div>
 }
 
 function DropdownMenuRadioItem({
@@ -185,6 +189,7 @@ function DropdownMenuRadioItem({
       type="button"
       role="menuitemradio"
       className={cn("mat-mdc-menu-item mdc-list-item", className)}
+      data-testid="dropdown-menu-radio-item"
       {...props}
     >
       <span className="mdc-list-item__primary-text">{children}</span>
@@ -196,6 +201,7 @@ function DropdownMenuLabel({ className, ...props }: ComponentProps<"div"> & { in
   return (
     <div
       className={cn("mat-mdc-optgroup-label", className)}
+      data-testid="dropdown-menu-label"
       {...props}
     />
   )
@@ -206,6 +212,8 @@ function DropdownMenuSeparator({ className, ...props }: ComponentProps<"hr">) {
     <hr
       className={cn("mat-divider", className)}
       role="separator"
+      data-testid="dropdown-menu-separator"
+      aria-hidden="true"
       {...props}
     />
   )
@@ -216,6 +224,7 @@ function DropdownMenuShortcut({ className, ...props }: ComponentProps<"span">) {
     <span
       className={className}
       style={{ marginLeft: "auto", fontSize: "0.75rem", opacity: 0.6 }}
+      data-testid="dropdown-menu-shortcut"
       {...props}
     />
   )
@@ -234,10 +243,11 @@ function DropdownMenuSubTrigger({
     <button
       type="button"
       className={cn("mat-mdc-menu-item mdc-list-item", className)}
+      data-testid="dropdown-menu-sub-trigger"
       {...props}
     >
       <span className="mdc-list-item__primary-text">{children}</span>
-      <span className="mat-mdc-menu-submenu-icon">
+      <span className="mat-mdc-menu-submenu-icon" aria-hidden="true">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
           <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
         </svg>
@@ -251,6 +261,7 @@ function DropdownMenuSubContent({ className, children, ...props }: ComponentProp
     <div
       className={cn("mat-mdc-menu-panel", className)}
       role="menu"
+      data-testid="dropdown-menu-sub-content"
       {...props}
     >
       <div className="mat-mdc-menu-content">

@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/149</span>
+                <span class='fraction'>0/158</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/149</span>
+                <span class='fraction'>0/158</span>
             </div>
         
             
@@ -212,7 +212,25 @@
 <a name='L147'></a><a href='#L147'>147</a>
 <a name='L148'></a><a href='#L148'>148</a>
 <a name='L149'></a><a href='#L149'>149</a>
-<a name='L150'></a><a href='#L150'>150</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L150'></a><a href='#L150'>150</a>
+<a name='L151'></a><a href='#L151'>151</a>
+<a name='L152'></a><a href='#L152'>152</a>
+<a name='L153'></a><a href='#L153'>153</a>
+<a name='L154'></a><a href='#L154'>154</a>
+<a name='L155'></a><a href='#L155'>155</a>
+<a name='L156'></a><a href='#L156'>156</a>
+<a name='L157'></a><a href='#L157'>157</a>
+<a name='L158'></a><a href='#L158'>158</a>
+<a name='L159'></a><a href='#L159'>159</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -395,6 +413,7 @@
 <span class="cstat-no" title="statement not covered" >        &lt;nav</span>
 <span class="cstat-no" title="statement not covered" >          ref={ref}</span>
 <span class="cstat-no" title="statement not covered" >          data-slot="bottom-navigation"</span>
+<span class="cstat-no" title="statement not covered" >          data-testid="bottom-navigation"</span>
 <span class="cstat-no" title="statement not covered" >          className={cn(</span>
 <span class="cstat-no" title="statement not covered" >            // Container styles</span>
 <span class="cstat-no" title="statement not covered" >            "fixed bottom-0 left-0 right-0 z-50",</span>
@@ -408,6 +427,8 @@
 <span class="cstat-no" title="statement not covered" >            "pb-safe",</span>
 <span class="cstat-no" title="statement not covered" >            className</span>
 <span class="cstat-no" title="statement not covered" >          )}</span>
+<span class="cstat-no" title="statement not covered" >          role="navigation"</span>
+<span class="cstat-no" title="statement not covered" >          aria-label="Bottom navigation"</span>
 <span class="cstat-no" title="statement not covered" >          {...props}</span>
 <span class="cstat-no" title="statement not covered" >        &gt;</span>
 <span class="cstat-no" title="statement not covered" >          {children}</span>
@@ -439,6 +460,7 @@
 <span class="cstat-no" title="statement not covered" >      &lt;button</span>
 <span class="cstat-no" title="statement not covered" >        ref={ref}</span>
 <span class="cstat-no" title="statement not covered" >        data-slot="bottom-navigation-item"</span>
+<span class="cstat-no" title="statement not covered" >        data-testid={`bottom-navigation-item-${value}`}</span>
 <span class="cstat-no" title="statement not covered" >        data-active={isActive}</span>
 <span class="cstat-no" title="statement not covered" >        className={cn(</span>
 <span class="cstat-no" title="statement not covered" >          // Container</span>
@@ -452,6 +474,8 @@
 <span class="cstat-no" title="statement not covered" >          className</span>
 <span class="cstat-no" title="statement not covered" >        )}</span>
 <span class="cstat-no" title="statement not covered" >        onClick={handleClick}</span>
+<span class="cstat-no" title="statement not covered" >        aria-selected={isActive}</span>
+<span class="cstat-no" title="statement not covered" >        aria-label={label}</span>
 <span class="cstat-no" title="statement not covered" >        {...props}</span>
 <span class="cstat-no" title="statement not covered" >      &gt;</span>
 <span class="cstat-no" title="statement not covered" >        {/* Active indicator pill */}</span>
@@ -462,6 +486,7 @@
 <span class="cstat-no" title="statement not covered" >            "transform transition-all duration-200",</span>
 <span class="cstat-no" title="statement not covered" >            isActive ? "scale-100 opacity-100" : "scale-75 opacity-0"</span>
 <span class="cstat-no" title="statement not covered" >          )}</span>
+<span class="cstat-no" title="statement not covered" >          aria-hidden="true"</span>
 <span class="cstat-no" title="statement not covered" >        /&gt;</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >        {/* Icon container */}</span>
@@ -473,6 +498,7 @@
 <span class="cstat-no" title="statement not covered" >            "transition-colors duration-200",</span>
 <span class="cstat-no" title="statement not covered" >            isActive ? "text-primary" : "text-muted-foreground"</span>
 <span class="cstat-no" title="statement not covered" >          )}</span>
+<span class="cstat-no" title="statement not covered" >          aria-hidden="true"</span>
 <span class="cstat-no" title="statement not covered" >        &gt;</span>
 <span class="cstat-no" title="statement not covered" >          {isActive &amp;&amp; activeIcon ? activeIcon : icon}</span>
 <span class="cstat-no" title="statement not covered" ></span>
@@ -487,6 +513,7 @@
 <span class="cstat-no" title="statement not covered" >                "text-[10px] font-medium",</span>
 <span class="cstat-no" title="statement not covered" >                "rounded-full"</span>
 <span class="cstat-no" title="statement not covered" >              )}</span>
+<span class="cstat-no" title="statement not covered" >              data-testid={`bottom-navigation-badge-${value}`}</span>
 <span class="cstat-no" title="statement not covered" >            &gt;</span>
 <span class="cstat-no" title="statement not covered" >              {typeof badge === "number" ? (badge &gt; 99 ? "99+" : badge) : ""}</span>
 <span class="cstat-no" title="statement not covered" >            &lt;/span&gt;</span>
@@ -517,7 +544,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-20T23:21:59.834Z
+                at 2026-01-21T00:47:57.712Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

@@ -136,6 +136,13 @@ export function SnippetCard({
       onClick={handleView}
       data-testid={`snippet-card-${snippet.id}`}
       role="article"
+      aria-selected={isSelected}
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          handleView(e as any)
+        }
+      }}
     >
       <div className="p-6 space-y-4">
         <SnippetCardHeader 

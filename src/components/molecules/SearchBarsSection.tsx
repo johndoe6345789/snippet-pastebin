@@ -13,7 +13,7 @@ interface SearchBarsSectionProps {
 
 export function SearchBarsSection({ onSaveSnippet }: SearchBarsSectionProps) {
   return (
-    <section className="space-y-6">
+    <section className="space-y-6" data-testid="search-bars-section" role="region" aria-label="Search bar components">
       <div>
         <h2 className="text-3xl font-bold mb-2">Search Bars</h2>
         <p className="text-muted-foreground">

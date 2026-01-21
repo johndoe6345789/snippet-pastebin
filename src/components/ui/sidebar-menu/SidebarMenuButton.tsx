@@ -43,6 +43,7 @@ export function SidebarMenuButton({
     <Comp
       data-slot="sidebar-menu-button"
       data-sidebar="menu-button"
+      data-testid="sidebar-menu-button"
       data-size={size}
       data-active={isActive}
       className={cn(
@@ -59,6 +60,7 @@ export function SidebarMenuButton({
         sizeClasses,
         className
       )}
+      aria-pressed={isActive}
       {...props}
     >
       {children}

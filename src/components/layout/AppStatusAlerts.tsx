@@ -13,12 +13,14 @@ export function AppStatusAlerts() {
   const usingLocal = backend === 'indexeddb'
 
   return (
-    <div className="space-y-2" data-testid="status-alerts">
+    <div className="space-y-2" data-testid="status-alerts" role="region" aria-label="Application status alerts">
       <Alert
         data-testid="alert-success"
         className="bg-emerald-500/5 border-emerald-500/20"
+        role="status"
+        aria-live="polite"
       >
-        <CheckCircle className="col-start-1 mt-0.5 text-emerald-500" weight="fill" />
+        <CheckCircle className="col-start-1 mt-0.5 text-emerald-500" weight="fill" aria-hidden="true" />
         <AlertTitle>Workspace ready</AlertTitle>
         <AlertDescription>
           {usingLocal
@@ -32,8 +34,10 @@ export function AppStatusAlerts() {
           data-testid="alert-error"
           variant="destructive"
           className="bg-destructive/10 border-destructive/40"
+          role="alert"
+          aria-live="assertive"
         >
-          <WarningCircle className="col-start-1 mt-0.5" weight="fill" />
+          <WarningCircle className="col-start-1 mt-0.5" weight="fill" aria-hidden="true" />
           <AlertTitle>Cloud backend unavailable</AlertTitle>
           <AlertDescription>
             No Flask backend detected. Saving and loading will stay on this device until a server

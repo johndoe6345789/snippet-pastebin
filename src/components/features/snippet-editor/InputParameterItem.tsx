@@ -38,7 +38,7 @@ export function InputParameterItem({ param, index, onUpdate, onRemove }: InputPa
   }
 
   return (
-    <Card className="bg-background">
+    <Card className="bg-background" data-testid={`param-item-${index}`}>
       <CardContent className="pt-4 space-y-3">
         <div className="flex items-start gap-2">
           <div className="flex-1 grid grid-cols-2 gap-3">
@@ -53,7 +53,8 @@ export function InputParameterItem({ param, index, onUpdate, onRemove }: InputPa
                 onChange={(e) => onUpdate(index, 'name', e.target.value)}
                 className="h-8 text-sm"
                 data-testid={`param-name-input-${index}`}
-                aria-label="Parameter name"
+                aria-label={`Parameter ${index + 1} name`}
+                required
               />
             </div>
             <div className="space-y-1.5">
@@ -68,11 +69,11 @@ export function InputParameterItem({ param, index, onUpdate, onRemove }: InputPa
                   id={`param-type-${index}`}
                   className="h-8 text-sm"
                   data-testid={`param-type-select-${index}`}
-                  aria-label="Parameter type"
+                  aria-label={`Parameter ${index + 1} type`}
                 >
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent data-testid={`param-type-options-${index}`}>
+                <SelectContent data-testid={`param-type-options-${index}`} aria-label="Parameter type options">
                   <SelectItem value="string" data-testid="type-string">string</SelectItem>
                   <SelectItem value="number" data-testid="type-number">number</SelectItem>
                   <SelectItem value="boolean" data-testid="type-boolean">boolean</SelectItem>
@@ -104,7 +105,8 @@ export function InputParameterItem({ param, index, onUpdate, onRemove }: InputPa
             onChange={(e) => onUpdate(index, 'defaultValue', e.target.value)}
             className="h-8 text-sm font-mono"
             data-testid={`param-default-input-${index}`}
-            aria-label="Default parameter value"
+            aria-label={`Parameter ${index + 1} default value`}
+            required
           />
         </div>
         <div className="space-y-1.5">
@@ -118,7 +120,7 @@ export function InputParameterItem({ param, index, onUpdate, onRemove }: InputPa
             onChange={(e) => onUpdate(index, 'description', e.target.value)}
             className="h-8 text-sm"
             data-testid={`param-description-input-${index}`}
-            aria-label="Parameter description"
+            aria-label={`Parameter ${index + 1} description`}
           />
         </div>
       </CardContent>

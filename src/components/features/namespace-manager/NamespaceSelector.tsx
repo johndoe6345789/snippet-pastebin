@@ -107,7 +107,7 @@ export function NamespaceSelector({ selectedNamespaceId, onNamespaceChange }: Na
   const selectedNamespace = namespaces.find(n => n.id === selectedNamespaceId)
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2" data-testid="namespace-selector" role="group" aria-label="Namespace selector">
       <div className="flex items-center gap-2 text-muted-foreground">
         <Folder weight="fill" className="h-4 w-4" aria-hidden="true" />
         <span className="text-sm font-medium">Namespace:</span>

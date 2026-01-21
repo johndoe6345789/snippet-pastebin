@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/158</span>
+                <span class='fraction'>0/167</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/158</span>
+                <span class='fraction'>0/167</span>
             </div>
         
             
@@ -221,7 +221,25 @@
 <a name='L156'></a><a href='#L156'>156</a>
 <a name='L157'></a><a href='#L157'>157</a>
 <a name='L158'></a><a href='#L158'>158</a>
-<a name='L159'></a><a href='#L159'>159</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L159'></a><a href='#L159'>159</a>
+<a name='L160'></a><a href='#L160'>160</a>
+<a name='L161'></a><a href='#L161'>161</a>
+<a name='L162'></a><a href='#L162'>162</a>
+<a name='L163'></a><a href='#L163'>163</a>
+<a name='L164'></a><a href='#L164'>164</a>
+<a name='L165'></a><a href='#L165'>165</a>
+<a name='L166'></a><a href='#L166'>166</a>
+<a name='L167'></a><a href='#L167'>167</a>
+<a name='L168'></a><a href='#L168'>168</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -418,10 +436,10 @@
 <span class="cstat-no" title="statement not covered" >  onMigrateToIndexedDB,</span>
 <span class="cstat-no" title="statement not covered" >}: StorageBackendCardProps) {</span>
 <span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;Card&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;Card data-testid="storage-backend-card"&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;CardHeader&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;CardTitle className="flex items-center gap-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;CloudArrowUp weight="duotone" size={24} /&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;CloudArrowUp weight="duotone" size={24} aria-hidden="true" /&gt;</span>
 <span class="cstat-no" title="statement not covered" >          Storage Backend</span>
 <span class="cstat-no" title="statement not covered" >        &lt;/CardTitle&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;CardDescription&gt;</span>
@@ -430,9 +448,9 @@
 <span class="cstat-no" title="statement not covered" >      &lt;/CardHeader&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;CardContent className="space-y-6"&gt;</span>
 <span class="cstat-no" title="statement not covered" >        {envVarSet &amp;&amp; (</span>
-<span class="cstat-no" title="statement not covered" >          &lt;Alert className="border-accent bg-accent/10"&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;Alert className="border-accent bg-accent/10" data-testid="env-var-alert" role="status"&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;AlertDescription className="flex items-center gap-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;CloudCheck weight="fill" size={16} className="text-accent" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >              &lt;CloudCheck weight="fill" size={16} className="text-accent" aria-hidden="true" /&gt;</span>
 <span class="cstat-no" title="statement not covered" >              &lt;span&gt;</span>
 <span class="cstat-no" title="statement not covered" >                Storage backend is configured via &lt;code className="px-1.5 py-0.5 rounded bg-muted text-xs font-mono"&gt;NEXT_PUBLIC_FLASK_BACKEND_URL&lt;/code&gt; environment variable and cannot be changed here.</span>
 <span class="cstat-no" title="statement not covered" >              &lt;/span&gt;</span>
@@ -444,7 +462,7 @@
 <span class="cstat-no" title="statement not covered" >          value={storageBackend}</span>
 <span class="cstat-no" title="statement not covered" >          onValueChange={(value) =&gt; onStorageBackendChange(value as StorageBackend)}</span>
 <span class="cstat-no" title="statement not covered" >        &gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;div className="flex items-start space-x-3 space-y-0"&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;div className="flex items-start space-x-3 space-y-0" data-testid="storage-option-indexeddb"&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;RadioGroupItem value="indexeddb" id="storage-indexeddb" disabled={envVarSet} /&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;div className="flex-1"&gt;</span>
 <span class="cstat-no" title="statement not covered" >              &lt;Label htmlFor="storage-indexeddb" className={`font-semibold ${envVarSet ? 'opacity-50' : 'cursor-pointer'}`}&gt;</span>
@@ -456,7 +474,7 @@
 <span class="cstat-no" title="statement not covered" >            &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >          </span>
-<span class="cstat-no" title="statement not covered" >          &lt;div className="flex items-start space-x-3 space-y-0 mt-4"&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;div className="flex items-start space-x-3 space-y-0 mt-4" data-testid="storage-option-flask"&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;RadioGroupItem value="flask" id="storage-flask" disabled={envVarSet} /&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;div className="flex-1"&gt;</span>
 <span class="cstat-no" title="statement not covered" >              &lt;Label htmlFor="storage-flask" className={`font-semibold ${envVarSet ? 'opacity-50' : 'cursor-pointer'}`}&gt;</span>
@@ -470,7 +488,7 @@
 <span class="cstat-no" title="statement not covered" >        &lt;/RadioGroup&gt;</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >        {storageBackend === 'flask' &amp;&amp; (</span>
-<span class="cstat-no" title="statement not covered" >          &lt;div className="space-y-4 p-4 border border-border rounded-lg bg-muted/50"&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;div className="space-y-4 p-4 border border-border rounded-lg bg-muted/50" data-testid="flask-config-section"&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;div&gt;</span>
 <span class="cstat-no" title="statement not covered" >              &lt;Label htmlFor="flask-url"&gt;Flask Backend URL&lt;/Label&gt;</span>
 <span class="cstat-no" title="statement not covered" >              &lt;div className="flex gap-2 mt-2"&gt;</span>
@@ -481,46 +499,55 @@
 <span class="cstat-no" title="statement not covered" >                  value={flaskUrl}</span>
 <span class="cstat-no" title="statement not covered" >                  onChange={(e) =&gt; onFlaskUrlChange(e.target.value)}</span>
 <span class="cstat-no" title="statement not covered" >                  disabled={envVarSet}</span>
+<span class="cstat-no" title="statement not covered" >                  data-testid="flask-url-input"</span>
+<span class="cstat-no" title="statement not covered" >                  aria-label="Flask backend URL"</span>
 <span class="cstat-no" title="statement not covered" >                /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;Button </span>
-<span class="cstat-no" title="statement not covered" >                  onClick={onTestConnection} </span>
+<span class="cstat-no" title="statement not covered" >                &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >                  onClick={onTestConnection}</span>
 <span class="cstat-no" title="statement not covered" >                  variant="outline"</span>
 <span class="cstat-no" title="statement not covered" >                  disabled={testingConnection || !flaskUrl}</span>
+<span class="cstat-no" title="statement not covered" >                  data-testid="test-flask-btn"</span>
+<span class="cstat-no" title="statement not covered" >                  aria-label="Test flask connection"</span>
+<span class="cstat-no" title="statement not covered" >                  aria-busy={testingConnection}</span>
 <span class="cstat-no" title="statement not covered" >                &gt;</span>
 <span class="cstat-no" title="statement not covered" >                  {testingConnection ? 'Testing...' : 'Test'}</span>
 <span class="cstat-no" title="statement not covered" >                &lt;/Button&gt;</span>
 <span class="cstat-no" title="statement not covered" >              &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >              {flaskConnectionStatus === 'connected' &amp;&amp; (</span>
-<span class="cstat-no" title="statement not covered" >                &lt;div className="flex items-center gap-2 mt-2 text-sm text-green-600"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;CloudCheck weight="fill" size={16} /&gt;</span>
+<span class="cstat-no" title="statement not covered" >                &lt;div className="flex items-center gap-2 mt-2 text-sm text-green-600" data-testid="flask-connected-status"&gt;</span>
+<span class="cstat-no" title="statement not covered" >                  &lt;CloudCheck weight="fill" size={16} aria-hidden="true" /&gt;</span>
 <span class="cstat-no" title="statement not covered" >                  Connected successfully</span>
 <span class="cstat-no" title="statement not covered" >                &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >              )}</span>
 <span class="cstat-no" title="statement not covered" >              {flaskConnectionStatus === 'failed' &amp;&amp; (</span>
-<span class="cstat-no" title="statement not covered" >                &lt;div className="flex items-center gap-2 mt-2 text-sm text-destructive"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;CloudSlash weight="fill" size={16} /&gt;</span>
+<span class="cstat-no" title="statement not covered" >                &lt;div className="flex items-center gap-2 mt-2 text-sm text-destructive" data-testid="flask-failed-status"&gt;</span>
+<span class="cstat-no" title="statement not covered" >                  &lt;CloudSlash weight="fill" size={16} aria-hidden="true" /&gt;</span>
 <span class="cstat-no" title="statement not covered" >                  Connection failed</span>
 <span class="cstat-no" title="statement not covered" >                &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >              )}</span>
 <span class="cstat-no" title="statement not covered" >            &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >            &lt;div className="pt-2 space-y-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;Button </span>
-<span class="cstat-no" title="statement not covered" >                onClick={onMigrateToFlask} </span>
-<span class="cstat-no" title="statement not covered" >                variant="outline" </span>
+<span class="cstat-no" title="statement not covered" >              &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >                onClick={onMigrateToFlask}</span>
+<span class="cstat-no" title="statement not covered" >                variant="outline"</span>
 <span class="cstat-no" title="statement not covered" >                size="sm"</span>
 <span class="cstat-no" title="statement not covered" >                className="w-full gap-2"</span>
+<span class="cstat-no" title="statement not covered" >                data-testid="migrate-to-flask-btn"</span>
+<span class="cstat-no" title="statement not covered" >                aria-label="Migrate IndexedDB data to Flask backend"</span>
 <span class="cstat-no" title="statement not covered" >              &gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;Upload weight="bold" size={16} /&gt;</span>
+<span class="cstat-no" title="statement not covered" >                &lt;Upload weight="bold" size={16} aria-hidden="true" /&gt;</span>
 <span class="cstat-no" title="statement not covered" >                Migrate IndexedDB Data to Flask</span>
 <span class="cstat-no" title="statement not covered" >              &lt;/Button&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;Button </span>
-<span class="cstat-no" title="statement not covered" >                onClick={onMigrateToIndexedDB} </span>
-<span class="cstat-no" title="statement not covered" >                variant="outline" </span>
+<span class="cstat-no" title="statement not covered" >              &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >                onClick={onMigrateToIndexedDB}</span>
+<span class="cstat-no" title="statement not covered" >                variant="outline"</span>
 <span class="cstat-no" title="statement not covered" >                size="sm"</span>
 <span class="cstat-no" title="statement not covered" >                className="w-full gap-2"</span>
+<span class="cstat-no" title="statement not covered" >                data-testid="migrate-to-indexeddb-btn"</span>
+<span class="cstat-no" title="statement not covered" >                aria-label="Migrate Flask data to IndexedDB"</span>
 <span class="cstat-no" title="statement not covered" >              &gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;Download weight="bold" size={16} /&gt;</span>
+<span class="cstat-no" title="statement not covered" >                &lt;Download weight="bold" size={16} aria-hidden="true" /&gt;</span>
 <span class="cstat-no" title="statement not covered" >                Migrate Flask Data to IndexedDB</span>
 <span class="cstat-no" title="statement not covered" >              &lt;/Button&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;/div&gt;</span>
@@ -528,8 +555,8 @@
 <span class="cstat-no" title="statement not covered" >        )}</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >        &lt;div className="pt-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;Button onClick={onSaveConfig} className="gap-2" disabled={envVarSet}&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Database weight="bold" size={16} /&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;Button onClick={onSaveConfig} className="gap-2" disabled={envVarSet} data-testid="save-storage-settings-btn" aria-label="Save storage configuration"&gt;</span>
+<span class="cstat-no" title="statement not covered" >            &lt;Database weight="bold" size={16} aria-hidden="true" /&gt;</span>
 <span class="cstat-no" title="statement not covered" >            Save Storage Settings</span>
 <span class="cstat-no" title="statement not covered" >          &lt;/Button&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
@@ -544,7 +571,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-20T23:21:59.834Z
+                at 2026-01-21T00:47:57.712Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

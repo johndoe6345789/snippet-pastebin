@@ -56,6 +56,7 @@ const AlertDialogTrigger = React.forwardRef<
         setOpen(true)
         onClick?.(e)
       }}
+      data-testid="alert-dialog-trigger"
       {...props}
     />
   )
@@ -88,6 +89,8 @@ const AlertDialogOverlay = React.forwardRef<
         }
         onClick?.(e)
       }}
+      data-testid="alert-dialog-overlay"
+      aria-hidden="true"
       {...props}
     />
   )
@@ -109,6 +112,9 @@ const AlertDialogContent = React.forwardRef<
         "p-6 shadow-lg",
         className
       )}
+      role="alertdialog"
+      aria-modal="true"
+      data-testid="alert-dialog-content"
       {...props}
     />
   </AlertDialogPortal>
@@ -124,6 +130,7 @@ const AlertDialogHeader = ({
       "flex flex-col space-y-2 text-center sm:text-left",
       className
     )}
+    data-testid="alert-dialog-header"
     {...props}
   />
 )
@@ -138,6 +145,7 @@ const AlertDialogFooter = ({
       "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2",
       className
     )}
+    data-testid="alert-dialog-footer"
     {...props}
   />
 )
@@ -150,6 +158,7 @@ const AlertDialogTitle = React.forwardRef<
   <h2
     ref={ref}
     className={cn("text-lg font-semibold", className)}
+    data-testid="alert-dialog-title"
     {...props}
   />
 ))
@@ -162,6 +171,7 @@ const AlertDialogDescription = React.forwardRef<
   <p
     ref={ref}
     className={cn("text-sm text-gray-600 dark:text-gray-400", className)}
+    data-testid="alert-dialog-description"
     {...props}
   />
 ))
@@ -186,6 +196,7 @@ const AlertDialogAction = React.forwardRef<
         onClick?.(e)
         setOpen(false)
       }}
+      data-testid="alert-dialog-action"
       {...props}
     />
   )
@@ -212,6 +223,7 @@ const AlertDialogCancel = React.forwardRef<
         onClick?.(e)
         setOpen(false)
       }}
+      data-testid="alert-dialog-cancel"
       {...props}
     />
   )
