@@ -117,6 +117,13 @@ describe('SnippetFormFields Component', () => {
       const titleInput = screen.getByTestId('snippet-title-input')
       expect(titleInput).toHaveAttribute('type', 'text')
     })
+
+    it('has required and aria-required attributes', () => {
+      render(<SnippetFormFields {...defaultProps} />)
+      const titleInput = screen.getByTestId('snippet-title-input')
+      expect(titleInput).toHaveAttribute('required')
+      expect(titleInput).toHaveAttribute('aria-required', 'true')
+    })
   })
 
   describe('Description Textarea', () => {

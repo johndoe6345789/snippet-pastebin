@@ -146,6 +146,23 @@ describe('useDatabaseOperations Hook', () => {
   })
 
   describe('handleImport', () => {
+    it('should handle no file selected', async () => {
+      const { result } = renderHook(() => useDatabaseOperations())
+
+      const mockEvent = {
+        target: {
+          files: null,
+          value: '',
+        },
+      } as unknown as React.ChangeEvent<HTMLInputElement>
+
+      await act(async () => {
+        await result.current.handleImport(mockEvent)
+      })
+
+      expect(mockDb.importDatabase).not.toHaveBeenCalled()
+    })
+
     it('should import database successfully', async () => {
       mockDb.importDatabase.mockResolvedValueOnce(undefined)
       const mockStats = {

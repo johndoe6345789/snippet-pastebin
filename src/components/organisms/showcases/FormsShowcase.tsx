@@ -44,7 +44,7 @@ export function FormsShowcase() {
           <div className="space-y-2">
             <Label htmlFor="formEmail">Email</Label>
             <div className="relative">
-              <Envelope className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+              <Envelope className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" aria-hidden="true" />
               <Input id="formEmail" type="email" placeholder="john@example.com" className="pl-10" />
             </div>
           </div>
@@ -52,7 +52,7 @@ export function FormsShowcase() {
           <div className="space-y-2">
             <Label htmlFor="formPassword">Password</Label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" aria-hidden="true" />
               <Input id="formPassword" type="password" placeholder="••••••••" className="pl-10" />
             </div>
             <p className="text-sm text-muted-foreground">
@@ -68,7 +68,7 @@ export function FormsShowcase() {
             </Button>
             <Button type="submit">
               Create Account
-              <ArrowRight className="ml-2" />
+              <ArrowRight className="ml-2" aria-hidden="true" />
             </Button>
           </div>
         </form>

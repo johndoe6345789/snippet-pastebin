@@ -29,14 +29,14 @@ export function ContentGridsShowcase() {
                 size="icon"
                 onClick={() => setViewMode('grid')}
               >
-                <GridFour />
+                <GridFour aria-hidden="true" />
               </Button>
               <Button
                 variant={viewMode === 'list' ? 'filled' : 'outline'}
                 size="icon"
                 onClick={() => setViewMode('list')}
               >
-                <List />
+                <List aria-hidden="true" />
               </Button>
             </div>
           </div>

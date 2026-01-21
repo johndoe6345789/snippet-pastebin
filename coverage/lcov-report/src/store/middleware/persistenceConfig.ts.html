@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">64% </span>
+                <span class="strong">84% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>48/75</span>
+                <span class='fraction'>63/75</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">60% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/10</span>
+                <span class='fraction'>6/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">64% </span>
+                <span class="strong">84% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>48/75</span>
+                <span class='fraction'>63/75</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -168,31 +168,23 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">204x</span>
+<span class="cline-any cline-yes">204x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -201,12 +193,20 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -242,20 +242,20 @@ export const defaultPersistenceConfig: PersistenceConfig = {
 &nbsp;
 let currentConfig: PersistenceConfig = { ...defaultPersistenceConfig }
 &nbsp;
-export <span class="fstat-no" title="function not covered" >function getPersistenceConfig(): PersistenceConfig {</span>
-<span class="cstat-no" title="statement not covered" >  return currentConfig</span>
-<span class="cstat-no" title="statement not covered" >}</span>
+export function getPersistenceConfig(): PersistenceConfig {
+  return currentConfig
+}
 &nbsp;
-export <span class="fstat-no" title="function not covered" >function updatePersistenceConfig(partial: Partial&lt;PersistenceConfig&gt;): void {</span>
-<span class="cstat-no" title="statement not covered" >  currentConfig = {</span>
-<span class="cstat-no" title="statement not covered" >    ...currentConfig,</span>
-<span class="cstat-no" title="statement not covered" >    ...partial,</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
-<span class="cstat-no" title="statement not covered" >}</span>
+export function updatePersistenceConfig(partial: Partial&lt;PersistenceConfig&gt;): void {
+  currentConfig = {
+    ...currentConfig,
+    ...partial,
+  }
+}
 &nbsp;
-export <span class="fstat-no" title="function not covered" >function resetPersistenceConfig(): void {</span>
-<span class="cstat-no" title="statement not covered" >  currentConfig = { ...defaultPersistenceConfig }</span>
-<span class="cstat-no" title="statement not covered" >}</span>
+export function resetPersistenceConfig(): void {
+  currentConfig = { ...defaultPersistenceConfig }
+}
 &nbsp;
 export <span class="fstat-no" title="function not covered" >function addPersistenceAction(action: string): void {</span>
 <span class="cstat-no" title="statement not covered" >  if (!currentConfig.actions.includes(action)) {</span>
@@ -267,21 +267,21 @@ export <span class="fstat-no" title="function not covered" >function removePersi
 <span class="cstat-no" title="statement not covered" >  currentConfig.actions = currentConfig.actions.filter(a =&gt; a !== action)</span>
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;
-export <span class="fstat-no" title="function not covered" >function enablePersistence(): void {</span>
-<span class="cstat-no" title="statement not covered" >  currentConfig.enabled = true</span>
-<span class="cstat-no" title="statement not covered" >}</span>
+export function enablePersistence(): void {
+  currentConfig.enabled = true
+}
 &nbsp;
-export <span class="fstat-no" title="function not covered" >function disablePersistence(): void {</span>
-<span class="cstat-no" title="statement not covered" >  currentConfig.enabled = false</span>
-<span class="cstat-no" title="statement not covered" >}</span>
+export function disablePersistence(): void {
+  currentConfig.enabled = false
+}
 &nbsp;
 export <span class="fstat-no" title="function not covered" >function enableLogging(): void {</span>
 <span class="cstat-no" title="statement not covered" >  currentConfig.logging = true</span>
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;
-export <span class="fstat-no" title="function not covered" >function disableLogging(): void {</span>
-<span class="cstat-no" title="statement not covered" >  currentConfig.logging = false</span>
-<span class="cstat-no" title="statement not covered" >}</span>
+export function disableLogging(): void {
+  currentConfig.logging = false
+}
 &nbsp;
 export <span class="fstat-no" title="function not covered" >function setDebounceDelay(ms: number): void {</span>
 <span class="cstat-no" title="statement not covered" >  if (ms &gt;= 0) {</span>
@@ -295,7 +295,7 @@ export <span class="fstat-no" title="function not covered" >function setDebounce
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-21T00:47:57.712Z
+                at 2026-01-21T02:45:33.715Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

@@ -25,8 +25,20 @@ export function EmptyState({ onCreateClick, onCreateFromTemplate }: EmptyStatePr
       className="flex flex-col items-center justify-center py-20 px-4 text-center"
       data-testid="empty-state"
       role="status"
+      aria-live="polite"
       aria-label="No snippets available"
     >
+      {/* Aria-live region for empty state announcement */}
+      <div
+        className="sr-only"
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+        data-testid="empty-state-message"
+      >
+        {strings.emptyState.title}. {strings.emptyState.description}
+      </div>
+
       <div className="rounded-full bg-accent/10 p-6 mb-6" aria-hidden="true">
         <Code className="h-16 w-16 text-accent" weight="duotone" />
       </div>

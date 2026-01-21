@@ -25,18 +25,28 @@ function handleEditorBeforeMount(monaco: Monaco) {
   configureMonacoTypeScript(monaco)
 }
 
-export function MonacoEditor({ 
-  value, 
-  onChange, 
-  language, 
+export function MonacoEditor({
+  value,
+  onChange,
+  language,
   height = '400px',
-  readOnly = false 
+  readOnly = false
 }: MonacoEditorProps) {
   const monacoLanguage = getMonacoLanguage(language)
-  
+
   return (
     <Suspense fallback={<EditorLoadingSkeleton height={height} />}>
       <div data-testid="monaco-editor-container" role="region" aria-label={`Code editor (${readOnly ? 'read-only' : 'editable'}, ${monacoLanguage} language)`}>
+        {/* Aria-live region for editor status updates */}
+        <div
+          className="sr-only"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+          data-testid="monaco-editor-status"
+        >
+          Code editor loaded with {monacoLanguage} syntax highlighting. {readOnly ? 'Read-only mode' : 'Editable mode'}.
+        </div>
         <Editor
           height={height}
           language={monacoLanguage}

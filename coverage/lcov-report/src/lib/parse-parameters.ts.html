@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">10.71% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>3/28</span>
+                <span class='fraction'>28/28</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>13/13</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">10.71% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>3/28</span>
+                <span class='fraction'>28/28</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -94,59 +94,59 @@
 <a name='L29'></a><a href='#L29'>29</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">24x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { InputParameter } from '@/lib/types'
 &nbsp;
-export <span class="fstat-no" title="function not covered" >function parseInputParameters(inputParameters?: InputParameter[]): Record&lt;string, unknown&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  if (!inputParameters || inputParameters.length === 0) {</span>
-<span class="cstat-no" title="statement not covered" >    return {}</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const parsedProps: Record&lt;string, unknown&gt; = {}</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  inputParameters.forEach((param) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    try {</span>
-<span class="cstat-no" title="statement not covered" >      if (param.type === 'string') {</span>
-<span class="cstat-no" title="statement not covered" >        parsedProps[param.name] = param.defaultValue.replace(/^["']|["']$/g, '')</span>
-<span class="cstat-no" title="statement not covered" >      } else if (param.type === 'number') {</span>
-<span class="cstat-no" title="statement not covered" >        parsedProps[param.name] = Number(param.defaultValue)</span>
-<span class="cstat-no" title="statement not covered" >      } else if (param.type === 'boolean') {</span>
-<span class="cstat-no" title="statement not covered" >        parsedProps[param.name] = param.defaultValue === 'true'</span>
-<span class="cstat-no" title="statement not covered" >      } else if (param.type === 'array' || param.type === 'object') {</span>
-<span class="cstat-no" title="statement not covered" >        parsedProps[param.name] = JSON.parse(param.defaultValue)</span>
-<span class="cstat-no" title="statement not covered" >      }</span>
-<span class="cstat-no" title="statement not covered" >    } catch (err) {</span>
-<span class="cstat-no" title="statement not covered" >      console.warn(`Failed to parse parameter ${param.name}:`, err)</span>
-<span class="cstat-no" title="statement not covered" >      parsedProps[param.name] = param.defaultValue</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  })</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  return parsedProps</span>
-<span class="cstat-no" title="statement not covered" >}</span>
+export function parseInputParameters(inputParameters?: InputParameter[]): Record&lt;string, unknown&gt; {
+  if (!inputParameters || inputParameters.length === 0) {
+    return {}
+  }
+&nbsp;
+  const parsedProps: Record&lt;string, unknown&gt; = {}
+&nbsp;
+  inputParameters.forEach((param) =&gt; {
+    try {
+      if (param.type === 'string') {
+        parsedProps[param.name] = param.defaultValue.replace(/^["']|["']$/g, '')
+      } else if (param.type === 'number') {
+        parsedProps[param.name] = Number(param.defaultValue)
+      } else if (param.type === 'boolean') {
+        parsedProps[param.name] = param.defaultValue === 'true'
+      } else if (param.type === 'array' || param.type === 'object') {
+        parsedProps[param.name] = JSON.parse(param.defaultValue)
+      }
+    } catch (err) {
+      console.warn(`Failed to parse parameter ${param.name}:`, err)
+      parsedProps[param.name] = param.defaultValue
+    }
+  })
+&nbsp;
+  return parsedProps
+}
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -154,7 +154,7 @@ export <span class="fstat-no" title="function not covered" >function parseInputP
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-21T00:47:57.712Z
+                at 2026-01-21T02:45:33.715Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

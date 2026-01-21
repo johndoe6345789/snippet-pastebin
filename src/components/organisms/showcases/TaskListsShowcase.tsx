@@ -23,7 +23,7 @@ export function TaskListsShowcase() {
           <div className="flex items-center justify-between">
             <h3 className="font-semibold text-lg">Project Tasks</h3>
             <Button size="sm">
-              <Plus className="mr-2" />
+              <Plus className="mr-2" aria-hidden="true" />
               Add Task
             </Button>
           </div>
@@ -32,7 +32,7 @@ export function TaskListsShowcase() {
         <div className="divide-y divide-border">
           <div className="p-4 hover:bg-muted/50 transition-colors">
             <div className="flex items-start gap-4">
-              <CheckCircle weight="fill" className="h-6 w-6 text-accent mt-0.5" />
+              <CheckCircle weight="fill" className="h-6 w-6 text-accent mt-0.5" aria-hidden="true" />
               <div className="flex-1 min-w-0">
                 <h4 className="font-medium">Design system documentation</h4>
                 <p className="text-sm text-muted-foreground mt-1">
@@ -48,7 +48,7 @@ export function TaskListsShowcase() {
 
           <div className="p-4 hover:bg-muted/50 transition-colors">
             <div className="flex items-start gap-4">
-              <Clock weight="fill" className="h-6 w-6 text-accent mt-0.5" />
+              <Clock weight="fill" className="h-6 w-6 text-accent mt-0.5" aria-hidden="true" />
               <div className="flex-1 min-w-0">
                 <h4 className="font-medium">API integration</h4>
                 <p className="text-sm text-muted-foreground mt-1">
@@ -64,7 +64,7 @@ export function TaskListsShowcase() {
 
           <div className="p-4 hover:bg-muted/50 transition-colors">
             <div className="flex items-start gap-4">
-              <XCircle weight="fill" className="h-6 w-6 text-destructive mt-0.5" />
+              <XCircle weight="fill" className="h-6 w-6 text-destructive mt-0.5" aria-hidden="true" />
               <div className="flex-1 min-w-0">
                 <h4 className="font-medium">Performance optimization</h4>
                 <p className="text-sm text-muted-foreground mt-1">

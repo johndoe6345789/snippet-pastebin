@@ -84,6 +84,12 @@ describe('InputParameterItem', () => {
       const nameInput = screen.getByTestId('param-name-input-0')
       expect(nameInput).toHaveAttribute('required')
     })
+
+    it('should have aria-required="true" on name input', () => {
+      render(<InputParameterItem {...defaultProps} />)
+      const nameInput = screen.getByTestId('param-name-input-0')
+      expect(nameInput).toHaveAttribute('aria-required', 'true')
+    })
   })
 
   describe('Input Fields - Type', () => {
@@ -175,6 +181,12 @@ describe('InputParameterItem', () => {
       render(<InputParameterItem {...defaultProps} />)
       const defaultInput = screen.getByTestId('param-default-input-0')
       expect(defaultInput).toHaveAttribute('required')
+    })
+
+    it('should have aria-required="true" on default value input', () => {
+      render(<InputParameterItem {...defaultProps} />)
+      const defaultInput = screen.getByTestId('param-default-input-0')
+      expect(defaultInput).toHaveAttribute('aria-required', 'true')
     })
 
     it('should have monospace font class', () => {

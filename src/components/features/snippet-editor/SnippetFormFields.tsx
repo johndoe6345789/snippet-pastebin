@@ -40,6 +40,8 @@ export function SnippetFormFields({
           onChange={(e) => onTitleChange(e.target.value)}
           className={errors.title ? 'border-destructive ring-destructive' : ''}
           data-testid="snippet-title-input"
+          required
+          aria-required="true"
           aria-invalid={!!errors.title}
           aria-describedby={errors.title ? "title-error" : undefined}
         />

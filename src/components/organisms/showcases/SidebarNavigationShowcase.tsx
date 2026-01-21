@@ -31,19 +31,19 @@ export function SidebarNavigationShowcase() {
 
               <nav className="space-y-1">
                 <Button variant="ghost" className="w-full justify-start">
-                  <House className="mr-2" />
+                  <House className="mr-2" aria-hidden="true" />
                   Home
                 </Button>
                 <Button variant="filled" className="w-full justify-start">
-                  <ChartBar className="mr-2" />
+                  <ChartBar className="mr-2" aria-hidden="true" />
                   Analytics
                 </Button>
                 <Button variant="ghost" className="w-full justify-start">
-                  <Folder className="mr-2" />
+                  <Folder className="mr-2" aria-hidden="true" />
                   Projects
                 </Button>
                 <Button variant="ghost" className="w-full justify-start">
-                  <User className="mr-2" />
+                  <User className="mr-2" aria-hidden="true" />
                   Team
                 </Button>
               </nav>
@@ -52,11 +52,11 @@ export function SidebarNavigationShowcase() {
 
               <nav className="space-y-1">
                 <Button variant="ghost" className="w-full justify-start">
-                  <Gear className="mr-2" />
+                  <Gear className="mr-2" aria-hidden="true" />
                   Settings
                 </Button>
                 <Button variant="ghost" className="w-full justify-start text-destructive">
-                  <SignOut className="mr-2" />
+                  <SignOut className="mr-2" aria-hidden="true" />
                   Sign Out
                 </Button>
               </nav>

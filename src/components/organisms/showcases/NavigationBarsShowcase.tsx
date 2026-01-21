@@ -40,25 +40,25 @@ export function NavigationBarsShowcase({ onSaveSnippet }: NavigationBarsShowcase
                 <h3 className="text-xl font-bold">BrandName</h3>
                 <nav className="hidden md:flex items-center gap-1">
                   <Button variant="ghost" size="sm">
-                    <House className="mr-2" />
+                    <House className="mr-2" aria-hidden="true" />
                     Home
                   </Button>
                   <Button variant="ghost" size="sm">
-                    <ChartBar className="mr-2" />
+                    <ChartBar className="mr-2" aria-hidden="true" />
                     Analytics
                   </Button>
                   <Button variant="ghost" size="sm">
-                    <Folder className="mr-2" />
+                    <Folder className="mr-2" aria-hidden="true" />
                     Projects
                   </Button>
                 </nav>
               </div>
               <div className="flex items-center gap-2">
                 <Button variant="ghost" size="icon">
-                  <Bell />
+                  <Bell aria-hidden="true" />
                 </Button>
                 <Button variant="ghost" size="icon">
-                  <Gear />
+                  <Gear aria-hidden="true" />
                 </Button>
                 <Avatar className="h-8 w-8">
                   <AvatarImage src="https://i.pravatar.cc/150?img=3" />

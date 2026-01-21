@@ -34,7 +34,7 @@ export function InputParameterList({
             onClick={onAddParameter}
             className="gap-2"
             data-testid="add-parameter-btn"
-            aria-label="Add new parameter"
+            aria-label={`Add new parameter. Current parameters: ${inputParameters.length}`}
           >
             <Plus className="h-3 w-3" aria-hidden="true" />
             Add Parameter
@@ -63,6 +63,17 @@ export function InputParameterList({
 
         {inputParameters.length > 0 && (
           <div className="space-y-3" role="region" aria-label="Input parameters list">
+            {/* Aria-live region for parameter change announcements */}
+            <div
+              className="sr-only"
+              role="status"
+              aria-live="polite"
+              aria-atomic="true"
+              data-testid="parameters-status"
+            >
+              {inputParameters.length} parameter{inputParameters.length !== 1 ? 's' : ''} configured
+            </div>
+
             <Label className="text-sm font-medium">Input Parameters (Props)</Label>
             {inputParameters.map((param, index) => (
               <InputParameterItem

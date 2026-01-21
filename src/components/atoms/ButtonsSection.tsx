@@ -59,7 +59,7 @@ export function ButtonsSection({ onSaveSnippet }: ButtonsSectionProps) {
                 <Button size="default">Default</Button>
                 <Button size="lg">Large</Button>
                 <Button size="icon">
-                  <Heart weight="fill" />
+                  <Heart weight="fill" aria-hidden="true" />
                 </Button>
               </div>
             </div>
@@ -72,15 +72,15 @@ export function ButtonsSection({ onSaveSnippet }: ButtonsSectionProps) {
               </h3>
               <div className="flex flex-wrap gap-4">
                 <Button>
-                  <Star weight="fill" />
+                  <Star weight="fill" aria-hidden="true" />
                   Favorite
                 </Button>
                 <Button variant="outline">
-                  <Plus weight="bold" />
+                  <Plus weight="bold" aria-hidden="true" />
                   Add Item
                 </Button>
                 <Button variant="secondary">
-                  <Lightning weight="fill" />
+                  <Lightning weight="fill" aria-hidden="true" />
                   Quick Action
                 </Button>
               </div>

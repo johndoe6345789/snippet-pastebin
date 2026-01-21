@@ -55,6 +55,7 @@ export function InputParameterItem({ param, index, onUpdate, onRemove }: InputPa
                 data-testid={`param-name-input-${index}`}
                 aria-label={`Parameter ${index + 1} name`}
                 required
+                aria-required="true"
               />
             </div>
             <div className="space-y-1.5">
@@ -107,6 +108,7 @@ export function InputParameterItem({ param, index, onUpdate, onRemove }: InputPa
             data-testid={`param-default-input-${index}`}
             aria-label={`Parameter ${index + 1} default value`}
             required
+            aria-required="true"
           />
         </div>
         <div className="space-y-1.5">

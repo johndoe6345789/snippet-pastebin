@@ -31,7 +31,7 @@ export function SearchBarsSection({ onSaveSnippet }: SearchBarsSectionProps) {
         <Card className="p-6">
           <div className="space-y-6">
             <div className="relative max-w-md">
-              <MagnifyingGlass className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+              <MagnifyingGlass className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" aria-hidden="true" />
               <Input placeholder="Search..." className="pl-10" />
             </div>
 
@@ -39,7 +39,7 @@ export function SearchBarsSection({ onSaveSnippet }: SearchBarsSectionProps) {
 
             <div className="flex gap-2 max-w-md">
               <div className="relative flex-1">
-                <MagnifyingGlass className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                <MagnifyingGlass className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" aria-hidden="true" />
                 <Input placeholder="Search..." className="pl-10" />
               </div>
               <Button>Search</Button>
@@ -48,7 +48,7 @@ export function SearchBarsSection({ onSaveSnippet }: SearchBarsSectionProps) {
             <Separator />
 
             <div className="relative max-w-md">
-              <MagnifyingGlass className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+              <MagnifyingGlass className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" aria-hidden="true" />
               <Input placeholder="Search products, articles, documentation..." className="pl-10 h-12" />
             </div>
           </div>

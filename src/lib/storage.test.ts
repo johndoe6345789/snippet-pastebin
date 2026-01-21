@@ -264,6 +264,14 @@ describe('FlaskStorageAdapter', () => {
   })
 
   describe('getAllSnippets', () => {
+    it('should throw on invalid URL', async () => {
+      const adapter = new FlaskStorageAdapter('not-a-valid-url')
+
+      await expect(adapter.getAllSnippets()).rejects.toThrow(
+        'Invalid Flask backend URL'
+      )
+    })
+
     it('should fetch all snippets', async () => {
       const mockSnippets = [
         {
@@ -334,6 +342,14 @@ describe('FlaskStorageAdapter', () => {
   })
 
   describe('getSnippet', () => {
+    it('should throw on invalid URL', async () => {
+      const adapter = new FlaskStorageAdapter('not-a-valid-url')
+
+      await expect(adapter.getSnippet('1')).rejects.toThrow(
+        'Invalid Flask backend URL'
+      )
+    })
+
     it('should fetch single snippet', async () => {
       const mockSnippet = {
         id: '1',
@@ -390,6 +406,24 @@ describe('FlaskStorageAdapter', () => {
   })
 
   describe('createSnippet', () => {
+    it('should throw on invalid URL', async () => {
+      const adapter = new FlaskStorageAdapter('not-a-valid-url')
+      const snippet: Snippet = {
+        id: '1',
+        title: 'Test',
+        code: 'test',
+        language: 'javascript',
+        category: 'test',
+        createdAt: 1234567890,
+        updatedAt: 1234567890,
+        description: ''
+      }
+
+      await expect(adapter.createSnippet(snippet)).rejects.toThrow(
+        'Invalid Flask backend URL'
+      )
+    })
+
     it('should create snippet', async () => {
       mockFetch.mockResolvedValueOnce({
         ok: true
@@ -444,6 +478,24 @@ describe('FlaskStorageAdapter', () => {
   })
 
   describe('updateSnippet', () => {
+    it('should throw on invalid URL', async () => {
+      const adapter = new FlaskStorageAdapter('not-a-valid-url')
+      const snippet: Snippet = {
+        id: '1',
+        title: 'Test',
+        code: 'test',
+        language: 'javascript',
+        category: 'test',
+        createdAt: 1234567890,
+        updatedAt: 1234567890,
+        description: ''
+      }
+
+      await expect(adapter.updateSnippet(snippet)).rejects.toThrow(
+        'Invalid Flask backend URL'
+      )
+    })
+
     it('should update snippet', async () => {
       mockFetch.mockResolvedValueOnce({
         ok: true,
@@ -498,6 +550,14 @@ describe('FlaskStorageAdapter', () => {
   })
 
   describe('deleteSnippet', () => {
+    it('should throw on invalid URL', async () => {
+      const adapter = new FlaskStorageAdapter('not-a-valid-url')
+
+      await expect(adapter.deleteSnippet('1')).rejects.toThrow(
+        'Invalid Flask backend URL'
+      )
+    })
+
     it('should delete snippet', async () => {
       mockFetch.mockResolvedValueOnce({
         ok: true
@@ -594,6 +654,14 @@ describe('FlaskStorageAdapter', () => {
   })
 
   describe('wipeDatabase', () => {
+    it('should throw on invalid URL', async () => {
+      const adapter = new FlaskStorageAdapter('not-a-valid-url')
+
+      await expect(adapter.wipeDatabase()).rejects.toThrow(
+        'Invalid Flask backend URL'
+      )
+    })
+
     it('should wipe database', async () => {
       mockFetch.mockResolvedValueOnce({
         ok: true,
@@ -622,6 +690,242 @@ describe('FlaskStorageAdapter', () => {
       await expect(adapter.wipeDatabase()).rejects.toThrow(
         'Failed to wipe database'
       )
+    })
+  })
+
+  describe('getAllNamespaces', () => {
+    it('should throw on invalid URL', async () => {
+      const adapter = new FlaskStorageAdapter('not-a-valid-url')
+
+      await expect(adapter.getAllNamespaces()).rejects.toThrow(
+        'Invalid Flask backend URL'
+      )
+    })
+
+    it('should fetch all namespaces', async () => {
+      const mockNamespaces = [
+        { id: 'ns1', name: 'Namespace 1', color: '#000000' }
+      ]
+
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: async () => mockNamespaces
+      } as Response)
+
+      const adapter = new FlaskStorageAdapter('http://localhost:5000')
+      const namespaces = await adapter.getAllNamespaces()
+
+      expect(namespaces).toHaveLength(1)
+    })
+
+    it('should throw on failed fetch', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: false,
+        statusText: 'Server Error'
+      } as Response)
+
+      const adapter = new FlaskStorageAdapter('http://localhost:5000')
+
+      await expect(adapter.getAllNamespaces()).rejects.toThrow(
+        'Failed to fetch namespaces'
+      )
+    })
+  })
+
+  describe('createNamespace', () => {
+    it('should throw on invalid URL', async () => {
+      const adapter = new FlaskStorageAdapter('not-a-valid-url')
+
+      await expect(
+        adapter.createNamespace({
+          id: 'ns1',
+          name: 'Test',
+          color: '#000000'
+        })
+      ).rejects.toThrow('Invalid Flask backend URL')
+    })
+
+    it('should create namespace', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true
+      } as Response)
+
+      const adapter = new FlaskStorageAdapter('http://localhost:5000')
+      await adapter.createNamespace({
+        id: 'ns1',
+        name: 'Test Namespace',
+        color: '#000000'
+      })
+
+      expect(mockFetch).toHaveBeenCalledWith(
+        expect.stringContaining('/api/namespaces'),
+        expect.objectContaining({
+          method: 'POST'
+        })
+      )
+    })
+
+    it('should throw on failed creation', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: false,
+        statusText: 'Bad Request'
+      } as Response)
+
+      const adapter = new FlaskStorageAdapter('http://localhost:5000')
+
+      await expect(
+        adapter.createNamespace({
+          id: 'ns1',
+          name: 'Test',
+          color: '#000000'
+        })
+      ).rejects.toThrow('Failed to create namespace')
+    })
+  })
+
+  describe('deleteNamespace', () => {
+    it('should throw on invalid URL', async () => {
+      const adapter = new FlaskStorageAdapter('not-a-valid-url')
+
+      await expect(adapter.deleteNamespace('ns1')).rejects.toThrow(
+        'Invalid Flask backend URL'
+      )
+    })
+
+    it('should delete namespace', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true
+      } as Response)
+
+      const adapter = new FlaskStorageAdapter('http://localhost:5000')
+      await adapter.deleteNamespace('ns1')
+
+      expect(mockFetch).toHaveBeenCalledWith(
+        expect.stringContaining('/api/namespaces/ns1'),
+        expect.objectContaining({
+          method: 'DELETE'
+        })
+      )
+    })
+
+    it('should throw on failed deletion', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: false,
+        statusText: 'Not Found'
+      } as Response)
+
+      const adapter = new FlaskStorageAdapter('http://localhost:5000')
+
+      await expect(adapter.deleteNamespace('ns1')).rejects.toThrow(
+        'Failed to delete namespace'
+      )
+    })
+  })
+
+  describe('bulkMoveSnippets', () => {
+    it('should throw on invalid URL', async () => {
+      const adapter = new FlaskStorageAdapter('not-a-valid-url')
+
+      await expect(adapter.bulkMoveSnippets(['1'], 'ns2')).rejects.toThrow(
+        'Invalid Flask backend URL'
+      )
+    })
+
+    it('should bulk move snippets', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true
+      } as Response)
+
+      const adapter = new FlaskStorageAdapter('http://localhost:5000')
+      await adapter.bulkMoveSnippets(['1', '2'], 'ns2')
+
+      expect(mockFetch).toHaveBeenCalledWith(
+        expect.stringContaining('/api/snippets/bulk-move'),
+        expect.objectContaining({
+          method: 'POST'
+        })
+      )
+    })
+
+    it('should throw on failed bulk move', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: false,
+        statusText: 'Server Error'
+      } as Response)
+
+      const adapter = new FlaskStorageAdapter('http://localhost:5000')
+
+      await expect(adapter.bulkMoveSnippets(['1'], 'ns2')).rejects.toThrow(
+        'Failed to bulk move snippets'
+      )
+    })
+  })
+
+  describe('getSnippetsByNamespace', () => {
+    it('should filter snippets by namespace', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: async () => [
+          {
+            id: '1',
+            title: 'Test',
+            code: 'test',
+            language: 'javascript',
+            category: 'test',
+            namespaceId: 'ns1',
+            createdAt: 1234567890,
+            updatedAt: 1234567890,
+            description: ''
+          }
+        ]
+      } as Response)
+
+      const adapter = new FlaskStorageAdapter('http://localhost:5000')
+      const snippets = await adapter.getSnippetsByNamespace('ns1')
+
+      expect(snippets).toHaveLength(1)
+      expect(snippets[0].namespaceId).toBe('ns1')
+    })
+  })
+
+  describe('getNamespace', () => {
+    it('should get namespace by id', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: async () => [
+          { id: 'ns1', name: 'Namespace 1', color: '#000000' }
+        ]
+      } as Response)
+
+      const adapter = new FlaskStorageAdapter('http://localhost:5000')
+      const namespace = await adapter.getNamespace('ns1')
+
+      expect(namespace?.id).toBe('ns1')
+    })
+
+    it('should return null for missing namespace', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: async () => []
+      } as Response)
+
+      const adapter = new FlaskStorageAdapter('http://localhost:5000')
+      const namespace = await adapter.getNamespace('nonexistent')
+
+      expect(namespace).toBeNull()
+    })
+  })
+
+  describe('clearDatabase', () => {
+    it('should call wipeDatabase', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true
+      } as Response)
+
+      const adapter = new FlaskStorageAdapter('http://localhost:5000')
+      await adapter.clearDatabase()
+
+      expect(mockFetch).toHaveBeenCalled()
     })
   })
 
@@ -674,6 +978,68 @@ describe('FlaskStorageAdapter', () => {
       expect(stats.snippetCount).toBe(2)
       expect(stats.templateCount).toBe(1)
       expect(stats.databaseSize).toBe(0)
+    })
+  })
+
+  describe('exportDatabase', () => {
+    it('should export database', async () => {
+      mockFetch
+        .mockResolvedValueOnce({
+          ok: true,
+          json: async () => [
+            {
+              id: '1',
+              title: 'Test',
+              code: 'test',
+              language: 'javascript',
+              category: 'test',
+              createdAt: 1234567890,
+              updatedAt: 1234567890,
+              description: ''
+            }
+          ]
+        } as Response)
+        .mockResolvedValueOnce({
+          ok: true,
+          json: async () => [
+            { id: 'ns1', name: 'Namespace', color: '#000000' }
+          ]
+        } as Response)
+
+      const adapter = new FlaskStorageAdapter('http://localhost:5000')
+      const data = await adapter.exportDatabase()
+
+      expect(data.snippets).toHaveLength(1)
+      expect(data.namespaces).toHaveLength(1)
+    })
+  })
+
+  describe('importDatabase', () => {
+    it('should import database', async () => {
+      mockFetch.mockResolvedValue({
+        ok: true
+      } as Response)
+
+      const adapter = new FlaskStorageAdapter('http://localhost:5000')
+      await adapter.importDatabase({
+        snippets: [
+          {
+            id: '1',
+            title: 'Test',
+            code: 'test',
+            language: 'javascript',
+            category: 'test',
+            createdAt: 1234567890,
+            updatedAt: 1234567890,
+            description: ''
+          }
+        ],
+        namespaces: [
+          { id: 'ns1', name: 'Namespace', color: '#000000' }
+        ]
+      })
+
+      expect(mockFetch).toHaveBeenCalled()
     })
   })
 })

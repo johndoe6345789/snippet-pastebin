@@ -37,7 +37,7 @@ export function InputsSection({ onSaveSnippet }: InputsSectionProps) {
                 <Input placeholder="Default input" />
                 <Input placeholder="Disabled input" disabled />
                 <div className="relative">
-                  <MagnifyingGlass className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                  <MagnifyingGlass className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" aria-hidden="true" />
                   <Input placeholder="Search..." className="pl-10" />
                 </div>
               </div>
