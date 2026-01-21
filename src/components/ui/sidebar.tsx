@@ -1,4 +1,5 @@
 // Re-export all sidebar components from their modular files
+// data-testid: "sidebar-*" and related components
 export { SidebarProvider, useSidebar } from "./sidebar-context"
 export { Sidebar, SidebarTrigger, SidebarRail, SidebarInset } from "./sidebar-core"
 export {
