@@ -1,0 +1,40 @@
+{
+  "caching": {
+    "enabled": true,
+    "ttl": 86400,
+    "directory": ".quality/.cache",
+    "maxSize": 1000,
+    "description": "File-level caching with SHA256 content hashing. TTL in seconds (86400 = 24 hours)."
+  },
+  "parallel": {
+    "enabled": true,
+    "workerCount": 4,
+    "fileChunkSize": 50,
+    "maxConcurrent": 4,
+    "description": "Parallel execution configuration. Workers process files in chunks for optimal performance."
+  },
+  "optimization": {
+    "skipUnchangedFiles": true,
+    "useGitStatus": true,
+    "maxFilesToAnalyze": 1000,
+    "preCompileRegex": true,
+    "useStreaming": false,
+    "batchFileOperations": true,
+    "memoizeComplexity": true,
+    "description": "Various optimization techniques to improve analysis speed."
+  },
+  "performance": {
+    "threshold": 1000,
+    "warningThreshold": 2000,
+    "trackMetrics": true,
+    "reportPath": ".quality/performance-report.json",
+    "historySize": 100,
+    "description": "Performance tracking and alerting configuration. Times in milliseconds."
+  },
+  "targets": {
+    "fullAnalysis": 1000,
+    "incrementalAnalysis": 500,
+    "cacheHit": 100,
+    "description": "Performance targets in milliseconds. Used for optimization validation."
+  }
+}

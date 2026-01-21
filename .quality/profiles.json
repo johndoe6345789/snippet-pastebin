@@ -1,0 +1,92 @@
+{
+  "strict": {
+    "name": "strict",
+    "description": "Enterprise grade - highest standards for production critical code",
+    "weights": {
+      "codeQuality": 0.35,
+      "testCoverage": 0.4,
+      "architecture": 0.15,
+      "security": 0.1
+    },
+    "minimumScores": {
+      "codeQuality": 90,
+      "testCoverage": 85,
+      "architecture": 85,
+      "security": 95
+    },
+    "thresholds": {
+      "complexity": {
+        "max": 10,
+        "warning": 8
+      },
+      "coverage": {
+        "minimum": 85,
+        "warning": 75
+      },
+      "duplication": {
+        "maxPercent": 2,
+        "warningPercent": 1
+      }
+    }
+  },
+  "moderate": {
+    "name": "moderate",
+    "description": "Standard production quality - balanced standards for typical projects",
+    "weights": {
+      "codeQuality": 0.3,
+      "testCoverage": 0.35,
+      "architecture": 0.2,
+      "security": 0.15
+    },
+    "minimumScores": {
+      "codeQuality": 80,
+      "testCoverage": 70,
+      "architecture": 80,
+      "security": 85
+    },
+    "thresholds": {
+      "complexity": {
+        "max": 15,
+        "warning": 12
+      },
+      "coverage": {
+        "minimum": 70,
+        "warning": 60
+      },
+      "duplication": {
+        "maxPercent": 5,
+        "warningPercent": 3
+      }
+    }
+  },
+  "lenient": {
+    "name": "lenient",
+    "description": "Development/experimentation - relaxed standards for early-stage work",
+    "weights": {
+      "codeQuality": 0.25,
+      "testCoverage": 0.3,
+      "architecture": 0.25,
+      "security": 0.2
+    },
+    "minimumScores": {
+      "codeQuality": 70,
+      "testCoverage": 60,
+      "architecture": 70,
+      "security": 75
+    },
+    "thresholds": {
+      "complexity": {
+        "max": 20,
+        "warning": 15
+      },
+      "coverage": {
+        "minimum": 60,
+        "warning": 40
+      },
+      "duplication": {
+        "maxPercent": 8,
+        "warningPercent": 5
+      }
+    }
+  }
+}

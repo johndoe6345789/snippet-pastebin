@@ -11,6 +11,7 @@ export interface CommandLineOptions {
   format?: 'console' | 'json' | 'html' | 'csv';
   output?: string;
   config?: string;
+  profile?: string;
   verbose?: boolean;
   incremental?: boolean;
   skipCoverage?: boolean;
@@ -22,6 +23,9 @@ export interface CommandLineOptions {
   version?: boolean;
   stdin?: boolean;
   noColor?: boolean;
+  listProfiles?: boolean;
+  showProfile?: string;
+  createProfile?: string;
 }
 
 // ============================================================================
@@ -86,6 +90,7 @@ export interface Recommendation {
 export interface Configuration {
   projectName?: string;
   description?: string;
+  profile?: string;
   codeQuality: CodeQualityConfig;
   testCoverage: TestCoverageConfig;
   architecture: ArchitectureConfig;

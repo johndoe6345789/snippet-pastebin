@@ -1,0 +1,97 @@
+{
+  "version": "1.0.0",
+  "description": "Custom code quality rules for this project",
+  "rules": [
+    {
+      "id": "no-console-logs",
+      "type": "pattern",
+      "severity": "warning",
+      "pattern": "console\\.(log|warn|error)\\s*\\(",
+      "message": "Remove console.log statements before shipping to production",
+      "enabled": true,
+      "description": "Console logs should not appear in production code",
+      "fileExtensions": [".ts", ".tsx", ".js", ".jsx"],
+      "excludePatterns": ["// console\\.", "test", "spec"]
+    },
+    {
+      "id": "max-function-lines",
+      "type": "complexity",
+      "severity": "warning",
+      "complexityType": "lines",
+      "threshold": 60,
+      "message": "Function exceeds 60 lines - consider refactoring",
+      "enabled": true,
+      "description": "Large functions are harder to test and maintain"
+    },
+    {
+      "id": "max-cyclomatic-complexity",
+      "type": "complexity",
+      "severity": "critical",
+      "complexityType": "cyclomaticComplexity",
+      "threshold": 15,
+      "message": "High cyclomatic complexity - reduce code branches",
+      "enabled": true,
+      "description": "Complex functions indicate code that needs simplification"
+    },
+    {
+      "id": "function-naming-convention",
+      "type": "naming",
+      "severity": "info",
+      "nameType": "function",
+      "pattern": "^[a-z][a-zA-Z0-9]*$",
+      "message": "Function names should use camelCase",
+      "enabled": false,
+      "description": "Consistent naming improves code readability"
+    },
+    {
+      "id": "max-file-size",
+      "type": "structure",
+      "severity": "warning",
+      "check": "maxFileSize",
+      "threshold": 500,
+      "message": "File size exceeds 500KB - consider splitting into smaller modules",
+      "enabled": true,
+      "description": "Very large files are harder to understand and maintain"
+    },
+    {
+      "id": "max-function-parameters",
+      "type": "complexity",
+      "severity": "warning",
+      "complexityType": "parameters",
+      "threshold": 5,
+      "message": "Function has too many parameters (>5) - consider using object parameter",
+      "enabled": true,
+      "description": "Functions with many parameters are harder to use and test"
+    },
+    {
+      "id": "max-nesting-depth",
+      "type": "complexity",
+      "severity": "info",
+      "complexityType": "nesting",
+      "threshold": 4,
+      "message": "Excessive nesting depth detected - refactor for readability",
+      "enabled": true,
+      "description": "Deeply nested code is harder to follow and understand"
+    },
+    {
+      "id": "no-todo-comments",
+      "type": "pattern",
+      "severity": "info",
+      "pattern": "//\\s*TODO|//\\s*FIXME",
+      "message": "TODO/FIXME comments should be addressed before committing",
+      "enabled": false,
+      "fileExtensions": [".ts", ".tsx", ".js", ".jsx"],
+      "description": "Use issue trackers for tracking work instead of code comments"
+    },
+    {
+      "id": "no-hardcoded-strings",
+      "type": "pattern",
+      "severity": "info",
+      "pattern": "(['\"]).{20,}\\1",
+      "message": "Consider extracting long hardcoded strings to constants",
+      "enabled": false,
+      "fileExtensions": [".ts", ".tsx", ".js", ".jsx"],
+      "description": "Hardcoded strings should be refactored for maintainability"
+    }
+  ]
+}

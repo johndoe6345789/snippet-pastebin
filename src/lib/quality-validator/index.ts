@@ -5,6 +5,7 @@
 
 import { CommandLineOptions, Configuration, ExitCode } from './types/index.js';
 import { configLoader } from './config/ConfigLoader.js';
+import { profileManager } from './config/ProfileManager.js';
 import { logger } from './utils/logger.js';
 import { getSourceFiles, writeFile, ensureDirectory } from './utils/fileSystem.js';
 import { codeQualityAnalyzer } from './analyzers/codeQualityAnalyzer.js';
@@ -35,6 +36,22 @@ export class QualityValidator {
       });
 
       logger.info('Quality Validation starting...');
+
+      // Initialize profile manager first
+      await profileManager.initialize();
+
+      // Handle profile management commands
+      if (options.listProfiles) {
+        return this.handleListProfiles();
+      }
+
+      if (options.showProfile) {
+        return this.handleShowProfile(options.showProfile);
+      }
+
+      if (options.createProfile) {
+        return this.handleCreateProfile(options.createProfile);
+      }
 
       // Load configuration
       this.config = await configLoader.loadConfiguration(options.config);
@@ -126,6 +143,80 @@ export class QualityValidator {
   }
 
   /**
+   * Handle --list-profiles command
+   */
+  private handleListProfiles(): number {
+    const profiles = profileManager.getAllProfiles();
+    const currentProfile = profileManager.getCurrentProfileName();
+
+    console.log('\n' + '='.repeat(70));
+    console.log('Available Quality Profiles');
+    console.log('='.repeat(70) + '\n');
+
+    for (const profile of profiles) {
+      const isCurrent = profile.name === currentProfile ? ' (CURRENT)' : '';
+      console.log(`${profile.name.toUpperCase()}${isCurrent}`);
+      console.log(`  Description: ${profile.description}`);
+      console.log(`  Weights: Code Quality: ${profile.weights.codeQuality}, Test Coverage: ${profile.weights.testCoverage}, Architecture: ${profile.weights.architecture}, Security: ${profile.weights.security}`);
+      console.log(`  Minimum Scores: Code Quality: ${profile.minimumScores.codeQuality}, Test Coverage: ${profile.minimumScores.testCoverage}, Architecture: ${profile.minimumScores.architecture}, Security: ${profile.minimumScores.security}`);
+      console.log();
+    }
+
+    console.log('='.repeat(70));
+    console.log('Usage: quality-validator --profile <name>\n');
+
+    return ExitCode.SUCCESS;
+  }
+
+  /**
+   * Handle --show-profile command
+   */
+  private handleShowProfile(profileName: string): number {
+    try {
+      const profile = profileManager.getProfile(profileName);
+      console.log('\n' + '='.repeat(70));
+      console.log(`Profile: ${profile.name}`);
+      console.log('='.repeat(70) + '\n');
+      console.log(JSON.stringify(profile, null, 2));
+      console.log('\n' + '='.repeat(70) + '\n');
+      return ExitCode.SUCCESS;
+    } catch (error) {
+      console.error(`Error: ${(error as Error).message}`);
+      return ExitCode.CONFIGURATION_ERROR;
+    }
+  }
+
+  /**
+   * Handle --create-profile command
+   */
+  private handleCreateProfile(profileName: string): number {
+    console.log(`\nCreating custom profile: ${profileName}`);
+    console.log('This feature requires interactive input. Please use the API directly.');
+    console.log('Example:');
+    console.log(`
+  const { profileManager } = require('./quality-validator');
+  const newProfile = {
+    name: '${profileName}',
+    description: 'Your custom profile description',
+    weights: {
+      codeQuality: 0.3,
+      testCoverage: 0.35,
+      architecture: 0.2,
+      security: 0.15
+    },
+    minimumScores: {
+      codeQuality: 80,
+      testCoverage: 70,
+      architecture: 80,
+      security: 85
+    }
+  };
+  profileManager.createProfile('${profileName}', newProfile);
+    `);
+    return ExitCode.SUCCESS;
+  }
+
+  /**
    * Generate reports in requested formats
    */
   private async generateReports(scoringResult: any, options: CommandLineOptions): Promise<void> {
@@ -211,6 +302,14 @@ function parseCliArgs(args: string[]): CommandLineOptions {
       options.output = args[++i];
     } else if (arg === '--config' && i + 1 < args.length) {
       options.config = args[++i];
+    } else if (arg === '--profile' && i + 1 < args.length) {
+      options.profile = args[++i];
+    } else if (arg === '--list-profiles') {
+      options.listProfiles = true;
+    } else if (arg === '--show-profile' && i + 1 < args.length) {
+      options.showProfile = args[++i];
+    } else if (arg === '--create-profile' && i + 1 < args.length) {
+      options.createProfile = args[++i];
     } else if (arg === '--verbose') {
       options.verbose = true;
     } else if (arg === '--no-color') {
@@ -256,20 +355,35 @@ Options:
   --format <format>        Output format: console, json, html, csv (default: console)
   --output <file>          Output file path
   --config <file>          Configuration file path (.qualityrc.json)
+  --profile <name>         Quality profile: strict, moderate, lenient, or custom (default: moderate)
   --verbose                Enable verbose logging
   --no-color              Disable colored output
   --skip-coverage         Skip test coverage analysis
   --skip-security         Skip security analysis
   --skip-architecture     Skip architecture analysis
   --skip-complexity       Skip complexity analysis
+
+Profile Management:
+  --list-profiles         List all available profiles
+  --show-profile <name>   Show details of a specific profile
+  --create-profile <name> Create a new custom profile
+
+General:
   --help                  Display this help message
   --version               Display version number
 
 Examples:
   quality-validator
-  quality-validator --format json --output report.json
+  quality-validator --profile strict
+  quality-validator --profile lenient --format json --output report.json
+  quality-validator --list-profiles
+  quality-validator --show-profile moderate
   quality-validator --format html --output coverage/report.html
   quality-validator --config .qualityrc.json --verbose
+
+Environment Variables:
+  QUALITY_PROFILE=moderate     Set default profile
+  NODE_ENV=production          Automatically selects environment-specific profiles
 
 Configuration:
   Create a .qualityrc.json file in your project root to customize quality checks.
@@ -280,6 +394,8 @@ Configuration:
 // Export types and utilities
 export * from './types/index.js';
 export { configLoader } from './config/ConfigLoader.js';
+export { profileManager, ProfileManager } from './config/ProfileManager.js';
+export type { ProfileDefinition, ProfileName, EnvironmentType } from './config/ProfileManager.js';
 export { logger } from './utils/logger.js';
 
 // Export SOLID design pattern implementations

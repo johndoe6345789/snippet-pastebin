@@ -17,6 +17,7 @@ import {
   ConfigurationError,
   CommandLineOptions,
 } from '../types/index.js';
+import { profileManager, ProfileDefinition } from './ProfileManager';
 
 /**
  * Default configuration with sensible defaults for all quality checks
@@ -174,6 +175,9 @@ export class ConfigLoader {
   async loadConfiguration(configPath?: string): Promise<Configuration> {
     let config: Partial<Configuration> = {};
 
+    // 0. Initialize profile manager
+    await profileManager.initialize();
+
     // 1. Start with defaults (deep copy to avoid mutating DEFAULT_CONFIG)
     const finalConfig = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
 
@@ -197,8 +201,19 @@ export class ConfigLoader {
     // 4. Merge all sources (CLI > env > file > defaults)
     const merged = this.deepMerge(finalConfig, config, envConfig);
 
-    // 5. Validate configuration
+    // 5. Validate configuration first (before applying profile)
     this.validateConfiguration(merged);
+
+    // 6. Apply profile if specified (only after validation passes)
+    const profileName = merged.profile || process.env.QUALITY_PROFILE || 'moderate';
+    try {
+      const profile = profileManager.getProfile(profileName);
+      merged.scoring.weights = profile.weights;
+      merged.profile = profileName;
+    } catch (error) {
+      // If profile is not found, log warning but continue with defaults
+      console.warn(`Profile not found: ${profileName}, using defaults`);
+    }
 
     return merged;
   }
@@ -252,6 +267,11 @@ export class ConfigLoader {
     // Project name
     if (process.env.QUALITY_PROJECT_NAME) {
       config.projectName = process.env.QUALITY_PROJECT_NAME;
+    }
+
+    // Profile
+    if (process.env.QUALITY_PROFILE) {
+      config.profile = process.env.QUALITY_PROFILE;
     }
 
     // Format and output (would normally go to CLI options)
@@ -371,6 +391,20 @@ export class ConfigLoader {
    */
   applyCliOptions(config: Configuration, options: CommandLineOptions): Configuration {
     const result = JSON.parse(JSON.stringify(config));
+
+    // Apply profile if specified via CLI
+    if (options.profile) {
+      try {
+        const profile = profileManager.getProfile(options.profile);
+        result.scoring.weights = profile.weights;
+        result.profile = options.profile;
+      } catch (error) {
+        throw new ConfigurationError(
+          `Invalid profile: ${options.profile}`,
+          `Available profiles: ${profileManager.getAllProfileNames().join(', ')}`
+        );
+      }
+    }
 
     // Toggle analyses based on CLI options
     if (options.skipCoverage) {
