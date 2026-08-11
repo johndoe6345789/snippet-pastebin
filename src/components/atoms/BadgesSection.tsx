@@ -1,25 +1,49 @@
-import { Badge } from '@/components/ui/badge'
-import { Card } from '@/components/ui/card'
-import { Separator } from '@/components/ui/separator'
-import { Check, X, Star } from '@phosphor-icons/react'
+import { Chip, MaterialIcon } from '@metabuilder/components/m3'
+import { Card } from '@metabuilder/components/m3'
+import { Divider } from '@metabuilder/components/m3'
 import { ComponentShowcase } from '@/components/demo/ComponentShowcase'
 import { atomsCodeSnippets } from '@/lib/component-code-snippets'
 import { Snippet } from '@/lib/types'
 
+const labelStyle = {
+  fontSize: '0.875rem',
+  lineHeight: '1.25rem',
+  fontWeight: 500,
+  color: 'var(--mat-sys-on-surface-variant)',
+  textTransform: 'uppercase' as const,
+  letterSpacing: '0.05em',
+}
+
 interface BadgesSectionProps {
-  onSaveSnippet: (snippet: Omit<Snippet, 'id' | 'createdAt' | 'updatedAt'>) => void
+  onSaveSnippet: (
+    snippet: Omit<Snippet, 'id' | 'createdAt' | 'updatedAt'>,
+  ) => void
 }
 
 export function BadgesSection({ onSaveSnippet }: BadgesSectionProps) {
   return (
-    <section className="space-y-6" data-testid="badges-section" role="region" aria-label="Badge status indicators">
+    <section
+      style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}
+      data-testid="badges-section"
+      role="region"
+      aria-label="Badge status indicators"
+    >
       <div>
-        <h2 className="text-3xl font-bold mb-2">Badges</h2>
-        <p className="text-muted-foreground">
+        <h2
+          style={{
+            fontSize: '1.875rem',
+            lineHeight: '2.25rem',
+            fontWeight: 700,
+            marginBottom: '8px',
+          }}
+        >
+          Badges
+        </h2>
+        <p style={{ color: 'var(--mat-sys-on-surface-variant)' }}>
           Small status indicators and labels
         </p>
       </div>
-      
+
       <ComponentShowcase
         code={atomsCodeSnippets.badgeWithIcons}
         title="Badge with Icons"
@@ -28,38 +52,52 @@ export function BadgesSection({ onSaveSnippet }: BadgesSectionProps) {
         onSaveSnippet={onSaveSnippet}
       >
         <Card className="p-6">
-          <div className="space-y-8">
-            <div className="space-y-3">
-              <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
-                Variants
-              </h3>
-              <div className="flex flex-wrap gap-4">
-                <Badge>Default</Badge>
-                <Badge variant="secondary">Secondary</Badge>
-                <Badge variant="destructive">Destructive</Badge>
-                <Badge variant="outline">Outline</Badge>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '32px',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '12px',
+              }}
+            >
+              <h3 style={labelStyle}>Variants</h3>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }}>
+                <Chip>Default</Chip>
+                <Chip color="secondary">Secondary</Chip>
+                <Chip color="error">Destructive</Chip>
+                <Chip variant="outlined">Outline</Chip>
               </div>
             </div>
 
-            <Separator />
+            <Divider />
 
-            <div className="space-y-3">
-              <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
-                With Icons
-              </h3>
-              <div className="flex flex-wrap gap-4">
-                <Badge>
-                  <Check weight="bold" className="mr-1" />
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '12px',
+              }}
+            >
+              <h3 style={labelStyle}>With Icons</h3>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }}>
+                <Chip>
+                  <MaterialIcon name="check" style={{ marginRight: '4px' }} />
                   Completed
-                </Badge>
-                <Badge variant="destructive">
-                  <X weight="bold" className="mr-1" />
+                </Chip>
+                <Chip color="error">
+                  <MaterialIcon name="close" style={{ marginRight: '4px' }} />
                   Failed
-                </Badge>
-                <Badge variant="secondary">
-                  <Star weight="fill" className="mr-1" />
+                </Chip>
+                <Chip color="secondary">
+                  <MaterialIcon name="star" style={{ marginRight: '4px' }} />
                   Featured
-                </Badge>
+                </Chip>
               </div>
             </div>
           </div>

@@ -1,55 +1,89 @@
 'use client'
 
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
-import { Database } from '@phosphor-icons/react'
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  MaterialIcon,
+} from '@metabuilder/components/m3'
+import { useTranslation } from '@/hooks/useTranslation'
+import styles from './settings-card.module.scss'
 
 interface DatabaseStatsCardProps {
   loading: boolean
   stats: {
     snippetCount: number
     templateCount: number
-    storageType: 'indexeddb' | 'localstorage' | 'none'
+    storageType: 'indexeddb' | 'localstorage' | 'none' | 'dbal'
     databaseSize: number
   } | null
   formatBytes: (bytes: number) => string
 }
 
-export function DatabaseStatsCard({ loading, stats, formatBytes }: DatabaseStatsCardProps) {
+export function DatabaseStatsCard({
+  loading,
+  stats,
+  formatBytes,
+}: DatabaseStatsCardProps) {
+  const t = useTranslation()
+  const s = t.settingsCards.stats
   return (
     <Card data-testid="database-stats-card">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Database weight="duotone" size={24} aria-hidden="true" />
-          Database Statistics
-        </CardTitle>
-        <CardDescription>
-          Information about your local database storage
-        </CardDescription>
-      </CardHeader>
+      <CardHeader
+        title={
+          <h3 className={styles.cardTitleWithIcon}>
+            <MaterialIcon name="storage" size={24} aria-hidden="true" />
+            {s.title}
+          </h3>
+        }
+        subheader={<p className={styles.cardDescription}>{s.description}</p>}
+      />
       <CardContent>
         {loading ? (
-          <p className="text-muted-foreground" data-testid="stats-loading" role="status" aria-busy="true">Loading...</p>
+          <p
+            className={styles.textMuted}
+            data-testid="stats-loading"
+            role="status"
+            aria-busy="true"
+          >
+            {s.loading}
+          </p>
         ) : stats ? (
-          <div className="space-y-3" role="region" aria-label="Database statistics">
-            <div className="flex justify-between items-center py-2 border-b border-border" data-testid="stat-snippets">
-              <span className="text-sm text-muted-foreground">Snippets</span>
-              <span className="font-semibold">{stats.snippetCount}</span>
+          <div
+            className={styles.statsContainer}
+            role="region"
+            aria-label="Database statistics"
+          >
+            <div className={styles.statRow} data-testid="stat-snippets">
+              <span className={styles.statLabel}>{s.snippets}</span>
+              <span className={styles.statValue}>{stats.snippetCount}</span>
             </div>
-            <div className="flex justify-between items-center py-2 border-b border-border" data-testid="stat-templates">
-              <span className="text-sm text-muted-foreground">Templates</span>
-              <span className="font-semibold">{stats.templateCount}</span>
+            <div className={styles.statRow} data-testid="stat-templates">
+              <span className={styles.statLabel}>{s.templates}</span>
+              <span className={styles.statValue}>{stats.templateCount}</span>
             </div>
-            <div className="flex justify-between items-center py-2 border-b border-border" data-testid="stat-storage-type">
-              <span className="text-sm text-muted-foreground">Storage Type</span>
-              <span className="font-semibold capitalize">{stats.storageType}</span>
+            <div className={styles.statRow} data-testid="stat-storage-type">
+              <span className={styles.statLabel}>{s.storageType}</span>
+              <span className={styles.statValue}>{stats.storageType}</span>
             </div>
-            <div className="flex justify-between items-center py-2" data-testid="stat-database-size">
-              <span className="text-sm text-muted-foreground">Database Size</span>
-              <span className="font-semibold">{formatBytes(stats.databaseSize)}</span>
+            <div
+              className={styles.statRowLast}
+              data-testid="stat-database-size"
+            >
+              <span className={styles.statLabel}>{s.databaseSize}</span>
+              <span className={styles.statValue}>
+                {formatBytes(stats.databaseSize)}
+              </span>
             </div>
           </div>
         ) : (
-          <p className="text-destructive" data-testid="stats-error" role="alert">Failed to load statistics</p>
+          <p
+            className={styles.textDestructive}
+            data-testid="stats-error"
+            role="alert"
+          >
+            {s.error}
+          </p>
         )}
       </CardContent>
     </Card>

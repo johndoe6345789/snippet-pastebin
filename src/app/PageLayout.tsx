@@ -1,94 +1,148 @@
-'use client';
+'use client'
 
-import { motion } from 'framer-motion';
-import { Code } from '@phosphor-icons/react';
-import { Navigation } from '@/components/layout/navigation/Navigation';
-import { NavigationSidebar } from '@/components/layout/navigation/NavigationSidebar';
-import { useNavigation } from '@/components/layout/navigation/useNavigation';
-import { BackendIndicator } from '@/components/layout/BackendIndicator';
-import { AppStatusAlerts } from '@/components/layout/AppStatusAlerts';
-import { ReactNode } from 'react';
+import { motion } from 'framer-motion'
+import { MaterialIcon } from '@metabuilder/components/m3'
+import Link from 'next/link'
+import pkg from '../../package.json'
+import { Navigation } from '@/components/layout/navigation/Navigation'
+// eslint-disable-next-line max-len
+import { NavigationSidebar } from '@/components/layout/navigation/NavigationSidebar'
+import { BackendIndicator } from '@/components/layout/BackendIndicator'
+import { AlertsBell } from '@/components/layout/AlertsBell'
+import { LangSelector } from '@/components/layout/LangSelector'
+import { ThemeSwitcher } from '@/components/layout/ThemeSwitcher'
+import { ThemeApplier } from '@/components/layout/ThemeApplier'
+import { AuthGuard } from '@/components/auth/AuthGuard'
+import { useTranslation } from '@/hooks/useTranslation'
+import { useAppSelector } from '@/store/hooks'
+import { selectIsAuthenticated, selectCurrentUser } from '@/store/selectors'
+import { ProfileMenu } from '@/components/layout/ProfileMenu'
+import { ReactNode } from 'react'
+import styles from './page-layout.module.scss'
 
-export function PageLayout({ children }: { children: ReactNode }) {
-  const { menuOpen } = useNavigation();
-  const safePad = '0.5rem';
-  const safeAreaPadding = {
-    paddingLeft: `max(${safePad}, env(safe-area-inset-left, 0px))`,
-    paddingRight: `max(${safePad}, env(safe-area-inset-right, 0px))`,
-  };
+interface PageLayoutProps {
+  children: ReactNode
+  /**
+   * Editor/IDE mode: pin the shell to the viewport (no page scroll), drop the
+   * main content padding + footer so a child can flex-fill the space below the
+   * header and scroll internally instead.
+   */
+  fitViewport?: boolean
+  /** Hide the site header (maximize the IDE to fill the whole window). */
+  hideChrome?: boolean
+  /**
+   * The fit child has grown past the viewport (user dragged it): relax the
+   * fixed-viewport clamp so the WINDOW scrolls (a far-right scrollbar the
+   * editor can't intercept) instead of clipping the overflow.
+   */
+  scrollable?: boolean
+}
+
+export function PageLayout({
+  children,
+  fitViewport = false,
+  hideChrome = false,
+  scrollable = false,
+}: PageLayoutProps) {
+  const t = useTranslation()
+  const isAuthenticated = useAppSelector(selectIsAuthenticated)
+  const user = useAppSelector(selectCurrentUser)
+  const grow = fitViewport && scrollable
 
   return (
-    <div className="min-h-screen bg-background" data-testid="page-layout">
-      <div className="grid-pattern" aria-hidden="true" />
+    <div
+      className={`${styles.root} ${fitViewport ? styles.rootFit : ''} ${
+        grow ? styles.rootScroll : ''
+      }`}
+      data-testid="page-layout"
+    >
+      <div className={styles.gridPattern} aria-hidden="true" />
 
+      <ThemeApplier />
       <NavigationSidebar />
 
-      <motion.div
-        initial={false}
-        animate={{ marginLeft: menuOpen ? 320 : 0 }}
-        transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-        className="relative z-10 flex flex-col min-h-screen"
+      <div
+        className={`${styles.contentWrapper} ${
+          fitViewport ? styles.contentWrapperFit : ''
+        } ${grow ? styles.contentWrapperScroll : ''}`}
       >
-        <header className="border-b border-border bg-background/95 backdrop-blur-md sticky top-0 z-20 overflow-hidden" data-testid="page-header">
-          <div
-            className="container mx-auto px-2 py-3 sm:px-6 sm:py-6 w-full min-w-0"
-            style={{
-              ...safeAreaPadding,
-              paddingTop: `max(${safePad}, env(safe-area-inset-top, 0px))`,
-            }}
-          >
-            <div className="flex flex-wrap items-center justify-between gap-2 sm:flex-nowrap min-w-0">
+        {!hideChrome && (
+        <header className={styles.header} data-testid="page-header">
+          <div className={styles.headerInner}>
+            <div className={styles.headerRow}>
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.35 }}
-                className="logo-container"
+                className={styles.logoGroup}
               >
                 <Navigation />
                 <div className="logo-icon-box">
-                  <Code weight="bold" />
+                  <MaterialIcon name="code" />
                 </div>
-                <span className="logo-text" aria-label="CodeSnippet" data-testid="logo-text">
+                <span
+                  className="logo-text"
+                  aria-label="CodeSnippet"
+                  data-testid="logo-text"
+                >
                   CodeSnippet
                 </span>
+                <span
+                  className={styles.versionBadge}
+                  aria-label={`Version ${pkg.version}`}
+                >
+                  v{pkg.version}
+                </span>
               </motion.div>
+
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.35, delay: 0.05 }}
+                className={styles.headerActions}
               >
+                <AlertsBell />
+                <ThemeSwitcher />
+                <LangSelector />
                 <BackendIndicator />
+                {isAuthenticated && user ? (
+                  <ProfileMenu username={user.username} />
+                ) : (
+                  <Link
+                    href="/login"
+                    className={styles.iconBtn}
+                    title="Sign in"
+                    aria-label="Sign in"
+                  >
+                    <MaterialIcon name="login" />
+                  </Link>
+                )}
               </motion.div>
             </div>
           </div>
         </header>
+        )}
 
         <main
-          className="container mx-auto px-3 py-4 sm:px-6 sm:py-8 flex-1"
-          style={safeAreaPadding}
+          className={`${styles.main} ${fitViewport ? styles.mainFit : ''} ${
+            grow ? styles.mainScroll : ''
+          }`}
           data-testid="main-content"
         >
-          <div className="mb-4">
-            <AppStatusAlerts />
-          </div>
-          {children}
+          <AuthGuard>{children}</AuthGuard>
         </main>
 
-        <footer className="border-t border-border">
-          <div
-            className="container mx-auto px-3 py-4 sm:px-6 sm:py-8"
-            style={{
-              ...safeAreaPadding,
-              paddingBottom: `max(1rem, env(safe-area-inset-bottom, 0px))`,
-            }}
-          >
-            <div className="text-center text-xs sm:text-sm text-muted-foreground">
-              <p>Save, organize, and share your code snippets with beautiful syntax highlighting and live execution</p>
-              <p className="mt-2 text-xs">Supports React preview and Python execution via Pyodide</p>
+        {!fitViewport && (
+          <footer className={styles.footer}>
+            <div className={styles.footerInner}>
+              <div className={styles.footerText}>
+                <p>{t.page.footer.tagline}</p>
+                <p className={styles.footerNote}>{t.page.footer.techNote}</p>
+              </div>
             </div>
-          </div>
-        </footer>
-      </motion.div>
+          </footer>
+        )}
+      </div>
     </div>
-  );
+  )
 }

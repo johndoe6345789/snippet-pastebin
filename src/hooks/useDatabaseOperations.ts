@@ -1,50 +1,17 @@
-import { useState, useCallback } from 'react'
-import { toast } from 'sonner'
-import { 
-  getDatabaseStats, 
-  exportDatabase, 
-  importDatabase, 
-  clearDatabase, 
+import { useCallback } from 'react'
+import { toast } from '@metabuilder/components/m3'
+import {
+  exportDatabase,
+  importDatabase,
+  clearDatabase,
   seedDatabase,
-  validateDatabaseSchema
 } from '@/lib/db'
+import { useTranslation } from '@/hooks/useTranslation'
+import { useDatabaseStats } from './useDatabaseStats'
 
 export function useDatabaseOperations() {
-  const [stats, setStats] = useState<{
-    snippetCount: number
-    templateCount: number
-    storageType: 'indexeddb' | 'localstorage' | 'none'
-    databaseSize: number
-  } | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [schemaHealth, setSchemaHealth] = useState<'unknown' | 'healthy' | 'corrupted'>('unknown')
-  const [checkingSchema, setCheckingSchema] = useState(false)
-
-  const loadStats = useCallback(async () => {
-    setLoading(true)
-    try {
-      const data = await getDatabaseStats()
-      setStats(data)
-    } catch (error) {
-      console.error('Failed to load stats:', error)
-      toast.error('Failed to load database statistics')
-    } finally {
-      setLoading(false)
-    }
-  }, [])
-
-  const checkSchemaHealth = useCallback(async () => {
-    setCheckingSchema(true)
-    try {
-      const result = await validateDatabaseSchema()
-      setSchemaHealth(result ? 'healthy' : 'corrupted')
-    } catch (error) {
-      console.error('Schema check failed:', error)
-      setSchemaHealth('corrupted')
-    } finally {
-      setCheckingSchema(false)
-    }
-  }, [])
+  const t = useTranslation()
+  const statsHook = useDatabaseStats()
 
   const handleExport = useCallback(async () => {
     try {
@@ -58,76 +25,60 @@ export function useDatabaseOperations() {
       a.click()
       document.body.removeChild(a)
       URL.revokeObjectURL(url)
-      toast.success('Database exported successfully')
+      toast.success(t.settings.database.exported)
     } catch (error) {
       console.error('Failed to export:', error)
-      toast.error('Failed to export database')
+      toast.error(t.settings.database.failedToExport)
     }
-  }, [])
+  }, [t])
 
-  const handleImport = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
-    if (!file) return
-
-    try {
-      const text = await file.text()
-      await importDatabase(text)
-      toast.success('Database imported successfully')
-      await loadStats()
-    } catch (error) {
-      console.error('Failed to import:', error)
-      toast.error('Failed to import database')
-    }
-
-    event.target.value = ''
-  }, [loadStats])
+  const handleImport = useCallback(
+    async (event: React.ChangeEvent<HTMLInputElement>) => {
+      const file = event.target.files?.[0]
+      if (!file) return
+      try {
+        const text = await file.text()
+        await importDatabase(text)
+        toast.success(t.settings.database.imported)
+        await statsHook.loadStats()
+      } catch (error) {
+        console.error('Failed to import:', error)
+        toast.error(t.settings.database.failedToImport)
+      }
+      event.target.value = ''
+    },
+    [t, statsHook],
+  )
 
   const handleClear = useCallback(async () => {
-    if (!confirm('Are you sure you want to clear all data? This cannot be undone.')) {
-      return
-    }
-
+    if (!confirm(t.settings.database.clearConfirm)) return
     try {
       await clearDatabase()
-      toast.success('Database cleared and schema recreated successfully')
-      await loadStats()
-      await checkSchemaHealth()
+      toast.success(t.settings.database.cleared)
+      await statsHook.loadStats()
+      await statsHook.checkSchemaHealth()
     } catch (error) {
       console.error('Failed to clear:', error)
-      toast.error('Failed to clear database')
+      toast.error(t.settings.database.failedToClear)
     }
-  }, [loadStats, checkSchemaHealth])
+  }, [t, statsHook])
 
   const handleSeed = useCallback(async () => {
     try {
       await seedDatabase()
-      toast.success('Sample data added successfully')
-      await loadStats()
+      toast.success(t.settings.database.seeded)
+      await statsHook.loadStats()
     } catch (error) {
       console.error('Failed to seed:', error)
-      toast.error('Failed to add sample data')
+      toast.error(t.settings.database.failedToSeed)
     }
-  }, [loadStats])
-
-  const formatBytes = useCallback((bytes: number) => {
-    if (bytes === 0) return '0 Bytes'
-    const k = 1024
-    const sizes = ['Bytes', 'KB', 'MB', 'GB']
-    const i = Math.floor(Math.log(bytes) / Math.log(k))
-    return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i]
-  }, [])
+  }, [t, statsHook])
 
   return {
-    stats,
-    loading,
-    schemaHealth,
-    checkingSchema,
-    loadStats,
-    checkSchemaHealth,
+    ...statsHook,
     handleExport,
     handleImport,
     handleClear,
     handleSeed,
-    formatBytes,
   }
 }

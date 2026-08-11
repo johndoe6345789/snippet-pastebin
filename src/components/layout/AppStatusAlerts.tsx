@@ -1,48 +1,76 @@
-'use client';
+'use client'
 
-import { CheckCircle, WarningCircle } from '@phosphor-icons/react'
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import {
+  Alert,
+  AlertTitle,
+  MaterialIcon,
+} from '@metabuilder/components/m3'
 import { getStorageConfig } from '@/lib/storage'
+import { useTranslation } from '@/hooks/useTranslation'
+
+const iconSuccessStyle = {
+  gridColumnStart: 1,
+  marginTop: '0.125rem',
+  color: 'var(--mat-sys-tertiary)',
+}
+const iconErrorStyle = {
+  gridColumnStart: 1,
+  marginTop: '0.125rem',
+}
 
 /**
  * Small stack of status alerts to keep tests and users informed about
  * the current storage mode and backend connectivity.
  */
 export function AppStatusAlerts() {
+  const t = useTranslation()
   const { backend } = getStorageConfig()
   const usingLocal = backend === 'indexeddb'
 
   return (
-    <div className="space-y-2" data-testid="status-alerts" role="region" aria-label="Application status alerts">
+    <div
+      style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}
+      data-testid="status-alerts"
+      role="region"
+      aria-label="Application status alerts"
+    >
       <Alert
         data-testid="alert-success"
-        className="bg-emerald-500/5 border-emerald-500/20"
+        className="alert-m3-success"
         role="status"
         aria-live="polite"
+        severity="success"
+        icon={
+          <MaterialIcon
+            name="check_circle"
+            style={iconSuccessStyle}
+            aria-hidden="true"
+          />
+        }
       >
-        <CheckCircle className="col-start-1 mt-0.5 text-emerald-500" weight="fill" aria-hidden="true" />
-        <AlertTitle>Workspace ready</AlertTitle>
-        <AlertDescription>
-          {usingLocal
-            ? 'Running in local-first mode so you can work offline without a backend.'
-            : 'Connected to your configured backend. Live sync is enabled.'}
-        </AlertDescription>
+        <AlertTitle>{t.statusAlerts.workspaceReady}</AlertTitle>
+        {usingLocal
+          ? t.statusAlerts.localModeDesc
+          : t.statusAlerts.connectedDesc}
       </Alert>
 
       {usingLocal && (
         <Alert
           data-testid="alert-error"
-          variant="destructive"
-          className="bg-destructive/10 border-destructive/40"
+          className="alert-m3-error"
           role="alert"
           aria-live="assertive"
+          severity="error"
+          icon={
+            <MaterialIcon
+              name="error"
+              style={iconErrorStyle}
+              aria-hidden="true"
+            />
+          }
         >
-          <WarningCircle className="col-start-1 mt-0.5" weight="fill" aria-hidden="true" />
-          <AlertTitle>Cloud backend unavailable</AlertTitle>
-          <AlertDescription>
-            No Flask backend detected. Saving and loading will stay on this device until a server
-            URL is configured.
-          </AlertDescription>
+          <AlertTitle>{t.statusAlerts.cloudUnavailable}</AlertTitle>
+          {t.statusAlerts.cloudUnavailableDesc}
         </Alert>
       )}
     </div>

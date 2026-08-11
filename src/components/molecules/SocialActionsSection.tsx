@@ -1,54 +1,92 @@
-import { Card } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
-import { Heart, ChatCircle, Share, DotsThree } from '@phosphor-icons/react'
+import {
+  Card,
+  Button,
+  Divider,
+  MaterialIcon,
+} from '@metabuilder/components/m3'
+
+const iconStyle = (extra?: object) => ({
+  marginRight: '8px',
+  ...extra,
+})
 
 export function SocialActionsSection() {
   return (
-    <section className="space-y-6" data-testid="social-actions-section" role="region" aria-label="Social action buttons">
+    <section
+      style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}
+      data-testid="social-actions-section"
+      role="region"
+      aria-label="Social action buttons"
+    >
       <div>
-        <h2 className="text-3xl font-bold mb-2">Social Actions</h2>
-        <p className="text-muted-foreground">
+        <h2
+          style={{
+            fontSize: '1.875rem',
+            lineHeight: '2.25rem',
+            fontWeight: 700,
+            marginBottom: '8px',
+          }}
+        >
+          Social Actions
+        </h2>
+        <p style={{ color: 'var(--mat-sys-on-surface-variant)' }}>
           Grouped interactive buttons for social features
         </p>
       </div>
 
       <Card className="p-6">
-        <div className="space-y-6">
-          <div className="flex items-center gap-2">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <Button variant="ghost" size="sm">
-              <Heart className="mr-2" />
+              <MaterialIcon name="favorite" style={iconStyle()} />
               Like
             </Button>
             <Button variant="ghost" size="sm">
-              <ChatCircle className="mr-2" />
+              <MaterialIcon name="chat_bubble" style={iconStyle()} />
               Comment
             </Button>
             <Button variant="ghost" size="sm">
-              <Share className="mr-2" />
+              <MaterialIcon name="share" style={iconStyle()} />
               Share
             </Button>
           </div>
 
-          <Separator />
+          <Divider />
 
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Button variant="outline" size="sm">
-                <Heart weight="fill" className="text-destructive mr-2" />
-                <span className="text-foreground">256</span>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '16px',
+              }}
+            >
+              <Button variant="outlined" size="sm">
+                <MaterialIcon
+                  name="favorite"
+                  style={iconStyle({ color: 'var(--mat-sys-error)' })}
+                />
+                <span style={{ color: 'var(--mat-sys-on-background)' }}>
+                  256
+                </span>
               </Button>
-              <Button variant="outline" size="sm">
-                <ChatCircle className="mr-2" />
+              <Button variant="outlined" size="sm">
+                <MaterialIcon name="chat_bubble" style={iconStyle()} />
                 <span>42</span>
               </Button>
             </div>
-            <div className="flex items-center gap-2">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <Button variant="ghost" size="sm">
-                <Share />
+                <MaterialIcon name="share" />
               </Button>
               <Button variant="ghost" size="sm">
-                <DotsThree weight="bold" />
+                <MaterialIcon name="more_horiz" />
               </Button>
             </div>
           </div>

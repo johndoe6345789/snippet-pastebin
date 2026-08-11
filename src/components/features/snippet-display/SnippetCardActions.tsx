@@ -1,17 +1,9 @@
-import { Button } from '@/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { Copy, Pencil, Trash, Eye, DotsThree, FolderOpen } from '@phosphor-icons/react'
+import { Button, MaterialIcon } from '@metabuilder/components/m3'
 import { Namespace } from '@/lib/types'
-import { strings } from '@/lib/config'
+import { useTranslation } from '@/hooks/useTranslation'
+import { useSnippetCardActions } from './hooks/useSnippetCardActions'
+import { MoveToMenu } from './MoveToMenu'
+import styles from './snippet-card-actions.module.scss'
 
 interface SnippetCardActionsProps {
   isCopied: boolean
@@ -34,100 +26,82 @@ export function SnippetCardActions({
   onDelete,
   onMoveToNamespace,
 }: SnippetCardActionsProps) {
+  const t = useTranslation()
+  const vm = useSnippetCardActions()
+
   return (
-    <div className="flex items-center justify-between gap-2 pt-2" data-testid="snippet-card-actions" role="group" aria-label="Snippet actions">
-      <div className="flex-1 flex items-center gap-2">
+    <div
+      className={`${styles.actionsRow} flex items-center justify-between gap-2`}
+      data-testid="snippet-card-actions"
+      role="group"
+      aria-label="Snippet actions"
+    >
+      <div className={styles.actionsLeft}>
         <Button
           variant="ghost"
           size="sm"
           onClick={onView}
-          className="gap-2"
+          className={styles.btnGap}
           data-testid="snippet-card-view-btn"
           aria-label="View snippet"
         >
-          <Eye className="h-4 w-4" aria-hidden="true" />
-          {strings.snippetCard.viewButton}
+          <MaterialIcon name="visibility" size={16} aria-hidden="true" />
+          <span className={styles.btnLabelInline}>
+            {t.snippetCard.viewButton}
+          </span>
         </Button>
       </div>
-      <div className="flex items-center gap-2">
+
+      <div className={styles.actionsRight}>
         <Button
           variant="ghost"
           size="sm"
           onClick={onCopy}
-          className="gap-2"
+          className={styles.btnGap}
           data-testid="snippet-card-copy-btn"
-          aria-label={strings.snippetCard.ariaLabels.copy}
+          aria-label={t.snippetCard.ariaLabels.copy}
         >
-          <Copy className="h-4 w-4" aria-hidden="true" />
-          {isCopied ? strings.snippetCard.copiedButton : strings.snippetCard.copyButton}
+          <MaterialIcon name="content_copy" size={16} aria-hidden="true" />
+          <span className={styles.btnLabelInline}>
+            {isCopied ? t.snippetCard.copiedButton : t.snippetCard.copyButton}
+          </span>
         </Button>
+
         <Button
           variant="ghost"
           size="sm"
           onClick={onEdit}
+          className={`${styles.btnSquare} h-4 w-4`}
           data-testid="snippet-card-edit-btn"
-          aria-label={strings.snippetCard.ariaLabels.edit}
+          aria-label={t.snippetCard.ariaLabels.edit}
         >
-          <Pencil className="h-4 w-4" aria-hidden="true" />
+          <MaterialIcon name="edit" size={16} aria-hidden="true" />
         </Button>
-        
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={(e) => e.stopPropagation()}
-              data-testid="snippet-card-actions-menu"
-              aria-label="More options"
-              aria-haspopup="menu"
-            >
-              <DotsThree className="h-4 w-4" weight="bold" aria-hidden="true" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()} data-testid="snippet-actions-menu-content">
-            <DropdownMenuSub>
-              <DropdownMenuSubTrigger
-                disabled={isMoving || availableNamespaces.length === 0}
-                data-testid="snippet-card-move-submenu"
-                aria-label="Move snippet to another namespace"
-              >
-                <FolderOpen className="h-4 w-4 mr-2" aria-hidden="true" />
-                <span>Move to...</span>
-              </DropdownMenuSubTrigger>
-              <DropdownMenuSubContent data-testid="move-to-namespaces-list">
-                {availableNamespaces.length === 0 ? (
-                  <DropdownMenuItem disabled data-testid="no-namespaces-item">
-                    No other namespaces
-                  </DropdownMenuItem>
-                ) : (
-                  availableNamespaces.map((namespace) => (
-                    <DropdownMenuItem
-                      key={namespace.id}
-                      onClick={() => onMoveToNamespace(namespace.id)}
-                      data-testid={`move-to-namespace-${namespace.id}`}
-                      aria-label={`Move to ${namespace.name}${namespace.isDefault ? ' (Default)' : ''}`}
-                    >
-                      {namespace.name}
-                      {namespace.isDefault && (
-                        <span className="ml-2 text-xs text-muted-foreground">(Default)</span>
-                      )}
-                    </DropdownMenuItem>
-                  ))
-                )}
-              </DropdownMenuSubContent>
-            </DropdownMenuSub>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem
-              onClick={onDelete}
-              className="text-destructive focus:text-destructive"
-              data-testid="snippet-card-delete-btn"
-              aria-label="Delete snippet"
-            >
-              <Trash className="h-4 w-4 mr-2" aria-hidden="true" />
-              Delete
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={e => {
+            e.stopPropagation()
+            vm.openMenu(e.currentTarget)
+          }}
+          className={styles.btnSquare}
+          data-testid="snippet-card-actions-menu"
+          aria-label="More options"
+          aria-haspopup="menu"
+        >
+          <MaterialIcon name="more_horiz" size={16} aria-hidden="true" />
+        </Button>
+
+        <MoveToMenu
+          open={Boolean(vm.menuAnchor)}
+          anchorEl={vm.menuAnchor}
+          isMoving={isMoving}
+          availableNamespaces={availableNamespaces}
+          onClose={vm.closeMenu}
+          onMove={onMoveToNamespace}
+          onDelete={onDelete}
+        />
       </div>
     </div>
   )

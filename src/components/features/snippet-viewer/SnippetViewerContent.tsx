@@ -1,13 +1,19 @@
 import { Snippet } from '@/lib/types'
 import { MonacoEditor } from '@/components/features/snippet-editor/MonacoEditor'
-import { ReactPreview } from '@/components/features/snippet-editor/ReactPreview'
-import { PythonOutput } from '@/components/features/python-runner/PythonOutput'
+import { SnippetPreviewContent } from './SnippetPreviewContent'
+import styles from './snippet-viewer.module.scss'
 
 interface SnippetViewerContentProps {
   snippet: Snippet
   canPreview: boolean
   showPreview: boolean
   isPython: boolean
+  wordWrap?: 'on' | 'off'
+  onChange?: (value: string) => void
+  breakpoints?: number[]
+  onToggleBreakpoint?: (line: number) => void
+  currentDebugLine?: number | null
+  inlineValues?: { line: number; text: string }[]
 }
 
 export function SnippetViewerContent({
@@ -15,43 +21,45 @@ export function SnippetViewerContent({
   canPreview,
   showPreview,
   isPython,
+  wordWrap = 'on',
+  onChange = () => {},
+  breakpoints,
+  onToggleBreakpoint,
+  currentDebugLine,
+  inlineValues,
 }: SnippetViewerContentProps) {
   if (canPreview && showPreview) {
     return (
-      <>
-        <div className="flex-1 overflow-hidden border-r border-border" data-testid="viewer-code-pane" role="region" aria-label="Code viewer">
-          <MonacoEditor
-            value={snippet.code}
-            onChange={() => {}}
-            language={snippet.language}
-            height="100%"
-            readOnly={true}
-          />
-        </div>
-        <div className="flex-1 overflow-hidden" data-testid="viewer-preview-pane" role="region" aria-label={`Preview pane - ${isPython ? 'Python output' : 'React preview'}`}>
-          {isPython ? (
-            <PythonOutput code={snippet.code} />
-          ) : (
-            <ReactPreview
-              code={snippet.code}
-              language={snippet.language}
-              functionName={snippet.functionName}
-              inputParameters={snippet.inputParameters}
-            />
-          )}
-        </div>
-      </>
+      <SnippetPreviewContent
+        snippet={snippet}
+        isPython={isPython}
+        wordWrap={wordWrap}
+        onChange={onChange}
+        breakpoints={breakpoints}
+        onToggleBreakpoint={onToggleBreakpoint}
+        currentDebugLine={currentDebugLine}
+        inlineValues={inlineValues}
+      />
     )
   }
 
   return (
-    <div className="flex-1 overflow-hidden" data-testid="viewer-code-full" role="region" aria-label="Full code viewer">
+    <div
+      className={styles.fullPane}
+      data-testid="viewer-code-full"
+      role="region"
+      aria-label="Code editor"
+    >
       <MonacoEditor
         value={snippet.code}
-        onChange={() => {}}
+        onChange={onChange}
         language={snippet.language}
         height="100%"
-        readOnly={true}
+        wordWrap={wordWrap}
+        breakpoints={breakpoints}
+        onToggleBreakpoint={onToggleBreakpoint}
+        currentDebugLine={currentDebugLine}
+        inlineValues={inlineValues}
       />
     </div>
   )

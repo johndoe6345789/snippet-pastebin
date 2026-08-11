@@ -1,9 +1,9 @@
-import { useState } from 'react'
-import { Card } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
 import { FloppyDisk } from '@phosphor-icons/react'
+import { Card, Button } from '@metabuilder/components/m3'
 import { Snippet } from '@/lib/types'
+// eslint-disable-next-line max-len
 import { SnippetDialog } from '@/components/features/snippet-editor/SnippetDialog'
+import { useComponentShowcase } from './hooks/useComponentShowcase'
 
 interface ComponentShowcaseProps {
   children: React.ReactNode
@@ -12,7 +12,9 @@ interface ComponentShowcaseProps {
   description?: string
   language?: string
   category: string
-  onSaveSnippet: (snippet: Omit<Snippet, 'id' | 'createdAt' | 'updatedAt'>) => void
+  onSaveSnippet: (
+    snippet: Omit<Snippet, 'id' | 'createdAt' | 'updatedAt'>,
+  ) => void
 }
 
 export function ComponentShowcase({
@@ -24,45 +26,46 @@ export function ComponentShowcase({
   category,
   onSaveSnippet,
 }: ComponentShowcaseProps) {
-  const [dialogOpen, setDialogOpen] = useState(false)
-  const [prefilledData, setPrefilledData] = useState<{
-    title: string
-    description: string
-    code: string
-    language: string
-    category: string
-  } | null>(null)
-
-  const handleSaveClick = () => {
-    setPrefilledData({
+  const { dialogOpen, prefilledData, handleSaveClick, handleSave } =
+    useComponentShowcase(
       title,
       description,
       code,
       language,
       category,
-    })
-    setDialogOpen(true)
-  }
+      onSaveSnippet,
+    )
 
-  const handleSave = (snippetData: Omit<Snippet, 'id' | 'createdAt' | 'updatedAt'>) => {
-    onSaveSnippet(snippetData)
-    setDialogOpen(false)
-    setPrefilledData(null)
-  }
+  const testId = `showcase-${category}-${title
+    .toLowerCase()
+    .replace(/\s+/g, '-')}`
 
   return (
     <>
-      <Card className="relative group" data-testid={`showcase-${category}-${title.toLowerCase().replace(/\s+/g, '-')}`}>
-        <div className="absolute top-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity" data-testid="showcase-save-btn-container">
+      <Card
+        className="relative group rounded-lg"
+        style={{ position: 'relative' }}
+        data-testid={testId}
+      >
+        <div
+          className="opacity-0 group-hover:opacity-100 transition-opacity"
+          style={{
+            position: 'absolute',
+            top: '16px',
+            right: '16px',
+            zIndex: 10,
+          }}
+          data-testid="showcase-save-btn-container"
+        >
           <Button
             variant="secondary"
             size="sm"
             onClick={handleSaveClick}
             className="gap-2 shadow-lg"
             data-testid="showcase-save-btn"
-            aria-label={`Save ${title} as snippet`}
+            aria-label="Save as snippet"
           >
-            <FloppyDisk weight="bold" aria-hidden="true" />
+            <FloppyDisk size={16} aria-hidden="true" />
             Save as Snippet
           </Button>
         </div>
@@ -71,7 +74,13 @@ export function ComponentShowcase({
       {prefilledData && (
         <SnippetDialog
           open={dialogOpen}
-          onOpenChange={setDialogOpen}
+          onOpenChange={v => {
+            if (!v)
+              handleSave({ ...prefilledData } as Omit<
+                Snippet,
+                'id' | 'createdAt' | 'updatedAt'
+              >)
+          }}
           onSave={handleSave}
           editingSnippet={{
             id: '',

@@ -1,38 +1,106 @@
-# Build stage (use build platform to keep multi-arch builds off QEMU)
-FROM --platform=$BUILDPLATFORM node:20-alpine AS builder
+# Multi-stage build: node_modules from base image, source built fresh
+# Context: monorepo root (..)
+# Requires: docker build -f deployment/base-images/Dockerfile.node-deps \
+#           -t metabuilder/base-node-deps:latest .
 
-WORKDIR /app
-
-# Copy package files
-COPY package*.json ./
-RUN npm ci
-
-# Copy source code
-COPY . .
-
-# Build arguments for environment variables
+# --- Build stage ---
+ARG BASE_REGISTRY=metabuilder
+ARG NEXT_PUBLIC_FLASK_BACKEND_URL=/pastebin-api
+# Browser-reachable DBAL origin for the OIDC PKCE dance (/oidc/authorize,
+# /oidc/token) — the browser talks to DBAL directly, never through Flask.
+ARG NEXT_PUBLIC_DBAL_OIDC_BASE_URL=""
+ARG NEXT_PUBLIC_DBAL_OIDC_CLIENT_ID=pastebin-web
+FROM ${BASE_REGISTRY}/base-node-deps:latest AS builder
 ARG NEXT_PUBLIC_FLASK_BACKEND_URL
-ARG NEXT_PUBLIC_BASE_PATH
-ENV NEXT_PUBLIC_FLASK_BACKEND_URL=$NEXT_PUBLIC_FLASK_BACKEND_URL
-ENV NEXT_PUBLIC_BASE_PATH=$NEXT_PUBLIC_BASE_PATH
+ARG NEXT_PUBLIC_DBAL_OIDC_BASE_URL
+ARG NEXT_PUBLIC_DBAL_OIDC_CLIENT_ID
+ENV NEXT_PUBLIC_FLASK_BACKEND_URL=${NEXT_PUBLIC_FLASK_BACKEND_URL}
+ENV NEXT_PUBLIC_DBAL_OIDC_BASE_URL=${NEXT_PUBLIC_DBAL_OIDC_BASE_URL}
+ENV NEXT_PUBLIC_DBAL_OIDC_CLIENT_ID=${NEXT_PUBLIC_DBAL_OIDC_CLIENT_ID}
 
-# Build Next.js app
-RUN npm run build
+COPY package.json .npmrc ./
 
-# Production stage
-FROM node:20-alpine AS runner
+# ── Shared packages (resolved by transpilePackages + webpack aliases) ────────
+# Each COPY targets only the source tree that pastebin actually imports.
+#
+# types + interfaces (transitive dep of redux/slices et al.)
+COPY libraries/types/ ./libraries/types/
+COPY libraries/interfaces/ ./libraries/interfaces/
+COPY libraries/translations/ ./libraries/translations/
 
+# hooks (shared React hooks)
+COPY libraries/hooks/ ./libraries/hooks/
+
+# icons (React icon components — imported by components/m3)
+COPY libraries/icons/ ./libraries/icons/
+
+# scss (Material 3 SCSS, theme, atoms — loaded by sassOptions)
+COPY libraries/scss/ ./libraries/scss/
+
+# components + M3 (UI component library)
+COPY libraries/components/ ./libraries/components/
+
+# ── Redux packages (all — small TS source, avoids transitive dep breakage) ───
+COPY libraries/redux/dbal-sso/ ./libraries/redux/dbal-sso/
+COPY libraries/redux/core/ ./libraries/redux/core/
+COPY libraries/redux/slices/ ./libraries/redux/slices/
+COPY libraries/redux/hooks/ ./libraries/redux/hooks/
+COPY libraries/redux/adapters/ ./libraries/redux/adapters/
+COPY libraries/redux/api-clients/ ./libraries/redux/api-clients/
+COPY libraries/redux/core-hooks/ ./libraries/redux/core-hooks/
+COPY libraries/redux/email/ ./libraries/redux/email/
+COPY libraries/redux/hooks-async/ ./libraries/redux/hooks-async/
+COPY libraries/redux/hooks-auth/ ./libraries/redux/hooks-auth/
+COPY libraries/redux/hooks-canvas/ ./libraries/redux/hooks-canvas/
+COPY libraries/redux/hooks-data/ ./libraries/redux/hooks-data/
+COPY libraries/redux/hooks-forms/ ./libraries/redux/hooks-forms/
+COPY libraries/redux/hooks-utils/ ./libraries/redux/hooks-utils/
+COPY libraries/redux/middleware/ ./libraries/redux/middleware/
+COPY libraries/redux/persist/ ./libraries/redux/persist/
+COPY libraries/redux/services/ ./libraries/redux/services/
+COPY libraries/redux/timing-utils/ ./libraries/redux/timing-utils/
+
+# workflow (DAG engine — imported by components package)
+COPY libraries/workflow/ ./libraries/workflow/
+
+# ── Pastebin (the app itself) ────────────────────────────────────────────────
+COPY frontends/pastebin/ ./frontends/pastebin/
+
+# Re-link workspaces so every copied workspace can resolve local deps.
+# The base image installed deps from manifests only; now that real workspace
+# source has been COPYed in, re-run the full workspace install so npm rebuilds
+# the complete node_modules/@metabuilder/* symlink tree (e.g. @metabuilder/types
+# for redux/slices, redux/adapters, redux/hooks-async, api-clients, persist).
+RUN npm install --ignore-scripts
+
+# Build workspace library packages
+RUN for ws in libraries/redux/core libraries/redux/slices \
+    libraries/redux/hooks libraries/redux/adapters \
+    libraries/redux/hooks-async libraries/redux/api-clients \
+    libraries/redux/persist libraries/components libraries/workflow; do \
+    npm run build -w "$ws" --if-present 2>&1 || { echo "ERROR: $ws build failed"; exit 1; }; \
+done
+
+# Build the app
+RUN cd frontends/pastebin && npx next build --turbopack
+
+# --- Runtime stage ---
+FROM node:24-alpine
 WORKDIR /app
+
+COPY --from=builder /app/frontends/pastebin/.next/standalone ./
+COPY --from=builder /app/frontends/pastebin/.next/static ./frontends/pastebin/.next/static
+# Public files (including pyodide runtime) must be alongside server.js in standalone mode
+COPY --from=builder /app/frontends/pastebin/public ./frontends/pastebin/public
 
 ENV NODE_ENV=production
-
-# Copy necessary files from builder
-COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/.next/static ./.next/static
-
-EXPOSE 3000
-
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
+EXPOSE 3000
+
+HEALTHCHECK --interval=15s --timeout=5s --start-period=30s --retries=3 \
+    CMD wget --quiet --tries=1 --spider http://127.0.0.1:3000/pastebin || exit 1
+
+WORKDIR /app/frontends/pastebin
 CMD ["node", "server.js"]

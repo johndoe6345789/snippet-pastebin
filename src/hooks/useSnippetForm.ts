@@ -1,92 +1,107 @@
 import { useState, useEffect } from 'react'
-import { Snippet, InputParameter } from '@/lib/types'
-import { appConfig, strings } from '@/lib/config'
+import { Snippet } from '@/lib/types'
+import { appConfig } from '@/lib/config'
+import { useTranslation } from '@/hooks/useTranslation'
+import { useSnippetFormFiles, getDefaultFileName } from './useSnippetFormFiles'
+import {
+  useSnippetFormParams,
+  validateSnippetForm,
+} from './useSnippetFormParams'
 
-export function useSnippetForm(editingSnippet?: Snippet | null, open?: boolean) {
+export function useSnippetForm(
+  editingSnippet?: Snippet | null,
+  open?: boolean,
+) {
+  const t = useTranslation()
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
-  const [language, setLanguage] = useState(appConfig.defaultLanguage)
+  const [language, setLanguageRaw] = useState(appConfig.defaultLanguage)
   const [code, setCode] = useState('')
   const [hasPreview, setHasPreview] = useState(false)
   const [functionName, setFunctionName] = useState('')
-  const [inputParameters, setInputParameters] = useState<InputParameter[]>([])
-  const [errors, setErrors] = useState<{ title?: string; code?: string }>({})
+  const [errors, setErrors] = useState<{
+    title?: string
+    code?: string
+  }>({})
+  const fileOps = useSnippetFormFiles(appConfig.defaultLanguage)
+  const params = useSnippetFormParams()
 
   /* eslint-disable react-hooks/exhaustive-deps */
-  // This effect hydrates the form when the dialog opens or when a different snippet is selected for editing.
-  // The state reset is intentional user-facing behavior. We intentionally omit state setters from deps.
   useEffect(() => {
     if (editingSnippet) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setTitle(editingSnippet.title)
       setDescription(editingSnippet.description)
-      setLanguage(editingSnippet.language)
+      setLanguageRaw(editingSnippet.language)
       setCode(editingSnippet.code)
       setHasPreview(editingSnippet.hasPreview || false)
       setFunctionName(editingSnippet.functionName || '')
-      setInputParameters(editingSnippet.inputParameters || [])
+      params.setInputParameters(editingSnippet.inputParameters || [])
+      if (editingSnippet.files && editingSnippet.files.length > 0) {
+        fileOps.setFiles(editingSnippet.files)
+        fileOps.setActiveFile(
+          editingSnippet.entryPoint || editingSnippet.files[0].name,
+        )
+      } else {
+        fileOps.resetFiles(editingSnippet.language, editingSnippet.code)
+      }
     } else {
       setTitle('')
       setDescription('')
-      setLanguage(appConfig.defaultLanguage)
+      setLanguageRaw(appConfig.defaultLanguage)
       setCode('')
       setHasPreview(false)
       setFunctionName('')
-      setInputParameters([])
+      params.setInputParameters([])
+      fileOps.resetFiles(appConfig.defaultLanguage)
     }
     setErrors({})
   }, [editingSnippet, open])
   /* eslint-enable react-hooks/exhaustive-deps */
 
-  const handleAddParameter = () => {
-    setInputParameters((prev) => [
-      ...prev,
-      { name: '', type: 'string', defaultValue: '', description: '' },
-    ])
-  }
-
-  const handleRemoveParameter = (index: number) => {
-    setInputParameters((prev) => prev.filter((_, i) => i !== index))
-  }
-
-  const handleUpdateParameter = (index: number, field: keyof InputParameter, value: string) => {
-    setInputParameters((prev) =>
-      prev.map((param, i) => (i === index ? { ...param, [field]: value } : param))
-    )
+  const handleLanguageChange = (newLanguage: string) => {
+    setLanguageRaw(newLanguage)
+    const oldDefault = getDefaultFileName(language)
+    const newDefault = getDefaultFileName(newLanguage)
+    if (fileOps.files.length > 0 && fileOps.files[0].name === oldDefault) {
+      fileOps.renameFile(oldDefault, newDefault)
+    }
   }
 
   const validate = () => {
-    const newErrors: { title?: string; code?: string } = {}
-
-    if (!title.trim()) {
-      newErrors.title = strings.snippetDialog.fields.title.errorMessage
-    }
-    if (!code.trim()) {
-      newErrors.code = strings.snippetDialog.fields.code.errorMessage
-    }
-
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
+    const { errors: e, valid } = validateSnippetForm(title, code, fileOps, t)
+    setErrors(e)
+    return valid
   }
 
-  const getFormData = () => ({
-    title: title.trim(),
-    description: description.trim(),
-    language,
-    code: code.trim(),
-    category: editingSnippet?.category || 'general',
-    hasPreview,
-    functionName: functionName.trim() || undefined,
-    inputParameters: inputParameters.length > 0 ? inputParameters : undefined,
-  })
+  const getFormData = () => {
+    const entryFile =
+      fileOps.files.find(f => f.name === fileOps.activeFile) || fileOps.files[0]
+    const entryContent = entryFile?.content.trim() || code.trim()
+    return {
+      title: title.trim(),
+      description: description.trim(),
+      language,
+      code: entryContent,
+      category: editingSnippet?.category || 'general',
+      hasPreview,
+      functionName: functionName.trim() || undefined,
+      inputParameters:
+        params.inputParameters.length > 0 ? params.inputParameters : undefined,
+      files: fileOps.files.length > 0 ? fileOps.files : undefined,
+      entryPoint: fileOps.activeFile || undefined,
+    }
+  }
 
   const resetForm = () => {
     setTitle('')
     setDescription('')
-    setLanguage(appConfig.defaultLanguage)
+    setLanguageRaw(appConfig.defaultLanguage)
     setCode('')
     setHasPreview(false)
     setFunctionName('')
-    setInputParameters([])
+    params.setInputParameters([])
+    fileOps.resetFiles(appConfig.defaultLanguage)
     setErrors({})
   }
 
@@ -97,17 +112,28 @@ export function useSnippetForm(editingSnippet?: Snippet | null, open?: boolean) 
     code,
     hasPreview,
     functionName,
-    inputParameters,
     errors,
+    inputParameters: params.inputParameters,
+    files: fileOps.files,
+    activeFile: fileOps.activeFile,
     setTitle,
     setDescription,
-    setLanguage,
+    setLanguage: handleLanguageChange,
     setCode,
     setHasPreview,
     setFunctionName,
-    handleAddParameter,
-    handleRemoveParameter,
-    handleUpdateParameter,
+    setActiveFile: fileOps.setActiveFile,
+    addFile: fileOps.addFile,
+    deleteFile: fileOps.deleteFile,
+    updateFileContent: (name: string, c: string) => {
+      fileOps.updateFileContent(name, c)
+      if (name === fileOps.activeFile) setCode(c)
+    },
+    renameFile: fileOps.renameFile,
+    uploadFile: fileOps.uploadFile,
+    handleAddParameter: params.handleAddParameter,
+    handleRemoveParameter: params.handleRemoveParameter,
+    handleUpdateParameter: params.handleUpdateParameter,
     validate,
     getFormData,
     resetForm,

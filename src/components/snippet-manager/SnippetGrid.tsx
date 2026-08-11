@@ -1,5 +1,6 @@
 import { SnippetCard } from '@/components/features/snippet-display/SnippetCard'
 import { Snippet } from '@/lib/types'
+import styles from './snippet-grid.module.scss'
 
 interface SnippetGridProps {
   snippets: Snippet[]
@@ -26,12 +27,12 @@ export function SnippetGrid({
 }: SnippetGridProps) {
   return (
     <div
-      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+      className={styles.grid}
       data-testid="snippet-grid"
       role="region"
       aria-label="Snippets list"
     >
-      {snippets.map((snippet) => (
+      {snippets.map(snippet => (
         <SnippetCard
           key={snippet.id}
           snippet={snippet}

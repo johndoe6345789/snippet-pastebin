@@ -1,59 +1,62 @@
-import { Card } from '@/components/ui/card'
-import {
-  Heart,
-  Star,
-  Lightning,
-  Check,
-  X,
-  Plus,
-  Minus,
-  MagnifyingGlass,
-} from '@phosphor-icons/react'
+import { Card, MaterialIcon } from '@metabuilder/components/m3'
+import styles from './IconsSection.module.scss'
+
+const ICON_STYLE: React.CSSProperties = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  gap: '8px',
+}
+
+const LABEL_STYLE: React.CSSProperties = {
+  fontSize: '0.75rem',
+  lineHeight: '1rem',
+  color: 'var(--mat-sys-on-surface-variant)',
+}
+
+const ICONS = [
+  { name: 'favorite', label: 'Heart' },
+  { name: 'star', label: 'Star' },
+  { name: 'bolt', label: 'Lightning' },
+  { name: 'check', label: 'Check' },
+  { name: 'close', label: 'X' },
+  { name: 'add', label: 'Plus' },
+  { name: 'remove', label: 'Minus' },
+  { name: 'search', label: 'Search' },
+] as const
 
 export function IconsSection() {
   return (
-    <section className="space-y-6" data-testid="icons-section" role="region" aria-label="Icon gallery">
+    <section
+      style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}
+      data-testid="icons-section"
+      role="region"
+      aria-label="Icon gallery"
+    >
       <div>
-        <h2 className="text-3xl font-bold mb-2">Icons</h2>
-        <p className="text-muted-foreground">
-          Phosphor icon set with multiple weights
+        <h2
+          style={{
+            fontSize: '1.875rem',
+            lineHeight: '2.25rem',
+            fontWeight: 700,
+            marginBottom: '8px',
+          }}
+        >
+          Icons
+        </h2>
+        <p style={{ color: 'var(--mat-sys-on-surface-variant)' }}>
+          Material Symbols icon set
         </p>
       </div>
-      
+
       <Card className="p-6">
-        <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-6">
-          <div className="flex flex-col items-center gap-2">
-            <Heart className="h-8 w-8" aria-hidden="true" />
-            <span className="text-xs text-muted-foreground">Heart</span>
-          </div>
-          <div className="flex flex-col items-center gap-2">
-            <Star className="h-8 w-8" aria-hidden="true" />
-            <span className="text-xs text-muted-foreground">Star</span>
-          </div>
-          <div className="flex flex-col items-center gap-2">
-            <Lightning className="h-8 w-8" aria-hidden="true" />
-            <span className="text-xs text-muted-foreground">Lightning</span>
-          </div>
-          <div className="flex flex-col items-center gap-2">
-            <Check className="h-8 w-8" aria-hidden="true" />
-            <span className="text-xs text-muted-foreground">Check</span>
-          </div>
-          <div className="flex flex-col items-center gap-2">
-            <X className="h-8 w-8" aria-hidden="true" />
-            <span className="text-xs text-muted-foreground">X</span>
-          </div>
-          <div className="flex flex-col items-center gap-2">
-            <Plus className="h-8 w-8" aria-hidden="true" />
-            <span className="text-xs text-muted-foreground">Plus</span>
-          </div>
-          <div className="flex flex-col items-center gap-2">
-            <Minus className="h-8 w-8" aria-hidden="true" />
-            <span className="text-xs text-muted-foreground">Minus</span>
-          </div>
-          <div className="flex flex-col items-center gap-2">
-            <MagnifyingGlass className="h-8 w-8" aria-hidden="true" />
-            <span className="text-xs text-muted-foreground">Search</span>
-          </div>
+        <div className={styles.iconsGrid}>
+          {ICONS.map(({ name, label }) => (
+            <div key={name} style={ICON_STYLE}>
+              <MaterialIcon name={name} size={32} aria-hidden="true" />
+              <span style={LABEL_STYLE}>{label}</span>
+            </div>
+          ))}
         </div>
       </Card>
     </section>

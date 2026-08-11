@@ -1,114 +1,124 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-import { Eye, EyeClosed, Key } from '@phosphor-icons/react';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  Button,
+  FormLabel,
+  MaterialIcon,
+} from '@metabuilder/components/m3'
+import { useTranslation } from '@/hooks/useTranslation'
+import { AI_PLATFORMS } from '@/config/aiPlatforms'
+import { useOpenAISettings } from './hooks/useOpenAISettings'
+import { ApiKeyField } from './ApiKeyField'
+import styles from './settings-card.module.scss'
 
 export function OpenAISettingsCard() {
-  const [apiKey, setApiKey] = useState(() => (typeof window !== 'undefined' ? localStorage.getItem('openai_api_key') || '' : ''));
-  const [showKey, setShowKey] = useState(false);
-  const [saved, setSaved] = useState(false);
-
-  const handleSave = () => {
-    if (apiKey.trim()) {
-      localStorage.setItem('openai_api_key', apiKey.trim());
-      setSaved(true);
-      setTimeout(() => setSaved(false), 2000);
-    } else {
-      localStorage.removeItem('openai_api_key');
-      setSaved(true);
-      setTimeout(() => setSaved(false), 2000);
-    }
-  };
-
-  const handleClear = () => {
-    setApiKey('');
-    localStorage.removeItem('openai_api_key');
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
-  };
+  const t = useTranslation()
+  const s = t.settingsCards.openAI
+  const vm = useOpenAISettings()
 
   return (
-    <Card data-testid="openai-settings-card" role="region" aria-label="OpenAI API configuration">
-      <CardHeader>
-        <div className="flex items-center gap-2">
-          <Key className="h-5 w-5 text-primary" weight="duotone" aria-hidden="true" />
-          <CardTitle>OpenAI API Settings</CardTitle>
-        </div>
-        <CardDescription>
-          Configure your OpenAI API key for AI-powered error analysis. Your key is stored locally in your browser.
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="openai-key">OpenAI API Key</Label>
-          <div className="flex gap-2">
-            <div className="relative flex-1">
-              <Input
-                id="openai-key"
-                type={showKey ? 'text' : 'password'}
-                value={apiKey}
-                onChange={(e) => setApiKey(e.target.value)}
-                placeholder="sk-..."
-                className="pr-10"
-                data-testid="openai-api-key-input"
-                aria-label="OpenAI API key"
-              />
-              <button
-                type="button"
-                onClick={() => setShowKey(!showKey)}
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                data-testid="toggle-api-key-visibility"
-                aria-label={showKey ? 'Hide API key' : 'Show API key'}
-                aria-pressed={showKey}
-              >
-                {showKey ? <EyeClosed size={18} aria-hidden="true" /> : <Eye size={18} aria-hidden="true" />}
-              </button>
-            </div>
+    <Card
+      data-testid="openai-settings-card"
+      role="region"
+      aria-label="AI platform configuration"
+    >
+      <CardHeader
+        title={
+          <div className={styles.headerIconRow}>
+            <MaterialIcon
+              name="key"
+              className={styles.iconPrimary}
+              size={20}
+              aria-hidden="true"
+            />
+            <h3 className={styles.cardTitle}>{s.title}</h3>
           </div>
-          <p className="text-xs text-muted-foreground">
-            Get your API key from{' '}
-            <a
-              href="https://platform.openai.com/api-keys"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-primary hover:underline"
+        }
+        subheader={<p className={styles.cardDescription}>{s.description}</p>}
+      />
+      <CardContent>
+        <div className={styles.contentStackSm}>
+          <div className={styles.keyFieldWrapper}>
+            <FormLabel htmlFor="ai-platform">{s.platformLabel}</FormLabel>
+            <select
+              id="ai-platform"
+              value={vm.platformId}
+              onChange={e => vm.handlePlatformChange(e.target.value)}
+              className={styles.platformSelect}
+              data-testid="ai-platform-select"
+              aria-label="Select AI platform"
             >
-              OpenAI Platform
-            </a>
-          </p>
-        </div>
+              {AI_PLATFORMS.map(p => (
+                <option key={p.id} value={p.id}>
+                  {p.name}
+                </option>
+              ))}
+            </select>
+          </div>
 
-        <div className="flex gap-2">
-          <Button
-            onClick={handleSave}
-            disabled={!apiKey.trim()}
-            data-testid="save-api-key-btn"
-            aria-label="Save OpenAI API key"
-          >
-            {saved ? 'Saved!' : 'Save API Key'}
-          </Button>
-          {apiKey && (
-            <Button
-              onClick={handleClear}
-              variant="outline"
-              data-testid="clear-api-key-btn"
-              aria-label="Clear OpenAI API key"
+          {vm.serverKeyStatus === 'stored' && (
+            <div
+              className={styles.keyServerStatus}
+              data-testid="server-key-status"
+              role="status"
             >
-              Clear
+              <MaterialIcon name="cloud_done" size={16} aria-hidden="true" />
+              {' Key saved on server'}
+            </div>
+          )}
+
+          {vm.platform.keyRequired && (
+            <ApiKeyField
+              platform={vm.platform}
+              apiKey={vm.apiKey}
+              showKey={vm.showKey}
+              serverKeyStatus={vm.serverKeyStatus}
+              keyLabel={s.keyLabel}
+              showLabel={s.showKey}
+              hideLabel={s.hideKey}
+              hintText={s.keyHint}
+              onApiKeyChange={vm.setApiKey}
+              onToggleShow={() => vm.setShowKey(!vm.showKey)}
+            />
+          )}
+
+          <div className={styles.actionBtnRow}>
+            <Button
+              onClick={vm.handleSave}
+              disabled={!vm.apiKey.trim()}
+              data-testid="save-api-key-btn"
+              aria-label="Save AI settings"
+            >
+              {vm.saved ? s.saved : s.saveButton}
             </Button>
+            {(vm.apiKey || vm.serverKeyStatus === 'stored') && (
+              <Button
+                onClick={vm.handleClear}
+                variant="outlined"
+                data-testid="clear-api-key-btn"
+                aria-label="Clear API key"
+              >
+                {s.clearButton}
+              </Button>
+            )}
+          </div>
+
+          {vm.isConfigured && (
+            <div
+              className={styles.keyConfiguredStatus}
+              data-testid="api-key-configured-status"
+              role="status"
+            >
+              {s.configuredStatus
+                .replace('{platform}', vm.platform.name)
+                .replace('{model}', vm.platform.defaultModel)}
+            </div>
           )}
         </div>
-
-        {apiKey && (
-          <div className="text-sm text-muted-foreground bg-muted/50 p-3 rounded-md" data-testid="api-key-configured-status" role="status">
-            ✓ API key is configured. Error analysis will use OpenAI GPT-4o-mini.
-          </div>
-        )}
       </CardContent>
     </Card>
-  );
+  )
 }

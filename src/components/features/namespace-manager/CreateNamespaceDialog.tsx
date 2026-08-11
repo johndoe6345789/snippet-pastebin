@@ -1,17 +1,18 @@
-"use client"
+'use client'
 
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import {
+  Button,
   Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog'
-import { Plus } from '@phosphor-icons/react'
+  DialogContent,
+  DialogActions,
+  DialogClose,
+  Input,
+  MaterialIcon,
+} from '@metabuilder/components/m3'
+import { useTranslation } from '@/hooks/useTranslation'
+import styles from './namespace-dialog.module.scss'
 
 interface CreateNamespaceDialogProps {
   open: boolean
@@ -30,49 +31,55 @@ export function CreateNamespaceDialog({
   onCreateNamespace,
   loading,
 }: CreateNamespaceDialogProps) {
+  const t = useTranslation()
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogTrigger
-        className="px-2 py-1 rounded border border-input hover:bg-accent hover:text-accent-foreground"
-        data-testid="create-namespace-trigger"
-        aria-label="Create new namespace"
+    <>
+      <Dialog
+        open={open}
+        onClose={() => onOpenChange(false)}
+        maxWidth="sm"
+        fullWidth
       >
-        <Plus weight="bold" aria-hidden="true" />
-      </DialogTrigger>
-      <DialogContent data-testid="create-namespace-dialog">
+        <DialogClose
+          onClick={() => onOpenChange(false)}
+          aria-label={t.common.close}
+        >
+          <MaterialIcon name="close" size={20} />
+        </DialogClose>
         <DialogHeader>
-          <DialogTitle>Create Namespace</DialogTitle>
-          <DialogDescription>
-            Create a new namespace to organize your snippets
-          </DialogDescription>
+          <DialogTitle>{t.namespace.create.title}</DialogTitle>
         </DialogHeader>
-        <div className="space-y-4 py-4">
-          <Input
-            placeholder="Namespace name"
-            value={namespaceName}
-            onChange={(e) => onNamespaceNameChange(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && onCreateNamespace()}
-            data-testid="namespace-name-input"
-            aria-label="Namespace name"
-          />
-        </div>
-        <DialogFooter>
+        <DialogContent data-testid="create-namespace-dialog">
+          <p className={styles.description}>{t.namespace.create.description}</p>
+          <div className={styles.formContent}>
+            <Input
+              placeholder={t.namespace.create.namePlaceholder}
+              value={namespaceName}
+              onChange={e => onNamespaceNameChange(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && onCreateNamespace()}
+              data-testid="namespace-name-input"
+              aria-label={t.namespace.create.namePlaceholder}
+            />
+          </div>
+        </DialogContent>
+        <DialogActions>
           <Button
-            variant="outline"
+            variant="outlined"
             onClick={() => onOpenChange(false)}
             data-testid="create-namespace-cancel-btn"
           >
-            Cancel
+            {t.common.cancel}
           </Button>
           <Button
+            variant="filled"
             onClick={onCreateNamespace}
             disabled={loading}
             data-testid="create-namespace-save-btn"
           >
-            Create
+            {t.common.create}
           </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+        </DialogActions>
+      </Dialog>
+    </>
   )
 }

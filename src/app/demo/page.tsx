@@ -1,24 +1,29 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import dynamic from 'next/dynamic';
-import { motion } from 'framer-motion';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Sparkle } from '@phosphor-icons/react';
-import { DEMO_CODE } from '@/components/demo/demo-constants';
-import { DemoFeatureCards } from '@/components/demo/DemoFeatureCards';
-import { PageLayout } from '../PageLayout';
+import dynamic from 'next/dynamic'
+import { motion } from 'framer-motion'
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  MaterialIcon,
+} from '@metabuilder/components/m3'
+import { DemoFeatureCards } from '@/components/demo/DemoFeatureCards'
+import { useDemoCode } from './hooks/useDemoCode'
+import { PageLayout } from '../PageLayout'
 
 export const dynamicParams = true
 
-// Dynamically import SplitScreenEditor to avoid SSR issues with Pyodide
 const SplitScreenEditor = dynamic(
-  () => import('@/components/features/snippet-editor/SplitScreenEditor').then(mod => ({ default: mod.SplitScreenEditor })),
-  { ssr: false }
-);
+  () =>
+    import('@/components/features/snippet-editor/SplitScreenEditor').then(
+      mod => ({ default: mod.SplitScreenEditor }),
+    ),
+  { ssr: false },
+)
 
 export default function DemoPage() {
-  const [code, setCode] = useState(DEMO_CODE);
+  const { code, setCode } = useDemoCode()
 
   return (
     <PageLayout>
@@ -26,31 +31,81 @@ export default function DemoPage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        className="space-y-8"
+        style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}
       >
-        <div className="mb-8">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="h-10 w-10 rounded-lg bg-gradient-to-br from-accent to-primary flex items-center justify-center">
-              <Sparkle className="h-5 w-5 text-primary-foreground" weight="fill" />
+        <div style={{ marginBottom: '32px' }}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              marginBottom: '8px',
+            }}
+          >
+            <div
+              style={{
+                height: '40px',
+                width: '40px',
+                borderRadius: '12px',
+                background:
+                  // eslint-disable-next-line max-len
+                  'linear-gradient(to bottom right, var(--mat-sys-accent, var(--mat-sys-tertiary)), var(--mat-sys-primary))',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <MaterialIcon
+                name="auto_awesome"
+                size={20}
+                style={{ color: 'var(--mat-sys-on-primary)' }}
+              />
             </div>
-            <h2 className="text-3xl font-bold tracking-tight">Split-Screen Demo</h2>
+            <h2 style={{ fontSize: '1.875rem', fontWeight: 700 }}>
+              Split-Screen Demo
+            </h2>
           </div>
-          <p className="text-muted-foreground">
-            Experience live React component editing with real-time preview. Edit the code on the left and watch it update instantly on the right.
+          <p style={{ color: 'var(--mat-sys-on-surface-variant)' }}>
+            Experience live React component editing with real-time preview. Edit
+            the code on the left and watch it update instantly.
           </p>
         </div>
 
-        <Card className="border-accent/20 bg-card/50 backdrop-blur">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Sparkle className="h-5 w-5 text-accent" weight="fill" />
-              Interactive Code Editor
-            </CardTitle>
-            <CardDescription>
-              This editor supports JSX, TSX, JavaScript, and TypeScript with live preview. 
-              Try switching between Code, Split, and Preview modes using the buttons above the editor.
-            </CardDescription>
-          </CardHeader>
+        <Card>
+          <CardHeader
+            title={
+              <h3
+                style={{
+                  fontWeight: 600,
+                  marginBottom: '2px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                }}
+              >
+                <MaterialIcon
+                  name="auto_awesome"
+                  size={20}
+                  style={{
+                    color: 'var(--mat-sys-accent, var(--mat-sys-tertiary))',
+                  }}
+                />
+                Interactive Code Editor
+              </h3>
+            }
+            subheader={
+              <p
+                style={{
+                  color: 'var(--mat-sys-on-surface-variant)',
+                  fontSize: '0.875rem',
+                }}
+              >
+                This editor supports JSX, TSX, JavaScript, and TypeScript with
+                live preview. Try switching between Code, Split, and Preview
+                modes using the buttons above the editor.
+              </p>
+            }
+          />
           <CardContent>
             <SplitScreenEditor
               value={code}
@@ -64,5 +119,5 @@ export default function DemoPage() {
         <DemoFeatureCards />
       </motion.div>
     </PageLayout>
-  );
+  )
 }

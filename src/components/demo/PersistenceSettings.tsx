@@ -1,123 +1,93 @@
 'use client'
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Label } from '@/components/ui/label'
-import { Switch } from '@/components/ui/switch'
-import { Slider } from '@/components/ui/slider'
-import { Badge } from '@/components/ui/badge'
-import { usePersistenceConfig } from '@/store/hooks'
-import { FloppyDisk, Timer, Bug } from '@phosphor-icons/react'
+import { Database } from '@phosphor-icons/react'
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  Chip,
+} from '@metabuilder/components/m3'
+import styles from './PersistenceSettings.module.scss'
+
+const PERSIST_CONFIG = {
+  key: 'pastebin',
+  storage: 'IndexedDB',
+  whitelist: ['snippets', 'namespaces', 'ui'],
+  throttle: 100,
+}
 
 export function PersistenceSettings() {
-  const { config, togglePersistence, toggleLogging, updateDebounceDelay } = usePersistenceConfig()
-
   return (
-    <Card data-testid="persistence-settings">
-      <CardHeader>
-        <div className="flex items-center gap-3">
-          <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center" aria-hidden="true">
-            <FloppyDisk className="h-5 w-5 text-primary" weight="duotone" />
-          </div>
-          <div>
-            <CardTitle>Redux Persistence</CardTitle>
-            <CardDescription>
-              Automatic database synchronization for Redux state
-            </CardDescription>
-          </div>
-        </div>
-      </CardHeader>
-      <CardContent className="space-y-6">
-        <div className="flex items-center justify-between" data-testid="persistence-enabled-setting">
-          <div className="space-y-1">
-            <Label htmlFor="persistence-enabled" className="text-base font-medium">
-              Auto-Save Enabled
-            </Label>
-            <p className="text-sm text-muted-foreground">
-              Automatically sync Redux state changes to database
-            </p>
-          </div>
-          <Switch
-            id="persistence-enabled"
-            checked={config.enabled}
-            onCheckedChange={togglePersistence}
-            data-testid="persistence-enabled-toggle"
-            aria-label="Toggle auto-save persistence"
-          />
-        </div>
-
-        <div className="flex items-center justify-between" data-testid="logging-enabled-setting">
-          <div className="space-y-1">
-            <Label htmlFor="logging-enabled" className="text-base font-medium flex items-center gap-2">
-              Debug Logging
-              <Bug className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
-            </Label>
-            <p className="text-sm text-muted-foreground">
-              Log persistence operations to console
-            </p>
-          </div>
-          <Switch
-            id="logging-enabled"
-            checked={config.logging}
-            onCheckedChange={toggleLogging}
-            data-testid="logging-enabled-toggle"
-            aria-label="Toggle debug logging"
-          />
-        </div>
-
-        <div className="space-y-3" data-testid="debounce-setting">
-          <div className="flex items-center justify-between">
-            <Label htmlFor="debounce-delay" className="text-base font-medium flex items-center gap-2">
-              Save Delay
-              <Timer className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
-            </Label>
-            <Badge variant="secondary" data-testid="debounce-value">{config.debounceMs}ms</Badge>
-          </div>
-          <div className="space-y-2">
-            <Slider
-              id="debounce-delay"
-              min={0}
-              max={1000}
-              step={50}
-              value={[config.debounceMs]}
-              onValueChange={([value]) => updateDebounceDelay(value)}
-              disabled={!config.enabled}
-              data-testid="debounce-slider"
-              aria-label="Debounce delay in milliseconds"
-            />
-            <p className="text-xs text-muted-foreground">
-              Delay between rapid actions and database save (0-1000ms)
-            </p>
-          </div>
-        </div>
-
-        <div className="border-t pt-4 space-y-2" data-testid="monitored-actions-section" role="region" aria-label="Monitored actions">
-          <div className="flex items-center justify-between text-sm">
-            <span className="text-muted-foreground">Monitored Actions</span>
-            <Badge data-testid="actions-count">{config.actions.length}</Badge>
-          </div>
-          <div className="flex flex-wrap gap-1">
-            {config.actions.map((action) => (
-              <Badge key={action} variant="outline" className="text-xs font-mono" data-testid={`action-badge-${action.split('/').pop()}`}>
-                {action.split('/').pop()}
-              </Badge>
-            ))}
-          </div>
-        </div>
-
-        <div className="border-t pt-4 space-y-2" data-testid="retry-settings-section" role="region" aria-label="Retry settings">
-          <div className="text-sm font-medium">Retry Settings</div>
-          <div className="grid grid-cols-2 gap-4 text-sm">
-            <div data-testid="retry-on-failure-stat">
-              <div className="text-muted-foreground">Retry on Failure</div>
-              <div className="font-medium" aria-label={`Retry on failure: ${config.retryOnFailure ? 'Yes' : 'No'}`}>{config.retryOnFailure ? 'Yes' : 'No'}</div>
+    <Card className="rounded-lg" data-testid="persistence-settings">
+      <CardHeader
+        title={
+          <div className={styles.headerRow}>
+            <div className={`${styles.iconWrap} h-10 w-10`} aria-hidden="true">
+              <Database size={20} className={styles.headerIcon} />
             </div>
-            <div data-testid="max-retries-stat">
-              <div className="text-muted-foreground">Max Retries</div>
-              <div className="font-medium" aria-label={`Maximum retries: ${config.maxRetries}`}>{config.maxRetries}</div>
+            <div>
+              <h3 style={{ fontWeight: 600, marginBottom: '2px' }}>
+                Redux Persistence
+              </h3>
+              <p
+                style={{
+                  color: 'var(--mat-sys-on-surface-variant)',
+                  fontSize: '0.875rem',
+                }}
+              >
+                Automatic IndexedDB persistence via @metabuilder/redux-persist
+              </p>
             </div>
-            <div className="col-span-2" data-testid="retry-delay-stat">
-              <div className="text-muted-foreground">Retry Delay</div>
-              <div className="font-medium" aria-label={`Retry delay: ${config.retryDelayMs}ms`}>{config.retryDelayMs}ms</div>
+          </div>
+        }
+      />
+      <CardContent>
+        <div className={`${styles.cardBody} space-y-6`}>
+          <div
+            className={styles.configGrid}
+            data-testid="persist-config-section"
+          >
+            <div data-testid="persist-key-stat">
+              <div className={styles.label}>Persist Key</div>
+              <div className={styles.valueMono}>{PERSIST_CONFIG.key}</div>
+            </div>
+            <div data-testid="persist-storage-stat">
+              <div className={styles.label}>Storage Backend</div>
+              <div className={styles.value}>{PERSIST_CONFIG.storage}</div>
+            </div>
+            <div data-testid="persist-throttle-stat">
+              <div className={styles.label}>Throttle</div>
+              <div className={styles.value}>{PERSIST_CONFIG.throttle}ms</div>
+            </div>
+            <div data-testid="persist-slices-count-stat">
+              <div className={styles.label}>Persisted Slices</div>
+              <div className={styles.value}>
+                {PERSIST_CONFIG.whitelist.length}
+              </div>
+            </div>
+          </div>
+
+          <div
+            className={`${styles.slicesSection} border-t pt-4`}
+            data-testid="persisted-slices-section"
+            role="region"
+            aria-label="Persisted slices"
+          >
+            <div className={styles.slicesHeader}>
+              <span className={styles.slicesHeaderLabel}>Persisted Slices</span>
+            </div>
+            <div className={styles.chipList}>
+              {PERSIST_CONFIG.whitelist.map(slice => (
+                <span
+                  key={slice}
+                  className={`${styles.chipMono} font-mono`}
+                  data-testid={`slice-badge-${slice}`}
+                >
+                  <Chip variant="outlined" className={styles.chipMono}>
+                    {slice}
+                  </Chip>
+                </span>
+              ))}
             </div>
           </div>
         </div>

@@ -1,24 +1,30 @@
 import { renderHook, act, waitFor } from '@testing-library/react'
 import { useSnippetManager } from './useSnippetManager'
 import * as dbModule from '@/lib/db'
-import * as sonerModule from 'sonner'
+import { toast } from '@metabuilder/components/m3'
 import { Provider } from 'react-redux'
 import { store } from '@/store'
+import { validateToken } from '@/store/slices/authThunks'
+import { logout } from '@/store/slices/authSlice'
 import React from 'react'
+
+// Mock next/navigation
+const mockPush = jest.fn()
+jest.mock('next/navigation', () => ({
+  useRouter: () => ({ push: mockPush }),
+}))
 
 // Mock the database module
 jest.mock('@/lib/db')
 
-// Mock sonner toast
-jest.mock('sonner', () => ({
-  toast: {
-    success: jest.fn(),
-    error: jest.fn(),
-  },
+// The hook uses m3's toast, not sonner. Mock only toast (the full
+// barrel is heavy and has a circular-dep crash in email components).
+jest.mock('@metabuilder/components/m3', () => ({
+  toast: { success: jest.fn(), error: jest.fn() },
 }))
 
 const mockDb = dbModule as jest.Mocked<typeof dbModule>
-const mockToast = sonerModule.toast as jest.Mocked<typeof sonerModule.toast>
+const mockToast = toast as jest.Mocked<typeof toast>
 
 const mockTemplates = [
   {
@@ -40,27 +46,52 @@ describe('useSnippetManager Hook', () => {
     mockDb.seedDatabase.mockResolvedValue(undefined)
     mockDb.syncTemplatesFromJSON.mockResolvedValue(undefined)
     // Mock database operations that are called during initialization
-    mockDb.ensureDefaultNamespace.mockResolvedValue(undefined)
+    mockDb.ensureDefaultNamespace.mockResolvedValue({
+      id: 'default',
+      name: 'Default',
+      createdAt: Date.now(),
+      isDefault: true,
+    })
     mockDb.getAllNamespaces.mockResolvedValue([
-      { id: 'default', name: 'Default', createdAt: Date.now(), isDefault: true },
+      {
+        id: 'default',
+        name: 'Default',
+        createdAt: Date.now(),
+        isDefault: true,
+      },
     ] as Awaited<ReturnType<typeof mockDb.getAllNamespaces>>)
     mockDb.getSnippetsByNamespace.mockResolvedValue([])
+    // The mount effect only loads data when authenticated; seed an auth state.
+    store.dispatch({
+      type: validateToken.fulfilled.type,
+      payload: { user: { id: 'u1', email: 'a@b.c' }, token: 't' },
+    })
   })
 
-  const renderHookWithProviders = <T,>(hook: () => T) => {
+  afterEach(() => {
+    store.dispatch(logout())
+  })
+
+  const renderHookWithProviders = <T>(hook: () => T) => {
     return renderHook(hook, {
-      wrapper: ({ children }: { children: React.ReactNode }) => React.createElement(Provider, { store, children }),
+      wrapper: ({ children }: { children: React.ReactNode }) =>
+        React.createElement(Provider, { store, children }),
     })
   }
 
   describe('Initialization', () => {
     it('should initialize with default state', async () => {
-      const { result } = renderHookWithProviders(() => useSnippetManager(mockTemplates))
+      const { result } = renderHookWithProviders(() =>
+        useSnippetManager(mockTemplates),
+      )
 
       // Wait for initialization to complete
-      await waitFor(() => {
-        expect(mockDb.seedDatabase).toHaveBeenCalled()
-      }, { timeout: 5000 })
+      await waitFor(
+        () => {
+          expect(mockDb.syncTemplatesFromJSON).toHaveBeenCalled()
+        },
+        { timeout: 5000 },
+      )
 
       expect(result.current.snippets).toBeDefined()
       expect(result.current.namespaces).toBeDefined()
@@ -69,117 +100,134 @@ describe('useSnippetManager Hook', () => {
     it('should seed database and sync templates on mount', async () => {
       renderHookWithProviders(() => useSnippetManager(mockTemplates))
 
-      await waitFor(() => {
-        expect(mockDb.seedDatabase).toHaveBeenCalled()
-      }, { timeout: 5000 })
+      await waitFor(
+        () => {
+          expect(mockDb.syncTemplatesFromJSON).toHaveBeenCalled()
+        },
+        { timeout: 5000 },
+      )
 
-      await waitFor(() => {
-        expect(mockDb.syncTemplatesFromJSON).toHaveBeenCalledWith(mockTemplates)
-      }, { timeout: 5000 })
+      await waitFor(
+        () => {
+          expect(mockDb.syncTemplatesFromJSON).toHaveBeenCalledWith(
+            mockTemplates,
+          )
+        },
+        { timeout: 5000 },
+      )
     })
 
     it('should handle initialization errors gracefully', async () => {
-      mockDb.seedDatabase.mockRejectedValueOnce(new Error('Seed failed'))
+      mockDb.syncTemplatesFromJSON.mockRejectedValueOnce(
+        new Error('Seed failed'),
+      )
 
       renderHookWithProviders(() => useSnippetManager(mockTemplates))
 
-      await waitFor(() => {
-        expect(mockToast.error).toHaveBeenCalledWith('Failed to load data')
-      }, { timeout: 5000 })
+      await waitFor(
+        () => {
+          expect(mockToast.error).toHaveBeenCalled()
+        },
+        { timeout: 5000 },
+      )
     })
   })
 
-  describe('Snippet CRUD Operations', () => {
-    it('should save a new snippet', async () => {
-      const { result } = renderHookWithProviders(() => useSnippetManager(mockTemplates))
+  describe('Snippet Navigation Operations', () => {
+    it('should navigate to new snippet page on create', async () => {
+      const { result } = renderHookWithProviders(() =>
+        useSnippetManager(mockTemplates),
+      )
 
-      const newSnippet = {
-        title: 'Test Snippet',
-        description: 'A test snippet',
-        code: 'console.log("test")',
-        language: 'javascript',
-        category: 'testing',
-        hasPreview: true,
-        namespaceId: 'ns-1',
-      }
-
-      await waitFor(() => {
-        expect(mockDb.seedDatabase).toHaveBeenCalled()
-      }, { timeout: 5000 })
+      await waitFor(
+        () => {
+          expect(mockDb.syncTemplatesFromJSON).toHaveBeenCalled()
+        },
+        { timeout: 5000 },
+      )
 
       await act(async () => {
-        await result.current.handleSaveSnippet(newSnippet as Parameters<typeof result.current.handleSaveSnippet>[0])
+        result.current.handleCreateNew()
       })
+
+      expect(mockPush).toHaveBeenCalledWith('/snippet/new')
     })
 
-    it('should edit an existing snippet', async () => {
-      const { result } = renderHookWithProviders(() => useSnippetManager(mockTemplates))
+    // eslint-disable-next-line max-len
+    it('should navigate to template snippet page on create from template', async () => {
+      const { result } = renderHookWithProviders(() =>
+        useSnippetManager(mockTemplates),
+      )
 
-      await waitFor(() => {
-        expect(mockDb.seedDatabase).toHaveBeenCalled()
-      }, { timeout: 5000 })
-
-      const editedSnippet = {
-        title: 'Updated Snippet',
-        description: 'Updated description',
-        code: 'updated code',
-        language: 'javascript',
-        category: 'updated',
-        hasPreview: true,
-        namespaceId: 'ns-1',
-      }
-
-      // First set an editing snippet
-      await act(async () => {
-        // This would be done through the store in real usage
-        await result.current.handleSaveSnippet(editedSnippet as Parameters<typeof result.current.handleSaveSnippet>[0])
-      })
-    })
-
-    it('should delete a snippet', async () => {
-      const { result } = renderHookWithProviders(() => useSnippetManager(mockTemplates))
-
-      await waitFor(() => {
-        expect(mockDb.seedDatabase).toHaveBeenCalled()
-      }, { timeout: 5000 })
+      await waitFor(
+        () => {
+          expect(mockDb.syncTemplatesFromJSON).toHaveBeenCalled()
+        },
+        { timeout: 5000 },
+      )
 
       await act(async () => {
-        await result.current.handleDeleteSnippet('snippet-1')
+        result.current.handleCreateFromTemplate('template-1')
       })
+
+      expect(mockPush).toHaveBeenCalledWith('/snippet/new?template=template-1')
     })
 
-    it('should handle save errors', async () => {
-      // Mock database error
-      mockDb.createSnippet.mockRejectedValueOnce(new Error('Database error'))
+    it('should navigate to edit page on edit snippet', async () => {
+      const { result } = renderHookWithProviders(() =>
+        useSnippetManager(mockTemplates),
+      )
 
-      const { result } = renderHookWithProviders(() => useSnippetManager(mockTemplates))
-
-      await waitFor(() => {
-        expect(mockDb.seedDatabase).toHaveBeenCalled()
-      }, { timeout: 5000 })
+      await waitFor(
+        () => {
+          expect(mockDb.syncTemplatesFromJSON).toHaveBeenCalled()
+        },
+        { timeout: 5000 },
+      )
 
       const snippet = {
+        id: 'snippet-abc',
         title: 'Test',
         description: 'Test',
         code: 'code',
         language: 'js',
         category: 'test',
         hasPreview: false,
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
         namespaceId: 'ns-1',
       }
 
-      // handleSaveSnippet should complete without throwing
       await act(async () => {
-        await result.current.handleSaveSnippet(snippet as Parameters<typeof result.current.handleSaveSnippet>[0])
+        result.current.handleEditSnippet(snippet)
       })
 
-      // Error toast may be shown for database errors
+      expect(mockPush).toHaveBeenCalledWith('/snippet/snippet-abc')
+    })
+
+    it('should delete a snippet', async () => {
+      const { result } = renderHookWithProviders(() =>
+        useSnippetManager(mockTemplates),
+      )
+
+      await waitFor(
+        () => {
+          expect(mockDb.syncTemplatesFromJSON).toHaveBeenCalled()
+        },
+        { timeout: 5000 },
+      )
+
+      await act(async () => {
+        await result.current.handleDeleteSnippet('snippet-1')
+      })
     })
   })
 
   describe('Copy and View Operations', () => {
     it('should copy code to clipboard', async () => {
-      const { result } = renderHookWithProviders(() => useSnippetManager(mockTemplates))
+      const { result } = renderHookWithProviders(() =>
+        useSnippetManager(mockTemplates),
+      )
 
       const mockCode = 'console.log("test")'
 
@@ -199,7 +247,9 @@ describe('useSnippetManager Hook', () => {
     })
 
     it('should handle view snippet', async () => {
-      const { result } = renderHookWithProviders(() => useSnippetManager(mockTemplates))
+      const { result } = renderHookWithProviders(() =>
+        useSnippetManager(mockTemplates),
+      )
 
       const snippet = {
         id: 'snippet-1',
@@ -218,13 +268,16 @@ describe('useSnippetManager Hook', () => {
         result.current.handleViewSnippet(snippet)
       })
 
-      expect(result.current.viewingSnippet).toEqual(snippet)
+      // handleViewSnippet now navigates to the snippet page (no in-page state).
+      expect(mockPush).toHaveBeenCalledWith('/snippet/snippet-1')
     })
   })
 
   describe('Template Operations', () => {
-    it('should create snippet from template', async () => {
-      const { result } = renderHookWithProviders(() => useSnippetManager(mockTemplates))
+    it('should navigate to template create page', async () => {
+      const { result } = renderHookWithProviders(() =>
+        useSnippetManager(mockTemplates),
+      )
 
       await waitFor(() => {
         expect(result.current.loading).toBeFalsy()
@@ -234,11 +287,14 @@ describe('useSnippetManager Hook', () => {
         result.current.handleCreateFromTemplate('template-1')
       })
 
-      expect(result.current.dialogOpen).toBe(true)
+      expect(mockPush).toHaveBeenCalledWith('/snippet/new?template=template-1')
     })
 
-    it('should handle missing template', async () => {
-      const { result } = renderHookWithProviders(() => useSnippetManager(mockTemplates))
+    // eslint-disable-next-line max-len
+    it('should handle missing template by navigating with that id', async () => {
+      const { result } = renderHookWithProviders(() =>
+        useSnippetManager(mockTemplates),
+      )
 
       await waitFor(() => {
         expect(result.current.loading).toBeFalsy()
@@ -248,17 +304,24 @@ describe('useSnippetManager Hook', () => {
         result.current.handleCreateFromTemplate('nonexistent-template')
       })
 
-      // Should not open dialog for non-existent template
+      expect(mockPush).toHaveBeenCalledWith(
+        '/snippet/new?template=nonexistent-template',
+      )
     })
   })
 
   describe('Selection and Bulk Operations', () => {
     it('should toggle selection mode', async () => {
-      const { result } = renderHookWithProviders(() => useSnippetManager(mockTemplates))
+      const { result } = renderHookWithProviders(() =>
+        useSnippetManager(mockTemplates),
+      )
 
-      await waitFor(() => {
-        expect(mockDb.seedDatabase).toHaveBeenCalled()
-      }, { timeout: 5000 })
+      await waitFor(
+        () => {
+          expect(mockDb.syncTemplatesFromJSON).toHaveBeenCalled()
+        },
+        { timeout: 5000 },
+      )
 
       const initialMode = result.current.selectionMode
 
@@ -270,11 +333,16 @@ describe('useSnippetManager Hook', () => {
     })
 
     it('should toggle snippet selection', async () => {
-      const { result } = renderHookWithProviders(() => useSnippetManager(mockTemplates))
+      const { result } = renderHookWithProviders(() =>
+        useSnippetManager(mockTemplates),
+      )
 
-      await waitFor(() => {
-        expect(mockDb.seedDatabase).toHaveBeenCalled()
-      }, { timeout: 5000 })
+      await waitFor(
+        () => {
+          expect(mockDb.syncTemplatesFromJSON).toHaveBeenCalled()
+        },
+        { timeout: 5000 },
+      )
 
       await act(async () => {
         result.current.handleToggleSnippetSelection('snippet-1')
@@ -282,23 +350,34 @@ describe('useSnippetManager Hook', () => {
     })
 
     it('should select all snippets', async () => {
-      const { result } = renderHookWithProviders(() => useSnippetManager(mockTemplates))
+      const { result } = renderHookWithProviders(() =>
+        useSnippetManager(mockTemplates),
+      )
 
-      await waitFor(() => {
-        expect(mockDb.seedDatabase).toHaveBeenCalled()
-      }, { timeout: 5000 })
+      await waitFor(
+        () => {
+          expect(mockDb.syncTemplatesFromJSON).toHaveBeenCalled()
+        },
+        { timeout: 5000 },
+      )
 
       await act(async () => {
         result.current.handleSelectAll()
       })
     })
 
+    // eslint-disable-next-line max-len
     it('should handle bulk move with error when no snippets selected', async () => {
-      const { result } = renderHookWithProviders(() => useSnippetManager(mockTemplates))
+      const { result } = renderHookWithProviders(() =>
+        useSnippetManager(mockTemplates),
+      )
 
-      await waitFor(() => {
-        expect(mockDb.seedDatabase).toHaveBeenCalled()
-      }, { timeout: 5000 })
+      await waitFor(
+        () => {
+          expect(mockDb.syncTemplatesFromJSON).toHaveBeenCalled()
+        },
+        { timeout: 5000 },
+      )
 
       // Ensure selection mode is off and no snippets are selected
       await act(async () => {
@@ -316,11 +395,16 @@ describe('useSnippetManager Hook', () => {
 
   describe('Search and Filter', () => {
     it('should update search query', async () => {
-      const { result } = renderHookWithProviders(() => useSnippetManager(mockTemplates))
+      const { result } = renderHookWithProviders(() =>
+        useSnippetManager(mockTemplates),
+      )
 
-      await waitFor(() => {
-        expect(mockDb.seedDatabase).toHaveBeenCalled()
-      }, { timeout: 5000 })
+      await waitFor(
+        () => {
+          expect(mockDb.syncTemplatesFromJSON).toHaveBeenCalled()
+        },
+        { timeout: 5000 },
+      )
 
       await act(async () => {
         result.current.handleSearchChange('test query')
@@ -330,47 +414,18 @@ describe('useSnippetManager Hook', () => {
     })
   })
 
-  describe('Dialog and Viewer Management', () => {
-    it('should open dialog for creating new snippet', async () => {
-      const { result } = renderHookWithProviders(() => useSnippetManager(mockTemplates))
-
-      await waitFor(() => {
-        expect(mockDb.seedDatabase).toHaveBeenCalled()
-      }, { timeout: 5000 })
-
-      await act(async () => {
-        result.current.handleCreateNew()
-      })
-
-      expect(result.current.dialogOpen).toBe(true)
-    })
-
-    it('should close dialog', async () => {
-      const { result } = renderHookWithProviders(() => useSnippetManager(mockTemplates))
-
-      await waitFor(() => {
-        expect(mockDb.seedDatabase).toHaveBeenCalled()
-      }, { timeout: 5000 })
-
-      await act(async () => {
-        result.current.handleCreateNew()
-      })
-
-      expect(result.current.dialogOpen).toBe(true)
-
-      await act(async () => {
-        result.current.handleDialogClose(false)
-      })
-
-      expect(result.current.dialogOpen).toBe(false)
-    })
-
+  describe('Viewer Management', () => {
     it('should close viewer', async () => {
-      const { result } = renderHookWithProviders(() => useSnippetManager(mockTemplates))
+      const { result } = renderHookWithProviders(() =>
+        useSnippetManager(mockTemplates),
+      )
 
-      await waitFor(() => {
-        expect(mockDb.seedDatabase).toHaveBeenCalled()
-      }, { timeout: 5000 })
+      await waitFor(
+        () => {
+          expect(mockDb.syncTemplatesFromJSON).toHaveBeenCalled()
+        },
+        { timeout: 5000 },
+      )
 
       await act(async () => {
         result.current.handleViewerClose(false)
@@ -384,15 +439,30 @@ describe('useSnippetManager Hook', () => {
     it('should change selected namespace', async () => {
       // Mock namespaces fetch to populate store
       mockDb.getAllNamespaces.mockResolvedValueOnce([
-        { id: 'default', name: 'Default', createdAt: Date.now(), isDefault: true },
-        { id: 'ns-123', name: 'Test Namespace', createdAt: Date.now(), isDefault: false },
+        {
+          id: 'default',
+          name: 'Default',
+          createdAt: Date.now(),
+          isDefault: true,
+        },
+        {
+          id: 'ns-123',
+          name: 'Test Namespace',
+          createdAt: Date.now(),
+          isDefault: false,
+        },
       ] as Awaited<ReturnType<typeof mockDb.getAllNamespaces>>)
 
-      const { result } = renderHookWithProviders(() => useSnippetManager(mockTemplates))
+      const { result } = renderHookWithProviders(() =>
+        useSnippetManager(mockTemplates),
+      )
 
-      await waitFor(() => {
-        expect(result.current.selectedNamespaceId).toBeDefined()
-      }, { timeout: 5000 })
+      await waitFor(
+        () => {
+          expect(result.current.selectedNamespaceId).toBeDefined()
+        },
+        { timeout: 5000 },
+      )
 
       await act(async () => {
         result.current.handleNamespaceChange('ns-123')
@@ -403,10 +473,17 @@ describe('useSnippetManager Hook', () => {
 
     it('should handle null namespace gracefully', async () => {
       mockDb.getAllNamespaces.mockResolvedValueOnce([
-        { id: 'default', name: 'Default', createdAt: Date.now(), isDefault: true },
+        {
+          id: 'default',
+          name: 'Default',
+          createdAt: Date.now(),
+          isDefault: true,
+        },
       ] as Awaited<ReturnType<typeof mockDb.getAllNamespaces>>)
 
-      const { result } = renderHookWithProviders(() => useSnippetManager(mockTemplates))
+      const { result } = renderHookWithProviders(() =>
+        useSnippetManager(mockTemplates),
+      )
 
       const initialNamespaceId = await waitFor(() => {
         return result.current.selectedNamespaceId

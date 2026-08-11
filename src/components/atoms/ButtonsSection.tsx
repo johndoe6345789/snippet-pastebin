@@ -1,30 +1,39 @@
-import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
-import { Separator } from '@/components/ui/separator'
-import {
-  Heart,
-  Star,
-  Lightning,
-  Plus,
-} from '@phosphor-icons/react'
+import { Card } from '@metabuilder/components/m3'
 import { ComponentShowcase } from '@/components/demo/ComponentShowcase'
 import { atomsCodeSnippets } from '@/lib/component-code-snippets'
 import { Snippet } from '@/lib/types'
+import { ButtonGroups } from './ButtonGroups'
 
 interface ButtonsSectionProps {
-  onSaveSnippet: (snippet: Omit<Snippet, 'id' | 'createdAt' | 'updatedAt'>) => void
+  onSaveSnippet: (
+    snippet: Omit<Snippet, 'id' | 'createdAt' | 'updatedAt'>,
+  ) => void
 }
 
 export function ButtonsSection({ onSaveSnippet }: ButtonsSectionProps) {
   return (
-    <section className="space-y-6" data-testid="buttons-section" role="region" aria-label="Button components">
+    <section
+      style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}
+      data-testid="buttons-section"
+      role="region"
+      aria-label="Button components"
+    >
       <div>
-        <h2 className="text-3xl font-bold mb-2">Buttons</h2>
-        <p className="text-muted-foreground">
+        <h2
+          style={{
+            fontSize: '1.875rem',
+            lineHeight: '2.25rem',
+            fontWeight: 700,
+            marginBottom: '8px',
+          }}
+        >
+          Buttons
+        </h2>
+        <p style={{ color: 'var(--mat-sys-on-surface-variant)' }}>
           Interactive controls with multiple variants and states
         </p>
       </div>
-      
+
       <ComponentShowcase
         code={atomsCodeSnippets.buttonWithIcons}
         title="Button with Icons"
@@ -33,73 +42,7 @@ export function ButtonsSection({ onSaveSnippet }: ButtonsSectionProps) {
         onSaveSnippet={onSaveSnippet}
       >
         <Card className="p-6">
-          <div className="space-y-8">
-            <div className="space-y-3">
-              <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
-                Variants
-              </h3>
-              <div className="flex flex-wrap gap-4">
-                <Button>Default</Button>
-                <Button variant="secondary">Secondary</Button>
-                <Button variant="destructive">Destructive</Button>
-                <Button variant="outline">Outline</Button>
-                <Button variant="ghost">Ghost</Button>
-                <Button variant="link">Link</Button>
-              </div>
-            </div>
-
-            <Separator />
-
-            <div className="space-y-3">
-              <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
-                Sizes
-              </h3>
-              <div className="flex flex-wrap items-center gap-4">
-                <Button size="sm">Small</Button>
-                <Button size="default">Default</Button>
-                <Button size="lg">Large</Button>
-                <Button size="icon">
-                  <Heart weight="fill" aria-hidden="true" />
-                </Button>
-              </div>
-            </div>
-
-            <Separator />
-
-            <div className="space-y-3">
-              <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
-                With Icons
-              </h3>
-              <div className="flex flex-wrap gap-4">
-                <Button>
-                  <Star weight="fill" aria-hidden="true" />
-                  Favorite
-                </Button>
-                <Button variant="outline">
-                  <Plus weight="bold" aria-hidden="true" />
-                  Add Item
-                </Button>
-                <Button variant="secondary">
-                  <Lightning weight="fill" aria-hidden="true" />
-                  Quick Action
-                </Button>
-              </div>
-            </div>
-
-            <Separator />
-
-            <div className="space-y-3">
-              <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
-                States
-              </h3>
-              <div className="flex flex-wrap gap-4">
-                <Button disabled>Disabled</Button>
-                <Button variant="outline" disabled>
-                  Disabled Outline
-                </Button>
-              </div>
-            </div>
-          </div>
+          <ButtonGroups />
         </Card>
       </ComponentShowcase>
     </section>

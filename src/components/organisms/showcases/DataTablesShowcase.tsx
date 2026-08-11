@@ -1,78 +1,120 @@
-import { Card } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
 import {
+  Card,
+  Button,
+  Chip,
   Table,
   TableBody,
   TableCell,
+  TableContainer,
   TableHead,
-  TableHeader,
   TableRow,
-} from '@/components/ui/table'
+} from '@metabuilder/components/m3'
+
+const h2Style = {
+  fontSize: '1.875rem',
+  lineHeight: '2.25rem',
+  fontWeight: 700,
+  marginBottom: '8px',
+}
+const h3Style = {
+  fontWeight: 600,
+  fontSize: '1.125rem',
+  lineHeight: '1.75rem',
+}
+const borderBottom = {
+  padding: '16px',
+  borderBottom: '1px solid var(--mat-sys-outline-variant)',
+}
+const rowBetween = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+}
 
 export function DataTablesShowcase() {
   return (
-    <section className="space-y-6" data-testid="data-tables-showcase" role="region" aria-label="Data tables showcase">
+    <section
+      className="space-y-6"
+      style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}
+      data-testid="data-tables-showcase"
+      role="region"
+      aria-label="Data tables showcase"
+    >
       <div>
-        <h2 className="text-3xl font-bold mb-2">Data Tables</h2>
-        <p className="text-muted-foreground">
+        <h2 style={h2Style}>Data Tables</h2>
+        <p style={{ color: 'var(--mat-sys-on-surface-variant)' }}>
           Structured data display with actions
         </p>
       </div>
 
       <Card>
-        <div className="p-4 border-b border-border">
-          <div className="flex items-center justify-between">
-            <h3 className="font-semibold text-lg">Recent Transactions</h3>
-            <Button variant="outline" size="sm">
+        <div className="border-b" style={borderBottom}>
+          <div style={rowBetween}>
+            <h3 style={h3Style}>Recent Transactions</h3>
+            <Button variant="outlined" size="sm">
               Export
             </Button>
           </div>
         </div>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Status</TableHead>
-              <TableHead>Transaction</TableHead>
-              <TableHead>Date</TableHead>
-              <TableHead className="text-right">Amount</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            <TableRow>
-              <TableCell>
-                <Badge>Completed</Badge>
-              </TableCell>
-              <TableCell className="font-medium">Payment received</TableCell>
-              <TableCell>Mar 15, 2024</TableCell>
-              <TableCell className="text-right">$250.00</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>
-                <Badge variant="secondary">Pending</Badge>
-              </TableCell>
-              <TableCell className="font-medium">Processing payment</TableCell>
-              <TableCell>Mar 14, 2024</TableCell>
-              <TableCell className="text-right">$150.00</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>
-                <Badge>Completed</Badge>
-              </TableCell>
-              <TableCell className="font-medium">Refund issued</TableCell>
-              <TableCell>Mar 13, 2024</TableCell>
-              <TableCell className="text-right text-destructive">-$75.00</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>
-                <Badge variant="destructive">Failed</Badge>
-              </TableCell>
-              <TableCell className="font-medium">Payment declined</TableCell>
-              <TableCell>Mar 12, 2024</TableCell>
-              <TableCell className="text-right">$0.00</TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Status</TableCell>
+                <TableCell>Transaction</TableCell>
+                <TableCell>Date</TableCell>
+                <TableCell style={{ textAlign: 'right' }}>Amount</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              <TableRow>
+                <TableCell>
+                  <Chip>Completed</Chip>
+                </TableCell>
+                <TableCell style={{ fontWeight: 500 }}>
+                  Payment received
+                </TableCell>
+                <TableCell>Mar 15, 2024</TableCell>
+                <TableCell style={{ textAlign: 'right' }}>$250.00</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>
+                  <Chip color="secondary">Pending</Chip>
+                </TableCell>
+                <TableCell style={{ fontWeight: 500 }}>
+                  Processing payment
+                </TableCell>
+                <TableCell>Mar 14, 2024</TableCell>
+                <TableCell style={{ textAlign: 'right' }}>$150.00</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>
+                  <Chip>Completed</Chip>
+                </TableCell>
+                <TableCell style={{ fontWeight: 500 }}>Refund issued</TableCell>
+                <TableCell>Mar 13, 2024</TableCell>
+                <TableCell
+                  style={{
+                    textAlign: 'right',
+                    color: 'var(--mat-sys-error)',
+                  }}
+                >
+                  -$75.00
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>
+                  <Chip color="error">Failed</Chip>
+                </TableCell>
+                <TableCell style={{ fontWeight: 500 }}>
+                  Payment declined
+                </TableCell>
+                <TableCell>Mar 12, 2024</TableCell>
+                <TableCell style={{ textAlign: 'right' }}>$0.00</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
       </Card>
     </section>
   )

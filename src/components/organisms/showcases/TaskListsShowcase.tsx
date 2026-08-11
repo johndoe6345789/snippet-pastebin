@@ -1,82 +1,164 @@
-import { Card } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
 import {
-  CheckCircle,
-  Clock,
-  XCircle,
-  Plus,
-} from '@phosphor-icons/react'
+  Card,
+  Button,
+  Chip,
+  MaterialIcon,
+} from '@metabuilder/components/m3'
+import styles from './TaskListsShowcase.module.scss'
+
+const onSurfaceVariant = 'var(--mat-sys-on-surface-variant)'
+const secondaryContainer = 'var(--mat-sys-secondary-container)'
+
+interface Task {
+  icon: string
+  iconColor: string
+  title: string
+  description: string
+  chips: { label: string; color?: string }[]
+  status: string
+}
+
+const TASKS: Task[] = [
+  {
+    icon: 'check_circle',
+    iconColor: secondaryContainer,
+    title: 'Design system documentation',
+    description: 'Complete the component library documentation',
+    chips: [{ label: 'Design', color: 'secondary' }],
+    status: 'Completed',
+  },
+  {
+    icon: 'schedule',
+    iconColor: secondaryContainer,
+    title: 'API integration',
+    description: 'Connect frontend to backend services',
+    chips: [{ label: 'Development' }],
+    status: 'In Progress',
+  },
+  {
+    icon: 'cancel',
+    iconColor: 'var(--mat-sys-error)',
+    title: 'Performance optimization',
+    description: 'Improve page load times and reduce bundle size',
+    chips: [{ label: 'Blocked', color: 'error' }],
+    status: 'Needs review',
+  },
+]
+
+function TaskItem({ task }: { task: Task }) {
+  return (
+    <div className={`${styles.taskItem} hover:bg-muted`}>
+      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '16px' }}>
+        <MaterialIcon
+          name={task.icon}
+          size={24}
+          style={{ color: task.iconColor, marginTop: '2px' }}
+          aria-hidden="true"
+        />
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <h4 style={{ fontWeight: 500 }}>{task.title}</h4>
+          <p
+            style={{
+              fontSize: '0.875rem',
+              lineHeight: '1.25rem',
+              color: onSurfaceVariant,
+              marginTop: '4px',
+            }}
+          >
+            {task.description}
+          </p>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '16px',
+              marginTop: '12px',
+            }}
+          >
+            {task.chips.map(chip => (
+              <Chip key={chip.label} color={chip.color as any}>
+                {chip.label}
+              </Chip>
+            ))}
+            <span
+              style={{
+                fontSize: '0.75rem',
+                lineHeight: '1rem',
+                color: onSurfaceVariant,
+              }}
+            >
+              {task.status}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 export function TaskListsShowcase() {
   return (
-    <section className="space-y-6" data-testid="task-lists-showcase" role="region" aria-label="Task lists showcase">
+    <section
+      className="space-y-6"
+      style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}
+      data-testid="task-lists-showcase"
+      role="region"
+      aria-label="Task lists showcase"
+    >
       <div>
-        <h2 className="text-3xl font-bold mb-2">Task Lists</h2>
-        <p className="text-muted-foreground">
+        <h2
+          style={{
+            fontSize: '1.875rem',
+            lineHeight: '2.25rem',
+            fontWeight: 700,
+            marginBottom: '8px',
+          }}
+        >
+          Task Lists
+        </h2>
+        <p style={{ color: onSurfaceVariant }}>
           Interactive lists with status and actions
         </p>
       </div>
 
       <Card>
-        <div className="p-4 border-b border-border">
-          <div className="flex items-center justify-between">
-            <h3 className="font-semibold text-lg">Project Tasks</h3>
+        <div
+          style={{
+            padding: '16px',
+            borderBottom: '1px solid var(--mat-sys-outline-variant)',
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
+            <h3
+              style={{
+                fontWeight: 600,
+                fontSize: '1.125rem',
+                lineHeight: '1.75rem',
+              }}
+            >
+              Project Tasks
+            </h3>
             <Button size="sm">
-              <Plus className="mr-2" aria-hidden="true" />
+              <MaterialIcon
+                name="add"
+                style={{ marginRight: '8px' }}
+                aria-hidden="true"
+              />
               Add Task
             </Button>
           </div>
         </div>
 
-        <div className="divide-y divide-border">
-          <div className="p-4 hover:bg-muted/50 transition-colors">
-            <div className="flex items-start gap-4">
-              <CheckCircle weight="fill" className="h-6 w-6 text-accent mt-0.5" aria-hidden="true" />
-              <div className="flex-1 min-w-0">
-                <h4 className="font-medium">Design system documentation</h4>
-                <p className="text-sm text-muted-foreground mt-1">
-                  Complete the component library documentation
-                </p>
-                <div className="flex items-center gap-4 mt-3">
-                  <Badge variant="secondary">Design</Badge>
-                  <span className="text-xs text-muted-foreground">Completed</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="p-4 hover:bg-muted/50 transition-colors">
-            <div className="flex items-start gap-4">
-              <Clock weight="fill" className="h-6 w-6 text-accent mt-0.5" aria-hidden="true" />
-              <div className="flex-1 min-w-0">
-                <h4 className="font-medium">API integration</h4>
-                <p className="text-sm text-muted-foreground mt-1">
-                  Connect frontend to backend services
-                </p>
-                <div className="flex items-center gap-4 mt-3">
-                  <Badge>Development</Badge>
-                  <span className="text-xs text-muted-foreground">In Progress</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="p-4 hover:bg-muted/50 transition-colors">
-            <div className="flex items-start gap-4">
-              <XCircle weight="fill" className="h-6 w-6 text-destructive mt-0.5" aria-hidden="true" />
-              <div className="flex-1 min-w-0">
-                <h4 className="font-medium">Performance optimization</h4>
-                <p className="text-sm text-muted-foreground mt-1">
-                  Improve page load times and reduce bundle size
-                </p>
-                <div className="flex items-center gap-4 mt-3">
-                  <Badge variant="destructive">Blocked</Badge>
-                  <span className="text-xs text-muted-foreground">Needs review</span>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div className="divide-y">
+          {TASKS.map(task => (
+            <TaskItem key={task.title} task={task} />
+          ))}
         </div>
       </Card>
     </section>

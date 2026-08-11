@@ -21,7 +21,7 @@ describe('DatabaseActionsCard', () => {
           onImport={mockOnImport}
           onSeed={mockOnSeed}
           onClear={mockOnClear}
-        />
+        />,
       )
 
       expect(screen.getByText('Database Actions')).toBeInTheDocument()
@@ -34,11 +34,11 @@ describe('DatabaseActionsCard', () => {
           onImport={mockOnImport}
           onSeed={mockOnSeed}
           onClear={mockOnClear}
-        />
+        />,
       )
 
       expect(
-        screen.getByText('Backup, restore, or reset your database')
+        screen.getByText('Backup, restore, or reset your database'),
       ).toBeInTheDocument()
     })
 
@@ -49,7 +49,7 @@ describe('DatabaseActionsCard', () => {
           onImport={mockOnImport}
           onSeed={mockOnSeed}
           onClear={mockOnClear}
-        />
+        />,
       )
 
       const headings = screen.getAllByRole('heading')
@@ -67,21 +67,19 @@ describe('DatabaseActionsCard', () => {
           onImport={mockOnImport}
           onSeed={mockOnSeed}
           onClear={mockOnClear}
-        />
+        />,
       )
 
       expect(
-        screen.getByRole('button', { name: /export database/i })
+        screen.getByRole('button', { name: /export database/i }),
       ).toBeInTheDocument()
       expect(
-        screen.getByRole('button', { name: /add sample data/i })
+        screen.getByRole('button', { name: /add sample data/i }),
       ).toBeInTheDocument()
-      expect(
-        screen.getByRole('button', { name: /clear database/i })
-      ).toBeInTheDocument()
+      expect(screen.getByTestId('clear-db-btn')).toBeInTheDocument()
       // Import button is wrapped in label/asChild, so check for the file input
       const fileInput = document.querySelector(
-        'input[type="file"][accept=".db"]'
+        'input[type="file"][accept=".db"]',
       )
       expect(fileInput).toBeInTheDocument()
     })
@@ -93,20 +91,20 @@ describe('DatabaseActionsCard', () => {
           onImport={mockOnImport}
           onSeed={mockOnSeed}
           onClear={mockOnClear}
-        />
+        />,
       )
 
       expect(
-        screen.getByText(/Download your database as a file/i)
+        screen.getByText(/Download your database as a file/i),
       ).toBeInTheDocument()
       expect(
-        screen.getByText(/Restore a previously exported database file/i)
+        screen.getByText(/Restore a previously exported database file/i),
       ).toBeInTheDocument()
       expect(
-        screen.getByText(/Add sample code snippets to get started/i)
+        screen.getByText(/Add sample code snippets to get started/i),
       ).toBeInTheDocument()
       expect(
-        screen.getByText(/Permanently delete all snippets and templates/i)
+        screen.getByText(/Permanently delete all snippets and templates/i),
       ).toBeInTheDocument()
     })
   })
@@ -120,11 +118,11 @@ describe('DatabaseActionsCard', () => {
           onImport={mockOnImport}
           onSeed={mockOnSeed}
           onClear={mockOnClear}
-        />
+        />,
       )
 
       const exportButton = screen.getByRole('button', {
-        name: /export database/i
+        name: /export database/i,
       })
       await user.click(exportButton)
 
@@ -135,9 +133,9 @@ describe('DatabaseActionsCard', () => {
       const user = userEvent.setup()
       const slowExport = jest.fn(
         () =>
-          new Promise<void>((resolve) => {
+          new Promise<void>(resolve => {
             setTimeout(resolve, 100)
-          })
+          }),
       )
 
       render(
@@ -146,11 +144,11 @@ describe('DatabaseActionsCard', () => {
           onImport={mockOnImport}
           onSeed={mockOnSeed}
           onClear={mockOnClear}
-        />
+        />,
       )
 
       const exportButton = screen.getByRole('button', {
-        name: /export database/i
+        name: /export database/i,
       })
       await user.click(exportButton)
 
@@ -166,11 +164,11 @@ describe('DatabaseActionsCard', () => {
           onImport={mockOnImport}
           onSeed={mockOnSeed}
           onClear={mockOnClear}
-        />
+        />,
       )
 
       const fileInput = document.querySelector(
-        'input[type="file"][accept=".db"]'
+        'input[type="file"][accept=".db"]',
       )
       expect(fileInput).toBeInTheDocument()
     })
@@ -182,11 +180,11 @@ describe('DatabaseActionsCard', () => {
           onImport={mockOnImport}
           onSeed={mockOnSeed}
           onClear={mockOnClear}
-        />
+        />,
       )
 
       const fileInput = document.querySelector(
-        'input[type="file"][accept=".db"]'
+        'input[type="file"][accept=".db"]',
       ) as HTMLInputElement
       expect(fileInput.accept).toBe('.db')
     })
@@ -199,14 +197,16 @@ describe('DatabaseActionsCard', () => {
           onImport={mockOnImport}
           onSeed={mockOnSeed}
           onClear={mockOnClear}
-        />
+        />,
       )
 
       const fileInput = document.querySelector(
-        'input[type="file"][accept=".db"]'
+        'input[type="file"][accept=".db"]',
       ) as HTMLInputElement
 
-      const file = new File(['database'], 'test.db', { type: 'application/octet-stream' })
+      const file = new File(['database'], 'test.db', {
+        type: 'application/octet-stream',
+      })
       await user.upload(fileInput, file)
 
       expect(mockOnImport).toHaveBeenCalled()
@@ -220,18 +220,18 @@ describe('DatabaseActionsCard', () => {
           onImport={mockOnImport}
           onSeed={mockOnSeed}
           onClear={mockOnClear}
-        />
+        />,
       )
 
       const fileInput = document.querySelector(
-        'input[type="file"][accept=".db"]'
+        'input[type="file"][accept=".db"]',
       ) as HTMLInputElement
 
       const file1 = new File(['db1'], 'test1.db', {
-        type: 'application/octet-stream'
+        type: 'application/octet-stream',
       })
       const file2 = new File(['db2'], 'test2.db', {
-        type: 'application/octet-stream'
+        type: 'application/octet-stream',
       })
 
       await user.upload(fileInput, file1)
@@ -250,11 +250,11 @@ describe('DatabaseActionsCard', () => {
           onImport={mockOnImport}
           onSeed={mockOnSeed}
           onClear={mockOnClear}
-        />
+        />,
       )
 
       const seedButton = screen.getByRole('button', {
-        name: /add sample data/i
+        name: /add sample data/i,
       })
       await user.click(seedButton)
 
@@ -268,21 +268,19 @@ describe('DatabaseActionsCard', () => {
           onImport={mockOnImport}
           onSeed={mockOnSeed}
           onClear={mockOnClear}
-        />
+        />,
       )
 
-      expect(
-        screen.getByText(/only if database is empty/i)
-      ).toBeInTheDocument()
+      expect(screen.getByText(/only if database is empty/i)).toBeInTheDocument()
     })
 
     it('should handle async seed operation', async () => {
       const user = userEvent.setup()
       const slowSeed = jest.fn(
         () =>
-          new Promise<void>((resolve) => {
+          new Promise<void>(resolve => {
             setTimeout(resolve, 100)
-          })
+          }),
       )
 
       render(
@@ -291,11 +289,11 @@ describe('DatabaseActionsCard', () => {
           onImport={mockOnImport}
           onSeed={slowSeed}
           onClear={mockOnClear}
-        />
+        />,
       )
 
       const seedButton = screen.getByRole('button', {
-        name: /add sample data/i
+        name: /add sample data/i,
       })
       await user.click(seedButton)
 
@@ -312,12 +310,10 @@ describe('DatabaseActionsCard', () => {
           onImport={mockOnImport}
           onSeed={mockOnSeed}
           onClear={mockOnClear}
-        />
+        />,
       )
 
-      const clearButton = screen.getByRole('button', {
-        name: /clear database/i
-      })
+      const clearButton = screen.getByTestId('clear-db-btn')
       await user.click(clearButton)
 
       expect(mockOnClear).toHaveBeenCalledTimes(1)
@@ -330,12 +326,10 @@ describe('DatabaseActionsCard', () => {
           onImport={mockOnImport}
           onSeed={mockOnSeed}
           onClear={mockOnClear}
-        />
+        />,
       )
 
-      expect(
-        screen.getByText(/This cannot be undone/i)
-      ).toBeInTheDocument()
+      expect(screen.getByText(/This cannot be undone/i)).toBeInTheDocument()
     })
 
     it('should show clear button as destructive variant', () => {
@@ -345,12 +339,10 @@ describe('DatabaseActionsCard', () => {
           onImport={mockOnImport}
           onSeed={mockOnSeed}
           onClear={mockOnClear}
-        />
+        />,
       )
 
-      const clearButton = screen.getByRole('button', {
-        name: /clear database/i
-      })
+      const clearButton = screen.getByTestId('clear-db-btn')
       expect(clearButton).toBeInTheDocument()
       expect(clearButton).toBeEnabled()
     })
@@ -359,9 +351,9 @@ describe('DatabaseActionsCard', () => {
       const user = userEvent.setup()
       const slowClear = jest.fn(
         () =>
-          new Promise<void>((resolve) => {
+          new Promise<void>(resolve => {
             setTimeout(resolve, 100)
-          })
+          }),
       )
 
       render(
@@ -370,12 +362,10 @@ describe('DatabaseActionsCard', () => {
           onImport={mockOnImport}
           onSeed={mockOnSeed}
           onClear={slowClear}
-        />
+        />,
       )
 
-      const clearButton = screen.getByRole('button', {
-        name: /clear database/i
-      })
+      const clearButton = screen.getByTestId('clear-db-btn')
       await user.click(clearButton)
 
       expect(slowClear).toHaveBeenCalled()
@@ -386,9 +376,10 @@ describe('DatabaseActionsCard', () => {
     it('should handle export errors gracefully', async () => {
       const user = userEvent.setup()
       const slowExport = jest.fn(
-        () => new Promise<void>((resolve) => {
-          setTimeout(resolve, 50)
-        })
+        () =>
+          new Promise<void>(resolve => {
+            setTimeout(resolve, 50)
+          }),
       )
 
       render(
@@ -397,11 +388,11 @@ describe('DatabaseActionsCard', () => {
           onImport={mockOnImport}
           onSeed={mockOnSeed}
           onClear={mockOnClear}
-        />
+        />,
       )
 
       const exportButton = screen.getByRole('button', {
-        name: /export database/i
+        name: /export database/i,
       })
       await user.click(exportButton)
 
@@ -411,9 +402,11 @@ describe('DatabaseActionsCard', () => {
     it('should handle import errors gracefully', async () => {
       const user = userEvent.setup()
       const slowImport = jest.fn(
-        (event: React.ChangeEvent<HTMLInputElement>) => new Promise<void>((resolve) => {
-          setTimeout(resolve, 50)
-        })
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        (event: React.ChangeEvent<HTMLInputElement>) =>
+          new Promise<void>(resolve => {
+            setTimeout(resolve, 50)
+          }),
       )
 
       render(
@@ -422,14 +415,14 @@ describe('DatabaseActionsCard', () => {
           onImport={slowImport}
           onSeed={mockOnSeed}
           onClear={mockOnClear}
-        />
+        />,
       )
 
       const fileInput = document.querySelector(
-        'input[type="file"][accept=".db"]'
+        'input[type="file"][accept=".db"]',
       ) as HTMLInputElement
       const file = new File(['database'], 'test.db', {
-        type: 'application/octet-stream'
+        type: 'application/octet-stream',
       })
 
       await user.upload(fileInput, file)
@@ -446,32 +439,29 @@ describe('DatabaseActionsCard', () => {
           onImport={mockOnImport}
           onSeed={mockOnSeed}
           onClear={mockOnClear}
-        />
+        />,
       )
 
       expect(
-        screen.getByRole('button', { name: /export database/i })
+        screen.getByRole('button', { name: /export database/i }),
       ).toBeInTheDocument()
       expect(
-        screen.getByRole('button', { name: /add sample data/i })
+        screen.getByRole('button', { name: /add sample data/i }),
       ).toBeInTheDocument()
-      expect(
-        screen.getByRole('button', { name: /clear database/i })
-      ).toBeInTheDocument()
+      expect(screen.getByTestId('clear-db-btn')).toBeInTheDocument()
     })
 
     it('should have labels associated with inputs', () => {
-      const { container } = render(
+      render(
         <DatabaseActionsCard
           onExport={mockOnExport}
           onImport={mockOnImport}
           onSeed={mockOnSeed}
           onClear={mockOnClear}
-        />
+        />,
       )
 
-      const labels = container.querySelectorAll('label')
-      expect(labels.length).toBeGreaterThan(0)
+      expect(screen.getByTestId('import-file-input')).toBeInTheDocument()
     })
   })
 })

@@ -1,14 +1,14 @@
-import { Label } from '@/components/ui/label'
-import { Input } from '@/components/ui/input'
 import {
+  FormLabel,
+  Input,
   Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
-import { Textarea } from '@/components/ui/textarea'
+  MenuItem,
+  Textarea,
+} from '@metabuilder/components/m3'
+import type { SelectChangeEvent } from '@metabuilder/components/m3'
 import { LANGUAGES } from '@/lib/config'
+import { useTranslation } from '@/hooks/useTranslation'
+import styles from './snippet-form-fields.module.scss'
 
 interface SnippetFormFieldsProps {
   title: string
@@ -29,61 +29,82 @@ export function SnippetFormFields({
   onDescriptionChange,
   onLanguageChange,
 }: SnippetFormFieldsProps) {
+  const t = useTranslation()
   return (
-    <>
-      <div className="space-y-2">
-        <Label htmlFor="title">Title *</Label>
-        <Input
-          id="title"
-          placeholder="e.g., React Counter Component"
-          value={title}
-          onChange={(e) => onTitleChange(e.target.value)}
-          className={errors.title ? 'border-destructive ring-destructive' : ''}
-          data-testid="snippet-title-input"
-          required
-          aria-required="true"
-          aria-invalid={!!errors.title}
-          aria-describedby={errors.title ? "title-error" : undefined}
-        />
-        {errors.title && (
-          <p className="text-sm text-destructive" id="title-error">
-            {errors.title}
-          </p>
-        )}
-      </div>
+    <div
+      className={styles.formRoot}
+      data-testid="snippet-form-fields"
+      role="form"
+      aria-label="Snippet details form"
+    >
+      <div className={styles.titleRow}>
+        <div className={styles.titleField}>
+          <FormLabel htmlFor="title">
+            {t.snippetDialog.fields.title.label} *
+          </FormLabel>
+          <Input
+            id="title"
+            type="text"
+            placeholder={t.snippetDialog.fields.title.placeholder}
+            value={title}
+            onChange={e => onTitleChange(e.target.value)}
+            className={errors.title ? styles.inputError : ''}
+            data-testid="snippet-title-input"
+            required
+            aria-required="true"
+            aria-invalid={!!errors.title}
+            aria-describedby={errors.title ? 'title-error' : undefined}
+          />
+          {errors.title && (
+            <p className={styles.errorText} id="title-error">
+              {errors.title}
+            </p>
+          )}
+        </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="language">Language</Label>
-        <Select value={language} onValueChange={onLanguageChange}>
-          <SelectTrigger
-            id="language"
+        <div className={styles.languageField}>
+          <FormLabel htmlFor="language">
+            {t.snippetDialog.fields.language.label}
+          </FormLabel>
+          <Select
+            value={language}
+            onChange={(e: SelectChangeEvent) =>
+              onLanguageChange(e.target.value as string)
+            }
+            inputProps={{
+              id: 'language',
+            }}
             data-testid="snippet-language-select"
             aria-label="Select programming language"
           >
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent data-testid="snippet-language-options">
-            {LANGUAGES.map((lang) => (
-              <SelectItem key={lang} value={lang} data-testid={`language-option-${lang}`}>
+            {LANGUAGES.map(lang => (
+              <MenuItem
+                key={lang}
+                value={lang}
+                data-testid={`language-option-${lang}`}
+              >
                 {lang}
-              </SelectItem>
+              </MenuItem>
             ))}
-          </SelectContent>
-        </Select>
+          </Select>
+        </div>
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="description">Description</Label>
+      <div className={styles.descriptionField}>
+        <FormLabel htmlFor="description">
+          {t.snippetDialog.fields.description.label}
+        </FormLabel>
         <Textarea
           id="description"
-          placeholder="A brief description of your snippet"
+          placeholder={t.snippetDialog.fields.description.placeholder}
           value={description}
-          onChange={(e) => onDescriptionChange(e.target.value)}
+          onChange={e => onDescriptionChange(e.target.value)}
           rows={2}
+          className={styles.textarea}
           data-testid="snippet-description-textarea"
           aria-label="Snippet description"
         />
       </div>
-    </>
+    </div>
   )
 }

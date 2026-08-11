@@ -4,6 +4,7 @@ import {
   getAllNamespaces,
   createNamespace as createNamespaceDB,
   deleteNamespace as deleteNamespaceDB,
+  updateNamespace as updateNamespaceDB,
   ensureDefaultNamespace,
 } from '@/lib/db'
 
@@ -26,21 +27,29 @@ export const fetchNamespaces = createAsyncThunk(
   async () => {
     await ensureDefaultNamespace()
     return await getAllNamespaces()
-  }
+  },
 )
 
 export const createNamespace = createAsyncThunk(
   'namespaces/create',
   async (name: string) => {
     const namespace: Namespace = {
-      id: Date.now().toString(),
+      id: crypto.randomUUID(),
       name,
       createdAt: Date.now(),
       isDefault: false,
     }
-    await createNamespaceDB(namespace)
-    return namespace
-  }
+    // Some backends persist and return void; fall back to the namespace we
+    // built so the store always receives a complete object to push.
+    return (await createNamespaceDB(namespace)) ?? namespace
+  },
+)
+
+export const updateNamespace = createAsyncThunk(
+  'namespaces/update',
+  async ({ id, name }: { id: string; name: string }) => {
+    return await updateNamespaceDB(id, name)
+  },
 )
 
 export const deleteNamespace = createAsyncThunk(
@@ -48,7 +57,7 @@ export const deleteNamespace = createAsyncThunk(
   async (id: string) => {
     await deleteNamespaceDB(id)
     return id
-  }
+  },
 )
 
 const namespacesSlice = createSlice({
@@ -59,9 +68,9 @@ const namespacesSlice = createSlice({
       state.selectedId = action.payload
     },
   },
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder
-      .addCase(fetchNamespaces.pending, (state) => {
+      .addCase(fetchNamespaces.pending, state => {
         state.loading = true
         state.error = null
       })
@@ -77,15 +86,46 @@ const namespacesSlice = createSlice({
         state.loading = false
         state.error = action.error.message || 'Failed to fetch namespaces'
       })
+      .addCase(createNamespace.pending, state => {
+        state.loading = true
+        state.error = null
+      })
       .addCase(createNamespace.fulfilled, (state, action) => {
+        state.loading = false
         state.items.push(action.payload)
       })
+      .addCase(createNamespace.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.error.message || 'Failed to create namespace'
+      })
+      .addCase(updateNamespace.pending, state => {
+        state.loading = true
+        state.error = null
+      })
+      .addCase(updateNamespace.fulfilled, (state, action) => {
+        state.loading = false
+        const idx = state.items.findIndex(n => n.id === action.payload.id)
+        if (idx !== -1) state.items[idx] = action.payload
+      })
+      .addCase(updateNamespace.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.error.message || 'Failed to update namespace'
+      })
+      .addCase(deleteNamespace.pending, state => {
+        state.loading = true
+        state.error = null
+      })
       .addCase(deleteNamespace.fulfilled, (state, action) => {
+        state.loading = false
         state.items = state.items.filter(n => n.id !== action.payload)
         if (state.selectedId === action.payload) {
           const defaultNamespace = state.items.find(n => n.isDefault)
           state.selectedId = defaultNamespace?.id || state.items[0]?.id || null
         }
+      })
+      .addCase(deleteNamespace.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.error.message || 'Failed to delete namespace'
       })
   },
 })

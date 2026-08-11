@@ -1,45 +1,86 @@
-import { Card } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Separator } from '@/components/ui/separator'
+import { Card, Chip, Divider } from '@metabuilder/components/m3'
+import styles from './StatusIndicatorsSection.module.scss'
+
+const dotBase = {
+  width: '12px',
+  height: '12px',
+  borderRadius: '9999px',
+}
+const rowStyle = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+}
+const innerRow = { display: 'flex', alignItems: 'center', gap: '12px' }
 
 export function StatusIndicatorsSection() {
   return (
-    <section className="space-y-6" data-testid="status-indicators-section" role="region" aria-label="Status indicator examples">
+    <section
+      style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}
+      data-testid="status-indicators-section"
+      role="region"
+      aria-label="Status indicator examples"
+    >
       <div>
-        <h2 className="text-3xl font-bold mb-2">Status Indicators</h2>
-        <p className="text-muted-foreground">
+        <h2
+          style={{
+            fontSize: '1.875rem',
+            lineHeight: '2.25rem',
+            fontWeight: 700,
+            marginBottom: '8px',
+          }}
+        >
+          Status Indicators
+        </h2>
+        <p style={{ color: 'var(--mat-sys-on-surface-variant)' }}>
           Combined elements showing status and information
         </p>
       </div>
 
       <Card className="p-6">
-        <div className="space-y-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="h-3 w-3 rounded-full bg-accent animate-pulse" />
-              <span className="font-medium">System Online</span>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+          <div style={rowStyle}>
+            <div style={innerRow}>
+              <div
+                className={styles.pulse}
+                style={{
+                  ...dotBase,
+                  backgroundColor: 'var(--mat-sys-secondary-container)',
+                }}
+              />
+              <span style={{ fontWeight: 500 }}>System Online</span>
             </div>
-            <Badge>Active</Badge>
+            <Chip>Active</Chip>
           </div>
 
-          <Separator />
+          <Divider />
 
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="h-3 w-3 rounded-full bg-destructive" />
-              <span className="font-medium">Service Unavailable</span>
+          <div style={rowStyle}>
+            <div style={innerRow}>
+              <div
+                style={{
+                  ...dotBase,
+                  backgroundColor: 'var(--mat-sys-error)',
+                }}
+              />
+              <span style={{ fontWeight: 500 }}>Service Unavailable</span>
             </div>
-            <Badge variant="destructive">Error</Badge>
+            <Chip color="error">Error</Chip>
           </div>
 
-          <Separator />
+          <Divider />
 
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="h-3 w-3 rounded-full bg-muted" />
-              <span className="font-medium">Maintenance Mode</span>
+          <div style={rowStyle}>
+            <div style={innerRow}>
+              <div
+                style={{
+                  ...dotBase,
+                  backgroundColor: 'var(--mat-sys-surface-variant)',
+                }}
+              />
+              <span style={{ fontWeight: 500 }}>Maintenance Mode</span>
             </div>
-            <Badge variant="secondary">Scheduled</Badge>
+            <Chip color="secondary">Scheduled</Chip>
           </div>
         </div>
       </Card>

@@ -1,7 +1,7 @@
-import { Badge } from '@/components/ui/badge'
-import { Checkbox } from '@/components/ui/checkbox'
+import { Chip, Checkbox } from '@metabuilder/components/m3'
 import { Snippet } from '@/lib/types'
 import { LANGUAGE_COLORS } from '@/lib/config'
+import styles from './snippet-card-header.module.scss'
 
 interface SnippetCardHeaderProps {
   snippet: Snippet
@@ -11,36 +11,39 @@ interface SnippetCardHeaderProps {
   onToggleSelect: () => void
 }
 
-export function SnippetCardHeader({ 
-  snippet, 
-  description, 
-  selectionMode, 
-  isSelected, 
-  onToggleSelect 
+export function SnippetCardHeader({
+  snippet,
+  description,
+  selectionMode,
+  isSelected,
+  onToggleSelect,
 }: SnippetCardHeaderProps) {
   return (
-    <div className="flex items-start justify-between gap-3">
-      <div className="flex items-start gap-3 flex-1 min-w-0">
+    <div className={styles.header}>
+      <div className={styles.headerLeft}>
         {selectionMode && (
           <Checkbox
             checked={isSelected}
-            onCheckedChange={onToggleSelect}
-            onClick={(e) => e.stopPropagation()}
-            className="mt-1"
+            onChange={e => {
+              e.stopPropagation()
+              onToggleSelect()
+            }}
+            onClick={e => e.stopPropagation()}
+            className={styles.checkboxWrapper}
             data-testid={`snippet-select-checkbox-${snippet.id}`}
             aria-label={`Select snippet: ${snippet.title}`}
           />
         )}
-        <div className="flex-1 min-w-0">
+        <div className={styles.titleGroup}>
           <h3
-            className="text-lg font-semibold text-foreground mb-1 truncate"
+            className={styles.title}
             data-testid={`snippet-title-${snippet.id}`}
           >
             {snippet.title}
           </h3>
           {description && (
             <p
-              className="text-sm text-muted-foreground line-clamp-2"
+              className={styles.description}
               data-testid={`snippet-description-${snippet.id}`}
             >
               {description}
@@ -48,13 +51,13 @@ export function SnippetCardHeader({
           )}
         </div>
       </div>
-      <Badge
-        className={`shrink-0 ${LANGUAGE_COLORS[snippet.language] || LANGUAGE_COLORS['Other']}`}
+      <Chip
+        label={snippet.language}
+        // eslint-disable-next-line max-len
+        className={`${styles.chip} ${LANGUAGE_COLORS[snippet.language] || LANGUAGE_COLORS['Other']}`}
         data-testid={`snippet-language-badge-${snippet.id}`}
         aria-label={`Language: ${snippet.language}`}
-      >
-        {snippet.language}
-      </Badge>
+      />
     </div>
   )
 }

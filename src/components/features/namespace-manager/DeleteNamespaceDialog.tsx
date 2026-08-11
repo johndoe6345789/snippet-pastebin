@@ -1,16 +1,16 @@
-import { Button } from '@/components/ui/button'
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from '@/components/ui/alert-dialog'
-import { Trash } from '@phosphor-icons/react'
+  Button,
+  IconButton,
+  Dialog,
+  DialogHeader,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  DialogClose,
+  MaterialIcon,
+} from '@metabuilder/components/m3'
 import { Namespace } from '@/lib/types'
+import { useTranslation } from '@/hooks/useTranslation'
 
 interface DeleteNamespaceDialogProps {
   open: boolean
@@ -31,42 +31,57 @@ export function DeleteNamespaceDialog({
   showTrigger = false,
   onOpenDialog,
 }: DeleteNamespaceDialogProps) {
+  const t = useTranslation()
   return (
     <>
       {showTrigger && (
-        <Button
-          variant="outline"
-          size="icon"
+        <IconButton
           onClick={onOpenDialog}
           data-testid="delete-namespace-trigger"
-          aria-label="Delete namespace"
+          aria-label={t.namespace.delete.ariaLabel}
         >
-          <Trash weight="bold" aria-hidden="true" />
-        </Button>
+          <MaterialIcon name="delete" aria-hidden="true" />
+        </IconButton>
       )}
 
-      <AlertDialog open={open} onOpenChange={onOpenChange}>
-        <AlertDialogContent data-testid="delete-namespace-dialog">
-          <AlertDialogHeader>
-            <AlertDialogTitle>Delete Namespace</AlertDialogTitle>
-            <AlertDialogDescription>
-              Are you sure you want to delete "{namespace?.name}"? All snippets in this namespace will be moved to the default namespace.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel data-testid="delete-namespace-cancel-btn">
-              Cancel
-            </AlertDialogCancel>
-            <AlertDialogAction
-              onClick={onDeleteNamespace}
-              disabled={loading}
-              data-testid="delete-namespace-confirm-btn"
-            >
-              Delete
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <Dialog
+        open={open}
+        onClose={() => onOpenChange(false)}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogClose
+          onClick={() => onOpenChange(false)}
+          aria-label={t.common.close}
+        >
+          <MaterialIcon name="close" size={20} />
+        </DialogClose>
+        <DialogHeader>
+          <DialogTitle>{t.namespace.delete.title}</DialogTitle>
+        </DialogHeader>
+        <DialogContent data-testid="delete-namespace-dialog">
+          <p>
+            {t.namespace.delete.body.replace('{name}', namespace?.name ?? '')}
+          </p>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            variant="outlined"
+            onClick={() => onOpenChange(false)}
+            data-testid="delete-namespace-cancel-btn"
+          >
+            {t.common.cancel}
+          </Button>
+          <Button
+            variant="filled"
+            onClick={onDeleteNamespace}
+            disabled={loading}
+            data-testid="delete-namespace-confirm-btn"
+          >
+            {t.common.delete}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   )
 }

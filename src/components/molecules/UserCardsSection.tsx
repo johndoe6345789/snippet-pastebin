@@ -1,50 +1,91 @@
-import { Card } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Card, Button, Chip, Avatar } from '@metabuilder/components/m3'
+import styles from './UserCardsSection.module.scss'
+
+const nameStyle = {
+  fontWeight: 600,
+  fontSize: '1.125rem',
+  lineHeight: '1.75rem',
+}
+const subtextStyle = {
+  fontSize: '0.875rem',
+  lineHeight: '1.25rem',
+  color: 'var(--mat-sys-on-surface-variant)',
+}
+const h2Style = {
+  fontSize: '1.875rem',
+  lineHeight: '2.25rem',
+  fontWeight: 700,
+  marginBottom: '8px',
+}
 
 export function UserCardsSection() {
   return (
-    <section className="space-y-6" data-testid="user-cards-section" role="region" aria-label="User profile card examples">
+    <section
+      style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}
+      data-testid="user-cards-section"
+      role="region"
+      aria-label="User profile card examples"
+    >
       <div>
-        <h2 className="text-3xl font-bold mb-2">User Cards</h2>
-        <p className="text-muted-foreground">
+        <h2 style={h2Style}>User Cards</h2>
+        <p style={{ color: 'var(--mat-sys-on-surface-variant)' }}>
           Profile information with avatar and actions
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className={styles.userCardsGrid}>
         <Card className="p-6">
-          <div className="flex items-start gap-4">
-            <Avatar className="h-12 w-12">
-              <AvatarImage src="https://i.pravatar.cc/150?img=1" />
-              <AvatarFallback>AM</AvatarFallback>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'flex-start',
+              gap: '16px',
+            }}
+          >
+            <Avatar
+              style={{ width: '48px', height: '48px' }}
+              src="https://i.pravatar.cc/150?img=1"
+              alt="Alex Morgan"
+            >
+              AM
             </Avatar>
-            <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-lg">Alex Morgan</h3>
-              <p className="text-sm text-muted-foreground">@alexmorgan</p>
-              <p className="text-sm mt-2">
-                Product designer passionate about creating delightful user experiences.
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <h3 style={nameStyle}>Alex Morgan</h3>
+              <p style={subtextStyle}>@alexmorgan</p>
+              <p
+                style={{
+                  fontSize: '0.875rem',
+                  lineHeight: '1.25rem',
+                  marginTop: '8px',
+                }}
+              >
+                Product designer passionate about creating delightful user
+                experiences.
               </p>
             </div>
-            <Button size="sm" variant="outline">
+            <Button size="sm" variant="outlined">
               Follow
             </Button>
           </div>
         </Card>
 
         <Card className="p-6">
-          <div className="flex items-center gap-4">
-            <Avatar className="h-16 w-16">
-              <AvatarImage src="https://i.pravatar.cc/150?img=2" />
-              <AvatarFallback>JD</AvatarFallback>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <Avatar
+              style={{ width: '64px', height: '64px' }}
+              src="https://i.pravatar.cc/150?img=2"
+              alt="Jordan Davis"
+            >
+              JD
             </Avatar>
-            <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-lg">Jordan Davis</h3>
-              <p className="text-sm text-muted-foreground mb-2">Senior Developer</p>
-              <div className="flex gap-2">
-                <Badge variant="secondary">React</Badge>
-                <Badge variant="secondary">TypeScript</Badge>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <h3 style={nameStyle}>Jordan Davis</h3>
+              <p style={{ ...subtextStyle, marginBottom: '8px' }}>
+                Senior Developer
+              </p>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <Chip color="secondary">React</Chip>
+                <Chip color="secondary">TypeScript</Chip>
               </div>
             </div>
           </div>

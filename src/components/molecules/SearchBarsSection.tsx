@@ -1,22 +1,48 @@
-import { Card } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Separator } from '@/components/ui/separator'
-import { MagnifyingGlass } from '@phosphor-icons/react'
+import {
+  Card,
+  Button,
+  Input,
+  Divider,
+  MaterialIcon,
+} from '@metabuilder/components/m3'
 import { ComponentShowcase } from '@/components/demo/ComponentShowcase'
 import { moleculesCodeSnippets } from '@/lib/component-code-snippets'
 import { Snippet } from '@/lib/types'
 
+const iconStyle = {
+  position: 'absolute' as const,
+  left: '12px',
+  top: '50%',
+  transform: 'translateY(-50%)',
+  color: 'var(--mat-sys-on-surface-variant)',
+}
+
 interface SearchBarsSectionProps {
-  onSaveSnippet: (snippet: Omit<Snippet, 'id' | 'createdAt' | 'updatedAt'>) => void
+  onSaveSnippet: (
+    snippet: Omit<Snippet, 'id' | 'createdAt' | 'updatedAt'>,
+  ) => void
 }
 
 export function SearchBarsSection({ onSaveSnippet }: SearchBarsSectionProps) {
   return (
-    <section className="space-y-6" data-testid="search-bars-section" role="region" aria-label="Search bar components">
+    <section
+      style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}
+      data-testid="search-bars-section"
+      role="region"
+      aria-label="Search bar components"
+    >
       <div>
-        <h2 className="text-3xl font-bold mb-2">Search Bars</h2>
-        <p className="text-muted-foreground">
+        <h2
+          style={{
+            fontSize: '1.875rem',
+            lineHeight: '2.25rem',
+            fontWeight: 700,
+            marginBottom: '8px',
+          }}
+        >
+          Search Bars
+        </h2>
+        <p style={{ color: 'var(--mat-sys-on-surface-variant)' }}>
           Combined search input with actions
         </p>
       </div>
@@ -29,27 +55,47 @@ export function SearchBarsSection({ onSaveSnippet }: SearchBarsSectionProps) {
         onSaveSnippet={onSaveSnippet}
       >
         <Card className="p-6">
-          <div className="space-y-6">
-            <div className="relative max-w-md">
-              <MagnifyingGlass className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" aria-hidden="true" />
+          <div
+            style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}
+          >
+            <div style={{ position: 'relative', maxWidth: '448px' }}>
+              <MaterialIcon
+                name="search"
+                size={20}
+                style={iconStyle}
+                aria-hidden="true"
+              />
               <Input placeholder="Search..." className="pl-10" />
             </div>
 
-            <Separator />
+            <Divider />
 
-            <div className="flex gap-2 max-w-md">
-              <div className="relative flex-1">
-                <MagnifyingGlass className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" aria-hidden="true" />
+            <div style={{ display: 'flex', gap: '8px', maxWidth: '448px' }}>
+              <div style={{ position: 'relative', flex: 1 }}>
+                <MaterialIcon
+                  name="search"
+                  size={20}
+                  style={iconStyle}
+                  aria-hidden="true"
+                />
                 <Input placeholder="Search..." className="pl-10" />
               </div>
               <Button>Search</Button>
             </div>
 
-            <Separator />
+            <Divider />
 
-            <div className="relative max-w-md">
-              <MagnifyingGlass className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" aria-hidden="true" />
-              <Input placeholder="Search products, articles, documentation..." className="pl-10 h-12" />
+            <div style={{ position: 'relative', maxWidth: '448px' }}>
+              <MaterialIcon
+                name="search"
+                size={20}
+                style={iconStyle}
+                aria-hidden="true"
+              />
+              <Input
+                placeholder="Search products, articles, documentation..."
+                className="pl-10 h-12"
+              />
             </div>
           </div>
         </Card>

@@ -1,12 +1,13 @@
-import { Button } from '@/components/ui/button'
-import { FolderOpen } from '@phosphor-icons/react'
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+  Button,
+  Menu,
+  MenuItem,
+  MaterialIcon,
+} from '@metabuilder/components/m3'
 import { Namespace } from '@/lib/types'
+import { useTranslation } from '@/hooks/useTranslation'
+import { useMenuAnchor } from './hooks/useMenuAnchor'
+import styles from './selection-controls.module.scss'
 
 interface SelectionControlsProps {
   selectedIds: string[]
@@ -25,50 +26,77 @@ export function SelectionControls({
   onSelectAll,
   onBulkMove,
 }: SelectionControlsProps) {
+  const t = useTranslation()
+  const { menuAnchor, openMenu, closeMenu } = useMenuAnchor()
+  const isAllSelected = selectedIds.length === totalFilteredCount
+
   return (
-    <div className="flex items-center gap-2 p-4 bg-muted/50 rounded-lg" data-testid="selection-controls" role="region" aria-label="Selection controls">
+    <div
+      className={styles.container}
+      data-testid="selection-controls"
+      role="region"
+      aria-label="Selection controls"
+    >
       <Button
-        variant="outline"
+        variant="outlined"
         size="sm"
         onClick={onSelectAll}
         data-testid="select-all-btn"
-        aria-label={selectedIds.length === totalFilteredCount ? 'Deselect all snippets' : 'Select all snippets'}
+        aria-label={
+          isAllSelected
+            ? t.selectionControls.deselectAllAria
+            : t.selectionControls.selectAllAria
+        }
       >
-        {selectedIds.length === totalFilteredCount ? 'Deselect All' : 'Select All'}
+        {isAllSelected
+          ? t.selectionControls.deselectAll
+          : t.selectionControls.selectAll}
       </Button>
       {selectedIds.length > 0 && (
         <>
-          <span className="text-sm text-muted-foreground" data-testid="selection-count" role="status" aria-live="polite">
-            {selectedIds.length} selected
+          <span
+            className={styles.count}
+            data-testid="selection-count"
+            role="status"
+            aria-live="polite"
+          >
+            {t.selectionControls.selected.replace(
+              '{count}',
+              String(selectedIds.length),
+            )}
           </span>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="outline"
-                size="sm"
-                className="gap-2"
-                data-testid="bulk-move-menu-trigger"
-                aria-label="Move selected snippets to another namespace"
-                aria-haspopup="menu"
+          <Button
+            variant="outlined"
+            size="sm"
+            className={styles.moveBtn}
+            onClick={e => openMenu(e.currentTarget)}
+            data-testid="bulk-move-menu-trigger"
+            aria-label={t.selectionControls.moveToAria}
+            aria-haspopup="menu"
+          >
+            <MaterialIcon name="folder_open" size={16} aria-hidden="true" />
+            {t.selectionControls.moveTo}
+          </Button>
+          <Menu
+            open={Boolean(menuAnchor)}
+            anchorEl={menuAnchor}
+            onClose={closeMenu}
+            data-testid="bulk-move-menu"
+          >
+            {namespaces.map(namespace => (
+              <MenuItem
+                key={namespace.id}
+                onClick={() => {
+                  onBulkMove(namespace.id)
+                  closeMenu()
+                }}
+                disabled={namespace.id === currentNamespaceId}
+                data-testid={`bulk-move-to-namespace-${namespace.id}`}
               >
-                <FolderOpen weight="bold" className="h-4 w-4" aria-hidden="true" />
-                Move to...
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent data-testid="bulk-move-menu" aria-label="Namespace options for moving snippets">
-              {namespaces.map((namespace) => (
-                <DropdownMenuItem
-                  key={namespace.id}
-                  onClick={() => onBulkMove(namespace.id)}
-                  disabled={namespace.id === currentNamespaceId}
-                  data-testid={`bulk-move-to-namespace-${namespace.id}`}
-                  aria-label={`Move to ${namespace.name}${namespace.isDefault ? ' (Default)' : ''}`}
-                >
-                  {namespace.name} {namespace.isDefault && '(Default)'}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
+                {namespace.name} {namespace.isDefault && t.common.default}
+              </MenuItem>
+            ))}
+          </Menu>
         </>
       )}
     </div>

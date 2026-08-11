@@ -1,5 +1,6 @@
-import { Play, CircleNotch, Terminal as TerminalIcon } from '@phosphor-icons/react'
-import { Button } from '@/components/ui/button'
+import { Button, MaterialIcon } from '@metabuilder/components/m3'
+import { useTranslation } from '@/hooks/useTranslation'
+import styles from './TerminalHeader.module.scss'
 
 interface TerminalHeaderProps {
   onRun: () => void
@@ -8,36 +9,54 @@ interface TerminalHeaderProps {
   waitingForInput: boolean
 }
 
-export function TerminalHeader({ 
-  onRun, 
-  isRunning, 
-  isInitializing, 
-  waitingForInput 
+export function TerminalHeader({
+  onRun,
+  isRunning,
+  isInitializing,
+  waitingForInput,
 }: TerminalHeaderProps) {
+  const t = useTranslation()
   return (
-    <div className="flex items-center justify-between p-4 border-b border-border bg-muted/30" data-testid="terminal-header">
-      <div className="flex items-center gap-2">
-        <TerminalIcon size={18} weight="bold" className="text-primary" aria-hidden="true" />
-        <h3 className="text-sm font-semibold text-foreground">Python Terminal</h3>
+    <div className={styles.header} data-testid="terminal-header">
+      <div className={styles.titleGroup}>
+        <MaterialIcon
+          name="terminal"
+          size={18}
+          className={styles.terminalIcon}
+          aria-hidden="true"
+        />
+        <h3 className={styles.title}>{t.pythonTerminal.title}</h3>
       </div>
       <Button
         onClick={onRun}
         disabled={isRunning || isInitializing || waitingForInput}
         size="sm"
-        className="gap-2"
         data-testid="run-python-btn"
-        aria-label={isRunning ? 'Running code' : isInitializing ? 'Loading terminal' : 'Run Python code'}
+        aria-label={
+          isRunning
+            ? t.pythonTerminal.runningAria
+            : isInitializing
+              ? t.pythonTerminal.loadingAria
+              : t.pythonTerminal.runAria
+        }
         aria-busy={isRunning || isInitializing}
       >
         {isRunning || isInitializing ? (
           <>
-            <CircleNotch className="animate-spin" size={16} aria-hidden="true" />
-            {isInitializing ? 'Loading...' : 'Running...'}
+            <MaterialIcon
+              name="progress_activity"
+              className={styles.spinIcon}
+              size={16}
+              aria-hidden="true"
+            />
+            {isInitializing
+              ? t.pythonTerminal.loading
+              : t.pythonTerminal.running}
           </>
         ) : (
           <>
-            <Play size={16} weight="fill" aria-hidden="true" />
-            Run
+            <MaterialIcon name="play_arrow" size={16} aria-hidden="true" />
+            {t.pythonTerminal.run}
           </>
         )}
       </Button>

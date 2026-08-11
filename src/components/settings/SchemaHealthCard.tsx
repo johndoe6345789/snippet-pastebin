@@ -1,9 +1,16 @@
 'use client'
 
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Alert, AlertDescription } from '@/components/ui/alert'
-import { Warning, FirstAid, CheckCircle } from '@phosphor-icons/react'
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  Button,
+  Alert,
+  AlertDescription,
+  MaterialIcon,
+} from '@metabuilder/components/m3'
+import { useTranslation } from '@/hooks/useTranslation'
+import styles from './settings-card.module.scss'
 
 interface SchemaHealthCardProps {
   schemaHealth: 'unknown' | 'healthy' | 'corrupted'
@@ -12,41 +19,69 @@ interface SchemaHealthCardProps {
   onCheckSchema: () => Promise<void>
 }
 
-export function SchemaHealthCard({ 
-  schemaHealth, 
-  checkingSchema, 
-  onClear, 
-  onCheckSchema 
+export function SchemaHealthCard({
+  schemaHealth,
+  checkingSchema,
+  onClear,
+  onCheckSchema,
 }: SchemaHealthCardProps) {
+  const t = useTranslation()
+  const s = t.settingsCards.schema
+
   if (schemaHealth === 'unknown') return null
 
   if (schemaHealth === 'corrupted') {
     return (
-      <Card className="border-destructive bg-destructive/10" data-testid="schema-corrupted-card" role="alert" aria-label="Database schema corruption alert">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-destructive">
-            <Warning weight="fill" size={24} aria-hidden="true" />
-            Schema Corruption Detected
-          </CardTitle>
-          <CardDescription>
-            Your database schema is outdated or corrupted and needs to be repaired
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <Alert className="border-destructive" role="alert" data-testid="schema-error-details">
-            <AlertDescription>
-              The database schema is missing required tables or columns (likely due to namespace feature addition).
-              This can cause errors when loading or saving snippets. Click the button below to wipe and recreate the database with the correct schema.
-            </AlertDescription>
-          </Alert>
-          <div className="flex gap-2" data-testid="schema-repair-actions">
-            <Button onClick={onClear} variant="destructive" className="gap-2" data-testid="repair-database-btn" aria-label="Repair database (wipe and recreate)">
-              <FirstAid weight="bold" size={16} aria-hidden="true" />
-              Repair Database (Wipe & Recreate)
-            </Button>
-            <Button onClick={onCheckSchema} variant="outline" disabled={checkingSchema} data-testid="recheck-schema-btn" aria-label="Re-check schema status" aria-busy={checkingSchema}>
-              {checkingSchema ? 'Checking...' : 'Re-check Schema'}
-            </Button>
+      <Card
+        data-testid="schema-corrupted-card"
+        role="alert"
+        aria-label="Database schema corruption alert"
+      >
+        <CardHeader
+          title={
+            <h3 className={styles.cardTitleDestructive}>
+              <MaterialIcon name="warning" size={24} aria-hidden="true" />
+              {s.corruptedTitle}
+            </h3>
+          }
+          subheader={
+            <p className={styles.cardDescription}>{s.corruptedDesc}</p>
+          }
+        />
+        <CardContent>
+          <div className={styles.contentStackSm}>
+            <Alert
+              severity="info"
+              role="alert"
+              data-testid="schema-error-details"
+            >
+              <AlertDescription>{s.corruptedAlert}</AlertDescription>
+            </Alert>
+            <div
+              className={styles.schemaRepairActions}
+              data-testid="schema-repair-actions"
+            >
+              <Button
+                onClick={onClear}
+                variant="danger"
+                className={styles.btnWithIcon}
+                data-testid="repair-database-btn"
+                aria-label="Repair database (wipe and recreate)"
+              >
+                <MaterialIcon name="healing" size={16} aria-hidden="true" />
+                {s.repairButton}
+              </Button>
+              <Button
+                onClick={onCheckSchema}
+                variant="outlined"
+                disabled={checkingSchema}
+                data-testid="recheck-schema-btn"
+                aria-label="Re-check schema status"
+                aria-busy={checkingSchema}
+              >
+                {checkingSchema ? s.checking : s.recheckButton}
+              </Button>
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -54,16 +89,20 @@ export function SchemaHealthCard({
   }
 
   return (
-    <Card className="border-green-600 bg-green-600/10" data-testid="schema-healthy-card" role="status" aria-label="Database schema health check passed">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-green-600">
-          <CheckCircle weight="fill" size={24} aria-hidden="true" />
-          Schema Healthy
-        </CardTitle>
-        <CardDescription>
-          Your database schema is up to date and functioning correctly
-        </CardDescription>
-      </CardHeader>
+    <Card
+      data-testid="schema-healthy-card"
+      role="status"
+      aria-label="Database schema health check passed"
+    >
+      <CardHeader
+        title={
+          <h3 className={styles.cardTitleGreen}>
+            <MaterialIcon name="check_circle" size={24} aria-hidden="true" />
+            {s.healthyTitle}
+          </h3>
+        }
+        subheader={<p className={styles.cardDescription}>{s.healthyDesc}</p>}
+      />
     </Card>
   )
 }
